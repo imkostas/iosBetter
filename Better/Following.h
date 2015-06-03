@@ -9,5 +9,6 @@
 #ifndef Better_Following_h
 #define Better_Following_h
 
+//
 
 #endif
