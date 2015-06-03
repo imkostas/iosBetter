@@ -12,4 +12,9 @@
 
 // Class for holding information
 
+- (id)init
+{
+	return nil;
+}
+
 @end
