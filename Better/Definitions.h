@@ -36,6 +36,7 @@
 #define COLOR_PICKER_BACKGROUND ([UIColor colorWithWhite:0.85 alpha:1.0])
 #define COLOR_PICKER_TOPBAR ([UIColor colorWithWhite:0.97 alpha:1.0])
 #define COLOR_PICKER_TRANSPARENCY ([UIColor colorWithWhite:0.2 alpha:0.5])
+#define COLOR_LIGHT_LIGHT_GRAY ([UIColor colorWithWhite:0.97 alpha:1.0])
 
 // Images
 #define IMAGE_GENDER_FEMALE @"account_button_female_125dp"
@@ -62,7 +63,7 @@
 // Animation properties
 #define ANIM_DURATION_INTRO (500/1000.0) // converts to seconds
 #define ANIM_DELAY_INTRO (300/1000.0)
-#define ANIM_DURATION_PICKER (300/1000.0) // 300ms
+#define ANIM_DURATION_PICKER (200/1000.0)
 
 // Date picker tags (for each ui element needing it)
 #define TAG_DATEPICKER_DOB 1

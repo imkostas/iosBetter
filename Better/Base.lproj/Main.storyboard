@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="7p3-Co-7qp">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--MainV Controller-->
+        <!--Feed-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController storyboardIdentifier="mainViewController" id="vXZ-lx-hvc" customClass="MainVController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mainViewController" id="vXZ-lx-hvc" customClass="Feed" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Y4q-By-yBd"/>
                         <viewControllerLayoutGuide type="bottom" id="uii-FT-1Yf"/>
@@ -33,12 +32,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="5wU-MR-fU0" secondAttribute="trailing" id="D0q-tV-HHb"/>
+                            <constraint firstAttribute="trailing" secondItem="5wU-MR-fU0" secondAttribute="trailing" placeholder="YES" id="D0q-tV-HHb"/>
                             <constraint firstAttribute="trailing" secondItem="uaw-Jo-tlr" secondAttribute="trailing" id="EK6-aB-jT8"/>
                             <constraint firstItem="uaw-Jo-tlr" firstAttribute="leading" secondItem="aVi-Ho-Lng" secondAttribute="leading" id="Kp4-dq-aiG"/>
                             <constraint firstItem="uaw-Jo-tlr" firstAttribute="top" secondItem="Y4q-By-yBd" secondAttribute="bottom" id="SQX-dW-jf6"/>
                             <constraint firstItem="5wU-MR-fU0" firstAttribute="top" secondItem="Y4q-By-yBd" secondAttribute="bottom" id="gJn-8w-dtz"/>
-                            <constraint firstItem="5wU-MR-fU0" firstAttribute="leading" secondItem="aVi-Ho-Lng" secondAttribute="leading" id="nkr-dS-NHd"/>
+                            <constraint firstItem="5wU-MR-fU0" firstAttribute="leading" secondItem="aVi-Ho-Lng" secondAttribute="leading" placeholder="YES" id="nkr-dS-NHd"/>
                             <constraint firstItem="uii-FT-1Yf" firstAttribute="top" secondItem="uaw-Jo-tlr" secondAttribute="bottom" id="vN7-4D-9wx"/>
                             <constraint firstItem="uii-FT-1Yf" firstAttribute="top" secondItem="5wU-MR-fU0" secondAttribute="bottom" id="w63-Zo-jKq"/>
                         </constraints>
@@ -1027,11 +1026,19 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M0Z-c3-Gfl">
+                                <rect key="frame" x="277" y="287" width="46" height="30"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="3co-XY-nos" firstAttribute="centerX" secondItem="rGe-PX-Hfa" secondAttribute="centerX" id="TQ2-If-ErT"/>
+                            <constraint firstAttribute="centerX" secondItem="M0Z-c3-Gfl" secondAttribute="centerX" id="aHF-Cv-lFH"/>
                             <constraint firstAttribute="centerY" secondItem="3co-XY-nos" secondAttribute="centerY" id="eeP-9s-08Z"/>
+                            <constraint firstItem="M0Z-c3-Gfl" firstAttribute="top" secondItem="3co-XY-nos" secondAttribute="bottom" constant="8" id="jNI-WB-V2G"/>
                         </constraints>
                     </view>
                     <toolbarItems/>

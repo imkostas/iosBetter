@@ -1,10 +1,7 @@
 #import <UIKit/UIKit.h>
 #import "Definitions.h"
 
-@interface MainVController : UIViewController <UIGestureRecognizerDelegate>
-
-// Main scroll view
-@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+@interface Feed : UIViewController <UIGestureRecognizerDelegate>
 
 // Left and right container views (for left/right menus)
 

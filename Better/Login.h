@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MainVController.h"
+#import "Feed.h"
 #import "UserInfo.h"
 #import "BETextField.h"
 #import "BEScrollingViewController.h"
