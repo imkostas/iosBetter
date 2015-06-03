@@ -19,44 +19,54 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5wU-MR-fU0">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <connections>
                                     <segue destination="Jzu-mx-5Og" kind="embed" id="0WT-ln-r91"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uaw-Jo-tlr">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <connections>
                                     <segue destination="oDp-79-7GJ" kind="embed" id="Nmr-p9-11l"/>
                                 </connections>
                             </containerView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xeJ-8L-bOn">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="5wU-MR-fU0" firstAttribute="top" secondItem="aVi-Ho-Lng" secondAttribute="top" id="9OX-pJ-JEO"/>
-                            <constraint firstItem="uaw-Jo-tlr" firstAttribute="bottom" secondItem="uii-FT-1Yf" secondAttribute="top" id="B30-uz-xtt"/>
-                            <constraint firstItem="uaw-Jo-tlr" firstAttribute="top" secondItem="5wU-MR-fU0" secondAttribute="top" id="D7K-ha-5wJ"/>
-                            <constraint firstItem="5wU-MR-fU0" firstAttribute="leading" secondItem="uaw-Jo-tlr" secondAttribute="leading" id="DPW-hA-RB4"/>
-                            <constraint firstItem="uaw-Jo-tlr" firstAttribute="leading" secondItem="aVi-Ho-Lng" secondAttribute="leading" id="O9P-2e-k3m"/>
-                            <constraint firstItem="xeJ-8L-bOn" firstAttribute="bottom" secondItem="uii-FT-1Yf" secondAttribute="top" id="V8Y-MQ-NzK"/>
-                            <constraint firstAttribute="trailing" secondItem="uaw-Jo-tlr" secondAttribute="trailing" id="WMR-96-Dle"/>
-                            <constraint firstItem="xeJ-8L-bOn" firstAttribute="trailing" secondItem="uaw-Jo-tlr" secondAttribute="trailing" id="YQy-2o-UE0"/>
-                            <constraint firstItem="uaw-Jo-tlr" firstAttribute="trailing" secondItem="5wU-MR-fU0" secondAttribute="trailing" id="Zsi-tr-dUZ"/>
-                            <constraint firstItem="xeJ-8L-bOn" firstAttribute="leading" secondItem="uaw-Jo-tlr" secondAttribute="leading" id="b3o-a0-eJa"/>
-                            <constraint firstItem="5wU-MR-fU0" firstAttribute="bottom" secondItem="uii-FT-1Yf" secondAttribute="top" id="kAr-tA-fTw"/>
-                            <constraint firstItem="xeJ-8L-bOn" firstAttribute="top" secondItem="uaw-Jo-tlr" secondAttribute="top" id="vHw-z7-CyA"/>
+                            <constraint firstAttribute="trailing" secondItem="5wU-MR-fU0" secondAttribute="trailing" id="D0q-tV-HHb"/>
+                            <constraint firstAttribute="trailing" secondItem="uaw-Jo-tlr" secondAttribute="trailing" id="EK6-aB-jT8"/>
+                            <constraint firstItem="uaw-Jo-tlr" firstAttribute="leading" secondItem="aVi-Ho-Lng" secondAttribute="leading" id="Kp4-dq-aiG"/>
+                            <constraint firstItem="uaw-Jo-tlr" firstAttribute="top" secondItem="Y4q-By-yBd" secondAttribute="bottom" id="SQX-dW-jf6"/>
+                            <constraint firstItem="5wU-MR-fU0" firstAttribute="top" secondItem="Y4q-By-yBd" secondAttribute="bottom" id="gJn-8w-dtz"/>
+                            <constraint firstItem="5wU-MR-fU0" firstAttribute="leading" secondItem="aVi-Ho-Lng" secondAttribute="leading" id="nkr-dS-NHd"/>
+                            <constraint firstItem="uii-FT-1Yf" firstAttribute="top" secondItem="uaw-Jo-tlr" secondAttribute="bottom" id="vN7-4D-9wx"/>
+                            <constraint firstItem="uii-FT-1Yf" firstAttribute="top" secondItem="5wU-MR-fU0" secondAttribute="bottom" id="w63-Zo-jKq"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="1Tw-ur-gac"/>
                     <connections>
                         <outlet property="view" destination="aVi-Ho-Lng" id="h6J-iD-vkg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="819" y="350"/>
+            <point key="canvasLocation" x="1395" y="345"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="2Qc-tO-eLa">
+            <objects>
+                <navigationController storyboardIdentifier="mainViewControllerNav" id="7pk-Rv-q55" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ORl-tF-MlA">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="fbC-Be-VWT"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nLh-3G-bCs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="671" y="351"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="frJ-xq-z0k">
@@ -977,11 +987,11 @@
                         <viewControllerLayoutGuide type="bottom" id="SXx-sT-ES8"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="8Jq-Kj-zuA">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Right View" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dS0-U3-RHz">
-                                <rect key="frame" x="259" y="289" width="82" height="22"/>
+                                <rect key="frame" x="259" y="258" width="82" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -990,20 +1000,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="dS0-U3-RHz" firstAttribute="centerX" secondItem="8Jq-Kj-zuA" secondAttribute="centerX" id="0bR-AT-UPa"/>
-                            <constraint firstItem="dS0-U3-RHz" firstAttribute="top" secondItem="rT9-Jv-dMl" secondAttribute="bottom" constant="289" id="7nj-WI-lGb"/>
                             <constraint firstItem="dS0-U3-RHz" firstAttribute="centerY" secondItem="8Jq-Kj-zuA" secondAttribute="centerY" id="DWX-d5-rZT"/>
                         </constraints>
-                        <variation key="heightClass=compact-widthClass=regular">
-                            <mask key="constraints">
-                                <exclude reference="7nj-WI-lGb"/>
-                            </mask>
-                        </variation>
                     </view>
                     <toolbarItems/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lbq-mf-BKJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1626" y="701.25"/>
+            <point key="canvasLocation" x="2202" y="696"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="p6V-eE-PVU">
@@ -1014,11 +1018,11 @@
                         <viewControllerLayoutGuide type="bottom" id="LUC-Ec-kYd"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="rGe-PX-Hfa">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Left View" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3co-XY-nos">
-                                <rect key="frame" x="265" y="289" width="71" height="21"/>
+                                <rect key="frame" x="265" y="258" width="71" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1026,27 +1030,15 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="3co-XY-nos" firstAttribute="top" secondItem="RGg-l8-sFh" secondAttribute="bottom" constant="289" id="20h-uM-Qd5"/>
                             <constraint firstItem="3co-XY-nos" firstAttribute="centerX" secondItem="rGe-PX-Hfa" secondAttribute="centerX" id="TQ2-If-ErT"/>
                             <constraint firstAttribute="centerY" secondItem="3co-XY-nos" secondAttribute="centerY" id="eeP-9s-08Z"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="eeP-9s-08Z"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=compact-widthClass=regular">
-                            <mask key="constraints">
-                                <exclude reference="20h-uM-Qd5"/>
-                                <include reference="eeP-9s-08Z"/>
-                            </mask>
-                        </variation>
                     </view>
                     <toolbarItems/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wcb-Rc-O6j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1626" y="8.25"/>
+            <point key="canvasLocation" x="2202" y="3"/>
         </scene>
         <!--Intro Page-->
         <scene sceneID="Z4U-yb-K7W">

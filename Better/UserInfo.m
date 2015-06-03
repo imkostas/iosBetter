@@ -10,11 +10,20 @@
 
 @implementation UserInfo
 
-// Class for holding information
-
-- (id)init
+// Initialize and/or return the user singleton
++ (UserInfo *)user
 {
-	return nil;
+	static UserInfo *user = nil;
+	
+	@synchronized(self)
+	{
+		if(!user)
+		{
+			user = [[UserInfo alloc] init];
+		}
+	}
+	
+	return user;
 }
 
 @end

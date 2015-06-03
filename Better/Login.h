@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MainVController.h"
+#import "UserInfo.h"
 #import "BETextField.h"
 #import "BEScrollingViewController.h"
 #import "Definitions.h"
@@ -16,6 +18,9 @@
 @property (weak, nonatomic) IBOutlet BETextField *usernameField;
 @property (weak, nonatomic) IBOutlet BETextField *passwordField;
 @property (weak, nonatomic) IBOutlet UIButton *forgotButton;
+
+// Reference to UserInfo object
+@property (weak, nonatomic) UserInfo *user;
 
 // Called when the 'Log In' button is pressed
 - (IBAction)logIn:(id)sender;

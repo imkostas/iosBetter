@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "Definitions.h"
 
 @interface MainVController : UIViewController <UIGestureRecognizerDelegate>
 

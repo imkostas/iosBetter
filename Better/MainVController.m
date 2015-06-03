@@ -11,6 +11,9 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	
+	// Set up the 'navigation bar'
+	[[[self navigationController] navigationBar] setBarTintColor:COLOR_BETTER_DARK];
+	
 	// Set up gesture recognizers for screen edges
 	_leftEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGestureLeft:)];
 	_rightEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGestureRight:)];

@@ -33,6 +33,9 @@
 	UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(updateVisibility:)];
 	[[[self passwordField] rightView] setUserInteractionEnabled:YES];  // By default, UIImageViews have userInteractionEnabled == FALSE
 	[[[self passwordField] rightView] addGestureRecognizer:tapGesture];
+	
+	// Get the UserInfo object
+	[self setUser:[UserInfo user]];
 }
 /*
 #pragma mark - Navigation
@@ -46,7 +49,6 @@
 */
 
 #pragma mark - Login, validation
-
 // Called when the 'Log In' button is pressed
 - (IBAction)logIn:(id)sender
 {
@@ -54,7 +56,16 @@
 	
 	// Validate the given information
 	if([self validateUsername:[[self usernameField] text] password:[[self passwordField] text]])
-	   NSLog(@"User/pass log in was pressed");
+	{
+		NSLog(@"User/pass log in was pressed");
+		
+		////////// Network communication here //////////
+		
+		NSAssert([self storyboard], @"Tried to instantiate MainViewController without a storyboard...");
+		
+		UINavigationController *mainVCNavigation = [[self storyboard] instantiateViewControllerWithIdentifier:@"mainViewControllerNav"];
+		[self presentViewController:mainVCNavigation animated:YES completion:nil];
+	}
 	else
 	{
 		// Non valid username and/or password
