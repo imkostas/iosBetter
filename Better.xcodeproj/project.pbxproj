@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3107407B1B1F66C400927B2D /* Following.m in Sources */ = {isa = PBXBuildFile; fileRef = 3107407A1B1F66C400927B2D /* Following.m */; };
+		D01514CB1B1F686E00EFE991 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D01514CA1B1F686E00EFE991 /* UserInfo.m */; };
 		D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */ = {isa = PBXBuildFile; fileRef = D03DB44E1B1F4CAA00810E1E /* Countries.plist */; };
 		D05EF7571B0B70EF00D01AE4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7561B0B70EF00D01AE4 /* main.m */; };
 		D05EF75A1B0B70EF00D01AE4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7591B0B70EF00D01AE4 /* AppDelegate.m */; };
@@ -42,6 +43,8 @@
 
 /* Begin PBXFileReference section */
 		3107407A1B1F66C400927B2D /* Following.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Following.m; sourceTree = "<group>"; };
+		D01514C91B1F686E00EFE991 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
+		D01514CA1B1F686E00EFE991 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
 		D03DB44E1B1F4CAA00810E1E /* Countries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countries.plist; sourceTree = "<group>"; };
 		D05EF7511B0B70EF00D01AE4 /* Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Better.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D05EF7551B0B70EF00D01AE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -109,6 +112,15 @@
 			name = Following;
 			sourceTree = "<group>";
 		};
+		D01514C81B1F685200EFE991 /* UserInfo */ = {
+			isa = PBXGroup;
+			children = (
+				D01514C91B1F686E00EFE991 /* UserInfo.h */,
+				D01514CA1B1F686E00EFE991 /* UserInfo.m */,
+			);
+			name = UserInfo;
+			sourceTree = "<group>";
+		};
 		D05EF7481B0B70EF00D01AE4 = {
 			isa = PBXGroup;
 			children = (
@@ -130,6 +142,7 @@
 		D05EF7531B0B70EF00D01AE4 /* Better */ = {
 			isa = PBXGroup;
 			children = (
+				D01514C81B1F685200EFE991 /* UserInfo */,
 				310740791B1F668200927B2D /* Following */,
 				D05EF77A1B0B7AF800D01AE4 /* AppDelegate */,
 				D05EF77D1B0B8F2800D01AE4 /* Introduction */,
@@ -401,6 +414,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D05EF75D1B0B70EF00D01AE4 /* MainVController.m in Sources */,
+				D01514CB1B1F686E00EFE991 /* UserInfo.m in Sources */,
 				D05EF75A1B0B70EF00D01AE4 /* AppDelegate.m in Sources */,
 				D05EF7571B0B70EF00D01AE4 /* main.m in Sources */,
 				D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */,
