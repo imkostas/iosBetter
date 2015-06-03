@@ -1,0 +1,619 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */ = {isa = PBXBuildFile; fileRef = D03DB44E1B1F4CAA00810E1E /* Countries.plist */; };
+		D05EF7571B0B70EF00D01AE4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7561B0B70EF00D01AE4 /* main.m */; };
+		D05EF75A1B0B70EF00D01AE4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7591B0B70EF00D01AE4 /* AppDelegate.m */; };
+		D05EF75D1B0B70EF00D01AE4 /* MainVController.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF75C1B0B70EF00D01AE4 /* MainVController.m */; };
+		D05EF7601B0B70EF00D01AE4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D05EF75E1B0B70EF00D01AE4 /* Main.storyboard */; };
+		D05EF7621B0B70EF00D01AE4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D05EF7611B0B70EF00D01AE4 /* Images.xcassets */; };
+		D05EF7651B0B70EF00D01AE4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D05EF7631B0B70EF00D01AE4 /* LaunchScreen.xib */; };
+		D05EF7711B0B70EF00D01AE4 /* BetterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7701B0B70EF00D01AE4 /* BetterTests.m */; };
+		D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7831B0B945F00D01AE4 /* Signup.m */; };
+		D05EF7881B0B9F0800D01AE4 /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7871B0B9F0800D01AE4 /* Login.m */; };
+		D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */ = {isa = PBXBuildFile; fileRef = D0835FB71B0CEDFB00D88412 /* BETextField.m */; };
+		D0835FBD1B0CF43B00D88412 /* ForgotPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = D0835FBC1B0CF43B00D88412 /* ForgotPassword.m */; };
+		D099018F1B0E35A900760CDF /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = D099018E1B0E35A900760CDF /* Profile.m */; };
+		D09901921B0E619300760CDF /* BEScrollingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D09901911B0E619300760CDF /* BEScrollingViewController.m */; };
+		D0A250E51B1758AA003E7D0B /* BELine.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A250E41B1758AA003E7D0B /* BELine.m */; };
+		D0A2C2691B0F6ECE00C44A7B /* Intro.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A2C2681B0F6ECE00C44A7B /* Intro.m */; };
+		D0B282DA1B1E0545006FD580 /* BEDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B282D91B1E0545006FD580 /* BEDatePickerView.m */; };
+		D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B282E81B1E5081006FD580 /* BEPickerView.m */; };
+		D0D7CA971B0F89AB00363A39 /* IntroPageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D7CA961B0F89AB00363A39 /* IntroPageContent.m */; };
+		D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D7CA991B0F8E8E00363A39 /* IntroPage.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D05EF76B1B0B70EF00D01AE4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D05EF7491B0B70EF00D01AE4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D05EF7501B0B70EF00D01AE4;
+			remoteInfo = Tests;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D03DB44E1B1F4CAA00810E1E /* Countries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countries.plist; sourceTree = "<group>"; };
+		D05EF7511B0B70EF00D01AE4 /* Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Better.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D05EF7551B0B70EF00D01AE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D05EF7561B0B70EF00D01AE4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D05EF7581B0B70EF00D01AE4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D05EF7591B0B70EF00D01AE4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D05EF75B1B0B70EF00D01AE4 /* MainVController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainVController.h; sourceTree = "<group>"; };
+		D05EF75C1B0B70EF00D01AE4 /* MainVController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainVController.m; sourceTree = "<group>"; };
+		D05EF75F1B0B70EF00D01AE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D05EF7611B0B70EF00D01AE4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		D05EF7641B0B70EF00D01AE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		D05EF76A1B0B70EF00D01AE4 /* BetterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BetterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D05EF76F1B0B70EF00D01AE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = BetterTests/Info.plist; sourceTree = "<group>"; };
+		D05EF7701B0B70EF00D01AE4 /* BetterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BetterTests.m; path = BetterTests/BetterTests.m; sourceTree = SOURCE_ROOT; };
+		D05EF77C1B0B8E0700D01AE4 /* Definitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Definitions.h; sourceTree = "<group>"; };
+		D05EF7821B0B945F00D01AE4 /* Signup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Signup.h; sourceTree = "<group>"; };
+		D05EF7831B0B945F00D01AE4 /* Signup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Signup.m; sourceTree = "<group>"; };
+		D05EF7861B0B9F0800D01AE4 /* Login.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login.h; sourceTree = "<group>"; };
+		D05EF7871B0B9F0800D01AE4 /* Login.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Login.m; sourceTree = "<group>"; };
+		D0835FB61B0CEDFB00D88412 /* BETextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BETextField.h; sourceTree = "<group>"; };
+		D0835FB71B0CEDFB00D88412 /* BETextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BETextField.m; sourceTree = "<group>"; };
+		D0835FBB1B0CF43B00D88412 /* ForgotPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPassword.h; sourceTree = "<group>"; };
+		D0835FBC1B0CF43B00D88412 /* ForgotPassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPassword.m; sourceTree = "<group>"; };
+		D099018D1B0E35A900760CDF /* Profile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
+		D099018E1B0E35A900760CDF /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
+		D09901901B0E619300760CDF /* BEScrollingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEScrollingViewController.h; sourceTree = "<group>"; };
+		D09901911B0E619300760CDF /* BEScrollingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEScrollingViewController.m; sourceTree = "<group>"; };
+		D0A250E31B1758AA003E7D0B /* BELine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BELine.h; sourceTree = "<group>"; };
+		D0A250E41B1758AA003E7D0B /* BELine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BELine.m; sourceTree = "<group>"; };
+		D0A2C2671B0F6ECE00C44A7B /* Intro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Intro.h; sourceTree = "<group>"; };
+		D0A2C2681B0F6ECE00C44A7B /* Intro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Intro.m; sourceTree = "<group>"; };
+		D0B282D81B1E0545006FD580 /* BEDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEDatePickerView.h; sourceTree = "<group>"; };
+		D0B282D91B1E0545006FD580 /* BEDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEDatePickerView.m; sourceTree = "<group>"; };
+		D0B282E71B1E5081006FD580 /* BEPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEPickerView.h; sourceTree = "<group>"; };
+		D0B282E81B1E5081006FD580 /* BEPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEPickerView.m; sourceTree = "<group>"; };
+		D0D7CA951B0F89AB00363A39 /* IntroPageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroPageContent.h; sourceTree = "<group>"; };
+		D0D7CA961B0F89AB00363A39 /* IntroPageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroPageContent.m; sourceTree = "<group>"; };
+		D0D7CA981B0F8E8E00363A39 /* IntroPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroPage.h; sourceTree = "<group>"; };
+		D0D7CA991B0F8E8E00363A39 /* IntroPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroPage.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D05EF74E1B0B70EF00D01AE4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D05EF7671B0B70EF00D01AE4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D05EF7481B0B70EF00D01AE4 = {
+			isa = PBXGroup;
+			children = (
+				D05EF7531B0B70EF00D01AE4 /* Better */,
+				D05EF76D1B0B70EF00D01AE4 /* TestsTests */,
+				D05EF7521B0B70EF00D01AE4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D05EF7521B0B70EF00D01AE4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D05EF7511B0B70EF00D01AE4 /* Better.app */,
+				D05EF76A1B0B70EF00D01AE4 /* BetterTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D05EF7531B0B70EF00D01AE4 /* Better */ = {
+			isa = PBXGroup;
+			children = (
+				D05EF77A1B0B7AF800D01AE4 /* AppDelegate */,
+				D05EF77D1B0B8F2800D01AE4 /* Introduction */,
+				D05EF77B1B0B7B0900D01AE4 /* Main */,
+				D05EF7811B0B943300D01AE4 /* SignUp */,
+				D05EF7851B0B9E5400D01AE4 /* Login */,
+				D099018C1B0E359000760CDF /* Profile */,
+				D0835FBA1B0CF41100D88412 /* ForgotPassword */,
+				D0835FB51B0CECBE00D88412 /* Custom Objects */,
+				D05EF75E1B0B70EF00D01AE4 /* Main.storyboard */,
+				D05EF7611B0B70EF00D01AE4 /* Images.xcassets */,
+				D05EF7631B0B70EF00D01AE4 /* LaunchScreen.xib */,
+				D05EF7541B0B70EF00D01AE4 /* Supporting Files */,
+			);
+			path = Better;
+			sourceTree = "<group>";
+		};
+		D05EF7541B0B70EF00D01AE4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D05EF77C1B0B8E0700D01AE4 /* Definitions.h */,
+				D03DB44E1B1F4CAA00810E1E /* Countries.plist */,
+				D05EF7551B0B70EF00D01AE4 /* Info.plist */,
+				D05EF7561B0B70EF00D01AE4 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D05EF76D1B0B70EF00D01AE4 /* TestsTests */ = {
+			isa = PBXGroup;
+			children = (
+				D05EF7701B0B70EF00D01AE4 /* BetterTests.m */,
+				D05EF76E1B0B70EF00D01AE4 /* Supporting Files */,
+			);
+			path = TestsTests;
+			sourceTree = "<group>";
+		};
+		D05EF76E1B0B70EF00D01AE4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D05EF76F1B0B70EF00D01AE4 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D05EF77A1B0B7AF800D01AE4 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				D05EF7581B0B70EF00D01AE4 /* AppDelegate.h */,
+				D05EF7591B0B70EF00D01AE4 /* AppDelegate.m */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
+		D05EF77B1B0B7B0900D01AE4 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				D05EF75B1B0B70EF00D01AE4 /* MainVController.h */,
+				D05EF75C1B0B70EF00D01AE4 /* MainVController.m */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		D05EF77D1B0B8F2800D01AE4 /* Introduction */ = {
+			isa = PBXGroup;
+			children = (
+				D0A2C2671B0F6ECE00C44A7B /* Intro.h */,
+				D0A2C2681B0F6ECE00C44A7B /* Intro.m */,
+				D0D7CA981B0F8E8E00363A39 /* IntroPage.h */,
+				D0D7CA991B0F8E8E00363A39 /* IntroPage.m */,
+			);
+			name = Introduction;
+			sourceTree = "<group>";
+		};
+		D05EF7811B0B943300D01AE4 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				D05EF7821B0B945F00D01AE4 /* Signup.h */,
+				D05EF7831B0B945F00D01AE4 /* Signup.m */,
+			);
+			name = SignUp;
+			sourceTree = "<group>";
+		};
+		D05EF7851B0B9E5400D01AE4 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				D05EF7861B0B9F0800D01AE4 /* Login.h */,
+				D05EF7871B0B9F0800D01AE4 /* Login.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		D0835FB51B0CECBE00D88412 /* Custom Objects */ = {
+			isa = PBXGroup;
+			children = (
+				D0D7CA941B0F898300363A39 /* Intro Page */,
+				D0835FB91B0CEE0700D88412 /* Text Field */,
+				D0E8D3711B1900AD008BA7A9 /* Pickers */,
+				D09901931B0E63CC00760CDF /* View Controllers */,
+				D0A250E21B17588A003E7D0B /* Drawing in Views */,
+			);
+			name = "Custom Objects";
+			sourceTree = "<group>";
+		};
+		D0835FB91B0CEE0700D88412 /* Text Field */ = {
+			isa = PBXGroup;
+			children = (
+				D0835FB61B0CEDFB00D88412 /* BETextField.h */,
+				D0835FB71B0CEDFB00D88412 /* BETextField.m */,
+			);
+			name = "Text Field";
+			sourceTree = "<group>";
+		};
+		D0835FBA1B0CF41100D88412 /* ForgotPassword */ = {
+			isa = PBXGroup;
+			children = (
+				D0835FBB1B0CF43B00D88412 /* ForgotPassword.h */,
+				D0835FBC1B0CF43B00D88412 /* ForgotPassword.m */,
+			);
+			name = ForgotPassword;
+			sourceTree = "<group>";
+		};
+		D099018C1B0E359000760CDF /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				D099018D1B0E35A900760CDF /* Profile.h */,
+				D099018E1B0E35A900760CDF /* Profile.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		D09901931B0E63CC00760CDF /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D09901901B0E619300760CDF /* BEScrollingViewController.h */,
+				D09901911B0E619300760CDF /* BEScrollingViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		D0A250E21B17588A003E7D0B /* Drawing in Views */ = {
+			isa = PBXGroup;
+			children = (
+				D0A250E31B1758AA003E7D0B /* BELine.h */,
+				D0A250E41B1758AA003E7D0B /* BELine.m */,
+			);
+			name = "Drawing in Views";
+			sourceTree = "<group>";
+		};
+		D0D7CA941B0F898300363A39 /* Intro Page */ = {
+			isa = PBXGroup;
+			children = (
+				D0D7CA951B0F89AB00363A39 /* IntroPageContent.h */,
+				D0D7CA961B0F89AB00363A39 /* IntroPageContent.m */,
+			);
+			name = "Intro Page";
+			sourceTree = "<group>";
+		};
+		D0E8D3711B1900AD008BA7A9 /* Pickers */ = {
+			isa = PBXGroup;
+			children = (
+				D0B282E71B1E5081006FD580 /* BEPickerView.h */,
+				D0B282E81B1E5081006FD580 /* BEPickerView.m */,
+				D0B282D81B1E0545006FD580 /* BEDatePickerView.h */,
+				D0B282D91B1E0545006FD580 /* BEDatePickerView.m */,
+			);
+			name = Pickers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D05EF7501B0B70EF00D01AE4 /* Better */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D05EF7741B0B70EF00D01AE4 /* Build configuration list for PBXNativeTarget "Better" */;
+			buildPhases = (
+				D05EF74D1B0B70EF00D01AE4 /* Sources */,
+				D05EF74E1B0B70EF00D01AE4 /* Frameworks */,
+				D05EF74F1B0B70EF00D01AE4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Better;
+			productName = Tests;
+			productReference = D05EF7511B0B70EF00D01AE4 /* Better.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D05EF7691B0B70EF00D01AE4 /* BetterBetter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D05EF7771B0B70EF00D01AE4 /* Build configuration list for PBXNativeTarget "BetterBetter" */;
+			buildPhases = (
+				D05EF7661B0B70EF00D01AE4 /* Sources */,
+				D05EF7671B0B70EF00D01AE4 /* Frameworks */,
+				D05EF7681B0B70EF00D01AE4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D05EF76C1B0B70EF00D01AE4 /* PBXTargetDependency */,
+			);
+			name = BetterBetter;
+			productName = TestsTests;
+			productReference = D05EF76A1B0B70EF00D01AE4 /* BetterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D05EF7491B0B70EF00D01AE4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = Company;
+				TargetAttributes = {
+					D05EF7501B0B70EF00D01AE4 = {
+						CreatedOnToolsVersion = 6.3.1;
+					};
+					D05EF7691B0B70EF00D01AE4 = {
+						CreatedOnToolsVersion = 6.3.1;
+						TestTargetID = D05EF7501B0B70EF00D01AE4;
+					};
+				};
+			};
+			buildConfigurationList = D05EF74C1B0B70EF00D01AE4 /* Build configuration list for PBXProject "Better" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D05EF7481B0B70EF00D01AE4;
+			productRefGroup = D05EF7521B0B70EF00D01AE4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D05EF7501B0B70EF00D01AE4 /* Better */,
+				D05EF7691B0B70EF00D01AE4 /* BetterBetter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D05EF74F1B0B70EF00D01AE4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D05EF7601B0B70EF00D01AE4 /* Main.storyboard in Resources */,
+				D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */,
+				D05EF7651B0B70EF00D01AE4 /* LaunchScreen.xib in Resources */,
+				D05EF7621B0B70EF00D01AE4 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D05EF7681B0B70EF00D01AE4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D05EF74D1B0B70EF00D01AE4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D05EF75D1B0B70EF00D01AE4 /* MainVController.m in Sources */,
+				D05EF75A1B0B70EF00D01AE4 /* AppDelegate.m in Sources */,
+				D05EF7571B0B70EF00D01AE4 /* main.m in Sources */,
+				D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */,
+				D09901921B0E619300760CDF /* BEScrollingViewController.m in Sources */,
+				D0A250E51B1758AA003E7D0B /* BELine.m in Sources */,
+				D05EF7881B0B9F0800D01AE4 /* Login.m in Sources */,
+				D0A2C2691B0F6ECE00C44A7B /* Intro.m in Sources */,
+				D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */,
+				D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */,
+				D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */,
+				D099018F1B0E35A900760CDF /* Profile.m in Sources */,
+				D0B282DA1B1E0545006FD580 /* BEDatePickerView.m in Sources */,
+				D0D7CA971B0F89AB00363A39 /* IntroPageContent.m in Sources */,
+				D0835FBD1B0CF43B00D88412 /* ForgotPassword.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D05EF7661B0B70EF00D01AE4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D05EF7711B0B70EF00D01AE4 /* BetterTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D05EF76C1B0B70EF00D01AE4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D05EF7501B0B70EF00D01AE4 /* Better */;
+			targetProxy = D05EF76B1B0B70EF00D01AE4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D05EF75E1B0B70EF00D01AE4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D05EF75F1B0B70EF00D01AE4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D05EF7631B0B70EF00D01AE4 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D05EF7641B0B70EF00D01AE4 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D05EF7721B0B70EF00D01AE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		D05EF7731B0B70EF00D01AE4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D05EF7751B0B70EF00D01AE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = Better/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = Better;
+			};
+			name = Debug;
+		};
+		D05EF7761B0B70EF00D01AE4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = Better/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = Better;
+			};
+			name = Release;
+		};
+		D05EF7781B0B70EF00D01AE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = BetterTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = BetterTests;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Better.app/Better";
+			};
+			name = Debug;
+		};
+		D05EF7791B0B70EF00D01AE4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = BetterTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = BetterTests;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Better.app/Better";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D05EF74C1B0B70EF00D01AE4 /* Build configuration list for PBXProject "Better" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D05EF7721B0B70EF00D01AE4 /* Debug */,
+				D05EF7731B0B70EF00D01AE4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D05EF7741B0B70EF00D01AE4 /* Build configuration list for PBXNativeTarget "Better" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D05EF7751B0B70EF00D01AE4 /* Debug */,
+				D05EF7761B0B70EF00D01AE4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D05EF7771B0B70EF00D01AE4 /* Build configuration list for PBXNativeTarget "BetterBetter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D05EF7781B0B70EF00D01AE4 /* Debug */,
+				D05EF7791B0B70EF00D01AE4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D05EF7491B0B70EF00D01AE4 /* Project object */;
+}
