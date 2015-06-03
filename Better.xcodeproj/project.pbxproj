@@ -108,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				3107407A1B1F66C400927B2D /* Following.m */,
+				3107407C1B1F685200927B2D /* Following.h */,
 			);
 			name = Following;
 			sourceTree = "<group>";
