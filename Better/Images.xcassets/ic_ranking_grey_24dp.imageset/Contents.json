@@ -2,16 +2,18 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "ic_ranking_grey_24dp@1x.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "ic_filter_list_white900_24dp.png"
+      "filename" : "ic_ranking_grey_24dp@2x.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "ic_ranking_grey_24dp@3x.png"
     }
   ],
   "info" : {

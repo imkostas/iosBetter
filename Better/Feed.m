@@ -14,6 +14,7 @@
 	
 	// Set up the navigation bar
 	[[[self navigationController] navigationBar] setBarTintColor:COLOR_BETTER_DARK];
+	[[[self navigationController] navigationBar] setTintColor:[UIColor whiteColor]];
 	[[[self navigationController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
 	[self setTitle:@"Everything"];
 	
