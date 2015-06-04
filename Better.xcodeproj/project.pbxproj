@@ -50,10 +50,10 @@
 		3107407C1B1F685200927B2D /* Following.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Following.h; sourceTree = "<group>"; };
 		D01514C91B1F686E00EFE991 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
 		D01514CA1B1F686E00EFE991 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
-		D03057831B20A58F00F20072 /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Menu.h; sourceTree = "<group>"; };
-		D03057841B20A58F00F20072 /* Menu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Menu.m; sourceTree = "<group>"; };
-		D03057861B20AA4700F20072 /* Filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Filter.h; sourceTree = "<group>"; };
-		D03057871B20AA4700F20072 /* Filter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Filter.m; sourceTree = "<group>"; };
+		D03057891B20DF5E00F20072 /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Menu.h; sourceTree = "<group>"; };
+		D030578A1B20DF5E00F20072 /* Menu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Menu.m; sourceTree = "<group>"; };
+		D030578C1B20DF6E00F20072 /* Filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Filter.h; sourceTree = "<group>"; };
+		D030578D1B20DF6E00F20072 /* Filter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Filter.m; sourceTree = "<group>"; };
 		D03DB44E1B1F4CAA00810E1E /* Countries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countries.plist; sourceTree = "<group>"; };
 		D05EF7511B0B70EF00D01AE4 /* Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Better.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D05EF7551B0B70EF00D01AE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
