@@ -16,12 +16,12 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+	[super viewDidLoad];
+	// Do any additional setup after loading the view.
 	
 	// Set the profile image
 	[[[self profileImageView] layer] setMasksToBounds:YES];
-//	[[[self profileImageView] layer] setShouldRasterize:YES]; // For performance?
+	//	[[[self profileImageView] layer] setShouldRasterize:YES]; // For performance?
 	[[[self profileImageView] layer] setCornerRadius:[[self profileImageView] frame].size.height / 2];
 	[[self profileImageView] setImage:[UIImage imageNamed:@"donkey"]];
 	
@@ -30,18 +30,18 @@
 
 - (void)didReceiveMemoryWarning
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+	[super didReceiveMemoryWarning];
+	// Dispose of any resources that can be recreated.
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
