@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 Company. All rights reserved.
 //
 
-#import "Menu.h"
+#import "MenuViewController.h"
 
-@interface Menu ()
+@interface MenuViewController ()
 
 @end
 
-@implementation Menu
+@implementation MenuViewController
 
 - (void)viewDidLoad
 {

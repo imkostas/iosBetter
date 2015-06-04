@@ -1002,10 +1002,10 @@
             </objects>
             <point key="canvasLocation" x="2202" y="696"/>
         </scene>
-        <!--Menu-->
+        <!--Menu View Controller-->
         <scene sceneID="p6V-eE-PVU">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="oDp-79-7GJ" customClass="Menu" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="oDp-79-7GJ" customClass="MenuViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="RGg-l8-sFh"/>
                         <viewControllerLayoutGuide type="bottom" id="LUC-Ec-kYd"/>

@@ -1,18 +1,18 @@
 //
-//  Filter.m
+//  FilterViewController.m
 //  Better
 //
 //  Created by Peter on 6/4/15.
 //  Copyright (c) 2015 Company. All rights reserved.
 //
 
-#import "Filter.h"
+#import "FilterViewController.h"
 
-@interface Filter ()
+@interface FilterViewController ()
 
 @end
 
-@implementation Filter
+@implementation FilterViewController
 
 - (void)viewDidLoad
 {

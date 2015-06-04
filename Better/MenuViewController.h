@@ -1,5 +1,5 @@
 //
-//  Menu.h
+//  MenuViewController.h
 //  Better
 //
 //  Created by Peter on 6/4/15.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface Menu : UIViewController
+@interface MenuViewController : UIViewController
 
 // Profile image and username label are contained within the profileView UIView
 @property (weak, nonatomic) IBOutlet UIView *profileView;
