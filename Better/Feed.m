@@ -21,6 +21,9 @@
 	// Set view properties
 	[[self view] setBackgroundColor:COLOR_LIGHT_LIGHT_GRAY];
 	
+	// Set up left/right drawer constraints
+	// ...
+	
 	// Set up gesture recognizers for screen edges
 	_leftEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGestureLeft:)];
 	_rightEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGestureRight:)];

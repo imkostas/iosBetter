@@ -10,6 +10,11 @@
 
 @interface MenuViewController ()
 
+// Methods for tap gesture recognizers to detect pressing on profile area, My Ranking, and Settings
+- (void)tappedProfileArea:(UITapGestureRecognizer *)gesture;
+- (void)tappedMyRanking:(UITapGestureRecognizer *)gesture;
+- (void)tappedSettings:(UITapGestureRecognizer *)gesture;
+
 @end
 
 @implementation MenuViewController
@@ -25,7 +30,16 @@
 	[[[self profileImageView] layer] setCornerRadius:[[self profileImageView] frame].size.height / 2];
 	[[self profileImageView] setImage:[UIImage imageNamed:@"donkey"]];
 	
+	// Set the username label
+	[[self usernameLabel] setText:@"Donkey"];
+	
 	// Set up gesture recognizers
+	UITapGestureRecognizer *profileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedProfileArea:)];
+	UITapGestureRecognizer *myRankTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedMyRanking:)];
+	UITapGestureRecognizer *settingsTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedSettings:)];
+	[[self profileView] addGestureRecognizer:profileTap];
+	[[self myRankingView] addGestureRecognizer:myRankTap];
+	[[self settingsView] addGestureRecognizer:settingsTap];
 }
 
 - (void)didReceiveMemoryWarning
@@ -43,5 +57,24 @@
  // Pass the selected object to the new view controller.
  }
  */
+
+#pragma mark - Gesture recognizer methods
+// Called when user taps within the profile area (image, background)
+- (void)tappedProfileArea:(UITapGestureRecognizer *)gesture
+{
+	NSLog(@"tapped inside Profile area");
+}
+
+// Called when user taps within the My Ranking view
+- (void)tappedMyRanking:(UITapGestureRecognizer *)gesture
+{
+	NSLog(@"tapped inside My Ranking");
+}
+
+// Called when user taps within Settings view
+- (void)tappedSettings:(UITapGestureRecognizer *)gesture
+{
+	NSLog(@"tapped inside Settings");
+}
 
 @end
