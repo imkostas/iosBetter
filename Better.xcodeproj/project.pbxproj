@@ -13,8 +13,8 @@
 		D03057881B20AA4700F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D030578B1B20DF5E00F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D030578E1B20DF6E00F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
-		D03057911B20E3D800F20072 /* Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = D03057901B20E3D800F20072 /* Menu.m */; };
 		D03057941B20E3E500F20072 /* Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = D03057931B20E3E500F20072 /* Filter.m */; };
+		D03057971B20E4CD00F20072 /* Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = D03057961B20E4CD00F20072 /* Menu.m */; };
 		D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */ = {isa = PBXBuildFile; fileRef = D03DB44E1B1F4CAA00810E1E /* Countries.plist */; };
 		D05EF7571B0B70EF00D01AE4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7561B0B70EF00D01AE4 /* main.m */; };
 		D05EF75A1B0B70EF00D01AE4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7591B0B70EF00D01AE4 /* AppDelegate.m */; };
@@ -52,10 +52,10 @@
 		3107407C1B1F685200927B2D /* Following.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Following.h; sourceTree = "<group>"; };
 		D01514C91B1F686E00EFE991 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
 		D01514CA1B1F686E00EFE991 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
-		D030578F1B20E3D000F20072 /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Menu.h; sourceTree = "<group>"; };
-		D03057901B20E3D800F20072 /* Menu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Menu.m; sourceTree = "<group>"; };
 		D03057921B20E3E500F20072 /* Filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Filter.h; sourceTree = "<group>"; };
 		D03057931B20E3E500F20072 /* Filter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Filter.m; sourceTree = "<group>"; };
+		D03057951B20E4CD00F20072 /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Menu.h; sourceTree = "<group>"; };
+		D03057961B20E4CD00F20072 /* Menu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Menu.m; sourceTree = "<group>"; };
 		D03DB44E1B1F4CAA00810E1E /* Countries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countries.plist; sourceTree = "<group>"; };
 		D05EF7511B0B70EF00D01AE4 /* Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Better.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D05EF7551B0B70EF00D01AE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -136,8 +136,8 @@
 		D03057811B20A54200F20072 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
-				D03057901B20E3D800F20072 /* Menu.m */,
-				D030578F1B20E3D000F20072 /* Menu.h */,
+				D03057951B20E4CD00F20072 /* Menu.h */,
+				D03057961B20E4CD00F20072 /* Menu.m */,
 			);
 			name = Menu;
 			sourceTree = "<group>";
@@ -449,7 +449,6 @@
 				D030578E1B20DF6E00F20072 /* (null) in Sources */,
 				D01514CB1B1F686E00EFE991 /* UserInfo.m in Sources */,
 				D05EF75A1B0B70EF00D01AE4 /* AppDelegate.m in Sources */,
-				D03057911B20E3D800F20072 /* Menu.m in Sources */,
 				D05EF7571B0B70EF00D01AE4 /* main.m in Sources */,
 				D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */,
 				D03057941B20E3E500F20072 /* Filter.m in Sources */,
@@ -464,6 +463,7 @@
 				D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */,
 				D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */,
 				D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */,
+				D03057971B20E4CD00F20072 /* Menu.m in Sources */,
 				D099018F1B0E35A900760CDF /* Profile.m in Sources */,
 				D0B282DA1B1E0545006FD580 /* BEDatePickerView.m in Sources */,
 				D0D7CA971B0F89AB00363A39 /* IntroPageContent.m in Sources */,
