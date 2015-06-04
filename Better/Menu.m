@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Company. All rights reserved.
 //
 
-#import "MenuViewController.h"
+#import "Menu.h"
 
 @interface MenuViewController ()
 

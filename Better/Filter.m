@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Company. All rights reserved.
 //
 
-#import "FilterViewController.h"
+#import "Filter.h"
 
 @interface FilterViewController ()
 
