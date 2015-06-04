@@ -8,10 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		3107407B1B1F66C400927B2D /* Following.m in Sources */ = {isa = PBXBuildFile; fileRef = 3107407A1B1F66C400927B2D /* Following.m */; };
-		31C5CFCC1B1F946700472161 /* CustomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C5CFCB1B1F946700472161 /* CustomAlert.m */; };
 		D01514CB1B1F686E00EFE991 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D01514CA1B1F686E00EFE991 /* UserInfo.m */; };
-		D03057851B20A58F00F20072 /* Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = D03057841B20A58F00F20072 /* Menu.m */; };
-		D03057881B20AA4700F20072 /* Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = D03057871B20AA4700F20072 /* Filter.m */; };
+		D03057851B20A58F00F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		D03057881B20AA4700F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		D030578B1B20DF5E00F20072 /* Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = D030578A1B20DF5E00F20072 /* Menu.m */; };
+		D030578E1B20DF6E00F20072 /* Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = D030578D1B20DF6E00F20072 /* Filter.m */; };
 		D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */ = {isa = PBXBuildFile; fileRef = D03DB44E1B1F4CAA00810E1E /* Countries.plist */; };
 		D05EF7571B0B70EF00D01AE4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7561B0B70EF00D01AE4 /* main.m */; };
 		D05EF75A1B0B70EF00D01AE4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7591B0B70EF00D01AE4 /* AppDelegate.m */; };
@@ -47,10 +48,12 @@
 /* Begin PBXFileReference section */
 		3107407A1B1F66C400927B2D /* Following.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Following.m; sourceTree = "<group>"; };
 		3107407C1B1F685200927B2D /* Following.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Following.h; sourceTree = "<group>"; };
-		31C5CFCA1B1F945E00472161 /* CustomAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomAlert.h; path = ../../iOS/Organic_Parking/CustomAlert.h; sourceTree = "<group>"; };
-		31C5CFCB1B1F946700472161 /* CustomAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomAlert.m; path = ../../iOS/Organic_Parking/CustomAlert.m; sourceTree = "<group>"; };
 		D01514C91B1F686E00EFE991 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
 		D01514CA1B1F686E00EFE991 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
+		D03057891B20DF5E00F20072 /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Menu.h; sourceTree = "<group>"; };
+		D030578A1B20DF5E00F20072 /* Menu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Menu.m; sourceTree = "<group>"; };
+		D030578C1B20DF6E00F20072 /* Filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Filter.h; sourceTree = "<group>"; };
+		D030578D1B20DF6E00F20072 /* Filter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Filter.m; sourceTree = "<group>"; };
 		D03DB44E1B1F4CAA00810E1E /* Countries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countries.plist; sourceTree = "<group>"; };
 		D05EF7511B0B70EF00D01AE4 /* Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Better.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D05EF7551B0B70EF00D01AE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -119,15 +122,6 @@
 			name = Following;
 			sourceTree = "<group>";
 		};
-		31C5CFC91B1F944900472161 /* Alert */ = {
-			isa = PBXGroup;
-			children = (
-				31C5CFCA1B1F945E00472161 /* CustomAlert.h */,
-				31C5CFCB1B1F946700472161 /* CustomAlert.m */,
-			);
-			name = Alert;
-			sourceTree = "<group>";
-		};
 		D01514C81B1F685200EFE991 /* UserInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,8 +134,8 @@
 		D03057811B20A54200F20072 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
-				D03057831B20A58F00F20072 /* Menu.h */,
-				D03057841B20A58F00F20072 /* Menu.m */,
+				D03057891B20DF5E00F20072 /* Menu.h */,
+				D030578A1B20DF5E00F20072 /* Menu.m */,
 			);
 			name = Menu;
 			sourceTree = "<group>";
@@ -149,8 +143,8 @@
 		D03057821B20A54C00F20072 /* Filter */ = {
 			isa = PBXGroup;
 			children = (
-				D03057861B20AA4700F20072 /* Filter.h */,
-				D03057871B20AA4700F20072 /* Filter.m */,
+				D030578C1B20DF6E00F20072 /* Filter.h */,
+				D030578D1B20DF6E00F20072 /* Filter.m */,
 			);
 			name = Filter;
 			sourceTree = "<group>";
@@ -176,7 +170,6 @@
 		D05EF7531B0B70EF00D01AE4 /* Better */ = {
 			isa = PBXGroup;
 			children = (
-				31C5CFC91B1F944900472161 /* Alert */,
 				D01514C81B1F685200EFE991 /* UserInfo */,
 				310740791B1F668200927B2D /* Following */,
 				D05EF77A1B0B7AF800D01AE4 /* AppDelegate */,
@@ -275,7 +268,6 @@
 		D0835FB51B0CECBE00D88412 /* Custom Objects */ = {
 			isa = PBXGroup;
 			children = (
-				D01514C81B1F685200EFE991 /* UserInfo */,
 				D0D7CA941B0F898300363A39 /* Intro Page */,
 				D0835FB91B0CEE0700D88412 /* Text Field */,
 				D0E8D3711B1900AD008BA7A9 /* Pickers */,
@@ -452,6 +444,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D05EF75D1B0B70EF00D01AE4 /* Feed.m in Sources */,
+				D030578E1B20DF6E00F20072 /* Filter.m in Sources */,
 				D01514CB1B1F686E00EFE991 /* UserInfo.m in Sources */,
 				D05EF75A1B0B70EF00D01AE4 /* AppDelegate.m in Sources */,
 				D05EF7571B0B70EF00D01AE4 /* main.m in Sources */,
@@ -459,12 +452,12 @@
 				D09901921B0E619300760CDF /* BEScrollingViewController.m in Sources */,
 				D0A250E51B1758AA003E7D0B /* BELine.m in Sources */,
 				D05EF7881B0B9F0800D01AE4 /* Login.m in Sources */,
-				D03057851B20A58F00F20072 /* Menu.m in Sources */,
-				D03057881B20AA4700F20072 /* Filter.m in Sources */,
+				D03057851B20A58F00F20072 /* (null) in Sources */,
+				D03057881B20AA4700F20072 /* (null) in Sources */,
+				D030578B1B20DF5E00F20072 /* Menu.m in Sources */,
 				3107407B1B1F66C400927B2D /* Following.m in Sources */,
 				D0A2C2691B0F6ECE00C44A7B /* Intro.m in Sources */,
 				D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */,
-				31C5CFCC1B1F946700472161 /* CustomAlert.m in Sources */,
 				D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */,
 				D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */,
 				D099018F1B0E35A900760CDF /* Profile.m in Sources */,

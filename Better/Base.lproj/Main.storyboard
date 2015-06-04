@@ -1128,7 +1128,7 @@
                             <constraint firstAttribute="trailing" secondItem="Hhi-HP-bu7" secondAttribute="trailing" id="fMp-2m-TD9"/>
                             <constraint firstItem="0eI-ro-8qL" firstAttribute="leading" secondItem="rGe-PX-Hfa" secondAttribute="leading" id="fNs-ds-9l4"/>
                             <constraint firstAttribute="trailing" secondItem="0eI-ro-8qL" secondAttribute="trailing" id="iMF-5E-vGu"/>
-                            <constraint firstItem="9xK-vz-xmo" firstAttribute="trailing" secondItem="rGe-PX-Hfa" secondAttribute="trailingMargin" id="n8h-Ve-LP4"/>
+                            <constraint firstItem="9xK-vz-xmo" firstAttribute="trailing" secondItem="rGe-PX-Hfa" secondAttribute="trailing" constant="-16" id="n8h-Ve-LP4"/>
                             <constraint firstItem="LUC-Ec-kYd" firstAttribute="top" secondItem="9xK-vz-xmo" secondAttribute="bottom" constant="16" id="vDC-a1-Zx1"/>
                             <constraint firstAttribute="trailing" secondItem="pZb-MU-62B" secondAttribute="trailing" id="ybr-5v-VEB"/>
                         </constraints>
