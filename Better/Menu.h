@@ -19,6 +19,5 @@
 // within an outer UIView. The outer UIView has a tap gesture recognizer on it.
 @property (weak, nonatomic) IBOutlet UIView *myRankingView;
 @property (weak, nonatomic) IBOutlet UIView *settingsView;
-  //
 
 @end
