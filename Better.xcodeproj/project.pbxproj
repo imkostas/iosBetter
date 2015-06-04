@@ -10,8 +10,8 @@
 		3107407B1B1F66C400927B2D /* Following.m in Sources */ = {isa = PBXBuildFile; fileRef = 3107407A1B1F66C400927B2D /* Following.m */; };
 		31C5CFD01B20E65900472161 /* CustomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C5CFCF1B20E65900472161 /* CustomAlert.m */; };
 		D01514CB1B1F686E00EFE991 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D01514CA1B1F686E00EFE991 /* UserInfo.m */; };
-		D03057941B20E3E500F20072 /* Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = D03057931B20E3E500F20072 /* Filter.m */; };
-		D03057971B20E4CD00F20072 /* Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = D03057961B20E4CD00F20072 /* Menu.m */; };
+		D030579C1B20E84E00F20072 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D030579B1B20E84E00F20072 /* MenuViewController.m */; };
+		D030579F1B20E85900F20072 /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D030579E1B20E85900F20072 /* FilterViewController.m */; };
 		D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */ = {isa = PBXBuildFile; fileRef = D03DB44E1B1F4CAA00810E1E /* Countries.plist */; };
 		D05EF7571B0B70EF00D01AE4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7561B0B70EF00D01AE4 /* main.m */; };
 		D05EF75A1B0B70EF00D01AE4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7591B0B70EF00D01AE4 /* AppDelegate.m */; };
@@ -138,14 +138,14 @@
 			name = UserInfo;
 			sourceTree = "<group>";
 		};
-		D03057811B20A54200F20072 /* Menu */ = {
+		D03057981B20E83600F20072 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = Menu;
 			sourceTree = "<group>";
 		};
-		D03057821B20A54C00F20072 /* Filter */ = {
+		D03057991B20E83E00F20072 /* Filter */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -179,8 +179,8 @@
 				D05EF77A1B0B7AF800D01AE4 /* AppDelegate */,
 				D05EF77D1B0B8F2800D01AE4 /* Introduction */,
 				D05EF77B1B0B7B0900D01AE4 /* Feed */,
-				D03057811B20A54200F20072 /* Menu */,
-				D03057821B20A54C00F20072 /* Filter */,
+				D03057981B20E83600F20072 /* Menu */,
+				D03057991B20E83E00F20072 /* Filter */,
 				D05EF7811B0B943300D01AE4 /* SignUp */,
 				D05EF7851B0B9E5400D01AE4 /* Login */,
 				D099018C1B0E359000760CDF /* Profile */,
@@ -448,6 +448,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D05EF75D1B0B70EF00D01AE4 /* Feed.m in Sources */,
+				D030579C1B20E84E00F20072 /* MenuViewController.m in Sources */,
 				D01514CB1B1F686E00EFE991 /* UserInfo.m in Sources */,
 				D05EF75A1B0B70EF00D01AE4 /* AppDelegate.m in Sources */,
 				D05EF7571B0B70EF00D01AE4 /* main.m in Sources */,
@@ -462,6 +463,7 @@
 				D030578B1B20DF5E00F20072 /* (null) in Sources */,
 				3107407B1B1F66C400927B2D /* Following.m in Sources */,
 				D0A2C2691B0F6ECE00C44A7B /* Intro.m in Sources */,
+				D030579F1B20E85900F20072 /* FilterViewController.m in Sources */,
 				D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */,
 				D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */,
 				D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */,
