@@ -138,18 +138,18 @@
 			name = UserInfo;
 			sourceTree = "<group>";
 		};
-		D03057981B20E83600F20072 /* Menu */ = {
+		D03057981B20E83600F20072 /* MenuView */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = Menu;
+			name = MenuView;
 			sourceTree = "<group>";
 		};
-		D03057991B20E83E00F20072 /* Filter */ = {
+		D03057991B20E83E00F20072 /* FilterView */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = Filter;
+			name = FilterView;
 			sourceTree = "<group>";
 		};
 		D05EF7481B0B70EF00D01AE4 = {
@@ -179,8 +179,8 @@
 				D05EF77A1B0B7AF800D01AE4 /* AppDelegate */,
 				D05EF77D1B0B8F2800D01AE4 /* Introduction */,
 				D05EF77B1B0B7B0900D01AE4 /* Feed */,
-				D03057981B20E83600F20072 /* Menu */,
-				D03057991B20E83E00F20072 /* Filter */,
+				D03057981B20E83600F20072 /* MenuView */,
+				D03057991B20E83E00F20072 /* FilterView */,
 				D05EF7811B0B943300D01AE4 /* SignUp */,
 				D05EF7851B0B9E5400D01AE4 /* Login */,
 				D099018C1B0E359000760CDF /* Profile */,
