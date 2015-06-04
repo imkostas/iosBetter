@@ -6,8 +6,19 @@
 //  Copyright (c) 2015 Company. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface UserInfo : NSObject
+
+// Account information
+@property (strong, nonatomic)	NSString *username;
+@property (strong, nonatomic)	NSString *email;
+@property (strong, nonatomic)	UIImage *profileImage;
+@property (nonatomic)			char gender;
+@property (strong, nonatomic)	NSDate *birthday;
+@property (strong, nonatomic)	NSString *country;
+
+// Initialize and/or return the user singleton
++ (UserInfo *)user;
 
 @end

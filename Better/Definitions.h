@@ -9,6 +9,17 @@
 #ifndef Better_Definitions_h
 #define Better_Definitions_h
 
+// Storyboard identifiers
+#define STORYBOARD_ID_SEGUE_EMBED_INTRO @"embedPageViewController"
+
+#define STORYBOARD_ID_INTROPAGE_TITLE @"introPageTitle"
+#define STORYBOARD_ID_INTROPAGE_NOTITLE @"introPageNoTitle"
+
+#define STORYBOARD_ID_FEED @"feedViewController"
+#define STORYBOARD_ID_FEED_NAVIGATION @"feedViewControllerNav"
+#define STORYBOARD_ID_SEGUE_EMBED_MENU @"embedMenu"
+#define STORYBOARD_ID_SEGUE_EMBED_FILTER @"embedFilter"
+
 // Screen width and height
 #define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
 #define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
@@ -33,9 +44,11 @@
 #define COLOR_NAVIGATION_BAR ([UIColor colorWithWhite:0 alpha:0.1])
 #define COLOR_BETTER ([UIColor colorWithRed:29/255.0 green:233/255.0 blue:182/255.0 alpha:1.0])
 #define COLOR_BETTER_DARK ([UIColor colorWithRed:0 green:150/255.0 blue:136/255.0 alpha:1.0])
+#define COLOR_BETTER_DARKER ([UIColor colorWithRed:0 green:0.3 blue:0.25 alpha:1.0])
 #define COLOR_PICKER_BACKGROUND ([UIColor colorWithWhite:0.85 alpha:1.0])
 #define COLOR_PICKER_TOPBAR ([UIColor colorWithWhite:0.97 alpha:1.0])
 #define COLOR_PICKER_TRANSPARENCY ([UIColor colorWithWhite:0.2 alpha:0.5])
+#define COLOR_LIGHT_LIGHT_GRAY ([UIColor colorWithWhite:0.97 alpha:1.0])
 
 // Images
 #define IMAGE_GENDER_FEMALE @"account_button_female_125dp"
@@ -59,10 +72,13 @@
 #define ICON_VISIBILITY_ON @"ic_visibility_on_green_24dp"
 #define ICON_TAKEPICTURE @"ic_cam_account_white_116dp"
 
+#define ICON_MENU @"ic_menu_green900_24dp"
+#define ICON_FILTER @"ic_filter_list_green900_24dp"
+
 // Animation properties
 #define ANIM_DURATION_INTRO (500/1000.0) // converts to seconds
 #define ANIM_DELAY_INTRO (300/1000.0)
-#define ANIM_DURATION_PICKER (300/1000.0) // 300ms
+#define ANIM_DURATION_PICKER (200/1000.0)
 
 // Date picker tags (for each ui element needing it)
 #define TAG_DATEPICKER_DOB 1
