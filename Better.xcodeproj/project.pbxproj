@@ -452,7 +452,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D05EF75D1B0B70EF00D01AE4 /* Feed.m in Sources */,
-				D030578E1B20DF6E00F20072 /* (null) in Sources */,
 				D01514CB1B1F686E00EFE991 /* UserInfo.m in Sources */,
 				D05EF75A1B0B70EF00D01AE4 /* AppDelegate.m in Sources */,
 				D05EF7571B0B70EF00D01AE4 /* main.m in Sources */,
