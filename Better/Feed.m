@@ -6,6 +6,7 @@
 
 @implementation Feed
 
+#pragma mark - ViewController management
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
@@ -27,6 +28,22 @@
 	[[self view] setGestureRecognizers:@[[self leftEdgePanRecognizer], [self rightEdgePanRecognizer]]];
 }
 
+#pragma mark - Navigation, embed segues
+// Called for navigation and embed segues
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	// "Catch" the menu and filter view controllers as they are being loaded
+	if([[segue identifier] isEqualToString:STORYBOARD_ID_SEGUE_EMBED_MENU])
+	{
+		
+	}
+	else if([[segue identifier] isEqualToString:STORYBOARD_ID_SEGUE_EMBED_FILTER])
+	{
+		
+	}
+}
+
+#pragma mark - Gesture recognizers
 // Swiping from left edge
 - (void)swipeGestureLeft:(UIScreenEdgePanGestureRecognizer *)gesture
 {
@@ -41,6 +58,7 @@
 	NSLog(@"screen edge right, x:%.1f", touchPoint.x);
 }
 
+#pragma mark - Memory management
 - (void)didReceiveMemoryWarning
 {
 	[super didReceiveMemoryWarning];

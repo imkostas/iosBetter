@@ -63,8 +63,8 @@
 		
 		NSAssert([self storyboard], @"Tried to instantiate MainViewController without a storyboard...");
 		
-		UINavigationController *mainVCNavigation = [[self storyboard] instantiateViewControllerWithIdentifier:@"mainViewControllerNav"];
-		[self presentViewController:mainVCNavigation animated:YES completion:nil];
+		UINavigationController *feedVCNavigation = [[self storyboard] instantiateViewControllerWithIdentifier:STORYBOARD_ID_FEED_NAVIGATION];
+		[self presentViewController:feedVCNavigation animated:YES completion:nil];
 	}
 	else
 	{

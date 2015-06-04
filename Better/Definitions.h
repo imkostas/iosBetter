@@ -9,6 +9,17 @@
 #ifndef Better_Definitions_h
 #define Better_Definitions_h
 
+// Storyboard identifiers
+#define STORYBOARD_ID_SEGUE_EMBED_INTRO @"embedPageViewController"
+
+#define STORYBOARD_ID_INTROPAGE_TITLE @"introPageTitle"
+#define STORYBOARD_ID_INTROPAGE_NOTITLE @"introPageNoTitle"
+
+#define STORYBOARD_ID_FEED @"feedViewController"
+#define STORYBOARD_ID_FEED_NAVIGATION @"feedViewControllerNav"
+#define STORYBOARD_ID_SEGUE_EMBED_MENU @"embedMenu"
+#define STORYBOARD_ID_SEGUE_EMBED_FILTER @"embedFilter"
+
 // Screen width and height
 #define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
 #define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
@@ -59,6 +70,9 @@
 #define ICON_VISIBILITY_OFF @"ic_visibility_off_grey600_24dp"
 #define ICON_VISIBILITY_ON @"ic_visibility_on_green_24dp"
 #define ICON_TAKEPICTURE @"ic_cam_account_white_116dp"
+
+#define ICON_MENU @"ic_menu_green900_24dp"
+#define ICON_FILTER @"ic_filter_list_green900_24dp"
 
 // Animation properties
 #define ANIM_DURATION_INTRO (500/1000.0) // converts to seconds

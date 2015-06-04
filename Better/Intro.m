@@ -128,7 +128,7 @@
 	NSAssert([[self navigationController] storyboard], @"Instantiating a view controller but the storyboard is nil");
 	
 	// Create a new instance of the Intro Page view controller and set its UILabls
-	NSString *storyboardID = ([pageContent firstLineIsTitle]) ? @"introPageTitle" : @"introPageNoTitle";
+	NSString *storyboardID = ([pageContent firstLineIsTitle]) ? STORYBOARD_ID_INTROPAGE_TITLE : STORYBOARD_ID_INTROPAGE_NOTITLE;
 	
 	IntroPage *page = [[[self navigationController] storyboard] instantiateViewControllerWithIdentifier:storyboardID];
 	[[page view] setBackgroundColor:[UIColor clearColor]];
@@ -200,7 +200,7 @@
 {
 	// Embed segues are called just once when the parent view controller loads the container view and sets up the view controller
 	// inside the container
-	if([[segue identifier] isEqualToString:@"embedPageViewController"])
+	if([[segue identifier] isEqualToString:STORYBOARD_ID_SEGUE_EMBED_INTRO])
 	{
 		// Populate the pages array with IntroPage objects (UIViewController subclass)
 		//
