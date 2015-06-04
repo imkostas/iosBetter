@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CustomAlert.h"
+//#import "CustomAlert.h"
 #import "UserInfo.h"
 
-@interface Following : UIViewController <UITableViewDelegate, UITableViewDataSource, CustomAlertDelegate>
+@interface Following : UIViewController <UITableViewDelegate, UITableViewDataSource/*, CustomAlertDelegate*/>
 
 //navigation bar
 @property (strong, nonatomic) IBOutlet UIImageView *topBar; //top bar
@@ -22,6 +22,6 @@
 
 //view variables
 @property (nonatomic) UserInfo *user; //user info
-@property (nonatomic, strong) CustomAlert *customAlert; //custom alert
+//@property (nonatomic, strong) CustomAlert *customAlert; //custom alert
 
 @end
