@@ -10,12 +10,8 @@
 		3107407B1B1F66C400927B2D /* Following.m in Sources */ = {isa = PBXBuildFile; fileRef = 3107407A1B1F66C400927B2D /* Following.m */; };
 		31C5CFD01B20E65900472161 /* CustomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C5CFCF1B20E65900472161 /* CustomAlert.m */; };
 		D01514CB1B1F686E00EFE991 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D01514CA1B1F686E00EFE991 /* UserInfo.m */; };
-		D03057851B20A58F00F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
-		D03057881B20AA4700F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
-		D030578B1B20DF5E00F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
-		D030578E1B20DF6E00F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
-		D03057941B20E3E500F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
-		D03057971B20E4CD00F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		D03057941B20E3E500F20072 /* Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = D03057931B20E3E500F20072 /* Filter.m */; };
+		D03057971B20E4CD00F20072 /* Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = D03057961B20E4CD00F20072 /* Menu.m */; };
 		D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */ = {isa = PBXBuildFile; fileRef = D03DB44E1B1F4CAA00810E1E /* Countries.plist */; };
 		D05EF7571B0B70EF00D01AE4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7561B0B70EF00D01AE4 /* main.m */; };
 		D05EF75A1B0B70EF00D01AE4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7591B0B70EF00D01AE4 /* AppDelegate.m */; };
