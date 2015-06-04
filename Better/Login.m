@@ -121,6 +121,7 @@
 # pragma mark - Controlling the UI
 - (void)dismissKeyboard
 {
+    //dismiss keyboard if active
 	[[self usernameField] resignFirstResponder];
 	[[self passwordField] resignFirstResponder];
 }
@@ -143,5 +144,7 @@
 	[super didReceiveMemoryWarning];
 	// Dispose of any resources that can be recreated.
 }
+
+
 
 @end
