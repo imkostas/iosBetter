@@ -6,19 +6,19 @@
 //  Copyright (c) 2015 Company. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "Feed.h"
 #import "UserInfo.h"
 #import "BETextField.h"
 #import "BEScrollingViewController.h"
-#import "Definitions.h"
 
-@interface Login : BEScrollingViewController <UITextFieldDelegate>
+@interface Login : BEScrollingViewController <UITextFieldDelegate, CustomAlertDelegate>
 
 @property (weak, nonatomic) IBOutlet BETextField *usernameField;
 @property (weak, nonatomic) IBOutlet BETextField *passwordField;
 @property (weak, nonatomic) IBOutlet UIButton *forgotButton;
 
+
+@property (nonatomic, strong) CustomAlert *customAlert; //custom alert
 // Reference to UserInfo object
 @property (weak, nonatomic) UserInfo *user;
 

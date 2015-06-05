@@ -22,6 +22,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    //initialize user info
+    self.user = [UserInfo user];
 	
 	[[self usernameField] setLeftViewToImageNamed:ICON_ACCOUNT];
 	[[self passwordField] setLeftViewToImageNamed:ICON_HTTPS];
@@ -57,9 +60,41 @@
 	// Validate the given information
 	if([self validateUsername:[[self usernameField] text] password:[[self passwordField] text]])
 	{
-		NSLog(@"User/pass log in was pressed");
-		
-		////////// Network communication here //////////
+    
+         AFHTTPRequestOperationManager *manager =  [AFHTTPRequestOperationManager manager];
+         manager.requestSerializer = [AFJSONRequestSerializer serializer];
+         manager.responseSerializer = [AFJSONResponseSerializer serializer];
+
+        
+        [manager POST:[NSString stringWithFormat:@"%@user/login", self.user.uri]
+         
+                    parameters: @{@"api_key":   self.user.apiKey,
+                                  @"username":  [[self usernameField] text],
+                                  @"password":  [[self passwordField] text]}
+
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  NSLog(@"JSON: %@", [responseObject description]);
+                
+                  
+                  //save user info - username, email, funds
+                  self.user.username = [responseObject valueForKey:@"username"];
+                  self.user.email = [responseObject valueForKey:@"email"];
+                  self.user.gender = [[responseObject valueForKey:@"gender"]charValue];
+                  self.user.birthday = [responseObject valueForKey:@"birthday"] ;
+                  self.user.country = [responseObject valueForKey:@"country"];
+                  
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  NSLog(@"Error: %@", [error description]);
+                  //[self customAlert:@"We were unable to log you in" withDone:@"Ok"];
+                  UIAlertView *invalidAlert = [[UIAlertView alloc] initWithTitle:@"Missing username or password"
+                                                                         message:nil
+                                                                        delegate:nil
+                                                               cancelButtonTitle:@"OK"
+                                                               otherButtonTitles:nil];
+                  [invalidAlert show];
+              }
+         ];
 		
 		NSAssert([self storyboard], @"Tried to instantiate MainViewController without a storyboard...");
 		
@@ -78,6 +113,8 @@
 		[invalidAlert show];
 	}
 }
+
+
 
 // Called when 'Log in with Facebook' is pressed
 - (IBAction)logInFacebook:(id)sender
@@ -145,6 +182,45 @@
 	// Dispose of any resources that can be recreated.
 }
 
+//method for creating and presenting a custom alert object
+- (void)customAlert:(NSString *)alert withDone:(NSString *)done {
+    
+    //if alert already showing, hide it
+    if(self.customAlert){
+        
+        //set custom alert alpha to 0
+        [UIView animateWithDuration:0.25 animations:^{[self.customAlert setAlpha:0.0f];}];
+    }
+    
+    //initialize custom alert object
+    self.customAlert = [[CustomAlert alloc] initWithType:1 withframe:self.view.frame withMessage:alert];
+    [self.customAlert.leftButton setTitle:done forState:UIControlStateNormal];
+    self.customAlert.customAlertDelegate = self;
+    
+    //add as subview and make alpha 1.0
+    [self.view addSubview:self.customAlert];
+    [UIView animateWithDuration:0.25 animations:^{[self.customAlert setAlpha:1.0f];}];
+}
+
+//custom alert object left button delegate method
+- (void)leftActionMethod:(int)method {
+    
+    //hide custom alert and remove it from its superview
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        [self.customAlert setAlpha:0.0f];
+        
+    } completion:^(BOOL finished) {
+        
+        [self.customAlert removeFromSuperview];
+    }];
+}
+
+//custom alert object right button delegate method
+- (void)rightActionMethod:(int)method {
+    
+    //nothing for now
+}
 
 
 @end

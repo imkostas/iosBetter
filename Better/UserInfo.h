@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <AFNetworking/AFNetworking.h>
+#import "Definitions.h"
+#import "CustomAlert.h"
 
 @interface UserInfo : NSObject
 
@@ -18,6 +20,11 @@
 @property (nonatomic)			char gender;
 @property (strong, nonatomic)	NSDate *birthday;
 @property (strong, nonatomic)	NSString *country;
+
+//global back-end paths
+@property (nonatomic, strong) NSString *uri;
+@property (nonatomic, strong) NSString *img_uri;
+@property (nonatomic, strong) NSString *apiKey;
 
 // Initialize and/or return the user singleton
 + (UserInfo *)user;
