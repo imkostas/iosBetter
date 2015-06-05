@@ -79,6 +79,7 @@
 #define ANIM_DURATION_INTRO (500/1000.0) // converts to seconds
 #define ANIM_DELAY_INTRO (300/1000.0)
 #define ANIM_DURATION_PICKER (200/1000.0)
+#define ANIM_DURATION_DRAWER_FULLSLIDE (250/1000.0)
 
 // Date picker tags (for each ui element needing it)
 #define TAG_DATEPICKER_DOB 1

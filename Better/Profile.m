@@ -458,7 +458,7 @@
 		case TAG_PICKER_COUNTRY:
 		{
 			// Get the currently-selected index of the first/only column
-			int selectedCountryIndex = [[pickerView picker] selectedRowInComponent:0];
+			NSInteger selectedCountryIndex = [[pickerView picker] selectedRowInComponent:0];
 			
 			NSString *selectedCountryName = [[self countriesArray] objectAtIndex:selectedCountryIndex];
 			[[self countryField] setText:selectedCountryName];

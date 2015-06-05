@@ -32,6 +32,13 @@
 	[[self view] setGestureRecognizers:@[[self leftEdgePanRecognizer], [self rightEdgePanRecognizer]]];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+	// Move the drawers off of the screen
+	[[self menuLeadingConstraint] setConstant: -1 * [[self menuWidthConstraint] constant]];
+	[[self filterTrailingConstraint] setConstant: -1 * [[self filterWidthConstraint] constant]];
+}
+
 #pragma mark - Navigation, embed segues
 // Called for navigation and embed segues
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -47,19 +54,49 @@
 	}
 }
 
+#pragma mark - Responding to bar button item presses
+- (IBAction)menuButtonPressed:(id)sender
+{
+	// Toggle the Menu drawer
+	if([[self menuLeadingConstraint] constant] != 0) // If Menu is not visible
+		[[self menuLeadingConstraint] setConstant:0];
+	else if([[self menuLeadingConstraint] constant] == 0) // If Menu is visible
+		[[self menuLeadingConstraint] setConstant: -1 * [[self menuWidthConstraint] constant]];
+	
+	// Animate the change in position
+	[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
+						  delay:0
+						options:UIViewAnimationOptionCurveEaseOut
+					 animations:^{
+						 [[self view] layoutIfNeeded];
+					 }
+					 completion:nil];
+}
+
+- (IBAction)filterButtonPressed:(id)sender
+{
+	
+}
+
 #pragma mark - Gesture recognizers
 // Swiping from left edge
 - (void)swipeGestureLeft:(UIScreenEdgePanGestureRecognizer *)gesture
 {
+	// Get the position of the gesture
 	CGPoint touchPoint = [gesture translationInView:[self view]];
-	NSLog(@"screen edge left, x:%.1f", touchPoint.x);
+	
+	// Move the drawer according to the x-position of the gesture
+	float currentConstant = [[self menuLeadingConstraint] constant];
+	[[self menuLeadingConstraint] setConstant:(currentConstant + touchPoint.x)];
+	
+//	NSLog(@"screen edge left, x:%.1f", touchPoint.x);
 }
 
 // Swiping from right edge
 - (void)swipeGestureRight:(UIScreenEdgePanGestureRecognizer *)gesture
 {
 	CGPoint touchPoint = [gesture translationInView:[self view]];
-	NSLog(@"screen edge right, x:%.1f", touchPoint.x);
+//	NSLog(@"screen edge right, x:%.1f", touchPoint.x);
 }
 
 #pragma mark - Memory management
@@ -68,5 +105,4 @@
 	[super didReceiveMemoryWarning];
 	// Dispose of any resources that can be recreated.
 }
-
 @end
