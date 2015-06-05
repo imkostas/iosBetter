@@ -1,7 +1,9 @@
 #import <UIKit/UIKit.h>
 #import "Definitions.h"
+#import "Menu.h"
+#import "Filter.h"
 
-@interface Feed : UIViewController <UIGestureRecognizerDelegate>
+@interface Feed : UIViewController <UIGestureRecognizerDelegate, FilterDelegate>
 
 // Left and right container views (for left/right menus)
 - (IBAction)menuButtonPressed:(id)sender;
@@ -18,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *filterTrailingConstraint;
 
 // Instance methods
-- (void)swipeGestureLeft:(UIGestureRecognizer *)gesture;
-- (void)swipeGestureRight:(UIGestureRecognizer *)gesture;
+- (void)swipeFromLeftEdge:(UIGestureRecognizer *)gesture;
+- (void)swipeFromRightEdge:(UIGestureRecognizer *)gesture;
 
 @end

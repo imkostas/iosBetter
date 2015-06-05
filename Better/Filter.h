@@ -7,7 +7,25 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BETappableView.h"
 
-@interface FilterViewController : UIViewController
+@protocol FilterDelegate <NSObject>
+
+@required
+// Notify the delegate when the filter changes
+- (void)filterChanged:(NSString *)filterString;
+
+@end
+
+@interface FilterViewController : UIViewController <BETappableViewDelegate>
+
+// Outlets for each of the filtering options; each are a UIView
+@property (weak, nonatomic) IBOutlet BETappableView *everythingView;
+@property (weak, nonatomic) IBOutlet BETappableView *favoriteTagsView;
+@property (weak, nonatomic) IBOutlet BETappableView *followingView;
+@property (weak, nonatomic) IBOutlet BETappableView *trendingView;
+
+// Delegate of this class--used for notifying when the filter has changed
+@property (weak, nonatomic) id<FilterDelegate> delegate;
 
 @end

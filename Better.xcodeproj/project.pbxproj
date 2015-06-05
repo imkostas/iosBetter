@@ -33,6 +33,7 @@
 		D0A2C2691B0F6ECE00C44A7B /* Intro.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A2C2681B0F6ECE00C44A7B /* Intro.m */; };
 		D0B282DA1B1E0545006FD580 /* BEDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B282D91B1E0545006FD580 /* BEDatePickerView.m */; };
 		D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B282E81B1E5081006FD580 /* BEPickerView.m */; };
+		D0CBA1C81B2239F0002DD192 /* BETappableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CBA1C71B2239F0002DD192 /* BETappableView.m */; };
 		D0D7CA971B0F89AB00363A39 /* IntroPageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D7CA961B0F89AB00363A39 /* IntroPageContent.m */; };
 		D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D7CA991B0F8E8E00363A39 /* IntroPage.m */; };
 /* End PBXBuildFile section */
@@ -95,6 +96,8 @@
 		D0B282D91B1E0545006FD580 /* BEDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEDatePickerView.m; sourceTree = "<group>"; };
 		D0B282E71B1E5081006FD580 /* BEPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEPickerView.h; sourceTree = "<group>"; };
 		D0B282E81B1E5081006FD580 /* BEPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEPickerView.m; sourceTree = "<group>"; };
+		D0CBA1C61B2239F0002DD192 /* BETappableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BETappableView.h; sourceTree = "<group>"; };
+		D0CBA1C71B2239F0002DD192 /* BETappableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BETappableView.m; sourceTree = "<group>"; };
 		D0D7CA951B0F89AB00363A39 /* IntroPageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroPageContent.h; sourceTree = "<group>"; };
 		D0D7CA961B0F89AB00363A39 /* IntroPageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroPageContent.m; sourceTree = "<group>"; };
 		D0D7CA981B0F8E8E00363A39 /* IntroPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroPage.h; sourceTree = "<group>"; };
@@ -310,6 +313,7 @@
 				D0835FB91B0CEE0700D88412 /* Text Field */,
 				D0E8D3711B1900AD008BA7A9 /* Pickers */,
 				D09901931B0E63CC00760CDF /* View Controllers */,
+				D0CBA1C51B2239B3002DD192 /* Tappable View */,
 				D0A250E21B17588A003E7D0B /* Drawing in Views */,
 			);
 			name = "Custom Objects";
@@ -358,6 +362,15 @@
 				D0A250E41B1758AA003E7D0B /* BELine.m */,
 			);
 			name = "Drawing in Views";
+			sourceTree = "<group>";
+		};
+		D0CBA1C51B2239B3002DD192 /* Tappable View */ = {
+			isa = PBXGroup;
+			children = (
+				D0CBA1C61B2239F0002DD192 /* BETappableView.h */,
+				D0CBA1C71B2239F0002DD192 /* BETappableView.m */,
+			);
+			name = "Tappable View";
 			sourceTree = "<group>";
 		};
 		D0D7CA941B0F898300363A39 /* Intro Page */ = {
@@ -527,6 +540,7 @@
 				D0A250E51B1758AA003E7D0B /* BELine.m in Sources */,
 				D05EF7881B0B9F0800D01AE4 /* Login.m in Sources */,
 				31C5CFD01B20E65900472161 /* CustomAlert.m in Sources */,
+				D0CBA1C81B2239F0002DD192 /* BETappableView.m in Sources */,
 				3107407B1B1F66C400927B2D /* Following.m in Sources */,
 				D0A2C2691B0F6ECE00C44A7B /* Intro.m in Sources */,
 				D030579F1B20E85900F20072 /* (null) in Sources */,
