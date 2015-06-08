@@ -56,9 +56,9 @@
 	// Check if nil
 	if([self delegate] != nil)
 		// Check if delegate accepts this method
-		if([[self delegate] respondsToSelector:@selector(gestureViewTapped:withGesture:)])
+		if([[self delegate] respondsToSelector:@selector(tappableViewTapped:withGesture:)])
 			// Tell delegate that the user tapped on this UIView
-			[[self delegate] gestureViewTapped:self withGesture:[self tapGesture]];
+			[[self delegate] tappableViewTapped:self withGesture:[self tapGesture]];
 }
 
 @end

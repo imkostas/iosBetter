@@ -20,7 +20,7 @@
 @required
 // Notify the delegate when a gesture is 'activated' (gesture calls the action method specified with its
 // -addTarget:action method)
-- (void)gestureViewTapped:(BETappableView *)view withGesture:(UITapGestureRecognizer *)gesture;
+- (void)tappableViewTapped:(BETappableView *)view withGesture:(UITapGestureRecognizer *)gesture;
 
 @end
 

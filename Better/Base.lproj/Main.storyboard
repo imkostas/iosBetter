@@ -1149,7 +1149,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="280" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hhi-HP-bu7" userLabel="Profile View">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hhi-HP-bu7" userLabel="Profile View" customClass="BETappableView">
                                 <rect key="frame" x="0.0" y="0.0" width="280" height="200"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="account_profile_panel_empty" translatesAutoresizingMaskIntoConstraints="NO" id="Ldw-p9-a9C" userLabel="Profile Panel">
@@ -1191,7 +1191,7 @@
                                     <constraint firstItem="Ldw-p9-a9C" firstAttribute="top" secondItem="Hhi-HP-bu7" secondAttribute="top" id="xdQ-FJ-HxT"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pZb-MU-62B" userLabel="My Ranking View">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pZb-MU-62B" userLabel="My Ranking View" customClass="BETappableView">
                                 <rect key="frame" x="0.0" y="208" width="280" height="50"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_ranking_grey_24dp" translatesAutoresizingMaskIntoConstraints="NO" id="QQf-QC-rCb" userLabel="Rank Icon">
@@ -1217,7 +1217,7 @@
                                     <constraint firstAttribute="height" constant="50" id="yn2-HB-77I"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0eI-ro-8qL" userLabel="Settings View">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0eI-ro-8qL" userLabel="Settings View" customClass="BETappableView">
                                 <rect key="frame" x="0.0" y="258" width="280" height="50"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_settings_grey600_24dp" translatesAutoresizingMaskIntoConstraints="NO" id="YYH-gv-TyL" userLabel="Settings Icon">

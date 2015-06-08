@@ -117,6 +117,18 @@
 // Called by FilterViewcontroller when the filter is changed
 - (void)filterChanged:(NSString *)filterString
 {
+	// Hide the drawer
+	[self hideFilterDrawer];
+	
+	// Animate the change in position
+	[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
+						  delay:0
+						options:UIViewAnimationOptionCurveEaseInOut
+					 animations:^{
+						 [[self view] layoutIfNeeded];
+					 }
+					 completion:nil];
+	
 	// Change the title of this view controller with a cross dissolve animation
 	[UIView transitionWithView:[[self navigationController] navigationBar]
 					  duration:ANIM_DURATION_CHANGE_VIEWCONTROLLER_TITLE
@@ -174,7 +186,7 @@
 	}
 	//
 	// Upon user releasing their finger, move the drawer to where it should go
-	else if([gesture state] == UIGestureRecognizerStateEnded)
+	else if([gesture state] == UIGestureRecognizerStateEnded || [gesture state] == UIGestureRecognizerStateCancelled)
 	{
 		// If the velocity of the gesture is fast, we want to move out the drawer all the way, even if the user
 		// released the drawer close to the left of the screen
@@ -200,10 +212,6 @@
 							 [[self view] layoutIfNeeded];
 						 }
 						 completion:nil];
-	}
-	else if([gesture state] == UIGestureRecognizerStateCancelled)
-	{
-		NSLog(@"gesture cancelled");
 	}
 }
 
@@ -244,7 +252,7 @@
 	}
 	//
 	// Upon user releasing their finger, move the drawer to where it should go
-	else if([gesture state] == UIGestureRecognizerStateEnded)
+	else if([gesture state] == UIGestureRecognizerStateEnded || [gesture state] == UIGestureRecognizerStateCancelled)
 	{
 		// If the velocity of the gesture is fast, we want to move out the drawer all the way, even if the user
 		// released the drawer close to the left of the screen
@@ -271,10 +279,6 @@
 							 [[self view] layoutIfNeeded];
 						 }
 						 completion:nil];
-	}
-	else if([gesture state] == UIGestureRecognizerStateCancelled)
-	{
-		NSLog(@"gesture cancelled");
 	}
 }
 

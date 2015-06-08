@@ -33,7 +33,7 @@
 }
 
 #pragma mark - Detecting taps
-- (void)gestureViewTapped:(BETappableView *)view withGesture:(UITapGestureRecognizer *)gesture
+- (void)tappableViewTapped:(BETappableView *)view withGesture:(UITapGestureRecognizer *)gesture
 {
 	// Tell the delegate (the Feed) that the filter has changed
 	if([self delegate] != nil)
