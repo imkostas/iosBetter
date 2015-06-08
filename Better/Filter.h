@@ -14,10 +14,15 @@
 @required
 // Notify the delegate when the filter changes
 - (void)filterChanged:(NSString *)filterString;
+- (void)filterSearchDidBegin:(UISearchBar *)searchBar;
+- (void)filterSearchDidEnd:(UISearchBar *)searchBar;
 
 @end
 
-@interface FilterViewController : UIViewController <BETappableViewDelegate>
+@interface FilterViewController : UIViewController <BETappableViewDelegate, UISearchBarDelegate>
+
+// The search bar
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 // Outlets for each of the filtering options; each are a UIView
 @property (weak, nonatomic) IBOutlet BETappableView *everythingView;

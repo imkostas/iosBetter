@@ -10,6 +10,8 @@
 
 @interface FilterViewController ()
 
+- (void)dismissSearch;
+
 @end
 
 @implementation FilterViewController
@@ -24,6 +26,9 @@
 	[[self favoriteTagsView] setDelegate:self];
 	[[self followingView] setDelegate:self];
 	[[self trendingView] setDelegate:self];
+	
+//	UITapGestureRecognizer *hey = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissSearch)];
+//	[[self view] addGestureRecognizer:hey];
 }
 
 - (void)didReceiveMemoryWarning
@@ -35,6 +40,9 @@
 #pragma mark - Detecting taps
 - (void)tappableViewTapped:(BETappableView *)view withGesture:(UITapGestureRecognizer *)gesture
 {
+	// Get rid of keyboard
+	[self dismissSearch];
+	
 	// Tell the delegate (the Feed) that the filter has changed
 	if([self delegate] != nil)
 	{
@@ -47,6 +55,56 @@
 		else if(view == [self trendingView])
 			[[self delegate] filterChanged:@"Trending"];
 	}
+}
+
+#pragma mark - Handling the UISearchBar
+// Called when the search bar begins editing
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+	// Show the "Cancel" button next to the search bar
+	[[self searchBar] setShowsCancelButton:YES animated:YES];
+	
+	// Notify Feed that searching began
+	if([self delegate] != nil)
+		[[self delegate] filterSearchDidBegin:searchBar];
+}
+
+// Called when the search bar ends editing
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+	// Hide the "Cancel" button next to the search bar
+//	[[self searchBar] setShowsCancelButton:NO animated:YES];
+	
+	// Notify Feed that searching ended
+//	if([self delegate] != nil)
+//		[[self delegate] filterSearchDidEnd:searchBar];
+}
+
+// Called when the "Cancel" button is pressed (Not the little "x")
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+	// Remove focus from search bar
+	[searchBar resignFirstResponder];
+	
+	// Hide the "Cancel" button next to the search bar
+	[[self searchBar] setShowsCancelButton:NO animated:YES];
+	
+	// Notify Feed that searching ended
+		if([self delegate] != nil)
+			[[self delegate] filterSearchDidEnd:searchBar];
+}
+
+// Called when the "Search" button on the keyboard is pressed
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+	NSLog(@"* Would perform a search here *");
+	[searchBar resignFirstResponder];
+}
+
+// Get rid of the keyboard
+- (void)dismissSearch
+{
+	[[self searchBar] resignFirstResponder];
 }
 
 /*

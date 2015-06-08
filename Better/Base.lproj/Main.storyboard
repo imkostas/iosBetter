@@ -18,15 +18,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5wU-MR-fU0" userLabel="Right Container">
-                                <rect key="frame" x="320" y="64" width="280" height="536"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="280" id="UlB-D0-XrH"/>
-                                </constraints>
-                                <connections>
-                                    <segue destination="Jzu-mx-5Og" kind="embed" identifier="embedFilter" id="0WT-ln-r91"/>
-                                </connections>
-                            </containerView>
+                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Acl-Dt-5OA" userLabel="Transparent Black">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uaw-Jo-tlr" userLabel="Left Container">
                                 <rect key="frame" x="0.0" y="64" width="280" height="536"/>
                                 <constraints>
@@ -36,13 +31,26 @@
                                     <segue destination="oDp-79-7GJ" kind="embed" identifier="embedMenu" id="Nmr-p9-11l"/>
                                 </connections>
                             </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5wU-MR-fU0" userLabel="Right Container">
+                                <rect key="frame" x="320" y="64" width="280" height="536"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="280" id="UlB-D0-XrH"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="Jzu-mx-5Og" kind="embed" identifier="embedFilter" id="0WT-ln-r91"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="uaw-Jo-tlr" firstAttribute="leading" secondItem="aVi-Ho-Lng" secondAttribute="leading" id="5Y9-Ac-P4N"/>
+                            <constraint firstAttribute="trailing" secondItem="Acl-Dt-5OA" secondAttribute="trailing" id="Ab5-O5-6r8"/>
                             <constraint firstAttribute="trailing" secondItem="5wU-MR-fU0" secondAttribute="trailing" id="PFM-WO-xiG"/>
                             <constraint firstItem="uaw-Jo-tlr" firstAttribute="top" secondItem="Y4q-By-yBd" secondAttribute="bottom" id="SQX-dW-jf6"/>
                             <constraint firstItem="5wU-MR-fU0" firstAttribute="top" secondItem="Y4q-By-yBd" secondAttribute="bottom" id="gJn-8w-dtz"/>
+                            <constraint firstItem="uii-FT-1Yf" firstAttribute="top" secondItem="Acl-Dt-5OA" secondAttribute="bottom" id="j1r-vy-Znx"/>
+                            <constraint firstItem="Acl-Dt-5OA" firstAttribute="leading" secondItem="aVi-Ho-Lng" secondAttribute="leading" id="jn5-3O-ckg"/>
+                            <constraint firstItem="Acl-Dt-5OA" firstAttribute="top" secondItem="Y4q-By-yBd" secondAttribute="bottom" id="nQy-pR-79O"/>
                             <constraint firstItem="uii-FT-1Yf" firstAttribute="top" secondItem="uaw-Jo-tlr" secondAttribute="bottom" id="vN7-4D-9wx"/>
                             <constraint firstItem="uii-FT-1Yf" firstAttribute="top" secondItem="5wU-MR-fU0" secondAttribute="bottom" id="w63-Zo-jKq"/>
                         </constraints>
@@ -60,10 +68,15 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="filterBarButtonItem" destination="CSt-lQ-oql" id="UPQ-tF-a21"/>
+                        <outlet property="filterDrawer" destination="5wU-MR-fU0" id="Ynp-Cq-iNt"/>
                         <outlet property="filterTrailingConstraint" destination="PFM-WO-xiG" id="ACN-oY-Fvg"/>
                         <outlet property="filterWidthConstraint" destination="UlB-D0-XrH" id="Mac-Eu-kIR"/>
+                        <outlet property="menuBarButtonItem" destination="MAy-aF-3fQ" id="jCz-ML-x0t"/>
+                        <outlet property="menuDrawer" destination="uaw-Jo-tlr" id="a8P-KE-76i"/>
                         <outlet property="menuLeadingConstraint" destination="5Y9-Ac-P4N" id="ZUT-z8-2mr"/>
                         <outlet property="menuWidthConstraint" destination="2P6-MM-Gyg" id="DWS-TV-gPR"/>
+                        <outlet property="transparencyView" destination="Acl-Dt-5OA" id="yAE-XT-sc9"/>
                         <outlet property="view" destination="aVi-Ho-Lng" id="h6J-iD-vkg"/>
                     </connections>
                 </viewController>
@@ -1103,7 +1116,10 @@
                             </view>
                             <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="nbV-gt-m5i">
                                 <rect key="frame" x="0.0" y="0.0" width="280" height="44"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Jzu-mx-5Og" id="WXU-NJ-7j0"/>
+                                </connections>
                             </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1130,6 +1146,7 @@
                         <outlet property="everythingView" destination="jZJ-Pn-LIh" id="eXj-RD-58I"/>
                         <outlet property="favoriteTagsView" destination="9DI-PP-zhe" id="rNa-mt-FhF"/>
                         <outlet property="followingView" destination="Sgw-56-o1n" id="3zt-6Z-ToP"/>
+                        <outlet property="searchBar" destination="nbV-gt-m5i" id="mbq-Ce-u9D"/>
                         <outlet property="trendingView" destination="RFH-Ob-1Cc" id="02d-Cd-BFi"/>
                     </connections>
                 </viewController>
@@ -1280,6 +1297,19 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wcb-Rc-O6j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2202" y="3"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Scc-yB-xEP">
+            <objects>
+                <navigationController id="RUV-nT-ZiS" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Tts-a8-Jho">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wpp-R6-8kd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2744" y="-29"/>
         </scene>
         <!--Intro Page-->
         <scene sceneID="Z4U-yb-K7W">
