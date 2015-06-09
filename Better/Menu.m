@@ -71,6 +71,13 @@
 	else if(view == [self settingsView])
 	{
 		NSLog(@"tapped inside Settings area");
+		
+		// Show the settings view controller
+		if([self storyboard]) // Make sure storyboard exists
+		{
+			UINavigationController *settingsController = [[self storyboard] instantiateViewControllerWithIdentifier:STORYBOARD_ID_SETTINGS_NAVIGATION];
+			[[self parentViewController] presentViewController:settingsController animated:YES completion:nil];
+		}
 	}
 }
 

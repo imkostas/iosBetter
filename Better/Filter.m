@@ -86,12 +86,15 @@
 	// Remove focus from search bar
 	[searchBar resignFirstResponder];
 	
+	// Clear the text from the search bar
+	[searchBar setText:@""];
+	
 	// Hide the "Cancel" button next to the search bar
 	[[self searchBar] setShowsCancelButton:NO animated:YES];
 	
 	// Notify Feed that searching ended
-		if([self delegate] != nil)
-			[[self delegate] filterSearchDidEnd:searchBar];
+	if([self delegate] != nil)
+		[[self delegate] filterSearchDidEnd:searchBar];
 }
 
 // Called when the "Search" button on the keyboard is pressed

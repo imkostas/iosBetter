@@ -11,14 +11,16 @@
 
 // Storyboard identifiers
 #define STORYBOARD_ID_SEGUE_EMBED_INTRO @"embedPageViewController"
+#define STORYBOARD_ID_SEGUE_EMBED_MENU @"embedMenu"
+#define STORYBOARD_ID_SEGUE_EMBED_FILTER @"embedFilter"
 
 #define STORYBOARD_ID_INTROPAGE_TITLE @"introPageTitle"
 #define STORYBOARD_ID_INTROPAGE_NOTITLE @"introPageNoTitle"
 
 #define STORYBOARD_ID_FEED @"feedViewController"
-#define STORYBOARD_ID_FEED_NAVIGATION @"feedViewControllerNav"
-#define STORYBOARD_ID_SEGUE_EMBED_MENU @"embedMenu"
-#define STORYBOARD_ID_SEGUE_EMBED_FILTER @"embedFilter"
+#define STORYBOARD_ID_FEED_NAVIGATION @"feedViewControllerNavigation"
+
+#define STORYBOARD_ID_SETTINGS_NAVIGATION @"settingsNavigation"
 
 // Screen width and height
 #define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)

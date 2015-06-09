@@ -7,17 +7,13 @@
 }
 
 // Methods for hiding and showing the drawers, and detecting if they are hidden or not hidden
-- (void)hideMenuDrawerAnimated:(BOOL)animated;
-- (void)showMenuDrawerAnimated:(BOOL)animated;
+- (void)hideMenuDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay;
+- (void)showMenuDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay;
 - (BOOL)menuDrawerIsHidden;
 
-- (void)hideFilterDrawerAnimated:(BOOL)animated;
-- (void)showFilterDrawerAnimated:(BOOL)animated;
+- (void)hideFilterDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay;
+- (void)showFilterDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay;
 - (BOOL)filterDrawerIsHidden;
-
-// Methods for fading the transparent black view in and out
-- (void)showTransparentOverlay;
-- (void)hideTransparentOverlay;
 
 // Method for responding to taps on the transparent overlay
 - (void)tappedOnOverlayView:(UITapGestureRecognizer *)gesture;
@@ -69,8 +65,8 @@
 	filterWidthOriginal = [[self filterWidthConstraint] constant];
 	
 	// Move the drawers off of the screen
-	[self hideMenuDrawerAnimated:NO];
-	[self hideFilterDrawerAnimated:NO];
+	[self hideMenuDrawerAnimated:NO includingOverlay:NO];
+	[self hideFilterDrawerAnimated:NO includingOverlay:NO];
 }
 
 #pragma mark - Navigation, embed segues
@@ -94,25 +90,25 @@
 - (IBAction)menuButtonPressed:(id)sender
 {
 	// Hide the Filter drawer (if it's open)
-	[self hideFilterDrawerAnimated:YES];
+	[self hideFilterDrawerAnimated:YES includingOverlay:NO];
 	
 	// Toggle the Menu drawer
 	if([self menuDrawerIsHidden])	// If Menu is not visible
-		[self showMenuDrawerAnimated:YES];
+		[self showMenuDrawerAnimated:YES includingOverlay:YES];
 	else							// If Menu is visible
-		[self hideMenuDrawerAnimated:YES];
+		[self hideMenuDrawerAnimated:YES includingOverlay:YES];
 }
 
 - (IBAction)filterButtonPressed:(id)sender
 {
 	// Hide the Menu drawer (if it's open)
-	[self hideMenuDrawerAnimated:YES];
+	[self hideMenuDrawerAnimated:YES includingOverlay:NO];
 	
 	// Toggle the Filter drawer
 	if([self filterDrawerIsHidden])	// If Filter is not visible
-		[self showFilterDrawerAnimated:YES];
+		[self showFilterDrawerAnimated:YES includingOverlay:YES];
 	else							// If Filter is visible
-		[self hideFilterDrawerAnimated:YES];
+		[self hideFilterDrawerAnimated:YES includingOverlay:YES];
 }
 
 #pragma mark - Filter delegate methods
@@ -120,7 +116,7 @@
 - (void)filterChanged:(NSString *)filterString
 {
 	// Hide the drawer, overlay
-	[self hideFilterDrawerAnimated:YES];
+	[self hideFilterDrawerAnimated:YES includingOverlay:YES];
 //	[self hideTransparentOverlay];
 	
 	// Change the title of this view controller with a cross dissolve animation
@@ -132,7 +128,7 @@
 //					}
 //					completion:nil];
 	// ^^ Looks awful on iOS 7, for some reason the whole bar goes white while it's transitioning;
-	// this doesn't happen on iOS 8
+	// this doesn't happen on iOS 8 (maybe a simulator problem?)
 	
 	// Change title
 	[self setTitle:filterString];
@@ -181,7 +177,7 @@
 
 #pragma mark - Toggling state of drawers without gestures
 // Hide the menu drawer (no gesture)
-- (void)hideMenuDrawerAnimated:(BOOL)animated
+- (void)hideMenuDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay
 {
 	// Hide the drawer (set its left side as -(drawer width) to the left of the screen)
 	[[self menuLeadingConstraint] setConstant: -1 * [[self menuWidthConstraint] constant]];
@@ -191,12 +187,19 @@
 	{
 		[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
 							  delay:0
-							options:UIViewAnimationOptionCurveEaseOut
+							options:UIViewAnimationOptionCurveEaseInOut
 						 animations:^{
 							 [[self view] layoutIfNeeded];
-							 [[self transparencyView] setAlpha:0];
+							 if(animateOverlay)
+								 [[self transparencyView] setAlpha:0];
 						 }
-						 completion:nil];
+						 completion:^(BOOL completed){
+							 // The purpose of animateOverlay is to not touch the transparent overlay in certain
+							 // cases (i.e. when one drawer is open, and you press the navigation bar button
+							 // to open the other drawer; you don't want to hide the overlay at all
+							 if(animateOverlay)
+								[[self transparencyView] setHidden:YES]; // Hide overlay (lets taps through it)
+						 }];
 	}
 	else
 	{
@@ -205,20 +208,25 @@
 	}
 }
 // Show the menu drawer (no gesture)
-- (void)showMenuDrawerAnimated:(BOOL)animated
+- (void)showMenuDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay
 {
 	// Show the drawer (set its left side to be aligned with the left of the screen)
 	[[self menuLeadingConstraint] setConstant:0];
 	
+	// Show the black overlay (still at 0 alpha)
+	if(animateOverlay)
+		[[self transparencyView] setHidden:NO];
+
 	// Animate the change in position if animated == TRUE
 	if(animated)
 	{
 		[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
 							  delay:0
-							options:UIViewAnimationOptionCurveEaseOut
+							options:UIViewAnimationOptionCurveEaseInOut
 						 animations:^{
 							 [[self view] layoutIfNeeded];
-							 [[self transparencyView] setAlpha:ALPHA_FEED_OVERLAY];
+							 if(animateOverlay)
+								 [[self transparencyView] setAlpha:ALPHA_FEED_OVERLAY];
 						 }
 						 completion:nil];
 	}
@@ -231,7 +239,7 @@
 - (BOOL)menuDrawerIsHidden {  return ([[self menuLeadingConstraint] constant] == 0) ? NO : YES;  }
 
 // Hide filter (no gesture)
-- (void)hideFilterDrawerAnimated:(BOOL)animated
+- (void)hideFilterDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay
 {
 	// Hide the drawer (set its right side as (drawer width) right of the right side of the screen)
 	[[self filterTrailingConstraint] setConstant: -1 * [[self filterWidthConstraint] constant]];
@@ -241,12 +249,16 @@
 	{
 		[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
 							  delay:0
-							options:UIViewAnimationOptionCurveEaseOut
+							options:UIViewAnimationOptionCurveEaseInOut
 						 animations:^{
 							 [[self view] layoutIfNeeded];
-							 [[self transparencyView] setAlpha:0];
+							 if(animateOverlay)
+								 [[self transparencyView] setAlpha:0];
 						 }
-						 completion:nil];
+						 completion:^(BOOL completed){
+							 if(animateOverlay)
+								[[self transparencyView] setHidden:YES]; // Hide overlay
+						 }];
 	}
 	else
 	{
@@ -255,20 +267,25 @@
 	}
 }
 // Show filter (no gesture)
-- (void)showFilterDrawerAnimated:(BOOL)animated
+- (void)showFilterDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay
 {
 	// Show the drawer (set its right side to be aligned with the right of the screen)
 	[[self filterTrailingConstraint] setConstant:0];
+	
+	// Show the black overlay (still at 0 alpha)
+	if(animateOverlay)
+		[[self transparencyView] setHidden:NO];
 	
 	// Animate the change in position if animated == TRUE
 	if(animated)
 	{
 		[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
 							  delay:0
-							options:UIViewAnimationOptionCurveEaseOut
+							options:UIViewAnimationOptionCurveEaseInOut
 						 animations:^{
 							 [[self view] layoutIfNeeded];
-							 [[self transparencyView] setAlpha:ALPHA_FEED_OVERLAY];
+							 if(animateOverlay)
+								 [[self transparencyView] setAlpha:ALPHA_FEED_OVERLAY];
 						 }
 						 completion:nil];
 	}
@@ -279,31 +296,6 @@
 	}
 }
 - (BOOL)filterDrawerIsHidden {  return ([[self filterTrailingConstraint] constant] == 0) ? NO : YES;  }
-
-#pragma mark - Transparent overlay
-- (void)hideTransparentOverlay
-{
-	// Animate the fade-out
-	[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
-						  delay:0
-						options:UIViewAnimationOptionCurveEaseOut
-					 animations:^{
-						 [[self transparencyView] setAlpha:0];
-					 }
-					 completion:nil];
-}
-
-- (void)showTransparentOverlay
-{
-	// Animate the fade-in
-	[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
-						  delay:0
-						options:UIViewAnimationOptionCurveEaseOut
-					 animations:^{
-						 [[self transparencyView] setAlpha:ALPHA_FEED_OVERLAY];
-					 }
-					 completion:nil];
-}
 
 #pragma mark - Gesture recognizers
 // Swiping from left edge
@@ -319,7 +311,11 @@
 	if([gesture state] == UIGestureRecognizerStateBegan)
 	{
 		// Hide the filter drawer
-		[self hideFilterDrawerAnimated:YES];
+		[self hideFilterDrawerAnimated:YES includingOverlay:NO];
+		
+		// Show transparent overlay
+//		if(![self filterDrawerIsHidden])
+			[[self transparencyView] setHidden:NO];
 	}
 	//
 	// User is in the process of moving their finger around
@@ -341,15 +337,15 @@
 		
 		if(touchPoint.x > [[self menuWidthConstraint] constant] / RATIO_DRAWER_RELEASE_THRESHOLD_TO_WIDTH)
 			// Drawer is more than (width/ratio) of the way out
-			[self showMenuDrawerAnimated:YES];
+			[self showMenuDrawerAnimated:YES includingOverlay:YES];
 		else
 		{
 			// Drawer is less than (width/ratio) of the way out
 			
 			if(touchVelocity.x < GESTURE_THRESHOLD_FAST_DRAWER) // Gesture is slow
-				[self hideMenuDrawerAnimated:YES]; // Hide drawer
+				[self hideMenuDrawerAnimated:YES includingOverlay:YES]; // Hide drawer
 			else // Gesture is fast
-				[self showMenuDrawerAnimated:YES]; // Show drawer
+				[self showMenuDrawerAnimated:YES includingOverlay:YES]; // Show drawer
 		}
 	}
 }
@@ -367,7 +363,11 @@
 	if([gesture state] == UIGestureRecognizerStateBegan)
 	{
 		// Hide the filter drawer
-		[self hideMenuDrawerAnimated:YES];
+		[self hideMenuDrawerAnimated:YES includingOverlay:NO];
+		
+		// Show transparent overlay
+//		if(![self menuDrawerIsHidden])
+			[[self transparencyView] setHidden:NO];
 	}
 	//
 	// User is in the process of moving their finger around
@@ -389,15 +389,15 @@
 		
 		if(touchPoint.x < (-1 * [[self filterWidthConstraint] constant] / RATIO_DRAWER_RELEASE_THRESHOLD_TO_WIDTH))
 			// Drawer is more than (width/ratio) of the way out
-			[self showFilterDrawerAnimated:YES];
+			[self showFilterDrawerAnimated:YES includingOverlay:YES];
 		else
 		{
 			// Drawer is less than (width/ratio) of the way out
 			
 			if(touchVelocity.x > (-1 * GESTURE_THRESHOLD_FAST_DRAWER)) // Gesture is slow
-				[self hideFilterDrawerAnimated:YES]; // Hide drawer
+				[self hideFilterDrawerAnimated:YES includingOverlay:YES]; // Hide drawer
 			else // Gesture is fast
-				[self showFilterDrawerAnimated:YES]; // Show drawer
+				[self showFilterDrawerAnimated:YES includingOverlay:YES]; // Show drawer
 		}
 	}
 }
@@ -429,15 +429,15 @@
 		
 		if(abs((int)touchPoint.x) > [[self menuWidthConstraint] constant] / RATIO_DRAWER_RELEASE_THRESHOLD_TO_WIDTH)
 			// Drawer is more than (width/ratio) of the way in
-			[self hideMenuDrawerAnimated:YES];
+			[self hideMenuDrawerAnimated:YES includingOverlay:YES];
 		else
 		{
 			// Drawer is less than (width/ratio) of the way in
 			
 			if(abs((int)touchVelocity.x) < GESTURE_THRESHOLD_FAST_DRAWER) // Gesture is slow
-				[self showMenuDrawerAnimated:YES]; // show drawer
+				[self showMenuDrawerAnimated:YES includingOverlay:YES]; // show drawer
 			else // Gesture is fast
-				[self hideMenuDrawerAnimated:YES]; // hide drawer
+				[self hideMenuDrawerAnimated:YES includingOverlay:YES]; // hide drawer
 		}
 	}
 }
@@ -469,15 +469,15 @@
 		
 		if(abs((int)touchPoint.x) > [[self filterWidthConstraint] constant] / RATIO_DRAWER_RELEASE_THRESHOLD_TO_WIDTH)
 			// Drawer is more than (width/ratio) of the way in
-			[self hideFilterDrawerAnimated:YES];
+			[self hideFilterDrawerAnimated:YES includingOverlay:YES];
 		else
 		{
 			// Drawer is less than (width/ratio) of the way in
 			
 			if(abs((int)touchVelocity.x) < GESTURE_THRESHOLD_FAST_DRAWER) // Gesture is slow
-				[self showFilterDrawerAnimated:YES]; // show drawer
+				[self showFilterDrawerAnimated:YES includingOverlay:YES]; // show drawer
 			else // Gesture is fast
-				[self hideFilterDrawerAnimated:YES]; // hide drawer
+				[self hideFilterDrawerAnimated:YES includingOverlay:YES]; // hide drawer
 		}
 	}
 }
@@ -485,9 +485,10 @@
 // Tapping on transparent overlay
 - (void)tappedOnOverlayView:(UITapGestureRecognizer *)gesture
 {
-	[self hideTransparentOverlay];
-	[self hideMenuDrawerAnimated:YES];
-	[self hideFilterDrawerAnimated:YES];
+	if(![self menuDrawerIsHidden])
+		[self hideMenuDrawerAnimated:YES includingOverlay:YES]; // If not hidden, hide it
+	if(![self filterDrawerIsHidden])
+		[self hideFilterDrawerAnimated:YES includingOverlay:YES]; // If not hidden, hide it
 }
 
 #pragma mark - Memory management
