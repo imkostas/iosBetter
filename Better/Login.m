@@ -75,14 +75,12 @@
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                   NSLog(@"JSON: %@", [responseObject description]);
                 
-                  
-                  //save user info - username, email, funds
+                  //save user info
                   self.user.username = [responseObject valueForKey:@"username"];
                   self.user.email = [responseObject valueForKey:@"email"];
                   self.user.gender = [[responseObject valueForKey:@"gender"]charValue];
                   self.user.birthday = [responseObject valueForKey:@"birthday"] ;
                   self.user.country = [responseObject valueForKey:@"country"];
-                  
               }
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                   NSLog(@"Error: %@", [error description]);
