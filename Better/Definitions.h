@@ -11,18 +11,31 @@
 
 // Storyboard identifiers
 #define STORYBOARD_ID_SEGUE_EMBED_INTRO @"embedPageViewController"
+#define STORYBOARD_ID_SEGUE_EMBED_MENU @"embedMenu"
+#define STORYBOARD_ID_SEGUE_EMBED_FILTER @"embedFilter"
 
 #define STORYBOARD_ID_INTROPAGE_TITLE @"introPageTitle"
 #define STORYBOARD_ID_INTROPAGE_NOTITLE @"introPageNoTitle"
 
 #define STORYBOARD_ID_FEED @"feedViewController"
-#define STORYBOARD_ID_FEED_NAVIGATION @"feedViewControllerNav"
-#define STORYBOARD_ID_SEGUE_EMBED_MENU @"embedMenu"
-#define STORYBOARD_ID_SEGUE_EMBED_FILTER @"embedFilter"
+#define STORYBOARD_ID_FEED_NAVIGATION @"feedViewControllerNavigation"
+
+#define STORYBOARD_ID_SETTINGS_NAVIGATION @"settingsNavigation"
+
+   // Settings segues
+#define STORYBOARD_ID_SEGUE_SHOW_SETTINGS_MYACCOUNT @"showSettingsMyAccount"
+#define STORYBOARD_ID_SEGUE_SHOW_SETTINGS_NOTIFICATIONS @"showSettingsNotifications"
+#define STORYBOARD_ID_SEGUE_SHOW_SETTINGS_SUPPORT @"showSettingsSupport"
 
 // Screen width and height
 #define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
 #define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
+
+// Drawer properties
+#define RATIO_DRAWER_RELEASE_THRESHOLD_TO_WIDTH 2.25
+
+// Gesture properties/thresholds
+#define GESTURE_THRESHOLD_FAST_DRAWER 300
 
 // Picker dimensions
 #define HEIGHT_PICKER_TOPBAR 40
@@ -48,7 +61,10 @@
 #define COLOR_PICKER_BACKGROUND ([UIColor colorWithWhite:0.85 alpha:1.0])
 #define COLOR_PICKER_TOPBAR ([UIColor colorWithWhite:0.97 alpha:1.0])
 #define COLOR_PICKER_TRANSPARENCY ([UIColor colorWithWhite:0.2 alpha:0.5])
-#define COLOR_LIGHT_LIGHT_GRAY ([UIColor colorWithWhite:0.97 alpha:1.0])
+#define COLOR_LIGHT_LIGHT_GRAY ([UIColor colorWithWhite:0.96 alpha:1.0])
+
+// Alpha values
+#define ALPHA_FEED_OVERLAY 0.65
 
 // Images
 #define IMAGE_GENDER_FEMALE @"account_button_female_125dp"
@@ -78,8 +94,12 @@
 // Animation properties
 #define ANIM_DURATION_INTRO (500/1000.0) // converts to seconds
 #define ANIM_DELAY_INTRO (300/1000.0)
-#define ANIM_DURATION_PICKER (200/1000.0)
-#define ANIM_DURATION_DRAWER_FULLSLIDE (250/1000.0)
+#define ANIM_DURATION_PICKER (250/1000.0)
+#define ANIM_DURATION_DRAWER_FULLSLIDE (300/1000.0)
+#define ANIM_DURATION_CHANGE_VIEWCONTROLLER_TITLE (200/1000.0)
+#define ANIM_DURATION_CHANGE_DRAWER_SIZE (200/1000.0)
+#define ANIM_DURATION_ALERT_SHOW (200/1000.0)
+#define ANIM_DURATION_ALERT_HIDE (250/1000.0)
 
 // Date picker tags (for each ui element needing it)
 #define TAG_DATEPICKER_DOB 1
@@ -88,8 +108,10 @@
 #define TAG_PICKER_COUNTRY 1
 
 // Gender
+// These have to match the values returned by the API (specifically the first character of what is returned for
+// the "gender" key)
 #define GENDER_UNDEFINED 0
-#define GENDER_MALE 1
-#define GENDER_FEMALE 2
+#define GENDER_MALE '2' // API returns a string: "2"
+#define GENDER_FEMALE '1'
 
 #endif

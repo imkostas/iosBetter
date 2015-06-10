@@ -12,6 +12,7 @@
 		31C5CFD31B20E93E00472161 /* Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C5CFD21B20E93E00472161 /* Menu.m */; };
 		31C5CFD61B20E95800472161 /* Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C5CFD51B20E95800472161 /* Filter.m */; };
 		C7E587D3A4E84C486D8DF64F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC28AD39D34D3975720338BA /* libPods.a */; };
+		D006D1651B2776C7008A48FA /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = D006D1641B2776C7008A48FA /* Settings.m */; };
 		D01514CB1B1F686E00EFE991 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D01514CA1B1F686E00EFE991 /* UserInfo.m */; };
 		D030579C1B20E84E00F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D030579F1B20E85900F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -33,8 +34,10 @@
 		D0A2C2691B0F6ECE00C44A7B /* Intro.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A2C2681B0F6ECE00C44A7B /* Intro.m */; };
 		D0B282DA1B1E0545006FD580 /* BEDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B282D91B1E0545006FD580 /* BEDatePickerView.m */; };
 		D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B282E81B1E5081006FD580 /* BEPickerView.m */; };
+		D0CBA1C81B2239F0002DD192 /* BETappableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CBA1C71B2239F0002DD192 /* BETappableView.m */; };
 		D0D7CA971B0F89AB00363A39 /* IntroPageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D7CA961B0F89AB00363A39 /* IntroPageContent.m */; };
 		D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D7CA991B0F8E8E00363A39 /* IntroPage.m */; };
+		D0F347DC1B289829001950E4 /* MyAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F347DB1B289829001950E4 /* MyAccount.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +61,8 @@
 		31C5CFD51B20E95800472161 /* Filter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Filter.m; sourceTree = "<group>"; };
 		8ACB9E8F432E58E61684C492 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		B0BFE93A98894EBBC42AA3B0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		D006D1631B2776C7008A48FA /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
+		D006D1641B2776C7008A48FA /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		D01514C91B1F686E00EFE991 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
 		D01514CA1B1F686E00EFE991 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
 		D03DB44E1B1F4CAA00810E1E /* Countries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countries.plist; sourceTree = "<group>"; };
@@ -95,10 +100,14 @@
 		D0B282D91B1E0545006FD580 /* BEDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEDatePickerView.m; sourceTree = "<group>"; };
 		D0B282E71B1E5081006FD580 /* BEPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEPickerView.h; sourceTree = "<group>"; };
 		D0B282E81B1E5081006FD580 /* BEPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEPickerView.m; sourceTree = "<group>"; };
+		D0CBA1C61B2239F0002DD192 /* BETappableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BETappableView.h; sourceTree = "<group>"; };
+		D0CBA1C71B2239F0002DD192 /* BETappableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BETappableView.m; sourceTree = "<group>"; };
 		D0D7CA951B0F89AB00363A39 /* IntroPageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroPageContent.h; sourceTree = "<group>"; };
 		D0D7CA961B0F89AB00363A39 /* IntroPageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroPageContent.m; sourceTree = "<group>"; };
 		D0D7CA981B0F8E8E00363A39 /* IntroPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroPage.h; sourceTree = "<group>"; };
 		D0D7CA991B0F8E8E00363A39 /* IntroPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroPage.m; sourceTree = "<group>"; };
+		D0F347DA1B289829001950E4 /* MyAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAccount.h; sourceTree = "<group>"; };
+		D0F347DB1B289829001950E4 /* MyAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAccount.m; sourceTree = "<group>"; };
 		EC28AD39D34D3975720338BA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -155,6 +164,15 @@
 				8ACB9E8F432E58E61684C492 /* Pods.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		D006D1621B27767F008A48FA /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				D006D1631B2776C7008A48FA /* Settings.h */,
+				D006D1641B2776C7008A48FA /* Settings.m */,
+			);
+			name = Settings;
 			sourceTree = "<group>";
 		};
 		D01514C81B1F685200EFE991 /* UserInfo */ = {
@@ -215,6 +233,8 @@
 				D05EF77B1B0B7B0900D01AE4 /* Feed */,
 				D03057981B20E83600F20072 /* Menu */,
 				D03057991B20E83E00F20072 /* Filter */,
+				D006D1621B27767F008A48FA /* Settings */,
+				D0F347D91B289814001950E4 /* MyAccount */,
 				D05EF7811B0B943300D01AE4 /* SignUp */,
 				D05EF7851B0B9E5400D01AE4 /* Login */,
 				D099018C1B0E359000760CDF /* Profile */,
@@ -310,6 +330,7 @@
 				D0835FB91B0CEE0700D88412 /* Text Field */,
 				D0E8D3711B1900AD008BA7A9 /* Pickers */,
 				D09901931B0E63CC00760CDF /* View Controllers */,
+				D0CBA1C51B2239B3002DD192 /* Tappable View */,
 				D0A250E21B17588A003E7D0B /* Drawing in Views */,
 			);
 			name = "Custom Objects";
@@ -360,6 +381,15 @@
 			name = "Drawing in Views";
 			sourceTree = "<group>";
 		};
+		D0CBA1C51B2239B3002DD192 /* Tappable View */ = {
+			isa = PBXGroup;
+			children = (
+				D0CBA1C61B2239F0002DD192 /* BETappableView.h */,
+				D0CBA1C71B2239F0002DD192 /* BETappableView.m */,
+			);
+			name = "Tappable View";
+			sourceTree = "<group>";
+		};
 		D0D7CA941B0F898300363A39 /* Intro Page */ = {
 			isa = PBXGroup;
 			children = (
@@ -378,6 +408,15 @@
 				D0B282D91B1E0545006FD580 /* BEDatePickerView.m */,
 			);
 			name = Pickers;
+			sourceTree = "<group>";
+		};
+		D0F347D91B289814001950E4 /* MyAccount */ = {
+			isa = PBXGroup;
+			children = (
+				D0F347DA1B289829001950E4 /* MyAccount.h */,
+				D0F347DB1B289829001950E4 /* MyAccount.m */,
+			);
+			name = MyAccount;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -527,10 +566,13 @@
 				D0A250E51B1758AA003E7D0B /* BELine.m in Sources */,
 				D05EF7881B0B9F0800D01AE4 /* Login.m in Sources */,
 				31C5CFD01B20E65900472161 /* CustomAlert.m in Sources */,
+				D0CBA1C81B2239F0002DD192 /* BETappableView.m in Sources */,
 				3107407B1B1F66C400927B2D /* Following.m in Sources */,
 				D0A2C2691B0F6ECE00C44A7B /* Intro.m in Sources */,
+				D006D1651B2776C7008A48FA /* Settings.m in Sources */,
 				D030579F1B20E85900F20072 /* (null) in Sources */,
 				31C5CFD61B20E95800472161 /* Filter.m in Sources */,
+				D0F347DC1B289829001950E4 /* MyAccount.m in Sources */,
 				D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */,
 				D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */,
 				D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */,

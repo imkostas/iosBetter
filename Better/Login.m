@@ -85,19 +85,38 @@
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                   NSLog(@"Error: %@", [error description]);
                   //[self customAlert:@"We were unable to log you in" withDone:@"Ok"];
-                  UIAlertView *invalidAlert = [[UIAlertView alloc] initWithTitle:@"Missing username or password"
-                                                                         message:nil
-                                                                        delegate:nil
-                                                               cancelButtonTitle:@"OK"
-                                                               otherButtonTitles:nil];
-                  [invalidAlert show];
+				  // Show an alert
+				  if([UIAlertController class]) // for iOS 8 and above
+				  {
+					  UIAlertController *invalidAlert = [UIAlertController alertControllerWithTitle:@"We were unable to log you in."
+																							message:@"Try entering your information again and make sure you're connected to the internet"
+																					 preferredStyle:UIAlertControllerStyleAlert];
+					  [invalidAlert addAction:[UIAlertAction actionWithTitle:@"OK"
+																	   style:UIAlertActionStyleDefault
+																	 handler:nil]];
+					  // Show the alert
+					  [self presentViewController:invalidAlert animated:YES completion:nil];
+					  // Set it's tint color (button color)
+					  [[invalidAlert view] setTintColor:COLOR_BETTER_DARK];
+				  }
+				  else // iOS 7 and below
+				  {
+					  UIAlertView *invalidAlert = [[UIAlertView alloc] initWithTitle:@"We were unable to log you in."
+																			 message:@"Try entering your information again and make sure you're connected to the internet"
+																			delegate:nil
+																   cancelButtonTitle:@"OK"
+																   otherButtonTitles:nil];
+					  [invalidAlert show];
+				  }
+				  
+				  // Remove password from password field
+				  [[self passwordField] setText:@""];
               }
          ];
 		
-		NSAssert([self storyboard], @"Tried to instantiate MainViewController without a storyboard...");
+		//NSAssert([self storyboard], @"Tried to instantiate MainViewController without a storyboard...");
 		
-		UINavigationController *feedVCNavigation = [[self storyboard] instantiateViewControllerWithIdentifier:STORYBOARD_ID_FEED_NAVIGATION];
-		[self presentViewController:feedVCNavigation animated:YES completion:nil];
+		
 	}
 	else
 	{

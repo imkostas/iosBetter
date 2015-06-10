@@ -7,17 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BETappableView.h"
+#import "UserInfo.h"
 
-@interface MenuViewController : UIViewController
+@interface MenuViewController : UIViewController <BETappableViewDelegate>
 
 // Profile image and username label are contained within the profileView UIView
-@property (weak, nonatomic) IBOutlet UIView *profileView;
+@property (weak, nonatomic) IBOutlet BETappableView *profileView;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 
 // My Ranking and Settings are made up of an icon (UIImageView) and a UILabel
 // within an outer UIView. The outer UIView has a tap gesture recognizer on it.
-@property (weak, nonatomic) IBOutlet UIView *myRankingView;
-@property (weak, nonatomic) IBOutlet UIView *settingsView;
+@property (weak, nonatomic) IBOutlet BETappableView *myRankingView;
+@property (weak, nonatomic) IBOutlet BETappableView *settingsView;
 
 @end

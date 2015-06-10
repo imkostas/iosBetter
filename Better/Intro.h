@@ -10,6 +10,7 @@
 #import "Definitions.h"
 #import "IntroPageContent.h"
 #import "IntroPage.h"
+#import "AppDelegate.h"
 
 // This class is the delegate and DataSource of its UIPageViewController child, which is inside a storyboard Container View
 @interface Intro : UIViewController <UIPageViewControllerDataSource, UIPageViewControllerDelegate>

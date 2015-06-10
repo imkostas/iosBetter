@@ -19,7 +19,7 @@
 	
 	// Keeps track of gender;
 	// constants are in Definitions.h
-	unsigned int gender;
+	unsigned char gender;
 }
 
 // Called once during -viewDidLoad to set up the outer constraints for BEDatePickerView
@@ -49,6 +49,11 @@
 	// Set color and alpha of the ScrollView background UIView
 	//	[[self scrollViewBackground] setAlpha:0.0];
 	//	[[self scrollViewBackground] setBackgroundColor:COLOR_BETTER_DARK];
+	
+	// Set up the navigation bar
+//	[[[self navigationController] navigationBar] setBarTintColor:COLOR_BETTER_DARK];
+//	[[[self navigationController] navigationBar] setTintColor:[UIColor whiteColor]];
+//	[[[self navigationController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
 	
 	// Initialize variables
 	isPasswordVisible = NO;
@@ -117,6 +122,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Picker constraints setup
 // Creates constraints for the date picker view
 - (void)setUpDatePickerConstraints
 {

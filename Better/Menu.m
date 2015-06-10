@@ -11,9 +11,9 @@
 @interface MenuViewController ()
 
 // Methods for tap gesture recognizers to detect pressing on profile area, My Ranking, and Settings
-- (void)tappedProfileArea:(UITapGestureRecognizer *)gesture;
-- (void)tappedMyRanking:(UITapGestureRecognizer *)gesture;
-- (void)tappedSettings:(UITapGestureRecognizer *)gesture;
+//- (void)tappedProfileArea:(UITapGestureRecognizer *)gesture;
+//- (void)tappedMyRanking:(UITapGestureRecognizer *)gesture;
+//- (void)tappedSettings:(UITapGestureRecognizer *)gesture;
 
 @end
 
@@ -24,22 +24,23 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
+	// Set background color of view
+	[[self view] setBackgroundColor:COLOR_LIGHT_LIGHT_GRAY];
+	
 	// Set the profile image
 	[[[self profileImageView] layer] setMasksToBounds:YES];
 	//	[[[self profileImageView] layer] setShouldRasterize:YES]; // For performance?
 	[[[self profileImageView] layer] setCornerRadius:[[self profileImageView] frame].size.height / 2];
 	[[self profileImageView] setImage:[UIImage imageNamed:@"donkey"]];
-	
+
 	// Set the username label
-	[[self usernameLabel] setText:@"Donkey"];
+	[[self usernameLabel] setText:[[UserInfo user] username]];
+	NSLog(@"username in menu: %@", [[UserInfo user] username]);
 	
-	// Set up gesture recognizers
-	UITapGestureRecognizer *profileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedProfileArea:)];
-	UITapGestureRecognizer *myRankTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedMyRanking:)];
-	UITapGestureRecognizer *settingsTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedSettings:)];
-	[[self profileView] addGestureRecognizer:profileTap];
-	[[self myRankingView] addGestureRecognizer:myRankTap];
-	[[self settingsView] addGestureRecognizer:settingsTap];
+	// Set delegate of Tappable Views to this object
+	[[self profileView] setDelegate:self];
+	[[self myRankingView] setDelegate:self];
+	[[self settingsView] setDelegate:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,23 +59,50 @@
  }
  */
 
-#pragma mark - Gesture recognizer methods
+#pragma mark - Detecting taps
+// Called when the user taps within the two tappable areas (My Ranking, Settings)
+- (void)tappableViewTapped:(BETappableView *)view withGesture:(UITapGestureRecognizer *)gesture
+{
+	if(view == [self profileView])
+	{
+		NSLog(@"tapped inside Profile area");
+	}
+	else if(view == [self myRankingView])
+	{
+		NSLog(@"tapped inside My Ranking area");
+	}
+	else if(view == [self settingsView])
+	{
+		NSLog(@"tapped inside Settings area");
+		
+		// Show the settings view controller
+		if([self storyboard]) // Make sure storyboard exists
+		{
+			UINavigationController *settingsController = [[self storyboard] instantiateViewControllerWithIdentifier:STORYBOARD_ID_SETTINGS_NAVIGATION];
+			[[self parentViewController] presentViewController:settingsController animated:YES completion:^{
+				NSLog(@"completed presentation");
+			}];
+		}
+	}
+}
+
+//#pragma mark - Gesture recognizer methods
 // Called when user taps within the profile area (image, background)
-- (void)tappedProfileArea:(UITapGestureRecognizer *)gesture
-{
-	NSLog(@"tapped inside Profile area");
-}
-
-// Called when user taps within the My Ranking view
-- (void)tappedMyRanking:(UITapGestureRecognizer *)gesture
-{
-	NSLog(@"tapped inside My Ranking");
-}
-
-// Called when user taps within Settings view
-- (void)tappedSettings:(UITapGestureRecognizer *)gesture
-{
-	NSLog(@"tapped inside Settings");
-}
+//- (void)tappedProfileArea:(UITapGestureRecognizer *)gesture
+//{
+//	NSLog(@"tapped inside Profile area");
+//}
+//
+//// Called when user taps within the My Ranking view
+//- (void)tappedMyRanking:(UITapGestureRecognizer *)gesture
+//{
+//	NSLog(@"tapped inside My Ranking");
+//}
+//
+//// Called when user taps within Settings view
+//- (void)tappedSettings:(UITapGestureRecognizer *)gesture
+//{
+//	NSLog(@"tapped inside Settings");
+//}
 
 @end
