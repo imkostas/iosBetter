@@ -17,9 +17,9 @@
 @property (strong, nonatomic)	NSString *username;
 @property (strong, nonatomic)	NSString *email;
 @property (strong, nonatomic)	UIImage *profileImage;
-@property (nonatomic)			char gender;
-@property (strong, nonatomic)	NSDate *birthday;
-@property (strong, nonatomic)	NSString *country;
+@property (nonatomic)			unsigned char gender;
+@property (strong, nonatomic)	NSString *birthday;
+@property (strong, nonatomic)	NSDictionary *country; // contains an 'id' key and a 'name' key
 
 //global back-end paths
 @property (nonatomic, strong) NSString *uri;

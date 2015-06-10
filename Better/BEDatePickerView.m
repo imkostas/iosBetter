@@ -243,7 +243,7 @@
 	// Animate the alpha transition and slide-in
 	[UIView animateWithDuration:ANIM_DURATION_PICKER
 						  delay:0
-						options:UIViewAnimationOptionCurveEaseOut
+						options:UIViewAnimationOptionCurveEaseInOut
 					 animations:^{
 						 [self layoutIfNeeded]; // causes the new constraint constant to be applied
 						 [[self transparencyView] setAlpha:1.0];
@@ -271,7 +271,7 @@
 	// Animate the alpha transition and slide-out
 	[UIView animateWithDuration:ANIM_DURATION_PICKER
 						  delay:0
-						options:UIViewAnimationOptionCurveEaseOut
+						options:UIViewAnimationOptionCurveEaseInOut
 					 animations:^{
 						 [self layoutIfNeeded]; // causes the new constraint constant to be applied
 						 [[self transparencyView] setAlpha:0.0];

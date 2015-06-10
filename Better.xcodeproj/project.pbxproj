@@ -37,6 +37,7 @@
 		D0CBA1C81B2239F0002DD192 /* BETappableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CBA1C71B2239F0002DD192 /* BETappableView.m */; };
 		D0D7CA971B0F89AB00363A39 /* IntroPageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D7CA961B0F89AB00363A39 /* IntroPageContent.m */; };
 		D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D7CA991B0F8E8E00363A39 /* IntroPage.m */; };
+		D0F347DC1B289829001950E4 /* MyAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F347DB1B289829001950E4 /* MyAccount.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +106,8 @@
 		D0D7CA961B0F89AB00363A39 /* IntroPageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroPageContent.m; sourceTree = "<group>"; };
 		D0D7CA981B0F8E8E00363A39 /* IntroPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroPage.h; sourceTree = "<group>"; };
 		D0D7CA991B0F8E8E00363A39 /* IntroPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroPage.m; sourceTree = "<group>"; };
+		D0F347DA1B289829001950E4 /* MyAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAccount.h; sourceTree = "<group>"; };
+		D0F347DB1B289829001950E4 /* MyAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAccount.m; sourceTree = "<group>"; };
 		EC28AD39D34D3975720338BA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -231,6 +234,7 @@
 				D03057981B20E83600F20072 /* Menu */,
 				D03057991B20E83E00F20072 /* Filter */,
 				D006D1621B27767F008A48FA /* Settings */,
+				D0F347D91B289814001950E4 /* MyAccount */,
 				D05EF7811B0B943300D01AE4 /* SignUp */,
 				D05EF7851B0B9E5400D01AE4 /* Login */,
 				D099018C1B0E359000760CDF /* Profile */,
@@ -406,6 +410,15 @@
 			name = Pickers;
 			sourceTree = "<group>";
 		};
+		D0F347D91B289814001950E4 /* MyAccount */ = {
+			isa = PBXGroup;
+			children = (
+				D0F347DA1B289829001950E4 /* MyAccount.h */,
+				D0F347DB1B289829001950E4 /* MyAccount.m */,
+			);
+			name = MyAccount;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -559,6 +572,7 @@
 				D006D1651B2776C7008A48FA /* Settings.m in Sources */,
 				D030579F1B20E85900F20072 /* (null) in Sources */,
 				31C5CFD61B20E95800472161 /* Filter.m in Sources */,
+				D0F347DC1B289829001950E4 /* MyAccount.m in Sources */,
 				D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */,
 				D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */,
 				D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */,

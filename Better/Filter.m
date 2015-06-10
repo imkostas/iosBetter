@@ -21,6 +21,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 	
+	// Set background color of this view
+	[[self view] setBackgroundColor:COLOR_LIGHT_LIGHT_GRAY];
+	
 	// Set the delegate of the BETappableViews to this object
 	[[self everythingView] setDelegate:self];
 	[[self favoriteTagsView] setDelegate:self];

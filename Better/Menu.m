@@ -24,6 +24,9 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
+	// Set background color of view
+	[[self view] setBackgroundColor:COLOR_LIGHT_LIGHT_GRAY];
+	
 	// Set the profile image
 	[[[self profileImageView] layer] setMasksToBounds:YES];
 	//	[[[self profileImageView] layer] setShouldRasterize:YES]; // For performance?
@@ -76,7 +79,9 @@
 		if([self storyboard]) // Make sure storyboard exists
 		{
 			UINavigationController *settingsController = [[self storyboard] instantiateViewControllerWithIdentifier:STORYBOARD_ID_SETTINGS_NAVIGATION];
-			[[self parentViewController] presentViewController:settingsController animated:YES completion:nil];
+			[[self parentViewController] presentViewController:settingsController animated:YES completion:^{
+				NSLog(@"completed presentation");
+			}];
 		}
 	}
 }

@@ -1,23 +1,16 @@
 //
-//  NewAccount.m
+//  MyAccount.m
 //  Better
 //
-//  Created by Peter on 5/21/15.
+//  Created by Peter on 6/10/15.
 //  Copyright (c) 2015 Company. All rights reserved.
 //
 
-#import "Profile.h"
+#import "MyAccount.h"
 
-@interface Profile ()
+@interface MyAccount ()
 {
-	// Holds the offset of the USERNAME text field within the ScrollView for determining how 'faded-in' the
-	// ScrollView's background color UIView should be
-//	int firstTextFieldOffsetFromTop;
-	
-	// Keeps track of whether the password should be shown or not shown
-	BOOL isPasswordVisible;
-	
-	// Keeps track of gender;
+	// Keeps track of gender
 	// constants are in Definitions.h
 	unsigned char gender;
 }
@@ -36,75 +29,62 @@
 
 @end
 
-@implementation Profile
-
 #pragma mark - ViewController management
+@implementation MyAccount
 
-// Setup of this view
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 	
-	// Set color and alpha of the ScrollView background UIView
-	//	[[self scrollViewBackground] setAlpha:0.0];
-	//	[[self scrollViewBackground] setBackgroundColor:COLOR_BETTER_DARK];
+	// Check for profile image
+	if([[UserInfo user] profileImage] == nil)
+		[[self profileImage] setImage:[UIImage imageNamed:ICON_TAKEPICTURE]];
 	
-	// Set up the navigation bar
-//	[[[self navigationController] navigationBar] setBarTintColor:COLOR_BETTER_DARK];
-//	[[[self navigationController] navigationBar] setTintColor:[UIColor whiteColor]];
-//	[[[self navigationController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
+	// Get the list of countries from Countries.plist
+	NSDictionary *plistContents = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Countries" ofType:@"plist"]];
+	[self setCountriesArray:[plistContents objectForKey:@"Countries"]];
 	
-	// Initialize variables
-	isPasswordVisible = NO;
-	gender = GENDER_UNDEFINED;
-	
-	// Set rank text
-	[[self rank] setText:@"NEWBIE"];
-	
-	// Set profile picture to camera icon ("take picture")
-	[[self profileImage] setImage:[UIImage imageNamed:ICON_TAKEPICTURE]];
-	
-	// Set up each of the text field icons
+	// Set up the TextFields
 	[[self usernameField] setLeftViewToImageNamed:ICON_ACCOUNT];
-	[[self passwordField] setLeftViewToImageNamed:ICON_HTTPS];
-	[[self passwordField] setRightViewToImageNamed:ICON_VISIBILITY_OFF];
-	[[self emailField] setLeftViewToImageNamed:ICON_EMAIL];
 	[[self dobField] setLeftViewToImageNamed:ICON_EVENT];
 	[[self countryField] setLeftViewToImageNamed:ICON_FLAG];
+
+	// Populate the profile information from UserInfo:
 	
-	// Set up DatePicker
+	[[self usernameField] setText:[[UserInfo user] username]];
+	
+	// Birthday
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter dateFromString:[[UserInfo user] birthday]];
+	[[self dobField] setText:[[UserInfo user] birthday]];
+	unsigned int countryID = [[[[UserInfo user] country] objectForKey:@"id"] intValue];
+	
+	// Make sure the given country ID is within the bounds of the array in Countries.plist
+	if(countryID > 0 && countryID < [[self countriesArray] count]) // Valid id (index)
+		[[self countryField] setText:[[self countriesArray] objectAtIndex:countryID]];
+	else // ID is not valid, so just display the name
+		[[self countryField] setText:[[[UserInfo user] country] objectForKey:@"name"]];
+	
+	// Set gender, 'color-in' the corresponding button
+	gender = [[UserInfo user] gender];
+	if(gender == GENDER_FEMALE)
+		[[self femaleButton] setImage:[UIImage imageNamed:IMAGE_GENDER_FEMALE_PRESSED] forState:UIControlStateNormal];
+	else if(gender == GENDER_MALE)
+		[[self maleButton] setImage:[UIImage imageNamed:IMAGE_GENDER_MALE_PRESSED] forState:UIControlStateNormal];
+	
+	// Set up the pickers:
+	// DatePicker
 	[self setDatePickerView:[[BEDatePickerView alloc] init]];
 	[[self datePickerView] setDelegate:self];
 	[self setUpDatePickerConstraints];
 	
-	// Set up PickerView
+	// Regular picker (UIPickerView)
 	[self setRegularPickerView:[[BEPickerView alloc] init]];
 	[[self regularPickerView] setDelegate:self];
 	[[[self regularPickerView] picker] setDelegate:self];
 	[[[self regularPickerView] picker] setDataSource:self];
 	[self setUpRegularPickerConstraints];
-	
-	// Populate the list of countries
-	NSDictionary *plistContents = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Countries" ofType:@"plist"]];
-	[self setCountriesArray:[plistContents objectForKey:@"Countries"]]; // Retrieve a list of countries for the
-																		// country picker
-	
-	// Make the password's right icon tappable---
-	// At least for now, it's not necessary to keep a reference to the recognizer in this class, because the UIImageView that it is
-	// added to, 'retains' it
-	UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(updateVisibility:)];
-	[[[self passwordField] rightView] setUserInteractionEnabled:YES];  // By default, UIImageViews have userInteractionEnabled == FALSE
-	[[[self passwordField] rightView] addGestureRecognizer:tapGesture];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
-	
-	// Figure out what the first text field's offset from the top of the scrollview is, now that the view
-	// has laid out its subviews
-//	firstTextFieldOffsetFromTop = [[self usernameField] frame].origin.y;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -193,7 +173,7 @@
 																		 constant:0];
 	
 	
-	[self setRegularPickerConstraints:[NSArray arrayWithObjects:leadingConstraint, trailingConstraint, bottomConstraint, topConstraint, nil]];
+	[self setRegularPickerViewConstraints:[NSArray arrayWithObjects:leadingConstraint, trailingConstraint, bottomConstraint, topConstraint, nil]];
 }
 
 /*
@@ -208,22 +188,7 @@
 */
 
 #pragma mark - Profile actions
-
-- (IBAction)createAccount:(id)sender
-{
-	// Test out weak reference in BETextField
-//	UIView *v = [[UIView alloc] initWithFrame:[[[self usernameField] leftView] frame]];
-//	[v setBackgroundColor:[UIColor redColor]];
-//	[[self usernameField] setLeftView:v];
-//	NSLog(@"%@", [[self usernameField] leftImageView]);
-}
-
-- (IBAction)takePhoto:(id)sender
-{
-	NSLog(@"should take picture");
-}
-
-// Called when Female button is pressed
+// Called when female button is pressed
 - (IBAction)updateFemaleState:(id)sender
 {
 	if(gender == GENDER_MALE || gender == GENDER_UNDEFINED)
@@ -235,7 +200,7 @@
 	}
 }
 
-// Called when Male button is pressed
+// Called when male button is pressed
 - (IBAction)updateMaleState:(id)sender
 {
 	if(gender == GENDER_FEMALE || gender == GENDER_UNDEFINED)
@@ -245,82 +210,36 @@
 		[[self maleButton] setImage:[UIImage imageNamed:IMAGE_GENDER_MALE_PRESSED] forState:UIControlStateNormal];
 		gender = GENDER_MALE;
 	}
-
 }
 
-#pragma mark - Gesture recognizer methods
-// Called when the visibility area of the password field is pressed
-- (void)updateVisibility:(UITapGestureRecognizer *)recognizer
+// Called from pressing on profile photo
+- (IBAction)takePhoto:(id)sender
 {
-	// Change the image and visibility of the password field
-	if(isPasswordVisible)
-	{
-		// Make non-visible
-		[[self passwordField] updateRightViewImageToImageNamed:ICON_VISIBILITY_OFF];
-		[[self passwordField] setSecureTextEntry:YES];
-	}
-	else
-	{
-		// Make visible
-		[[self passwordField] updateRightViewImageToImageNamed:ICON_VISIBILITY_ON];
-		[[self passwordField] setSecureTextEntry:NO];
-	}
-	
-	isPasswordVisible = !isPasswordVisible;
+	NSLog(@"My Account - pick a photo");
 }
 
-#pragma mark - Controlling the UI
-- (void)dismissKeyboard
+- (IBAction)updateAccount:(id)sender
 {
-	[[self usernameField] resignFirstResponder];
-	[[self passwordField] resignFirstResponder];
-	[[self emailField] resignFirstResponder];
+	NSLog(@"My Account - update my account");
 }
 
 #pragma mark - UITextField delegate methods
-// Called when the keyboard's Return/Next/Done button is pressed while editing a text field
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-	// Switch textfields depending on which one is active
-	
-	if(textField == [self usernameField])
-		[[self passwordField] becomeFirstResponder]; // move to the password field
-	else if(textField == [self passwordField])
-		[[self emailField] becomeFirstResponder]; // move to the email field
-	else if(textField == [self emailField])
-		[self dismissKeyboard]; // make the keyboard go away
-	
-	return YES;
-}
-
 // Called when the user wants to start typing within a TextField
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-	// Allow editing for username, password, and email, but return NO for date-of-birth and country fields,
+	// Return NO for username, date-of-birth and country fields,
 	// so we can show the date picker and country picker instead
 	
 	if(textField == [self dobField]) // date-of-birth field
-	{
-		// Hide keyboard
-		[self dismissKeyboard];
-		
 		// Show a date picker for this particular field
 		[self presentDatePickerWithTag:TAG_DATEPICKER_DOB];
-		
-		return NO;
-	}
+	
 	else if(textField == [self countryField]) // Country field was selected
-	{
-		// Hide keyboard
-		[self dismissKeyboard];
-		
 		// Show the country picker
 		[self presentRegularPickerWithTag:TAG_PICKER_COUNTRY];
-		
-		return NO;
-	}
 	
-	return YES;
+	// There are no textfields that are able to be edited with the keyboard
+	return NO;
 }
 
 #pragma mark - BEDatePickerView methods
@@ -348,10 +267,7 @@
 	{
 		case TAG_DATEPICKER_DOB:
 		{
-//			NSString *dateString = [NSDateFormatter localizedStringFromDate:[datePickerView date]
-//																  dateStyle:NSDateFormatterMediumStyle
-//																  timeStyle:NSDateFormatterNoStyle];
-//			[[self dobField] setText:dateString];
+			// Maybe set the date again(?)
 		}
 		default:
 			break;
@@ -367,11 +283,18 @@
 	// If setting the birthday, we would like to filter out dates that are in the future
 	if(tag == TAG_DATEPICKER_DOB)
 	{
+		// Get the current birthdate and set the picker accordingly
+		NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+		[dateFormatter setDateFormat:@"yyyy-MM-dd"]; // Format returned by API
+		NSDate *currentBirthday = [dateFormatter dateFromString:[[UserInfo user] birthday]];
+		if(currentBirthday != nil)
+			[[[self datePickerView] picker] setDate:currentBirthday animated:NO];
+		
 		[[[self datePickerView] picker] setMaximumDate:[NSDate date]];
 		[[[self datePickerView] label] setText:@"Select your birthday"];
 	}
-//	else
-//		[[[self datePickerView] datePicker] setMaximumDate:nil];
+	//	else
+	//		[[[self datePickerView] datePicker] setMaximumDate:nil];
 	
 	[[self datePickerView] setTag:tag];
 	[[self view] addSubview:[self datePickerView]];
@@ -391,17 +314,15 @@
 	
 	[[[self regularPickerView] picker] setTag:tag]; // Keep setTag: *before* addSubview:, etc..
 	[[self view] addSubview:[self regularPickerView]];
-	[[self view] addConstraints:[self regularPickerConstraints]];
+	[[self view] addConstraints:[self regularPickerViewConstraints]];
 	[[self view] layoutIfNeeded];
 	[[self regularPickerView] show];
 }
-
 
 #pragma mark - UIPickerView datasource
 // How many 'columns' there are in the picker
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)picker
 {
-//	NSLog(@"hello, tag is %i", [pickerView tag]);
 	switch([picker tag])
 	{
 		case TAG_PICKER_COUNTRY:
@@ -443,19 +364,6 @@
 	}
 }
 
-//- (void)pickerView:(UIPickerView *)picker didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-//{
-//	switch([picker tag])
-//	{
-//		case TAG_PICKER_COUNTRY:
-//		{
-//			//NSLog(@"country picker selected index: %i", row);
-//		}
-//		default:
-//			break;
-//	}
-//}
-
 #pragma mark - BEPickerView delegate method
 - (void)pickerViewWillDismiss:(BEPickerView *)pickerView
 {
@@ -473,23 +381,5 @@
 			break;
 	}
 }
-
-//#pragma mark - UIScrollView delegate methods
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//	// Get the current scroll position
-//	float position = [scrollView contentOffset].y;
-//	
-//	if(position >= 0 && position <= firstTextFieldOffsetFromTop)
-//	{
-////		float newAlpha = position / firstTextFieldOffsetFromTop; // linear
-//		float newAlpha = sinf((2 * M_PI)/(4 * firstTextFieldOffsetFromTop) * position); // 1/4 of the first period of a sine wave
-//		
-//		// Set the alpha of the background view
-//		[[self scrollViewBackground] setAlpha:newAlpha];
-//	}
-//	else if(position < 0)
-//		[[self scrollViewBackground] setAlpha:0];
-//}
 
 @end

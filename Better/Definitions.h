@@ -22,6 +22,11 @@
 
 #define STORYBOARD_ID_SETTINGS_NAVIGATION @"settingsNavigation"
 
+   // Settings segues
+#define STORYBOARD_ID_SEGUE_SHOW_SETTINGS_MYACCOUNT @"showSettingsMyAccount"
+#define STORYBOARD_ID_SEGUE_SHOW_SETTINGS_NOTIFICATIONS @"showSettingsNotifications"
+#define STORYBOARD_ID_SEGUE_SHOW_SETTINGS_SUPPORT @"showSettingsSupport"
+
 // Screen width and height
 #define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
 #define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
@@ -89,10 +94,12 @@
 // Animation properties
 #define ANIM_DURATION_INTRO (500/1000.0) // converts to seconds
 #define ANIM_DELAY_INTRO (300/1000.0)
-#define ANIM_DURATION_PICKER (200/1000.0)
+#define ANIM_DURATION_PICKER (250/1000.0)
 #define ANIM_DURATION_DRAWER_FULLSLIDE (300/1000.0)
 #define ANIM_DURATION_CHANGE_VIEWCONTROLLER_TITLE (200/1000.0)
 #define ANIM_DURATION_CHANGE_DRAWER_SIZE (200/1000.0)
+#define ANIM_DURATION_ALERT_SHOW (200/1000.0)
+#define ANIM_DURATION_ALERT_HIDE (250/1000.0)
 
 // Date picker tags (for each ui element needing it)
 #define TAG_DATEPICKER_DOB 1
@@ -101,8 +108,10 @@
 #define TAG_PICKER_COUNTRY 1
 
 // Gender
+// These have to match the values returned by the API (specifically the first character of what is returned for
+// the "gender" key)
 #define GENDER_UNDEFINED 0
-#define GENDER_MALE 1
-#define GENDER_FEMALE 2
+#define GENDER_MALE '2' // API returns a string: "2"
+#define GENDER_FEMALE '1'
 
 #endif

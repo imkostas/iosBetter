@@ -13,10 +13,9 @@
 #import "BEDatePickerView.h"
 #import "BEPickerView.h"
 
-@interface Profile : BEScrollingViewController <UIScrollViewDelegate, UITextFieldDelegate, BEDatePickerViewDelegate,
-												BEPickerViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
+@interface Profile : BEScrollingViewController <UIScrollViewDelegate, UITextFieldDelegate, BEDatePickerViewDelegate, BEPickerViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
-@property (weak, nonatomic) IBOutlet UIImageView *backgroundProfileImage; // background of profile image
+@property (weak, nonatomic) IBOutlet UIImageView *profileImageBackground; // background of profile image
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage; // profile image itself
 @property (weak, nonatomic) IBOutlet UILabel *rank; // the rank text
 

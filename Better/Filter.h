@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BETappableView.h"
+#import "Definitions.h"
 
 @protocol FilterDelegate <NSObject>
 

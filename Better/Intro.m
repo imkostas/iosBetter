@@ -35,6 +35,9 @@
 	// Set up the backgroundImage UIImageView
 	[[self backgroundImage] setClipsToBounds:YES]; // Make sure the image view does not display an image outside of its bounds
 	[[self backgroundImage] setContentMode:UIViewContentModeScaleAspectFill];
+	
+	AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate setInitialViewController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
