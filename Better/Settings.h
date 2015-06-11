@@ -14,6 +14,9 @@
 
 @interface Settings : UIViewController <BETappableViewDelegate>//, CustomAlertDelegate>
 
+// The small profile image icon for My Account
+@property (weak, nonatomic) IBOutlet UIImageView *profileImage;
+
 // Outlets to each of the tappable areas inside the Settings menu
 @property (weak, nonatomic) IBOutlet BETappableView *myAccountView;
 @property (weak, nonatomic) IBOutlet BETappableView *notificationsView;

@@ -20,7 +20,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 	
-	// Set up the navigation bar
+	// Set up the navigation bar for the Settings area
 	[[[self navigationController] navigationBar] setBarTintColor:COLOR_BETTER_DARK];
 	[[[self navigationController] navigationBar] setTintColor:[UIColor whiteColor]];
 	[[[self navigationController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
@@ -87,7 +87,7 @@
 															  AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 															  
 															  // Uncomment following line to go back to tutorial screen instead of login
-															  //[[[appDelegate initialViewController] navigationController] popToRootViewControllerAnimated:NO];
+															  [[[appDelegate initialViewController] navigationController] popToRootViewControllerAnimated:NO];
 															  [[appDelegate initialViewController] dismissViewControllerAnimated:YES completion:nil];
 														  }]];
 			// Show the alert
