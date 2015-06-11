@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -11,8 +11,8 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="initial_back_panel" translatesAutoresizingMaskIntoConstraints="NO" id="0o4-94-r33">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="initial_bg" translatesAutoresizingMaskIntoConstraints="NO" id="0o4-94-r33">
+                    <rect key="frame" x="0.0" y="20" width="480" height="460"/>
                 </imageView>
                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="initial_app_logo" translatesAutoresizingMaskIntoConstraints="NO" id="qCx-E3-TlK">
                     <rect key="frame" x="175" y="202" width="131" height="75"/>
@@ -22,22 +22,22 @@
                     </constraints>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" red="0.253176294191919" green="0.253176294191919" blue="0.253176294191919" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="0o4-94-r33" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="9Pj-MF-qWJ"/>
+                <constraint firstItem="0o4-94-r33" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="9Pj-MF-qWJ"/>
                 <constraint firstAttribute="trailing" secondItem="0o4-94-r33" secondAttribute="trailing" id="BiE-kZ-NZ5"/>
                 <constraint firstItem="0o4-94-r33" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Hbn-8H-Grq"/>
                 <constraint firstAttribute="centerY" secondItem="qCx-E3-TlK" secondAttribute="centerY" id="dcD-sy-eBR"/>
                 <constraint firstAttribute="bottom" secondItem="0o4-94-r33" secondAttribute="bottom" id="kUr-4D-wQH"/>
                 <constraint firstAttribute="centerX" secondItem="qCx-E3-TlK" secondAttribute="centerX" id="zle-tU-CP5"/>
             </constraints>
-            <nil key="simulatedStatusBarMetrics"/>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="564" y="554"/>
         </view>
     </objects>
     <resources>
         <image name="initial_app_logo" width="362" height="207"/>
-        <image name="initial_back_panel" width="1080" height="624"/>
+        <image name="initial_bg" width="1080" height="1920"/>
     </resources>
 </document>

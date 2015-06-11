@@ -22,10 +22,13 @@
 
 #define STORYBOARD_ID_SETTINGS_NAVIGATION @"settingsNavigation"
 
-   // Settings segues
+	// Settings segues
 #define STORYBOARD_ID_SEGUE_SHOW_SETTINGS_MYACCOUNT @"showSettingsMyAccount"
 #define STORYBOARD_ID_SEGUE_SHOW_SETTINGS_NOTIFICATIONS @"showSettingsNotifications"
 #define STORYBOARD_ID_SEGUE_SHOW_SETTINGS_SUPPORT @"showSettingsSupport"
+
+	// Support segue
+#define STORYBOARD_ID_SEGUE_SHOW_SUPPORT_TERMSPRIVACY @"showSupportTermsPrivacy"
 
 // Screen width and height
 #define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)

@@ -335,6 +335,7 @@
 																  dateStyle:NSDateFormatterMediumStyle
 																  timeStyle:NSDateFormatterNoStyle];
 			[[self dobField] setText:dateString];
+			break;
 		}
 		default:
 			break;
@@ -352,6 +353,7 @@
 //																  dateStyle:NSDateFormatterMediumStyle
 //																  timeStyle:NSDateFormatterNoStyle];
 //			[[self dobField] setText:dateString];
+			break;
 		}
 		default:
 			break;
@@ -468,6 +470,7 @@
 			
 			NSString *selectedCountryName = [[self countriesArray] objectAtIndex:selectedCountryIndex];
 			[[self countryField] setText:selectedCountryName];
+			break;
 		}
 		default:
 			break;

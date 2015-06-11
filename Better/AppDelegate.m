@@ -19,9 +19,9 @@
 	// Override point for customization after application launch.
 	
 	// Set colors
-	[[UINavigationBar appearance] setBarTintColor:COLOR_NAVIGATION_BAR];
-	[[UINavigationBar appearance] setTintColor:COLOR_NAVIGATION_TINT];
-	[[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:COLOR_NAVIGATION_TINT}];
+//	[[UINavigationBar appearance] setBarTintColor:COLOR_NAVIGATION_BAR];
+//	[[UINavigationBar appearance] setTintColor:COLOR_NAVIGATION_TINT];
+//	[[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:COLOR_NAVIGATION_TINT}];
 	[[UIPageControl appearance] setCurrentPageIndicatorTintColor:COLOR_BETTER];
 	
 	return YES;

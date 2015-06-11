@@ -254,6 +254,7 @@
 																  dateStyle:NSDateFormatterMediumStyle
 																  timeStyle:NSDateFormatterNoStyle];
 			[[self dobField] setText:dateString];
+			break;
 		}
 		default:
 			break;
@@ -268,6 +269,7 @@
 		case TAG_DATEPICKER_DOB:
 		{
 			// Maybe set the date again(?)
+			break;
 		}
 		default:
 			break;

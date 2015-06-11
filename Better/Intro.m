@@ -32,10 +32,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 	
+	// Set up the navigation bar for pre-login areas of app
+	[[[self navigationController] navigationBar] setBarTintColor:COLOR_NAVIGATION_BAR];
+	[[[self navigationController] navigationBar] setTintColor:COLOR_NAVIGATION_TINT];
+	[[[self navigationController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName:COLOR_NAVIGATION_TINT}];
+	
 	// Set up the backgroundImage UIImageView
 	[[self backgroundImage] setClipsToBounds:YES]; // Make sure the image view does not display an image outside of its bounds
 	[[self backgroundImage] setContentMode:UIViewContentModeScaleAspectFill];
 	
+	// Save reference to Intro so the Logout button can go back to this view controller later
 	AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate setInitialViewController:self];
 }

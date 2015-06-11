@@ -14,6 +14,10 @@
 		C7E587D3A4E84C486D8DF64F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC28AD39D34D3975720338BA /* libPods.a */; };
 		D006D1651B2776C7008A48FA /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = D006D1641B2776C7008A48FA /* Settings.m */; };
 		D01514CB1B1F686E00EFE991 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D01514CA1B1F686E00EFE991 /* UserInfo.m */; };
+		D01CB7411B29CBE3003DF616 /* Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = D01CB7401B29CBE3003DF616 /* Notifications.m */; };
+		D01CB7451B29D78D003DF616 /* Support.m in Sources */ = {isa = PBXBuildFile; fileRef = D01CB7441B29D78D003DF616 /* Support.m */; };
+		D01CB7471B2A126D003DF616 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D01CB7461B2A126D003DF616 /* MessageUI.framework */; };
+		D01CB74D1B2A2711003DF616 /* TermsPrivacy.m in Sources */ = {isa = PBXBuildFile; fileRef = D01CB74C1B2A2711003DF616 /* TermsPrivacy.m */; };
 		D030579C1B20E84E00F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D030579F1B20E85900F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */ = {isa = PBXBuildFile; fileRef = D03DB44E1B1F4CAA00810E1E /* Countries.plist */; };
@@ -65,6 +69,13 @@
 		D006D1641B2776C7008A48FA /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		D01514C91B1F686E00EFE991 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
 		D01514CA1B1F686E00EFE991 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
+		D01CB73F1B29CBE3003DF616 /* Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notifications.h; sourceTree = "<group>"; };
+		D01CB7401B29CBE3003DF616 /* Notifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notifications.m; sourceTree = "<group>"; };
+		D01CB7431B29D78D003DF616 /* Support.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Support.h; sourceTree = "<group>"; };
+		D01CB7441B29D78D003DF616 /* Support.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Support.m; sourceTree = "<group>"; };
+		D01CB7461B2A126D003DF616 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		D01CB74B1B2A2711003DF616 /* TermsPrivacy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TermsPrivacy.h; sourceTree = "<group>"; };
+		D01CB74C1B2A2711003DF616 /* TermsPrivacy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TermsPrivacy.m; sourceTree = "<group>"; };
 		D03DB44E1B1F4CAA00810E1E /* Countries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countries.plist; sourceTree = "<group>"; };
 		D05EF7511B0B70EF00D01AE4 /* Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Better.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D05EF7551B0B70EF00D01AE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -116,6 +127,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D01CB7471B2A126D003DF616 /* MessageUI.framework in Frameworks */,
 				C7E587D3A4E84C486D8DF64F /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -152,6 +164,7 @@
 		4698A8C7D3B45484E4B553AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D01CB7461B2A126D003DF616 /* MessageUI.framework */,
 				EC28AD39D34D3975720338BA /* libPods.a */,
 			);
 			name = Frameworks;
@@ -182,6 +195,26 @@
 				D01514CA1B1F686E00EFE991 /* UserInfo.m */,
 			);
 			name = UserInfo;
+			sourceTree = "<group>";
+		};
+		D01CB73E1B29CBD0003DF616 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				D01CB73F1B29CBE3003DF616 /* Notifications.h */,
+				D01CB7401B29CBE3003DF616 /* Notifications.m */,
+			);
+			name = Notifications;
+			sourceTree = "<group>";
+		};
+		D01CB7421B29D73C003DF616 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				D01CB7431B29D78D003DF616 /* Support.h */,
+				D01CB7441B29D78D003DF616 /* Support.m */,
+				D01CB74B1B2A2711003DF616 /* TermsPrivacy.h */,
+				D01CB74C1B2A2711003DF616 /* TermsPrivacy.m */,
+			);
+			name = Support;
 			sourceTree = "<group>";
 		};
 		D03057981B20E83600F20072 /* Menu */ = {
@@ -235,6 +268,8 @@
 				D03057991B20E83E00F20072 /* Filter */,
 				D006D1621B27767F008A48FA /* Settings */,
 				D0F347D91B289814001950E4 /* MyAccount */,
+				D01CB73E1B29CBD0003DF616 /* Notifications */,
+				D01CB7421B29D73C003DF616 /* Support */,
 				D05EF7811B0B943300D01AE4 /* SignUp */,
 				D05EF7851B0B9E5400D01AE4 /* Login */,
 				D099018C1B0E359000760CDF /* Profile */,
@@ -563,12 +598,15 @@
 				D05EF7571B0B70EF00D01AE4 /* main.m in Sources */,
 				D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */,
 				D09901921B0E619300760CDF /* BEScrollingViewController.m in Sources */,
+				D01CB7451B29D78D003DF616 /* Support.m in Sources */,
 				D0A250E51B1758AA003E7D0B /* BELine.m in Sources */,
 				D05EF7881B0B9F0800D01AE4 /* Login.m in Sources */,
 				31C5CFD01B20E65900472161 /* CustomAlert.m in Sources */,
 				D0CBA1C81B2239F0002DD192 /* BETappableView.m in Sources */,
 				3107407B1B1F66C400927B2D /* Following.m in Sources */,
+				D01CB74D1B2A2711003DF616 /* TermsPrivacy.m in Sources */,
 				D0A2C2691B0F6ECE00C44A7B /* Intro.m in Sources */,
+				D01CB7411B29CBE3003DF616 /* Notifications.m in Sources */,
 				D006D1651B2776C7008A48FA /* Settings.m in Sources */,
 				D030579F1B20E85900F20072 /* (null) in Sources */,
 				31C5CFD61B20E95800472161 /* Filter.m in Sources */,

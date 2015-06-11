@@ -28,10 +28,11 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	
-	// Set up the navigation bar
+	// Set up the navigation bar for Feed areas
 	[[[self navigationController] navigationBar] setBarTintColor:COLOR_BETTER_DARK];
 	[[[self navigationController] navigationBar] setTintColor:[UIColor whiteColor]];
 	[[[self navigationController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
+	
 	[self setTitle:@"Everything"];
 	
 	// Set view properties
