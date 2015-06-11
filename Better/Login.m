@@ -74,13 +74,24 @@
 
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                   NSLog(@"JSON: %@", [responseObject description]);
-                
-                  //save user info
-                  self.user.username = [responseObject valueForKey:@"username"];
-                  self.user.email = [responseObject valueForKey:@"email"];
-                  self.user.gender = [[responseObject valueForKey:@"gender"]charValue];
-                  self.user.birthday = [responseObject valueForKey:@"birthday"] ;
-                  self.user.country = [responseObject valueForKey:@"country"];
+                  
+                  //save user info - username, email, funds
+				  NSDictionary *userDictionary = [[responseObject valueForKey:@"response"] valueForKey:@"user"];
+				  
+                  self.user.username = [userDictionary valueForKey:@"username"];
+                  self.user.email = [userDictionary valueForKey:@"email"];
+				  self.user.gender = [[userDictionary valueForKey:@"gender"] characterAtIndex:0]; // "gender" value is "1" or "2"
+                  self.user.birthday = [userDictionary valueForKey:@"birthday"] ;
+                  self.user.country = [userDictionary valueForKey:@"country"];
+				  
+				  // Show the Feed
+				  UINavigationController *feedVCNavigation = [[self storyboard] instantiateViewControllerWithIdentifier:STORYBOARD_ID_FEED_NAVIGATION];
+				  [self presentViewController:feedVCNavigation animated:YES completion:^{
+					  // Clear both fields
+					  [[self usernameField] setText:@""];
+					  [[self passwordField] setText:@""];
+				  }];
+                  
               }
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                   NSLog(@"Error: %@", [error description]);
