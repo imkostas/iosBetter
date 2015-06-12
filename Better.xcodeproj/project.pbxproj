@@ -39,6 +39,8 @@
 		D0B282DA1B1E0545006FD580 /* BEDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B282D91B1E0545006FD580 /* BEDatePickerView.m */; };
 		D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B282E81B1E5081006FD580 /* BEPickerView.m */; };
 		D0CBA1C81B2239F0002DD192 /* BETappableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CBA1C71B2239F0002DD192 /* BETappableView.m */; };
+		D0CD720B1B2B6237004A5765 /* MyRanking.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CD720A1B2B6237004A5765 /* MyRanking.m */; };
+		D0CD720E1B2B72D1004A5765 /* RankBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CD720D1B2B72D1004A5765 /* RankBarView.m */; };
 		D0D7CA971B0F89AB00363A39 /* IntroPageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D7CA961B0F89AB00363A39 /* IntroPageContent.m */; };
 		D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D7CA991B0F8E8E00363A39 /* IntroPage.m */; };
 		D0F347DC1B289829001950E4 /* MyAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F347DB1B289829001950E4 /* MyAccount.m */; };
@@ -113,6 +115,10 @@
 		D0B282E81B1E5081006FD580 /* BEPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEPickerView.m; sourceTree = "<group>"; };
 		D0CBA1C61B2239F0002DD192 /* BETappableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BETappableView.h; sourceTree = "<group>"; };
 		D0CBA1C71B2239F0002DD192 /* BETappableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BETappableView.m; sourceTree = "<group>"; };
+		D0CD72091B2B6237004A5765 /* MyRanking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRanking.h; sourceTree = "<group>"; };
+		D0CD720A1B2B6237004A5765 /* MyRanking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyRanking.m; sourceTree = "<group>"; };
+		D0CD720C1B2B72D1004A5765 /* RankBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RankBarView.h; sourceTree = "<group>"; };
+		D0CD720D1B2B72D1004A5765 /* RankBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RankBarView.m; sourceTree = "<group>"; };
 		D0D7CA951B0F89AB00363A39 /* IntroPageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroPageContent.h; sourceTree = "<group>"; };
 		D0D7CA961B0F89AB00363A39 /* IntroPageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroPageContent.m; sourceTree = "<group>"; };
 		D0D7CA981B0F8E8E00363A39 /* IntroPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroPage.h; sourceTree = "<group>"; };
@@ -266,6 +272,7 @@
 				D05EF77B1B0B7B0900D01AE4 /* Feed */,
 				D03057981B20E83600F20072 /* Menu */,
 				D03057991B20E83E00F20072 /* Filter */,
+				D0CD72081B2B619B004A5765 /* My Ranking */,
 				D006D1621B27767F008A48FA /* Settings */,
 				D0F347D91B289814001950E4 /* MyAccount */,
 				D01CB73E1B29CBD0003DF616 /* Notifications */,
@@ -423,6 +430,17 @@
 				D0CBA1C71B2239F0002DD192 /* BETappableView.m */,
 			);
 			name = "Tappable View";
+			sourceTree = "<group>";
+		};
+		D0CD72081B2B619B004A5765 /* My Ranking */ = {
+			isa = PBXGroup;
+			children = (
+				D0CD72091B2B6237004A5765 /* MyRanking.h */,
+				D0CD720A1B2B6237004A5765 /* MyRanking.m */,
+				D0CD720C1B2B72D1004A5765 /* RankBarView.h */,
+				D0CD720D1B2B72D1004A5765 /* RankBarView.m */,
+			);
+			name = "My Ranking";
 			sourceTree = "<group>";
 		};
 		D0D7CA941B0F898300363A39 /* Intro Page */ = {
@@ -596,6 +614,7 @@
 				D05EF75A1B0B70EF00D01AE4 /* AppDelegate.m in Sources */,
 				31C5CFD31B20E93E00472161 /* Menu.m in Sources */,
 				D05EF7571B0B70EF00D01AE4 /* main.m in Sources */,
+				D0CD720E1B2B72D1004A5765 /* RankBarView.m in Sources */,
 				D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */,
 				D09901921B0E619300760CDF /* BEScrollingViewController.m in Sources */,
 				D01CB7451B29D78D003DF616 /* Support.m in Sources */,
@@ -611,6 +630,7 @@
 				D030579F1B20E85900F20072 /* (null) in Sources */,
 				31C5CFD61B20E95800472161 /* Filter.m in Sources */,
 				D0F347DC1B289829001950E4 /* MyAccount.m in Sources */,
+				D0CD720B1B2B6237004A5765 /* MyRanking.m in Sources */,
 				D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */,
 				D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */,
 				D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */,

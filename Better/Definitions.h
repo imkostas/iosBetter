@@ -20,6 +20,8 @@
 #define STORYBOARD_ID_FEED @"feedViewController"
 #define STORYBOARD_ID_FEED_NAVIGATION @"feedViewControllerNavigation"
 
+#define STORYBOARD_ID_MYRANKING_NAVIGATION @"myRankingNavigation"
+
 #define STORYBOARD_ID_SETTINGS_NAVIGATION @"settingsNavigation"
 
 	// Settings segues
@@ -46,6 +48,10 @@
 
 // Keyboard padding
 #define PADDING_TOP_KEYBOARD 20
+
+// My Ranking rank bar properties
+#define PADDING_MYRANKING_BETWEEN_SEGMENTS 5
+#define HEIGHT_MYRANKING_SEGMENT_PERCENT_OF_VIEW_HEIGHT 0.4
 
 // Text field icon padding / size ratios
 /**
@@ -79,6 +85,8 @@
 #define IMAGE_TUTORIAL_SHOES_SPOT @"initial_tutorial_shoes_spot"
 #define IMAGE_TUTORIAL_POST @"initial_tutorial_post"
 #define IMAGE_TUTORIAL_CROWN @"initial_tutorial_crown"
+
+#define IMAGE_EMPTY_PROFILE_PICTURE @"account_profile_panel_empty"
 
 // Icons
 // Profile:

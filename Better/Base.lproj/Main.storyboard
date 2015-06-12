@@ -107,7 +107,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pdd-W4-qQD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2140" y="345"/>
+            <point key="canvasLocation" x="2124" y="1946"/>
         </scene>
         <!--Settings-->
         <scene sceneID="FAl-cm-eqa">
@@ -294,7 +294,115 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QZ9-77-63L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2836" y="345"/>
+            <point key="canvasLocation" x="2820" y="1946"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="KuR-bU-7Jl">
+            <objects>
+                <navigationController storyboardIdentifier="myRankingNavigation" id="cdh-a2-AnH" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DK1-If-YG9">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="se5-6e-n2P" kind="relationship" relationship="rootViewController" id="705-Ie-FFu"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HEh-Pv-mes" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2124" y="350"/>
+        </scene>
+        <!--Ranking-->
+        <scene sceneID="ZyT-JT-mhO">
+            <objects>
+                <viewController title="Ranking" id="se5-6e-n2P" customClass="MyRanking" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Jiu-Ao-D05"/>
+                        <viewControllerLayoutGuide type="bottom" id="Zky-ll-ryI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bn7-1K-bs5">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="dck-M2-JH7">
+                                <rect key="frame" x="16" y="72" width="568" height="29"/>
+                                <segments>
+                                    <segment title="My Ranking"/>
+                                    <segment title="Leaderboard"/>
+                                </segments>
+                                <connections>
+                                    <action selector="rankLeaderSegControlChanged:" destination="se5-6e-n2P" eventType="valueChanged" id="W1i-Fg-yTd"/>
+                                </connections>
+                            </segmentedControl>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MuH-4s-g6J" userLabel="Profile Background">
+                                <rect key="frame" x="0.0" y="108" width="600" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="UvO-RX-7bf"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Co7-CD-IEK" userLabel="Profile Pic">
+                                <rect key="frame" x="16" y="125" width="116" height="116"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="116" id="VRO-T1-RZe"/>
+                                    <constraint firstAttribute="height" constant="116" id="i0O-ng-s7h"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pGp-Zj-zi2" userLabel="Profile Pic Btn">
+                                <rect key="frame" x="16" y="125" width="116" height="116"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="116" id="4RJ-v3-QPt"/>
+                                    <constraint firstAttribute="height" constant="116" id="Acp-wt-7SZ"/>
+                                </constraints>
+                                <state key="normal" image="ic_cam_circle_account_116dp">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="takePhoto:" destination="tUR-fZ-Vi1" eventType="touchUpInside" id="l9J-Js-X4D"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6hL-co-drw" userLabel="Rank Bar" customClass="RankBarView">
+                                <rect key="frame" x="16" y="258" width="509" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Qif-h1-qgy"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Co7-CD-IEK" firstAttribute="height" secondItem="pGp-Zj-zi2" secondAttribute="height" id="0Pk-8e-G6X"/>
+                            <constraint firstItem="Co7-CD-IEK" firstAttribute="centerY" secondItem="pGp-Zj-zi2" secondAttribute="centerY" id="3oj-r5-7XG"/>
+                            <constraint firstItem="MuH-4s-g6J" firstAttribute="leading" secondItem="bn7-1K-bs5" secondAttribute="leading" id="8bM-d6-DO2"/>
+                            <constraint firstItem="dck-M2-JH7" firstAttribute="leading" secondItem="bn7-1K-bs5" secondAttribute="leadingMargin" id="Aho-Hx-rJs"/>
+                            <constraint firstItem="6hL-co-drw" firstAttribute="top" secondItem="MuH-4s-g6J" secondAttribute="bottom" id="ChK-eU-Btq"/>
+                            <constraint firstAttribute="trailing" secondItem="MuH-4s-g6J" secondAttribute="trailing" id="Dtq-aB-fat"/>
+                            <constraint firstItem="Co7-CD-IEK" firstAttribute="width" secondItem="pGp-Zj-zi2" secondAttribute="width" id="PGa-Aw-7fH"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6hL-co-drw" secondAttribute="trailing" constant="59" id="UtG-S1-fmV"/>
+                            <constraint firstItem="6hL-co-drw" firstAttribute="leading" secondItem="bn7-1K-bs5" secondAttribute="leadingMargin" id="k1H-sH-O5h"/>
+                            <constraint firstItem="dck-M2-JH7" firstAttribute="trailing" secondItem="bn7-1K-bs5" secondAttribute="trailingMargin" id="kjL-IR-rPL"/>
+                            <constraint firstItem="Co7-CD-IEK" firstAttribute="centerX" secondItem="pGp-Zj-zi2" secondAttribute="centerX" id="oaG-Ak-4Ac"/>
+                            <constraint firstItem="dck-M2-JH7" firstAttribute="top" secondItem="Jiu-Ao-D05" secondAttribute="bottom" constant="8" id="wgM-w6-PFH"/>
+                            <constraint firstItem="Co7-CD-IEK" firstAttribute="centerY" secondItem="MuH-4s-g6J" secondAttribute="centerY" id="wuf-Qp-Jdj"/>
+                            <constraint firstItem="MuH-4s-g6J" firstAttribute="top" secondItem="dck-M2-JH7" secondAttribute="bottom" constant="8" id="yup-0N-Kwu"/>
+                            <constraint firstItem="Co7-CD-IEK" firstAttribute="leading" secondItem="bn7-1K-bs5" secondAttribute="leadingMargin" id="z9C-az-bGF"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Ranking" id="OHL-NZ-HF4">
+                        <barButtonItem key="leftBarButtonItem" image="ic_arrow_back_green_24dp" id="TAL-A9-p1B">
+                            <connections>
+                                <action selector="backArrowPressed:" destination="se5-6e-n2P" id="MHu-Ff-QVT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="profilePanel" destination="MuH-4s-g6J" id="KrS-xp-DJ3"/>
+                        <outlet property="profilePicture" destination="Co7-CD-IEK" id="qWw-hj-QY0"/>
+                        <outlet property="rankLeaderSegControl" destination="dck-M2-JH7" id="OJF-7H-ONP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MSb-kc-KoB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2820" y="351"/>
         </scene>
         <!--My Account-->
         <scene sceneID="wIo-N8-29s">
@@ -314,7 +422,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xXf-QE-Rqw" userLabel="Scroll Content">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="622"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="account_profile_panel_empty" translatesAutoresizingMaskIntoConstraints="NO" id="7tx-VC-6bw" userLabel="Profile Panel">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7tx-VC-6bw" userLabel="Profile Background">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="200" id="OYg-87-SdC"/>
@@ -527,7 +635,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eUD-tb-oxG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3578" y="-430"/>
+            <point key="canvasLocation" x="3562" y="1171"/>
         </scene>
         <!--Notifications-->
         <scene sceneID="iRK-rE-spA">
@@ -639,7 +747,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vmD-p4-cxE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3578" y="234"/>
+            <point key="canvasLocation" x="3562" y="1835"/>
         </scene>
         <!--Support-->
         <scene sceneID="bFz-cm-b3l">
@@ -743,12 +851,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DEE-Vl-QSn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3578" y="899"/>
+            <point key="canvasLocation" x="3562" y="2500"/>
         </scene>
-        <!--Privacy-->
+        <!--Privacy Policy-->
         <scene sceneID="wLh-xl-9b5">
             <objects>
-                <viewController title="Privacy" id="LbE-MX-uBI" sceneMemberID="viewController">
+                <viewController title="Privacy Policy" automaticallyAdjustsScrollViewInsets="NO" id="LbE-MX-uBI" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4KN-3M-DDN"/>
                         <viewControllerLayoutGuide type="bottom" id="QuB-4V-UFo"/>
@@ -756,18 +864,32 @@
                     <view key="view" contentMode="scaleToFill" id="2KP-AZ-IH3">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Lalalala privacy" translatesAutoresizingMaskIntoConstraints="NO" id="5H8-tG-tP9">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="5H8-tG-tP9" secondAttribute="trailing" id="Eyz-VC-lBF"/>
+                            <constraint firstItem="5H8-tG-tP9" firstAttribute="top" secondItem="4KN-3M-DDN" secondAttribute="bottom" id="FET-CS-6MM"/>
+                            <constraint firstItem="5H8-tG-tP9" firstAttribute="leading" secondItem="2KP-AZ-IH3" secondAttribute="leading" id="G8b-Lk-E4C"/>
+                            <constraint firstItem="QuB-4V-UFo" firstAttribute="top" secondItem="5H8-tG-tP9" secondAttribute="bottom" id="w6Z-am-BUz"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Privacy Policy" image="terms_legal_icon" id="pBv-g2-Wg2"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qbl-cE-lel" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5066" y="1230"/>
+            <point key="canvasLocation" x="5050" y="2831"/>
         </scene>
-        <!--Terms-->
+        <!--Terms of Service-->
         <scene sceneID="ec3-JY-rcz">
             <objects>
-                <viewController title="Terms" id="hrd-jF-eDc" sceneMemberID="viewController">
+                <viewController title="Terms of Service" automaticallyAdjustsScrollViewInsets="NO" id="hrd-jF-eDc" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JYu-8d-mem"/>
                         <viewControllerLayoutGuide type="bottom" id="pmX-3f-9WM"/>
@@ -775,19 +897,34 @@
                     <view key="view" contentMode="scaleToFill" id="Sh4-lJ-ImS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dma-qB-MSD">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="dma-qB-MSD" secondAttribute="trailing" id="2do-o1-JHl"/>
+                            <constraint firstItem="dma-qB-MSD" firstAttribute="top" secondItem="JYu-8d-mem" secondAttribute="bottom" id="84w-qa-GZE"/>
+                            <constraint firstItem="pmX-3f-9WM" firstAttribute="top" secondItem="dma-qB-MSD" secondAttribute="bottom" id="UR3-cU-ylK"/>
+                            <constraint firstItem="dma-qB-MSD" firstAttribute="leading" secondItem="Sh4-lJ-ImS" secondAttribute="leading" id="YYq-Ob-5Ky"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Terms of Service" image="terms_legal_icon" id="GXG-hd-Pby"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yee-JJ-RGw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5066" y="568"/>
+            <point key="canvasLocation" x="5050" y="2169"/>
         </scene>
         <!--Terms Privacy-->
         <scene sceneID="9kv-5T-bdY">
             <objects>
-                <tabBarController id="1eN-Kq-sWU" customClass="TermsPrivacy" sceneMemberID="viewController">
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="1eN-Kq-sWU" customClass="TermsPrivacy" sceneMemberID="viewController">
+                    <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="h5d-43-kYd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -800,7 +937,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NLY-Fd-epI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4295" y="899"/>
+            <point key="canvasLocation" x="4279" y="2500"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="2Qc-tO-eLa">
@@ -1402,7 +1539,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JeG-eQ-GTs" userLabel="Scroll Content">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="741"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="account_profile_panel_empty" translatesAutoresizingMaskIntoConstraints="NO" id="maj-wW-fBV" userLabel="Profile Panel">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="maj-wW-fBV" userLabel="Profile Panel">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="200" id="D1x-2x-Gvc"/>
@@ -1884,7 +2021,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hhi-HP-bu7" userLabel="Profile View" customClass="BETappableView">
                                 <rect key="frame" x="0.0" y="0.0" width="280" height="200"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="account_profile_panel_empty" translatesAutoresizingMaskIntoConstraints="NO" id="Ldw-p9-a9C" userLabel="Profile Panel">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ldw-p9-a9C" userLabel="Profile Panel">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="200"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Dt1-Fk-M3u" userLabel="Profile Pic">
@@ -2072,7 +2209,6 @@
     <resources>
         <image name="account_button_female_125dp" width="376" height="375"/>
         <image name="account_button_male_125dp" width="376" height="375"/>
-        <image name="account_profile_panel_empty" width="1080" height="648"/>
         <image name="ic_arrow_back_green_24dp" width="22" height="22"/>
         <image name="ic_better_crown_38dp" width="57" height="57"/>
         <image name="ic_cam_circle_account_116dp" width="348" height="348"/>

@@ -70,6 +70,13 @@
 	else if(view == [self myRankingView])
 	{
 		NSLog(@"tapped inside My Ranking area");
+		
+		// Show the My Ranking view controller
+		if([self storyboard])
+		{
+			UINavigationController *myRankingController = [[self storyboard] instantiateViewControllerWithIdentifier:STORYBOARD_ID_MYRANKING_NAVIGATION];
+			[[self parentViewController] presentViewController:myRankingController animated:YES completion:nil];
+		}
 	}
 	else if(view == [self settingsView])
 	{
@@ -79,9 +86,7 @@
 		if([self storyboard]) // Make sure storyboard exists
 		{
 			UINavigationController *settingsController = [[self storyboard] instantiateViewControllerWithIdentifier:STORYBOARD_ID_SETTINGS_NAVIGATION];
-			[[self parentViewController] presentViewController:settingsController animated:YES completion:^{
-				NSLog(@"completed presentation");
-			}];
+			[[self parentViewController] presentViewController:settingsController animated:YES completion:nil];
 		}
 	}
 }

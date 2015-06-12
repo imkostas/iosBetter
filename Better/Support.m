@@ -9,6 +9,12 @@
 #import "Support.h"
 
 @interface Support ()
+{
+	// Not very clean, but it works... Set this variable to the desired index of the tab bar controller
+	// that you would like it to show upon loading (i.e. to show Privacy Policy first if you press on Privacy
+	// Policy
+	unsigned int tabBarDesiredIndex;
+}
 
 @end
 
@@ -20,6 +26,16 @@
 	
 	// Set background color of TableView
 	[[super tableView] setBackgroundColor:COLOR_LIGHT_LIGHT_GRAY];
+	
+	// Set future back button title (for showing Terms and Privacy, because putting "Support" instead of "back"
+	// takes up too much space
+	[[self navigationItem] setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back"
+																				style:UIBarButtonItemStyleDone
+																			   target:nil
+																			   action:nil]];
+	
+	// Initialize vars
+	tabBarDesiredIndex = 0;
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -53,7 +69,7 @@
 				// Set properties
 				[emailViewController setMailComposeDelegate:self];
 				[emailViewController setSubject:@"Better Feedback"];
-				[emailViewController setToRecipients:@[@"support@better.com"]];
+				[emailViewController setToRecipients:@[@"support@betterapp.com"]];
 	//			[[emailViewController view] setTintColor:[UIColor whiteColor]]; // Sets color of 'Cancel' and 'Send' button
 
 				// Show the email composer
@@ -80,12 +96,14 @@
 		case 2: // Privacy Policy
 		{
 			// 'Show' segue
+			tabBarDesiredIndex = 1;
 			[self performSegueWithIdentifier:STORYBOARD_ID_SEGUE_SHOW_SUPPORT_TERMSPRIVACY sender:self];
 			break;
 		}
 		case 3: // Terms of Service
 		{
 			// 'Show' segue
+			tabBarDesiredIndex = 0;
 			[self performSegueWithIdentifier:STORYBOARD_ID_SEGUE_SHOW_SUPPORT_TERMSPRIVACY sender:self];
 			break;
 		}
@@ -104,14 +122,19 @@
 	[controller dismissViewControllerAnimated:YES completion:nil];
 }
 
-/*
-#pragma mark - Navigation
 
+#pragma mark - Navigation
 // In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+	if([[segue identifier] isEqualToString:STORYBOARD_ID_SEGUE_SHOW_SUPPORT_TERMSPRIVACY])
+	{
+		// Tell TermsPrivacy which tab we want it to start on
+		TermsPrivacy *destinationVC = (TermsPrivacy *)[segue destinationViewController];
+		[destinationVC setOpeningTabIndex:tabBarDesiredIndex];
+	}
 }
-*/
 
 @end

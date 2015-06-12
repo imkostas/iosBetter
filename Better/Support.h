@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 #import "Definitions.h"
+#import "TermsPrivacy.h"
 
 @interface Support : UITableViewController <UITableViewDelegate, MFMailComposeViewControllerDelegate>
 

@@ -14,6 +14,8 @@
 
 @implementation TermsPrivacy
 
+#pragma mark - ViewController management
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -21,12 +23,34 @@
 	
 	// Set tint color of tab bar
 	[[super tabBar] setTintColor:COLOR_BETTER_DARK];
+	
+	// Set tab bar delegate to ourselves
+	[self setDelegate:self];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	
+	// Set the current tab
+	if([self openingTabIndex] < [[[super tabBar] items] count])
+	{
+		[super setSelectedIndex:[self openingTabIndex]];
+		[self setTitle:[[super selectedViewController] title]];
+	}
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - UITabBarController delegate methods
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+	// Set the title of the tab bar controller accordingly
+	[self setTitle:[viewController title]];
 }
 
 /*
