@@ -60,10 +60,11 @@
 	gender = GENDER_UNDEFINED;
 	
 	// Set rank text
-	[[self rank] setText:@"NEWBIE"];
+	[[self rankLabel] setText:@"NEWBIE"];
 	
 	// Set profile picture to camera icon ("take picture")
 	[[self profileImage] setImage:[UIImage imageNamed:ICON_TAKEPICTURE]];
+	[[self profileImageBackground] setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE]];
 	
 	// Set up each of the text field icons
 	[[self usernameField] setLeftViewToImageNamed:ICON_ACCOUNT];

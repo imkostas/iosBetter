@@ -18,6 +18,8 @@
 		D01CB7451B29D78D003DF616 /* Support.m in Sources */ = {isa = PBXBuildFile; fileRef = D01CB7441B29D78D003DF616 /* Support.m */; };
 		D01CB7471B2A126D003DF616 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D01CB7461B2A126D003DF616 /* MessageUI.framework */; };
 		D01CB74D1B2A2711003DF616 /* TermsPrivacy.m in Sources */ = {isa = PBXBuildFile; fileRef = D01CB74C1B2A2711003DF616 /* TermsPrivacy.m */; };
+		D02DE0DD1B2F651F00FE6A6A /* MyInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = D02DE0DC1B2F651F00FE6A6A /* MyInformation.m */; };
+		D02DE0E01B2F74A000FE6A6A /* UserRank.m in Sources */ = {isa = PBXBuildFile; fileRef = D02DE0DF1B2F74A000FE6A6A /* UserRank.m */; };
 		D030579C1B20E84E00F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D030579F1B20E85900F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */ = {isa = PBXBuildFile; fileRef = D03DB44E1B1F4CAA00810E1E /* Countries.plist */; };
@@ -38,6 +40,7 @@
 		D0A2C2691B0F6ECE00C44A7B /* Intro.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A2C2681B0F6ECE00C44A7B /* Intro.m */; };
 		D0B282DA1B1E0545006FD580 /* BEDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B282D91B1E0545006FD580 /* BEDatePickerView.m */; };
 		D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B282E81B1E5081006FD580 /* BEPickerView.m */; };
+		D0C082911B2F0A49009341B0 /* Feed.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0C082901B2F0A49009341B0 /* Feed.storyboard */; };
 		D0CBA1C81B2239F0002DD192 /* BETappableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CBA1C71B2239F0002DD192 /* BETappableView.m */; };
 		D0CD720B1B2B6237004A5765 /* MyRanking.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CD720A1B2B6237004A5765 /* MyRanking.m */; };
 		D0CD720E1B2B72D1004A5765 /* RankBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CD720D1B2B72D1004A5765 /* RankBarView.m */; };
@@ -78,6 +81,10 @@
 		D01CB7461B2A126D003DF616 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		D01CB74B1B2A2711003DF616 /* TermsPrivacy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TermsPrivacy.h; sourceTree = "<group>"; };
 		D01CB74C1B2A2711003DF616 /* TermsPrivacy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TermsPrivacy.m; sourceTree = "<group>"; };
+		D02DE0DB1B2F651F00FE6A6A /* MyInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyInformation.h; sourceTree = "<group>"; };
+		D02DE0DC1B2F651F00FE6A6A /* MyInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyInformation.m; sourceTree = "<group>"; };
+		D02DE0DE1B2F74A000FE6A6A /* UserRank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserRank.h; sourceTree = "<group>"; };
+		D02DE0DF1B2F74A000FE6A6A /* UserRank.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserRank.m; sourceTree = "<group>"; };
 		D03DB44E1B1F4CAA00810E1E /* Countries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countries.plist; sourceTree = "<group>"; };
 		D05EF7511B0B70EF00D01AE4 /* Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Better.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D05EF7551B0B70EF00D01AE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -113,6 +120,7 @@
 		D0B282D91B1E0545006FD580 /* BEDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEDatePickerView.m; sourceTree = "<group>"; };
 		D0B282E71B1E5081006FD580 /* BEPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEPickerView.h; sourceTree = "<group>"; };
 		D0B282E81B1E5081006FD580 /* BEPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEPickerView.m; sourceTree = "<group>"; };
+		D0C082901B2F0A49009341B0 /* Feed.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Feed.storyboard; path = Base.lproj/Feed.storyboard; sourceTree = "<group>"; };
 		D0CBA1C61B2239F0002DD192 /* BETappableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BETappableView.h; sourceTree = "<group>"; };
 		D0CBA1C71B2239F0002DD192 /* BETappableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BETappableView.m; sourceTree = "<group>"; };
 		D0CD72091B2B6237004A5765 /* MyRanking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRanking.h; sourceTree = "<group>"; };
@@ -199,6 +207,8 @@
 			children = (
 				D01514C91B1F686E00EFE991 /* UserInfo.h */,
 				D01514CA1B1F686E00EFE991 /* UserInfo.m */,
+				D02DE0DE1B2F74A000FE6A6A /* UserRank.h */,
+				D02DE0DF1B2F74A000FE6A6A /* UserRank.m */,
 			);
 			name = UserInfo;
 			sourceTree = "<group>";
@@ -221,6 +231,15 @@
 				D01CB74C1B2A2711003DF616 /* TermsPrivacy.m */,
 			);
 			name = Support;
+			sourceTree = "<group>";
+		};
+		D02DE0DA1B2F64E800FE6A6A /* My Information */ = {
+			isa = PBXGroup;
+			children = (
+				D02DE0DB1B2F651F00FE6A6A /* MyInformation.h */,
+				D02DE0DC1B2F651F00FE6A6A /* MyInformation.m */,
+			);
+			name = "My Information";
 			sourceTree = "<group>";
 		};
 		D03057981B20E83600F20072 /* Menu */ = {
@@ -272,6 +291,7 @@
 				D05EF77B1B0B7B0900D01AE4 /* Feed */,
 				D03057981B20E83600F20072 /* Menu */,
 				D03057991B20E83E00F20072 /* Filter */,
+				D02DE0DA1B2F64E800FE6A6A /* My Information */,
 				D0CD72081B2B619B004A5765 /* My Ranking */,
 				D006D1621B27767F008A48FA /* Settings */,
 				D0F347D91B289814001950E4 /* MyAccount */,
@@ -283,6 +303,7 @@
 				D0835FBA1B0CF41100D88412 /* ForgotPassword */,
 				D0835FB51B0CECBE00D88412 /* Custom Objects */,
 				D05EF75E1B0B70EF00D01AE4 /* Main.storyboard */,
+				D0C082901B2F0A49009341B0 /* Feed.storyboard */,
 				D05EF7611B0B70EF00D01AE4 /* Images.xcassets */,
 				D05EF7631B0B70EF00D01AE4 /* LaunchScreen.xib */,
 				D05EF7541B0B70EF00D01AE4 /* Supporting Files */,
@@ -523,6 +544,7 @@
 				TargetAttributes = {
 					D05EF7501B0B70EF00D01AE4 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = 7Z354MCLYK;
 					};
 					D05EF7691B0B70EF00D01AE4 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -554,6 +576,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0C082911B2F0A49009341B0 /* Feed.storyboard in Resources */,
 				D05EF7601B0B70EF00D01AE4 /* Main.storyboard in Resources */,
 				D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */,
 				D05EF7651B0B70EF00D01AE4 /* LaunchScreen.xib in Resources */,
@@ -608,6 +631,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D02DE0DD1B2F651F00FE6A6A /* MyInformation.m in Sources */,
 				D05EF75D1B0B70EF00D01AE4 /* Feed.m in Sources */,
 				D030579C1B20E84E00F20072 /* (null) in Sources */,
 				D01514CB1B1F686E00EFE991 /* UserInfo.m in Sources */,
@@ -620,6 +644,7 @@
 				D01CB7451B29D78D003DF616 /* Support.m in Sources */,
 				D0A250E51B1758AA003E7D0B /* BELine.m in Sources */,
 				D05EF7881B0B9F0800D01AE4 /* Login.m in Sources */,
+				D02DE0E01B2F74A000FE6A6A /* UserRank.m in Sources */,
 				31C5CFD01B20E65900472161 /* CustomAlert.m in Sources */,
 				D0CBA1C81B2239F0002DD192 /* BETappableView.m in Sources */,
 				3107407B1B1F66C400927B2D /* Following.m in Sources */,
@@ -765,7 +790,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Constantinos Terzidis (3G6ABQ29B2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Better/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -780,7 +805,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Constantinos Terzidis (3G6ABQ29B2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Better/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

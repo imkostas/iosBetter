@@ -9,12 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "Definitions.h"
 #import "UserInfo.h"
+#import "RankBarView.h"
 
 @interface MyRanking : UIViewController
 
 // Profile picture and profile panel
 @property (weak, nonatomic) IBOutlet UIImageView *profilePanel;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePicture;
+
+// Rank UI elements
+@property (weak, nonatomic) IBOutlet RankBarView *rankBar;
+@property (weak, nonatomic) IBOutlet UIImageView *crownedIcon;
 
 // Called when back arrow is pressed
 - (IBAction)backArrowPressed:(id)sender;

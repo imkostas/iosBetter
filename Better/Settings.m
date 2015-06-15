@@ -24,6 +24,7 @@
 	[[[self navigationController] navigationBar] setBarTintColor:COLOR_BETTER_DARK];
 	[[[self navigationController] navigationBar] setTintColor:[UIColor whiteColor]];
 	[[[self navigationController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
+	[[[self navigationController] navigationBar] setTranslucent:NO];
 	
 	// Set the delegate of the tappable areas to this object
 	[[self myAccountView] setDelegate:self];
@@ -72,8 +73,8 @@
 		// Show an alert for logging out
 		if([UIAlertController class]) // UIAlertController is not available before iOS 8
 		{
-			UIAlertController *logoutAlert = [UIAlertController alertControllerWithTitle:@"Do you really want to log out?"
-																				 message:@"Pick the Better choice..."
+			UIAlertController *logoutAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you want to log out?"
+																				 message:nil
 																		  preferredStyle:UIAlertControllerStyleAlert];
 			[logoutAlert addAction:[UIAlertAction actionWithTitle:@"No"
 															style:UIAlertActionStyleDefault

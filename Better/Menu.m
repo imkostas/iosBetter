@@ -29,9 +29,12 @@
 	
 	// Set the profile image
 	[[[self profileImageView] layer] setMasksToBounds:YES];
-	//	[[[self profileImageView] layer] setShouldRasterize:YES]; // For performance?
 	[[[self profileImageView] layer] setCornerRadius:[[self profileImageView] frame].size.height / 2];
 	[[self profileImageView] setImage:[UIImage imageNamed:@"donkey"]];
+	
+	// Set profile panel / background
+	if([[UserInfo user] profileImage] == nil)
+		[[self profilePanelView] setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE]];
 
 	// Set the username label
 	[[self usernameLabel] setText:[[UserInfo user] username]];
@@ -66,6 +69,13 @@
 	if(view == [self profileView])
 	{
 		NSLog(@"tapped inside Profile area");
+		
+		// Show the "My Information" view controller
+		if([self storyboard])
+		{
+			UINavigationController *myInfoController = [[self storyboard] instantiateViewControllerWithIdentifier:STORYBOARD_ID_MYINFORMATION_NAVIGATION];
+			[[self parentViewController] presentViewController:myInfoController animated:YES completion:nil];
+		}
 	}
 	else if(view == [self myRankingView])
 	{

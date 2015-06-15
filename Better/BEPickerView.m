@@ -76,7 +76,7 @@
 		[[self dismissButton] setTranslatesAutoresizingMaskIntoConstraints:NO];
 		[[self dismissButton] setTitle:@"Done" forState:UIControlStateNormal];
 		[[self dismissButton] setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-		[[[self dismissButton] titleLabel] setFont:[UIFont systemFontOfSize:16]];
+		[[[self dismissButton] titleLabel] setFont:[UIFont boldSystemFontOfSize:16]];
 		[[self dismissButton] addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
 		
 		// Add button and label to the top bar

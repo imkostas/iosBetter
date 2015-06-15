@@ -7,12 +7,11 @@
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "ic_better_crown_38dp@2x.png"
+      "filename" : "ic_crown_solid_30dp@2x.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x",
-      "filename" : "ic_better_crown_38dp@3x.png"
+      "scale" : "3x"
     }
   ],
   "info" : {

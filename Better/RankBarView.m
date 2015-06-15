@@ -65,18 +65,21 @@
 {
 	// Calculate segment values:
 	// Equation to find width of the first bar:
-	// x = (z - 3y) / 15
+	// x = (z - 3y) / 31
 	// where:
 	// x -> width of first segment
 	// y -> width of space between segments (padding)
 	// z -> width of the frame of this UIView
-	NSLog(@"frame size(%.1f,%.1f", [self frame].size.width, [self frame].size.height);
+	NSLog(@"frame size(%.1f,%.1f)", [self frame].size.width, [self frame].size.height);
 	
 	firstSegmentWidth = ([self frame].size.width - 4*PADDING_MYRANKING_BETWEEN_SEGMENTS) / (1+2+4+8+16);
 	segmentHeight = [self frame].size.height * HEIGHT_MYRANKING_SEGMENT_PERCENT_OF_VIEW_HEIGHT;
 	segmentYPosition = ([self frame].size.height - segmentHeight) / 2;
 	
 	// Drawing code
+	// This is not really meant to be used for something that has a number of segments that is not 5,
+	// though you can probably get it to work pretty easily by changing the equation for firstSegmentWidth
+	// above (changing the divisor 1+2+4+... and changing the _*PADDING_MYRANKING_...)
 	
 	// Get contextRef
 	CGContextRef graphics = UIGraphicsGetCurrentContext();
@@ -104,8 +107,8 @@
 		// Add in the padding first
 	segmentRect.origin.x = (index * PADDING_MYRANKING_BETWEEN_SEGMENTS);
 		// Add in the other segments
-	for(unsigned int i = 0; i < index; i++)
-		segmentRect.origin.x += firstSegmentWidth * (i+1);
+	for(int i = 0; i < index; i++)
+		segmentRect.origin.x += firstSegmentWidth * pow(2, i);
 		// Set y-value
 	segmentRect.origin.y = segmentYPosition;
 	

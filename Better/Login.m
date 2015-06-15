@@ -83,9 +83,14 @@
 				  self.user.gender = [[userDictionary valueForKey:@"gender"] characterAtIndex:0]; // "gender" value is "1" or "2"
                   self.user.birthday = [userDictionary valueForKey:@"birthday"] ;
                   self.user.country = [userDictionary valueForKey:@"country"];
+				  self.user.rank = [userDictionary valueForKey:@"rank"];
+				  self.user.notification = [userDictionary valueForKey:@"notification"];
 				  
 				  // Show the Feed
-				  UINavigationController *feedVCNavigation = [[self storyboard] instantiateViewControllerWithIdentifier:STORYBOARD_ID_FEED_NAVIGATION];
+//				  UINavigationController *feedVCNavigation = [[self storyboard] instantiateViewControllerWithIdentifier:STORYBOARD_ID_FEED_NAVIGATION];
+				  // Get the Feed storyboard
+				  UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:STORYBOARD_FILENAME_FEED bundle:[NSBundle mainBundle]];
+				  UINavigationController *feedVCNavigation = [feedStoryboard instantiateViewControllerWithIdentifier:STORYBOARD_ID_FEED_NAVIGATION];
 				  [self presentViewController:feedVCNavigation animated:YES completion:^{
 					  // Clear both fields
 					  [[self usernameField] setText:@""];

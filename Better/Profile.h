@@ -17,7 +17,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageBackground; // background of profile image
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage; // profile image itself
-@property (weak, nonatomic) IBOutlet UILabel *rank; // the rank text
+@property (weak, nonatomic) IBOutlet UILabel *rankLabel; // the rank text
 
 // A UIView that lives on top the profile image, rank, etc. and below the ScrollView; it is used for
 // gradually blocking out the profile image area as the user scrolls downward in the ScrollView

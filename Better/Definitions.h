@@ -9,6 +9,9 @@
 #ifndef Better_Definitions_h
 #define Better_Definitions_h
 
+// Storyboard filenames
+#define STORYBOARD_FILENAME_FEED @"Feed"
+
 // Storyboard identifiers
 #define STORYBOARD_ID_SEGUE_EMBED_INTRO @"embedPageViewController"
 #define STORYBOARD_ID_SEGUE_EMBED_MENU @"embedMenu"
@@ -21,8 +24,8 @@
 #define STORYBOARD_ID_FEED_NAVIGATION @"feedViewControllerNavigation"
 
 #define STORYBOARD_ID_MYRANKING_NAVIGATION @"myRankingNavigation"
-
 #define STORYBOARD_ID_SETTINGS_NAVIGATION @"settingsNavigation"
+#define STORYBOARD_ID_MYINFORMATION_NAVIGATION @"myInfoNavigation"
 
 	// Settings segues
 #define STORYBOARD_ID_SEGUE_SHOW_SETTINGS_MYACCOUNT @"showSettingsMyAccount"
@@ -50,7 +53,7 @@
 #define PADDING_TOP_KEYBOARD 20
 
 // My Ranking rank bar properties
-#define PADDING_MYRANKING_BETWEEN_SEGMENTS 5
+#define PADDING_MYRANKING_BETWEEN_SEGMENTS 4
 #define HEIGHT_MYRANKING_SEGMENT_PERCENT_OF_VIEW_HEIGHT 0.4
 
 // Text field icon padding / size ratios
@@ -101,6 +104,10 @@
 
 #define ICON_MENU @"ic_menu_green900_24dp"
 #define ICON_FILTER @"ic_filter_list_green900_24dp"
+
+  // Crown:
+#define ICON_CROWN_UNFILLED @"ic_better_crown_38dp"
+#define ICON_CROWN_FILLED @"ic_crown_solid_30dp"
 
 // Animation properties
 #define ANIM_DURATION_INTRO (500/1000.0) // converts to seconds

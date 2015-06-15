@@ -32,6 +32,7 @@
 	[[[self navigationController] navigationBar] setBarTintColor:COLOR_BETTER_DARK];
 	[[[self navigationController] navigationBar] setTintColor:[UIColor whiteColor]];
 	[[[self navigationController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
+	[[[self navigationController] navigationBar] setTranslucent:NO];
 	
 	[self setTitle:@"Everything"];
 	
@@ -188,7 +189,7 @@
 	{
 		[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
 							  delay:0
-							options:UIViewAnimationOptionCurveEaseInOut
+							options:UIViewAnimationOptionCurveEaseOut
 						 animations:^{
 							 [[self view] layoutIfNeeded];
 							 if(animateOverlay)
@@ -223,7 +224,7 @@
 	{
 		[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
 							  delay:0
-							options:UIViewAnimationOptionCurveEaseInOut
+							options:UIViewAnimationOptionCurveEaseOut
 						 animations:^{
 							 [[self view] layoutIfNeeded];
 							 if(animateOverlay)
@@ -250,7 +251,7 @@
 	{
 		[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
 							  delay:0
-							options:UIViewAnimationOptionCurveEaseInOut
+							options:UIViewAnimationOptionCurveEaseOut
 						 animations:^{
 							 [[self view] layoutIfNeeded];
 							 if(animateOverlay)
@@ -282,7 +283,7 @@
 	{
 		[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
 							  delay:0
-							options:UIViewAnimationOptionCurveEaseInOut
+							options:UIViewAnimationOptionCurveEaseOut
 						 animations:^{
 							 [[self view] layoutIfNeeded];
 							 if(animateOverlay)

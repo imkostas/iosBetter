@@ -36,6 +36,7 @@
 	[[[self navigationController] navigationBar] setBarTintColor:COLOR_NAVIGATION_BAR];
 	[[[self navigationController] navigationBar] setTintColor:COLOR_NAVIGATION_TINT];
 	[[[self navigationController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName:COLOR_NAVIGATION_TINT}];
+	[[[self navigationController] navigationBar] setTranslucent:NO];
 	
 	// Set up the backgroundImage UIImageView
 	[[self backgroundImage] setClipsToBounds:YES]; // Make sure the image view does not display an image outside of its bounds
