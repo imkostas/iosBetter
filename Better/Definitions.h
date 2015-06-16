@@ -35,6 +35,9 @@
 	// Support segue
 #define STORYBOARD_ID_SEGUE_SHOW_SUPPORT_TERMSPRIVACY @"showSupportTermsPrivacy"
 
+// Reuse identifiers
+#define REUSE_ID_MYINFORMATION_TABLECELL @"myInfoTableViewCell"
+
 // Screen width and height
 #define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
 #define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
@@ -74,6 +77,7 @@
 #define COLOR_PICKER_TOPBAR ([UIColor colorWithWhite:0.97 alpha:1.0])
 #define COLOR_PICKER_TRANSPARENCY ([UIColor colorWithWhite:0.2 alpha:0.5])
 #define COLOR_LIGHT_LIGHT_GRAY ([UIColor colorWithWhite:0.96 alpha:1.0])
+#define COLOR_LIGHTER_GRAY ([UIColor colorWithWhite:0.98 alpha:1.0])
 
 // Alpha values
 #define ALPHA_FEED_OVERLAY 0.65
@@ -108,6 +112,13 @@
   // Crown:
 #define ICON_CROWN_UNFILLED @"ic_better_crown_38dp"
 #define ICON_CROWN_FILLED @"ic_crown_solid_30dp"
+
+  // Rank:
+#define ICON_RANK_NEWBIE @"ic_rank_newbie_grey_24dp"
+#define ICON_RANK_MAINSTREAM @"ic_rank_mainstream_grey_24dp"
+#define ICON_RANK_TRAILBLAZER @"ic_rank_trailblazer_grey_24dp"
+#define ICON_RANK_TRENDSETTER @"ic_rank_trendsetter_grey_24dp"
+#define ICON_RANK_CROWNED @"ic_rank_crowned_grey_24dp"
 
 // Animation properties
 #define ANIM_DURATION_INTRO (500/1000.0) // converts to seconds

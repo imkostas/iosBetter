@@ -78,13 +78,33 @@
                   //save user info - username, email, funds
 				  NSDictionary *userDictionary = [[responseObject valueForKey:@"response"] valueForKey:@"user"];
 				  
+				  self.user.userID = [[userDictionary valueForKey:@"id"] intValue];
                   self.user.username = [userDictionary valueForKey:@"username"];
                   self.user.email = [userDictionary valueForKey:@"email"];
 				  self.user.gender = [[userDictionary valueForKey:@"gender"] characterAtIndex:0]; // "gender" value is "1" or "2"
                   self.user.birthday = [userDictionary valueForKey:@"birthday"] ;
                   self.user.country = [userDictionary valueForKey:@"country"];
-				  self.user.rank = [userDictionary valueForKey:@"rank"];
-				  self.user.notification = [userDictionary valueForKey:@"notification"];
+				  
+				  // Populate rank
+				  NSDictionary *rankDict = [userDictionary valueForKey:@"rank"];
+				  UserRank *rank = [[UserRank alloc] initWithRank:[[rankDict objectForKey:@"rank"] intValue]
+													  totalPoints:[[rankDict objectForKey:@"total_points"] intValue]
+													  dailyPoints:[[rankDict objectForKey:@"daily_points"] intValue]
+													 weeklyPoints:[[rankDict objectForKey:@"weekly_points"] intValue]
+												  badgeTastemaker:[[rankDict objectForKey:@"badge_tastemaker"] intValue]
+												  badgeAdventurer:[[rankDict objectForKey:@"badge_adventurer"] intValue]
+													 badgeAdmirer:[[rankDict objectForKey:@"badge_admirer"] intValue]
+												   badgeRoleModel:[[rankDict objectForKey:@"badge_role_model"] intValue]
+												   badgeCelebrity:[[rankDict objectForKey:@"badge_celebrity"] intValue]
+														badgeIdol:[[rankDict objectForKey:@"badge_idol"] intValue]];
+				  self.user.rank = rank;
+				  
+				  // Populate notifications preferences
+				  NSDictionary *notificationsDict = [userDictionary valueForKey:@"notification"];
+				  UserNotifications *notifs = [[UserNotifications alloc] initWithVotedPostPref:[[notificationsDict objectForKey:@"voted_post"] intValue]
+																			 favoritedPostPref:[[notificationsDict objectForKey:@"favorited_post"] intValue]
+																			   newFollowerPref:[[notificationsDict objectForKey:@"new_follower"] intValue]];
+				  self.user.notification = notifs;
 				  
 				  // Show the Feed
 //				  UINavigationController *feedVCNavigation = [[self storyboard] instantiateViewControllerWithIdentifier:STORYBOARD_ID_FEED_NAVIGATION];

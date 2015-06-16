@@ -4,8 +4,18 @@
 <dict>
 	<key>Countries</key>
 	<array>
-		<string>South Korea</string>
-		<string>United States of America</string>
+		<dict>
+			<key>name</key>
+			<string>South Korea</string>
+			<key>shortname</key>
+			<string>SKorea</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>United States of America</string>
+			<key>shortname</key>
+			<string>USA</string>
+		</dict>
 	</array>
 </dict>
 </plist>

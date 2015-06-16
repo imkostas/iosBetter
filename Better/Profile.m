@@ -88,8 +88,13 @@
 	
 	// Populate the list of countries
 	NSDictionary *plistContents = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Countries" ofType:@"plist"]];
-	[self setCountriesArray:[plistContents objectForKey:@"Countries"]]; // Retrieve a list of countries for the
-																		// country picker
+	NSMutableArray *countryNames = [[NSMutableArray alloc] init];
+	
+	// Loop through the dictionaries and grab the regular 'long' names
+	for(NSDictionary *country in [plistContents objectForKey:@"Countries"])
+		[countryNames addObject:[country objectForKey:@"name"]];
+	
+	[self setCountriesArray:[countryNames copy]];
 	
 	// Make the password's right icon tappable---
 	// At least for now, it's not necessary to keep a reference to the recognizer in this class, because the UIImageView that it is

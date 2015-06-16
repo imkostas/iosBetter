@@ -14,6 +14,8 @@
 
 @implementation MyInformation
 
+#pragma mark - ViewController management
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -40,7 +42,49 @@
 	// Set up view controller title
 	[self setTitle:[user username]];
 	
-	// Set up rank and user info
+	// Set up rank
+	switch([[user rank] rank])
+	{
+		case 3:
+			[[self rankLabel] setText:@""];
+			[[self rankIcon] setImage:nil];
+			break;
+		case 1:
+			[[self rankLabel] setText:@"Newbie"];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_NEWBIE]];
+			break;
+		case 2:
+			[[self rankLabel] setText:@"Mainstream"];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_MAINSTREAM]];
+			break;
+		case 0:
+			[[self rankLabel] setText:@"Trailblazer"];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRAILBLAZER]];
+			break;
+		case 4:
+			[[self rankLabel] setText:@"Trendsetter"];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRENDSETTER]];
+			break;
+		case 5:
+			[[self rankLabel] setText:@"Crowned"];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_CROWNED]];
+			break;
+	}
+	
+	// Set up user age, sex, and country
+	NSString *ageGender = [NSString stringWithFormat:@"%i%c", [user getAge], ([user gender] == GENDER_FEMALE) ? 'F' : 'M'];
+	[[self ageAndGenderLabel] setText:ageGender];
+	
+	// Country
+	[[self countryLabel] setText:[user getCountry]];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	
+	// Load user's counts
+	[self getCounts];
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,4 +114,167 @@
 {
 	// Open the Settings area
 }
+
+#pragma mark - UITableView data source methods
+// Called to determine the sections of the tableview
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	switch(section)
+	{
+		case 0:
+			return 1;
+		case 1:
+			return 1;
+		case 2:
+			return 2;
+		case 3:
+			return 2;
+		default:
+			return 0;
+	}
+}
+
+// Called to determine how many sections the tableview has (4)
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+	return 4;
+}
+
+// Called when the tableview wants to load a cell
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	// Get a custom cell, or initialize one if it hasn't been init-ed yet
+	MyInfoTableViewCell *cell = (MyInfoTableViewCell *)[tableView dequeueReusableCellWithIdentifier:REUSE_ID_MYINFORMATION_TABLECELL];
+	
+	if(cell == nil)
+	{
+		[tableView registerNib:[UINib nibWithNibName:@"MyInfoTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:REUSE_ID_MYINFORMATION_TABLECELL];
+		cell = (MyInfoTableViewCell *)[tableView dequeueReusableCellWithIdentifier:REUSE_ID_MYINFORMATION_TABLECELL];
+	}
+	
+	return cell;
+}
+
+// Called when a cell is about to appear (we set its properties here)
+- (void)tableView:(UITableView *)tableView willDisplayCell:(MyInfoTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	// Get pointer to UserInfo to get the counts object
+	UserInfo *user = [UserInfo user];
+	UserCounts *counts = [user counts];
+	
+	// Return cells based on the index path
+	switch([indexPath section])
+	{
+		case 0:
+			[[cell label] setText:@"My Votes"];
+			[[cell count] setText:[counts myVotes]];
+			break;
+		case 1:
+			[[cell label] setText:@"My Posts"];
+			[[cell count] setText:[counts myPosts]];
+			break;
+		case 2:
+		{
+			switch([indexPath row])
+			{
+				case 0:
+					[[cell label] setText:@"Favorite Posts"];
+					[[cell count] setText:[counts favoritePosts]];
+					break;
+				case 1:
+					[[cell label] setText:@"Favorite Tags"];
+					[[cell count] setText:[counts favoriteTags]];
+					break;
+				default:
+					break;
+			}
+			break;
+		}
+		case 3:
+		{
+			switch([indexPath row])
+			{
+				case 0:
+					[[cell label] setText:@"Following"];
+					[[cell count] setText:[counts following]];
+					break;
+				case 1:
+					[[cell label] setText:@"Followers"];
+					[[cell count] setText:[counts followers]];
+					break;
+				default:
+					break;
+			}
+			break;
+		}
+		default:
+			break;
+	}
+}
+
+#pragma mark - Retrieving user's counts
+// Download the user's counts with a GET request
+///// ****** should probably put this in UserInfo, not here ********* ///////////
+- (void)getCounts
+{
+	// Set up request
+	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+	[manager setRequestSerializer:[AFJSONRequestSerializer serializer]];
+	[manager setResponseSerializer:[AFJSONResponseSerializer serializer]];
+	
+	// Get pointer to UserInfo object
+	UserInfo *user = [UserInfo user];
+	
+	// Perform the request
+	[manager GET:[NSString stringWithFormat:@"%@user/counts/%i", [user uri], [user userID]]
+	  parameters:nil
+		 success:^(AFHTTPRequestOperation *operation, id responseObject) {
+			 // Get the data out of the response
+			 
+			 // Looks like this
+			 /*
+			  {
+				  "response": {
+					  "vote_count": 0,
+					  "post_count": 0,
+					  "favorite_post_count": 0,
+					  "favorite_hashtag_count": 0,
+					  "following_count": 0,
+					  "follower_count": 0
+				   }
+			  }
+			  */
+			 NSDictionary *response = [responseObject valueForKey:@"response"];
+			 UserCounts *counts = [[UserCounts alloc] initWithMyVotes:[response objectForKey:@"vote_count"]
+															  myPosts:[response objectForKey:@"post_count"]
+														favoritePosts:[response objectForKey:@"favorite_post_count"]
+														 favoriteTags:[response objectForKey:@"favorite_hashtag_count"]
+															following:[response objectForKey:@"following_count"]
+															followers:[response objectForKey:@"follower_count"]];
+			 // Save the data
+			 [user setCounts:counts];
+			 
+			 // Refresh the tableview
+			 [[self countsTableView] reloadData];
+		 }
+		 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+			 // Get the error message, if any
+			 NSDictionary *errorResponse = [operation responseObject];
+			 NSString *errorMessage = [errorResponse objectForKey:@"error"];
+			 NSLog(@"*** Network error: %@", errorMessage);
+			 
+			 /////// ***** make a custom class out of this!! *****
+			 ///////******************************************////
+			 
+//			 if(errorMessage != nil)
+//			 {
+//				 UIAlertController *alert = [UIAlertController alertControllerWithTitle:errorMessage
+//																				message:@"Check your internet connection and try again."
+//																		 preferredStyle:UIAlertControllerStyleAlert];
+//				 [self presentViewController:alert animated:YES completion:nil];
+//				 [[alert view] setTintColor:COLOR_BETTER_DARK];
+//			 }
+		 }];
+}
+
 @end

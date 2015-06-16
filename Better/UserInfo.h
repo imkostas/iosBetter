@@ -11,6 +11,8 @@
 #import "Definitions.h"
 #import "CustomAlert.h"
 #import "UserRank.h"
+#import "UserNotifications.h"
+#import "UserCounts.h"
 
 @interface UserInfo : NSObject
 
@@ -24,7 +26,8 @@
 @property (strong, nonatomic)	NSString *birthday;
 @property (strong, nonatomic)	NSDictionary *country; // contains an 'id' key and a 'name' key
 @property (strong, nonatomic)	UserRank *rank;
-@property (strong, nonatomic)	NSDictionary *notification;
+@property (strong, nonatomic)	UserNotifications *notification;
+@property (strong, nonatomic)	UserCounts *counts;
 
 //global back-end paths
 @property (nonatomic, strong) NSString *uri;
@@ -33,5 +36,9 @@
 
 // Initialize and/or return the user singleton
 + (UserInfo *)user;
+
+// Return information in readable formats (used in MyInformation)
+- (int)getAge;
+- (NSString *)getCountry;
 
 @end

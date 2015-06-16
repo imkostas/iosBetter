@@ -56,11 +56,54 @@
         username = @"";
         email = @"";
         profileImage = nil;
-        
     }
     
     return self;
     
+}
+
+- (int)getAge
+{
+	// Create NSDateFormatter to convert string into an NSDate
+	NSDateFormatter *strToDate = [[NSDateFormatter alloc] init];
+	[strToDate setDateFormat:@"yyyy-MM-dd"];
+	
+	// Initialize the dates to subtract
+	NSDate *now = [NSDate date];
+	NSDate *birthdate = [strToDate dateFromString:[self birthday]];
+	
+	// calculate the age
+	if(birthdate == nil)
+		return -1;
+	else
+	{
+		// From here:
+		// http://stackoverflow.com/questions/5562594/difference-between-two-nsdate-objects-result-also-a-nsdate
+		//
+		NSCalendar *thisCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+		NSDateComponents *difference = [thisCalendar components:NSYearCalendarUnit
+													   fromDate:birthdate
+														 toDate:now
+														options:0];
+		
+		return [difference year];
+	}
+}
+
+- (NSString *)getCountry
+{
+	// Loop through countries.plist and get the shortname of the given country
+	NSDictionary *plistContents = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Countries" ofType:@"plist"]];
+	for(NSDictionary *countryDict in [plistContents objectForKey:@"Countries"])
+	{
+		NSString *countryNameInPlist = [[countryDict objectForKey:@"name"] uppercaseString];
+		NSString *countryNameFromAPI = [[self country] objectForKey:@"name"];
+		
+		if([countryNameInPlist isEqualToString:countryNameFromAPI])
+			return [countryDict objectForKey:@"shortname"];
+	}
+	
+	return @"";
 }
 
 @end

@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AFNetworking/AFNetworking.h>
 #import "Definitions.h"
 #import "UserInfo.h"
+#import "MyInfoTableViewCell.h"
 
-@interface MyInformation : UIViewController
+@interface MyInformation : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 // Profile image and panel
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
@@ -18,9 +20,18 @@
 
 // Rank and user information
 @property (weak, nonatomic) IBOutlet UILabel *rankLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *rankIcon;
+@property (weak, nonatomic) IBOutlet UILabel *countryLabel;
+@property (weak, nonatomic) IBOutlet UILabel *ageAndGenderLabel;
+
+// Table view for user's My Posts, My Favorites, etc...
+@property (weak, nonatomic) IBOutlet UITableView *countsTableView;
 
 // Pressing on bar button items
 - (IBAction)backArrowPressed:(id)sender;
 - (IBAction)settingsButtonPressed:(id)sender;
+
+// Refreshing the user's counts
+- (void)getCounts;
 
 @end

@@ -46,7 +46,13 @@
 	
 	// Get the list of countries from Countries.plist
 	NSDictionary *plistContents = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Countries" ofType:@"plist"]];
-	[self setCountriesArray:[plistContents objectForKey:@"Countries"]];
+	NSMutableArray *countryNames = [[NSMutableArray alloc] init];
+	
+	// Loop through the dictionaries and grab the regular 'long' names
+	for(NSDictionary *country in [plistContents objectForKey:@"Countries"])
+		[countryNames addObject:[country objectForKey:@"name"]];
+	
+	[self setCountriesArray:[countryNames copy]];
 	
 	// Set up the TextFields
 	[[self usernameField] setLeftViewToImageNamed:ICON_ACCOUNT];

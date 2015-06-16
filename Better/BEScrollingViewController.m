@@ -34,6 +34,8 @@
 //	CGRect newScrollRect = [[self scrollView] frame];
 //	newScrollRect.origin.y = 0;
 //	[[self scrollView] setFrame:newScrollRect];
+	
+	[[self view] layoutIfNeeded];
 }
 
 - (void)didReceiveMemoryWarning
@@ -53,11 +55,12 @@
 	
 	// Set the bottom of the scroll view to be at the top of the keyboard
 	CGFloat keyboardHeight = kFrame.size.height;
-	[[self bottomConstraint] setConstant:keyboardHeight];
 //	[[self bottomConstraintContent] setConstant:keyboardHeight];
 	
 	// Animate the change so it follows the keyboard
+	[[self view] layoutIfNeeded];
 	[UIView animateWithDuration:animDuration animations:^{
+		[[self bottomConstraint] setConstant:keyboardHeight];
 		[[self view] layoutIfNeeded];
 	}];
 }
@@ -67,11 +70,12 @@
 {
 	// Restore the scroll view's bottom to match the bottom of the outer UIView
 	NSTimeInterval animDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-	[[self bottomConstraint] setConstant:0];
 //	[[self bottomConstraintContent] setConstant:0];
 	
 	// Animate the change
+	[[self view] layoutIfNeeded];
 	[UIView animateWithDuration:animDuration animations:^{
+		[[self bottomConstraint] setConstant:0];
 		[[self view] layoutIfNeeded];
 	}];
 }

@@ -23,6 +23,10 @@
 		D030579C1B20E84E00F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D030579F1B20E85900F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */ = {isa = PBXBuildFile; fileRef = D03DB44E1B1F4CAA00810E1E /* Countries.plist */; };
+		D04DEE7C1B30698400BF1557 /* UserNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = D04DEE7B1B30698400BF1557 /* UserNotifications.m */; };
+		D04DEE801B30AFFC00BF1557 /* MyInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D04DEE7E1B30AFFC00BF1557 /* MyInfoTableViewCell.m */; };
+		D04DEE811B30AFFC00BF1557 /* MyInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D04DEE7F1B30AFFC00BF1557 /* MyInfoTableViewCell.xib */; };
+		D04DEE851B30BE6000BF1557 /* UserCounts.m in Sources */ = {isa = PBXBuildFile; fileRef = D04DEE841B30BE6000BF1557 /* UserCounts.m */; };
 		D05EF7571B0B70EF00D01AE4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7561B0B70EF00D01AE4 /* main.m */; };
 		D05EF75A1B0B70EF00D01AE4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7591B0B70EF00D01AE4 /* AppDelegate.m */; };
 		D05EF75D1B0B70EF00D01AE4 /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF75C1B0B70EF00D01AE4 /* Feed.m */; };
@@ -86,6 +90,13 @@
 		D02DE0DE1B2F74A000FE6A6A /* UserRank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserRank.h; sourceTree = "<group>"; };
 		D02DE0DF1B2F74A000FE6A6A /* UserRank.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserRank.m; sourceTree = "<group>"; };
 		D03DB44E1B1F4CAA00810E1E /* Countries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countries.plist; sourceTree = "<group>"; };
+		D04DEE7A1B30698400BF1557 /* UserNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNotifications.h; sourceTree = "<group>"; };
+		D04DEE7B1B30698400BF1557 /* UserNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNotifications.m; sourceTree = "<group>"; };
+		D04DEE7D1B30AFFC00BF1557 /* MyInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyInfoTableViewCell.h; sourceTree = "<group>"; };
+		D04DEE7E1B30AFFC00BF1557 /* MyInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyInfoTableViewCell.m; sourceTree = "<group>"; };
+		D04DEE7F1B30AFFC00BF1557 /* MyInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyInfoTableViewCell.xib; sourceTree = "<group>"; };
+		D04DEE831B30BE6000BF1557 /* UserCounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCounts.h; sourceTree = "<group>"; };
+		D04DEE841B30BE6000BF1557 /* UserCounts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCounts.m; sourceTree = "<group>"; };
 		D05EF7511B0B70EF00D01AE4 /* Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Better.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D05EF7551B0B70EF00D01AE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D05EF7561B0B70EF00D01AE4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -209,6 +220,10 @@
 				D01514CA1B1F686E00EFE991 /* UserInfo.m */,
 				D02DE0DE1B2F74A000FE6A6A /* UserRank.h */,
 				D02DE0DF1B2F74A000FE6A6A /* UserRank.m */,
+				D04DEE7A1B30698400BF1557 /* UserNotifications.h */,
+				D04DEE7B1B30698400BF1557 /* UserNotifications.m */,
+				D04DEE831B30BE6000BF1557 /* UserCounts.h */,
+				D04DEE841B30BE6000BF1557 /* UserCounts.m */,
 			);
 			name = UserInfo;
 			sourceTree = "<group>";
@@ -258,6 +273,16 @@
 				31C5CFD51B20E95800472161 /* Filter.m */,
 			);
 			name = Filter;
+			sourceTree = "<group>";
+		};
+		D04DEE821B30B01E00BF1557 /* Table Views */ = {
+			isa = PBXGroup;
+			children = (
+				D04DEE7D1B30AFFC00BF1557 /* MyInfoTableViewCell.h */,
+				D04DEE7E1B30AFFC00BF1557 /* MyInfoTableViewCell.m */,
+				D04DEE7F1B30AFFC00BF1557 /* MyInfoTableViewCell.xib */,
+			);
+			name = "Table Views";
 			sourceTree = "<group>";
 		};
 		D05EF7481B0B70EF00D01AE4 = {
@@ -392,6 +417,7 @@
 				D0D7CA941B0F898300363A39 /* Intro Page */,
 				D0835FB91B0CEE0700D88412 /* Text Field */,
 				D0E8D3711B1900AD008BA7A9 /* Pickers */,
+				D04DEE821B30B01E00BF1557 /* Table Views */,
 				D09901931B0E63CC00760CDF /* View Controllers */,
 				D0CBA1C51B2239B3002DD192 /* Tappable View */,
 				D0A250E21B17588A003E7D0B /* Drawing in Views */,
@@ -581,6 +607,7 @@
 				D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */,
 				D05EF7651B0B70EF00D01AE4 /* LaunchScreen.xib in Resources */,
 				D05EF7621B0B70EF00D01AE4 /* Images.xcassets in Resources */,
+				D04DEE811B30AFFC00BF1557 /* MyInfoTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -631,6 +658,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D04DEE7C1B30698400BF1557 /* UserNotifications.m in Sources */,
 				D02DE0DD1B2F651F00FE6A6A /* MyInformation.m in Sources */,
 				D05EF75D1B0B70EF00D01AE4 /* Feed.m in Sources */,
 				D030579C1B20E84E00F20072 /* (null) in Sources */,
@@ -639,6 +667,7 @@
 				31C5CFD31B20E93E00472161 /* Menu.m in Sources */,
 				D05EF7571B0B70EF00D01AE4 /* main.m in Sources */,
 				D0CD720E1B2B72D1004A5765 /* RankBarView.m in Sources */,
+				D04DEE801B30AFFC00BF1557 /* MyInfoTableViewCell.m in Sources */,
 				D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */,
 				D09901921B0E619300760CDF /* BEScrollingViewController.m in Sources */,
 				D01CB7451B29D78D003DF616 /* Support.m in Sources */,
@@ -659,6 +688,7 @@
 				D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */,
 				D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */,
 				D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */,
+				D04DEE851B30BE6000BF1557 /* UserCounts.m in Sources */,
 				D099018F1B0E35A900760CDF /* Profile.m in Sources */,
 				D0B282DA1B1E0545006FD580 /* BEDatePickerView.m in Sources */,
 				D0D7CA971B0F89AB00363A39 /* IntroPageContent.m in Sources */,
