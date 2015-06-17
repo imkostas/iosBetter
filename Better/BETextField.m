@@ -10,6 +10,29 @@
 
 @implementation BETextField
 
+#pragma mark - Initialization
+// Initialize from xib/storyboard
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+	self = [super initWithCoder:coder];
+	if (self)
+	{
+		[self setFont:[UIFont fontWithName:FONT_RALEWAY_MEDIUM size:[[self font] pointSize]]];
+	}
+	return self;
+}
+
+// Initialize programmatically
+- (instancetype)initWithFrame:(CGRect)frame
+{
+	self = [super initWithFrame:frame];
+	if (self)
+	{
+		[self setFont:[UIFont fontWithName:FONT_RALEWAY_MEDIUM size:[[self font] pointSize]]];
+	}
+	return self;
+}
+
 #pragma mark - Positioning of TextField views
 // Provides the CGRect for the text field to draw its left view
 - (CGRect)leftViewRectForBounds:(CGRect)bounds

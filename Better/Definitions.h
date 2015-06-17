@@ -11,6 +11,7 @@
 
 // Storyboard filenames
 #define STORYBOARD_FILENAME_FEED @"Feed"
+#define STORYBOARD_FILENAME_SETTINGS @"Settings"
 
 // Storyboard identifiers
 #define STORYBOARD_ID_SEGUE_EMBED_INTRO @"embedPageViewController"
@@ -56,8 +57,8 @@
 #define PADDING_TOP_KEYBOARD 20
 
 // My Ranking rank bar properties
-#define PADDING_MYRANKING_BETWEEN_SEGMENTS 4
-#define HEIGHT_MYRANKING_SEGMENT_PERCENT_OF_VIEW_HEIGHT 0.4
+#define PADDING_MYRANKING_BETWEEN_SEGMENTS 2
+#define HEIGHT_MYRANKING_SEGMENT_PERCENT_OF_VIEW_HEIGHT 0.35
 
 // Text field icon padding / size ratios
 /**
@@ -81,6 +82,7 @@
 
 // Alpha values
 #define ALPHA_FEED_OVERLAY 0.65
+#define ALPHA_PROFILE_PANEL_OVERLAY 0.69
 
 // Images
 #define IMAGE_GENDER_FEMALE @"account_button_female_125dp"
@@ -120,6 +122,12 @@
 #define ICON_RANK_TRENDSETTER @"ic_rank_trendsetter_grey_24dp"
 #define ICON_RANK_CROWNED @"ic_rank_crowned_grey_24dp"
 
+  // Rank table view:
+#define ICON_CHECKMARK @"ic_check_grey600_18dp"
+#define ICON_PORTRAIT @"ic_portrait_grey600_24dp"
+#define ICON_FAVORITE_OUTLINE @"ic_favorite_outline_grey600_24dp"
+#define ICON_PERSON_ADD @"ic_person_add_grey_24dp"
+
 // Animation properties
 #define ANIM_DURATION_INTRO (500/1000.0) // converts to seconds
 #define ANIM_DELAY_INTRO (300/1000.0)
@@ -142,5 +150,8 @@
 #define GENDER_UNDEFINED 0
 #define GENDER_MALE '2' // API returns a string: "2"
 #define GENDER_FEMALE '1'
+
+// Font names
+#define FONT_RALEWAY_MEDIUM @"Raleway-Medium"
 
 #endif

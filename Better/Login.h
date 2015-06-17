@@ -27,6 +27,9 @@
 // Called when 'Log in with Facebook' is pressed
 - (IBAction)logInFacebook:(id)sender;
 
+// Called when the usernameField's text changes
+- (IBAction)usernameTextChanged:(id)sender;
+
 // Returns TRUE if the given username and password are valid (i.e. their lengths
 // are not zero) and FALSE otherwise
 - (BOOL)validateUsername:(NSString *)user password:(NSString *)pass;

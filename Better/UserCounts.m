@@ -11,7 +11,7 @@
 @implementation UserCounts
 
 // Custom init
-- (instancetype)initWithMyVotes:(NSString *)myVotes myPosts:(NSString *)myPosts favoritePosts:(NSString *)favoritePosts favoriteTags:(NSString *)favoriteTags following:(NSString *)following followers:(NSString *)followers
+- (instancetype)initWithMyVotes:(NSNumber *)myVotes myPosts:(NSNumber *)myPosts favoritePosts:(NSNumber *)favoritePosts favoriteTags:(NSNumber *)favoriteTags following:(NSNumber *)following followers:(NSNumber *)followers
 {
 	self = [super init];
 	if(self)

@@ -67,8 +67,8 @@
 	filterWidthOriginal = [[self filterWidthConstraint] constant];
 	
 	// Move the drawers off of the screen
-	[self hideMenuDrawerAnimated:NO includingOverlay:NO];
-	[self hideFilterDrawerAnimated:NO includingOverlay:NO];
+//	[self hideMenuDrawerAnimated:NO includingOverlay:NO];
+//	[self hideFilterDrawerAnimated:NO includingOverlay:NO];
 }
 
 #pragma mark - Navigation, embed segues

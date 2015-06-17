@@ -177,6 +177,16 @@
 	NSLog(@"Log in to Facebook was pressed");
 }
 
+// Called when the usernameField's text changes
+- (IBAction)usernameTextChanged:(id)sender
+{
+	if(sender == [self usernameField])
+	{
+		NSString *uppercasedString = [[[self usernameField] text] uppercaseString];
+		[[self usernameField] setText:uppercasedString];
+	}
+}
+
 // Validate username and password
 - (BOOL)validateUsername:(NSString *)user password:(NSString *)pass
 {
@@ -227,6 +237,8 @@
 	
 	return YES;
 }
+
+// Called when the text in the textfield changes
 
 #pragma mark - Memory management
 - (void)didReceiveMemoryWarning

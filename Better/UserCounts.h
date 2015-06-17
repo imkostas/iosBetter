@@ -11,14 +11,14 @@
 @interface UserCounts : NSObject
 
 // Variables for the user's counts
-@property (strong, nonatomic) NSString *myVotes;
-@property (strong, nonatomic) NSString *myPosts;
-@property (strong, nonatomic) NSString *favoritePosts;
-@property (strong, nonatomic) NSString *favoriteTags;
-@property (strong, nonatomic) NSString *following;
-@property (strong, nonatomic) NSString *followers;
+@property (nonatomic) NSNumber *myVotes;
+@property (nonatomic) NSNumber *myPosts;
+@property (nonatomic) NSNumber *favoritePosts;
+@property (nonatomic) NSNumber *favoriteTags;
+@property (nonatomic) NSNumber *following;
+@property (nonatomic) NSNumber *followers;
 
 // Custom init
-- (instancetype)initWithMyVotes:(NSString *)myVotes myPosts:(NSString *)myPosts favoritePosts:(NSString *)favoritePosts favoriteTags:(NSString *)favoriteTags following:(NSString *)following followers:(NSString *)followers;
+- (instancetype)initWithMyVotes:(NSNumber *)myVotes myPosts:(NSNumber *)myPosts favoritePosts:(NSNumber *)favoritePosts favoriteTags:(NSNumber *)favoriteTags following:(NSNumber *)following followers:(NSNumber *)followers;
 
 @end

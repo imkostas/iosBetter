@@ -17,6 +17,7 @@
 // Profile image and panel
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePanel;
+@property (weak, nonatomic) IBOutlet UIView *profilePanelOverlay;
 
 // Rank and user information
 @property (weak, nonatomic) IBOutlet UILabel *rankLabel;
@@ -33,5 +34,7 @@
 
 // Refreshing the user's counts
 - (void)getCounts;
+
+- (IBAction)cycleRankIcon:(id)sender;
 
 @end

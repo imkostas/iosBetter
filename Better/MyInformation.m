@@ -9,6 +9,9 @@
 #import "MyInformation.h"
 
 @interface MyInformation ()
+{
+	int currentIcon;
+}
 
 @end
 
@@ -20,6 +23,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+	
+	currentIcon = 0;
 	
 	// Set up the navigation bar for the My Info area
 	[[[self navigationController] navigationBar] setBarTintColor:COLOR_BETTER_DARK];
@@ -35,9 +40,13 @@
 	[[[self profileImage] layer] setCornerRadius:[[self profileImage] frame].size.width / 2];
 	if([user profileImage] == nil)
 	{
-		[[self profileImage] setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE]];
-		[[self profilePanel] setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE]];
+		[[self profileImage] setImage:[UIImage imageNamed:@"donkey"]];
+		[[self profilePanel] setImage:[UIImage imageNamed:@"donkey"]];
 	}
+	
+	// Set up profile panel overlay (tint)
+	[[self profilePanelOverlay] setBackgroundColor:COLOR_BETTER_DARK];
+	[[self profilePanelOverlay] setAlpha:ALPHA_PROFILE_PANEL_OVERLAY];
 	
 	// Set up view controller title
 	[self setTitle:[user username]];
@@ -167,11 +176,13 @@
 	{
 		case 0:
 			[[cell label] setText:@"My Votes"];
-			[[cell count] setText:[counts myVotes]];
+			[[cell count] setText:[[counts myVotes] stringValue]];
+			[[cell icon] setImage:[UIImage imageNamed:ICON_CHECKMARK]];
 			break;
 		case 1:
 			[[cell label] setText:@"My Posts"];
-			[[cell count] setText:[counts myPosts]];
+			[[cell count] setText:[[counts myPosts] stringValue]];
+			[[cell icon] setImage:[UIImage imageNamed:ICON_PORTRAIT]];
 			break;
 		case 2:
 		{
@@ -179,11 +190,13 @@
 			{
 				case 0:
 					[[cell label] setText:@"Favorite Posts"];
-					[[cell count] setText:[counts favoritePosts]];
+					[[cell count] setText:[[counts favoritePosts] stringValue]];
+					[[cell icon] setImage:[UIImage imageNamed:ICON_FAVORITE_OUTLINE]];
 					break;
 				case 1:
 					[[cell label] setText:@"Favorite Tags"];
-					[[cell count] setText:[counts favoriteTags]];
+					[[cell count] setText:[[counts favoriteTags] stringValue]];
+					[[cell icon] setImage:nil];
 					break;
 				default:
 					break;
@@ -196,11 +209,13 @@
 			{
 				case 0:
 					[[cell label] setText:@"Following"];
-					[[cell count] setText:[counts following]];
+					[[cell count] setText:[[counts following] stringValue]];
+					[[cell icon] setImage:[UIImage imageNamed:ICON_PERSON_ADD]];
 					break;
 				case 1:
 					[[cell label] setText:@"Followers"];
-					[[cell count] setText:[counts followers]];
+					[[cell count] setText:[[counts followers] stringValue]];
+					[[cell icon] setImage:nil];
 					break;
 				default:
 					break;
@@ -226,12 +241,12 @@
 	UserInfo *user = [UserInfo user];
 	
 	// Perform the request
-	[manager GET:[NSString stringWithFormat:@"%@user/counts/%i", [user uri], [user userID]]
+	[manager GET:[NSString stringWithFormat:@"%@user/count/%i", [user uri], [user userID]]
 	  parameters:nil
 		 success:^(AFHTTPRequestOperation *operation, id responseObject) {
 			 // Get the data out of the response
 			 
-			 // Looks like this
+			 // Looks like this; the values are ints
 			 /*
 			  {
 				  "response": {
@@ -275,6 +290,40 @@
 //				 [[alert view] setTintColor:COLOR_BETTER_DARK];
 //			 }
 		 }];
+}
+
+- (IBAction)cycleRankIcon:(id)sender
+{
+	currentIcon++;
+	currentIcon %= 6;
+	
+	switch(currentIcon)
+	{
+		case 0:
+			[[self rankLabel] setText:@""];
+			[[self rankIcon] setImage:nil];
+			break;
+		case 1:
+			[[self rankLabel] setText:@"Newbie"];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_NEWBIE]];
+			break;
+		case 2:
+			[[self rankLabel] setText:@"Mainstream"];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_MAINSTREAM]];
+			break;
+		case 3:
+			[[self rankLabel] setText:@"Trailblazer"];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRAILBLAZER]];
+			break;
+		case 4:
+			[[self rankLabel] setText:@"Trendsetter"];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRENDSETTER]];
+			break;
+		case 5:
+			[[self rankLabel] setText:@"Crowned"];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_CROWNED]];
+			break;
+	}
 }
 
 @end
