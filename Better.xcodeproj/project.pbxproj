@@ -58,6 +58,9 @@
 		D05EF7711B0B70EF00D01AE4 /* BetterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7701B0B70EF00D01AE4 /* BetterTests.m */; };
 		D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7831B0B945F00D01AE4 /* Signup.m */; };
 		D05EF7881B0B9F0800D01AE4 /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7871B0B9F0800D01AE4 /* Login.m */; };
+		D06F394D1B3305C700721FCE /* MyRanking.m in Sources */ = {isa = PBXBuildFile; fileRef = D06F394C1B3305C700721FCE /* MyRanking.m */; };
+		D06F39501B33219100721FCE /* ExtendedNavBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = D06F394F1B33219100721FCE /* ExtendedNavBarView.m */; };
+		D06F39531B3369A800721FCE /* Leaderboard.m in Sources */ = {isa = PBXBuildFile; fileRef = D06F39521B3369A800721FCE /* Leaderboard.m */; };
 		D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */ = {isa = PBXBuildFile; fileRef = D0835FB71B0CEDFB00D88412 /* BETextField.m */; };
 		D0835FBD1B0CF43B00D88412 /* ForgotPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = D0835FBC1B0CF43B00D88412 /* ForgotPassword.m */; };
 		D099018F1B0E35A900760CDF /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = D099018E1B0E35A900760CDF /* Profile.m */; };
@@ -159,6 +162,12 @@
 		D05EF7831B0B945F00D01AE4 /* Signup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Signup.m; sourceTree = "<group>"; };
 		D05EF7861B0B9F0800D01AE4 /* Login.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login.h; sourceTree = "<group>"; };
 		D05EF7871B0B9F0800D01AE4 /* Login.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Login.m; sourceTree = "<group>"; };
+		D06F394B1B3305C700721FCE /* MyRanking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRanking.h; sourceTree = "<group>"; };
+		D06F394C1B3305C700721FCE /* MyRanking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyRanking.m; sourceTree = "<group>"; };
+		D06F394E1B33219100721FCE /* ExtendedNavBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtendedNavBarView.h; sourceTree = "<group>"; };
+		D06F394F1B33219100721FCE /* ExtendedNavBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExtendedNavBarView.m; sourceTree = "<group>"; };
+		D06F39511B3369A800721FCE /* Leaderboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Leaderboard.h; sourceTree = "<group>"; };
+		D06F39521B3369A800721FCE /* Leaderboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Leaderboard.m; sourceTree = "<group>"; };
 		D0835FB61B0CEDFB00D88412 /* BETextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BETextField.h; sourceTree = "<group>"; };
 		D0835FB71B0CEDFB00D88412 /* BETextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BETextField.m; sourceTree = "<group>"; };
 		D0835FBB1B0CF43B00D88412 /* ForgotPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPassword.h; sourceTree = "<group>"; };
@@ -567,8 +576,14 @@
 			children = (
 				D0CD72091B2B6237004A5765 /* MyRankingController.h */,
 				D0CD720A1B2B6237004A5765 /* MyRankingController.m */,
+				D06F394B1B3305C700721FCE /* MyRanking.h */,
+				D06F394C1B3305C700721FCE /* MyRanking.m */,
+				D06F39511B3369A800721FCE /* Leaderboard.h */,
+				D06F39521B3369A800721FCE /* Leaderboard.m */,
 				D0CD720C1B2B72D1004A5765 /* RankBarView.h */,
 				D0CD720D1B2B72D1004A5765 /* RankBarView.m */,
+				D06F394E1B33219100721FCE /* ExtendedNavBarView.h */,
+				D06F394F1B33219100721FCE /* ExtendedNavBarView.m */,
 			);
 			name = "My Ranking";
 			sourceTree = "<group>";
@@ -761,9 +776,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D04DEE7C1B30698400BF1557 /* UserNotifications.m in Sources */,
+				D06F39501B33219100721FCE /* ExtendedNavBarView.m in Sources */,
 				D02DE0DD1B2F651F00FE6A6A /* MyInformation.m in Sources */,
 				D05EF75D1B0B70EF00D01AE4 /* Feed.m in Sources */,
 				D030579C1B20E84E00F20072 /* (null) in Sources */,
+				D06F39531B3369A800721FCE /* Leaderboard.m in Sources */,
 				D01514CB1B1F686E00EFE991 /* UserInfo.m in Sources */,
 				D05EF75A1B0B70EF00D01AE4 /* AppDelegate.m in Sources */,
 				31C5CFD31B20E93E00472161 /* Menu.m in Sources */,
@@ -778,6 +795,7 @@
 				D05EF7881B0B9F0800D01AE4 /* Login.m in Sources */,
 				D02DE0E01B2F74A000FE6A6A /* UserRank.m in Sources */,
 				31C5CFD01B20E65900472161 /* CustomAlert.m in Sources */,
+				D06F394D1B3305C700721FCE /* MyRanking.m in Sources */,
 				D0CBA1C81B2239F0002DD192 /* BETappableView.m in Sources */,
 				3107407B1B1F66C400927B2D /* Following.m in Sources */,
 				D01CB74D1B2A2711003DF616 /* TermsPrivacy.m in Sources */,

@@ -65,12 +65,12 @@
 {
 	// Calculate segment values:
 	// Equation to find width of the first bar:
-	// x = (z - 3y) / 31
+	// x = (z - 3y) / (1+2+4+8+16)
 	// where:
 	// x -> width of first segment
 	// y -> width of space between segments (padding)
 	// z -> width of the frame of this UIView
-	NSLog(@"frame size(%.1f,%.1f)", [self frame].size.width, [self frame].size.height);
+//	NSLog(@"frame size(%.1f,%.1f)", [self frame].size.width, [self frame].size.height);
 	
 	firstSegmentWidth = ([self frame].size.width - 4*PADDING_MYRANKING_BETWEEN_SEGMENTS) / (1+2+4+8+16);
 	segmentHeight = [self frame].size.height * HEIGHT_MYRANKING_SEGMENT_PERCENT_OF_VIEW_HEIGHT;
@@ -114,7 +114,7 @@
 	
 	segmentRect.size = CGSizeMake(firstSegmentWidth * pow(2, index), segmentHeight);
 	
-	NSLog(@"drawing rect origin(%.1f,%.1f); size(%.1f,%.1f)", segmentRect.origin.x, segmentRect.origin.y, segmentRect.size.width, segmentRect.size.height);
+//	NSLog(@"drawing rect origin(%.1f,%.1f); size(%.1f,%.1f)", segmentRect.origin.x, segmentRect.origin.y, segmentRect.size.width, segmentRect.size.height);
 	
 	// Draw it
 	CGContextFillRect(graphics, segmentRect);

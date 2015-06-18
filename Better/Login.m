@@ -53,14 +53,19 @@
 
 #pragma mark - Login, validation
 // Called when the 'Log In' button is pressed
-- (IBAction)logIn:(id)sender
+- (IBAction)logIn:(UIButton *)sender
 {
 	[self dismissKeyboard];
 	
 	// Validate the given information
 	if([self validateUsername:[[self usernameField] text] password:[[self passwordField] text]])
 	{
-    
+		// Turn on network indicator
+		[[self user] setNetworkActivityIndicatorVisible:YES];
+		
+		// Set Log In button's text to Logging in...
+		[sender setTitle:@"LOGGING IN..." forState:UIControlStateNormal];
+		
          AFHTTPRequestOperationManager *manager =  [AFHTTPRequestOperationManager manager];
          manager.requestSerializer = [AFJSONRequestSerializer serializer];
          manager.responseSerializer = [AFJSONResponseSerializer serializer];
@@ -73,6 +78,10 @@
                                   @"password":  [[self passwordField] text]}
 
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+				  
+				  // Turn off network indicator
+				  [[self user] setNetworkActivityIndicatorVisible:NO];
+				  
                   NSLog(@"JSON: %@", [responseObject description]);
                   
                   //save user info - username, email, funds
@@ -115,10 +124,19 @@
 					  // Clear both fields
 					  [[self usernameField] setText:@""];
 					  [[self passwordField] setText:@""];
+					  // Reset login button
+					  [sender setTitle:@"LOG IN" forState:UIControlStateNormal];
 				  }];
                   
               }
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+				  
+				  // Turn off network indicator
+				  [[self user] setNetworkActivityIndicatorVisible:NO];
+				  
+				  // Reset login button
+				  [sender setTitle:@"LOG IN" forState:UIControlStateNormal];
+				  
                   NSLog(@"Error: %@", [error description]);
                   //[self customAlert:@"We were unable to log you in" withDone:@"Ok"];
 				  // Show an alert

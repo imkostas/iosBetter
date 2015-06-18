@@ -16,10 +16,14 @@
 	unsigned int tabBarDesiredIndex;
 }
 
+// Uses lastSelectedRow to un-select a row in the TableView
+- (void)deselectPreviouslySelectedRow;
+
 @end
 
 @implementation Support
 
+#pragma mark - ViewController management
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -44,17 +48,24 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+	// De-select the row of the tableview that was previously selected
+	[self deselectPreviouslySelectedRow];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - TableView methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	// Get index of selected row
 //	NSLog(@"selected row: %i", [indexPath indexAtPosition:1]);
-	
+
 	// Perform different actions based on which row was selected
 	switch([indexPath indexAtPosition:1])
 	{
@@ -84,6 +95,9 @@
 															cancelButtonTitle:@"OK"
 															otherButtonTitles:nil];
 				[noMailAlert show];
+				
+				// De-select row
+				[self deselectPreviouslySelectedRow];
 			}
 			
 			break;
@@ -91,6 +105,7 @@
 		case 1: // Rate BETTER
 		{
 			NSLog(@"yo");
+			[self deselectPreviouslySelectedRow];
 			break;
 		}
 		case 2: // Privacy Policy
@@ -110,9 +125,15 @@
 		default:
 			break;
 	}
+}
+
+- (void)deselectPreviouslySelectedRow
+{
+	// De-select the row of the tableview that was previously selected
+	NSIndexPath *selectedRowIndexPath = [[super tableView] indexPathForSelectedRow];
 	
-	// Deselect (de-highlight) the row
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	if(selectedRowIndexPath != nil)
+		[[super tableView] deselectRowAtIndexPath:selectedRowIndexPath animated:YES];
 }
 
 #pragma mark - MFMailCompose delegate

@@ -101,15 +101,92 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <connections>
+                        <segue destination="rmq-0g-NnC" kind="relationship" relationship="rootViewController" id="lNh-EB-Veu"/>
+                    </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iLV-Sv-Tu2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2124" y="350"/>
         </scene>
         <!--Ranking-->
+        <scene sceneID="Sd2-yu-PfU">
+            <objects>
+                <viewController id="rmq-0g-NnC" customClass="MyRankingController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="YKH-Ig-hXQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="ccT-Ou-bJC"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="iOg-Wz-e9l">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jZl-JR-kuK" userLabel="Page Container">
+                                <rect key="frame" x="0.0" y="108" width="600" height="492"/>
+                                <connections>
+                                    <segue destination="tdt-Oc-cmf" kind="embed" identifier="embedMyRanking" id="vVb-eC-OC3"/>
+                                </connections>
+                            </containerView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zfQ-wZ-zhW" userLabel="Page Control View" customClass="ExtendedNavBarView">
+                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="WJ3-os-D4D">
+                                        <rect key="frame" x="16" y="4" width="568" height="29"/>
+                                        <segments>
+                                            <segment title="My Ranking"/>
+                                            <segment title="Leaderboard"/>
+                                        </segments>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </segmentedControl>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="WJ3-os-D4D" secondAttribute="trailing" constant="16" id="Krf-1v-enZ"/>
+                                    <constraint firstItem="WJ3-os-D4D" firstAttribute="top" secondItem="zfQ-wZ-zhW" secondAttribute="top" constant="4" id="LbO-qf-WwJ"/>
+                                    <constraint firstItem="WJ3-os-D4D" firstAttribute="leading" secondItem="zfQ-wZ-zhW" secondAttribute="leading" constant="16" id="Ocr-Kv-auU"/>
+                                    <constraint firstAttribute="bottom" secondItem="WJ3-os-D4D" secondAttribute="bottom" constant="12" id="zpE-97-3OY"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="jZl-JR-kuK" firstAttribute="top" secondItem="zfQ-wZ-zhW" secondAttribute="bottom" id="1xh-Jk-X2r"/>
+                            <constraint firstItem="zfQ-wZ-zhW" firstAttribute="top" secondItem="YKH-Ig-hXQ" secondAttribute="bottom" id="7Dq-3P-Xch"/>
+                            <constraint firstItem="jZl-JR-kuK" firstAttribute="leading" secondItem="iOg-Wz-e9l" secondAttribute="leading" id="Ar1-er-0RN"/>
+                            <constraint firstItem="zfQ-wZ-zhW" firstAttribute="leading" secondItem="iOg-Wz-e9l" secondAttribute="leading" id="Nfp-sT-aUz"/>
+                            <constraint firstItem="ccT-Ou-bJC" firstAttribute="top" secondItem="jZl-JR-kuK" secondAttribute="bottom" id="Rk4-6C-ftt"/>
+                            <constraint firstAttribute="trailing" secondItem="jZl-JR-kuK" secondAttribute="trailing" id="kwP-Ab-8WU"/>
+                            <constraint firstAttribute="trailing" secondItem="zfQ-wZ-zhW" secondAttribute="trailing" id="t9i-9z-CyK"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Ranking" id="Sit-nh-y3e">
+                        <barButtonItem key="leftBarButtonItem" image="ic_arrow_back_green_24dp" id="hyP-7a-Oe2">
+                            <connections>
+                                <action selector="backArrowPressed:" destination="rmq-0g-NnC" id="pzM-5Y-oQx"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="pageSegmentedControl" destination="WJ3-os-D4D" id="gsu-FF-7Gn"/>
+                        <outlet property="segControlBackground" destination="zfQ-wZ-zhW" id="0zR-XM-N2c"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ioq-bv-MuM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2805" y="350"/>
+        </scene>
+        <!--Page View Controller-->
+        <scene sceneID="dx8-el-bCV">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="tdt-Oc-cmf" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FBr-QZ-tCC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3491" y="345"/>
+        </scene>
+        <!--Ranking-->
         <scene sceneID="2LW-ef-UqD">
             <objects>
-                <viewController title="Ranking" id="zRC-8n-g9m" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="myRankingViewController" title="Ranking" id="zRC-8n-g9m" customClass="MyRanking" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8BV-RF-aaX"/>
                         <viewControllerLayoutGuide type="bottom" id="E2L-ff-RgF"/>
@@ -124,6 +201,10 @@
                                     <constraint firstAttribute="height" constant="150" id="x7H-7i-cC0"/>
                                 </constraints>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WAR-L7-MHl" userLabel="Profile Background Overlay">
+                                <rect key="frame" x="0.0" y="20" width="600" height="150"/>
+                                <color key="backgroundColor" red="0.66777146464646453" green="0.66777146464646453" blue="0.66777146464646453" alpha="0.5" colorSpace="calibratedRGB"/>
+                            </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5tR-02-OO8" userLabel="Profile Pic">
                                 <rect key="frame" x="16" y="37" width="116" height="116"/>
                                 <constraints>
@@ -131,19 +212,33 @@
                                     <constraint firstAttribute="width" constant="116" id="hM7-g7-5MC"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FXR-FA-GeX" userLabel="Profile Pic Btn">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_cam_circle_account_116dp" translatesAutoresizingMaskIntoConstraints="NO" id="uTl-99-w8Z" userLabel="Profile Pic Ring">
                                 <rect key="frame" x="16" y="37" width="116" height="116"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;&lt; Rank &gt;&gt;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dBG-ri-V6W" customClass="BELabel">
+                                <rect key="frame" x="160" y="70" width="76" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="116" id="DH1-3P-hZV"/>
-                                    <constraint firstAttribute="height" constant="116" id="Xzg-Cc-TJ8"/>
+                                    <constraint firstAttribute="height" constant="17" id="Aeh-Qc-T9E"/>
                                 </constraints>
-                                <state key="normal" image="ic_cam_circle_account_116dp">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jzx-fy-t5z" userLabel="Rank icon">
+                                <rect key="frame" x="244" y="70" width="15" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="15" id="e9v-hX-gOk"/>
+                                </constraints>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zdh-s8-AoX" userLabel="Pts Value">
-                                <rect key="frame" x="160" y="95" width="21" height="46"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="38"/>
+                                <rect key="frame" x="160" y="95" width="22" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="pts" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bPM-cM-nd8">
+                                <rect key="frame" x="190" y="120" width="21" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -184,50 +279,62 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="7Ub-kN-dwU" secondAttribute="trailing" id="0F7-hL-RAb"/>
-                            <constraint firstItem="5tR-02-OO8" firstAttribute="width" secondItem="FXR-FA-GeX" secondAttribute="width" id="66Z-bO-oLy"/>
                             <constraint firstItem="jG3-NE-b1n" firstAttribute="leading" secondItem="1NE-AC-m2L" secondAttribute="trailing" constant="16" id="7fz-mp-zJT"/>
+                            <constraint firstItem="7Ub-kN-dwU" firstAttribute="trailing" secondItem="WAR-L7-MHl" secondAttribute="trailing" id="9Fe-u9-p6B"/>
+                            <constraint firstItem="Zdh-s8-AoX" firstAttribute="baseline" secondItem="bPM-cM-nd8" secondAttribute="baseline" id="9Gd-9W-gxN"/>
                             <constraint firstItem="Zdh-s8-AoX" firstAttribute="top" secondItem="5tR-02-OO8" secondAttribute="centerY" id="ECA-vr-TSD"/>
+                            <constraint firstItem="7Ub-kN-dwU" firstAttribute="bottom" secondItem="WAR-L7-MHl" secondAttribute="bottom" id="LL0-sQ-0TD"/>
                             <constraint firstItem="al7-Fe-j4e" firstAttribute="leading" secondItem="zC6-Jd-Z4q" secondAttribute="leading" id="MXI-UR-8z4"/>
+                            <constraint firstItem="uTl-99-w8Z" firstAttribute="trailing" secondItem="5tR-02-OO8" secondAttribute="trailing" id="MYV-8e-Vhz"/>
                             <constraint firstItem="1NE-AC-m2L" firstAttribute="leading" secondItem="zC6-Jd-Z4q" secondAttribute="leadingMargin" id="RvH-U2-EcU"/>
                             <constraint firstItem="7Ub-kN-dwU" firstAttribute="top" secondItem="8BV-RF-aaX" secondAttribute="bottom" id="UMY-ai-rTO"/>
+                            <constraint firstItem="uTl-99-w8Z" firstAttribute="top" secondItem="5tR-02-OO8" secondAttribute="top" id="Uqe-4V-sFd"/>
                             <constraint firstItem="7Ub-kN-dwU" firstAttribute="leading" secondItem="zC6-Jd-Z4q" secondAttribute="leading" id="Vb0-Uo-fpm"/>
                             <constraint firstItem="5tR-02-OO8" firstAttribute="leading" secondItem="zC6-Jd-Z4q" secondAttribute="leadingMargin" id="W2f-cB-6eF"/>
                             <constraint firstAttribute="trailing" secondItem="al7-Fe-j4e" secondAttribute="trailing" id="YQz-O7-aQx"/>
                             <constraint firstItem="Zdh-s8-AoX" firstAttribute="leading" secondItem="5tR-02-OO8" secondAttribute="trailing" constant="28" id="YTl-9S-cpH"/>
-                            <constraint firstItem="5tR-02-OO8" firstAttribute="centerY" secondItem="FXR-FA-GeX" secondAttribute="centerY" id="fac-IT-wvL"/>
+                            <constraint firstItem="Jzx-fy-t5z" firstAttribute="height" secondItem="dBG-ri-V6W" secondAttribute="height" id="eZw-g3-q0P"/>
+                            <constraint firstItem="Jzx-fy-t5z" firstAttribute="centerY" secondItem="dBG-ri-V6W" secondAttribute="centerY" id="gr6-ea-fkD"/>
+                            <constraint firstItem="7Ub-kN-dwU" firstAttribute="leading" secondItem="WAR-L7-MHl" secondAttribute="leading" id="i1G-Va-ZN3"/>
+                            <constraint firstItem="Zdh-s8-AoX" firstAttribute="top" secondItem="dBG-ri-V6W" secondAttribute="bottom" constant="8" id="iVl-lW-v1a"/>
+                            <constraint firstItem="Jzx-fy-t5z" firstAttribute="leading" secondItem="dBG-ri-V6W" secondAttribute="trailing" constant="8" id="k95-QG-sFR"/>
                             <constraint firstItem="E2L-ff-RgF" firstAttribute="top" secondItem="al7-Fe-j4e" secondAttribute="bottom" id="lGL-Ef-mKY"/>
+                            <constraint firstItem="bPM-cM-nd8" firstAttribute="leading" secondItem="Zdh-s8-AoX" secondAttribute="trailing" constant="8" id="lyH-oP-BbQ"/>
                             <constraint firstItem="1NE-AC-m2L" firstAttribute="centerY" secondItem="jG3-NE-b1n" secondAttribute="centerY" id="pM1-xH-oMZ"/>
+                            <constraint firstItem="7Ub-kN-dwU" firstAttribute="top" secondItem="WAR-L7-MHl" secondAttribute="top" id="r1u-7F-VFN"/>
                             <constraint firstAttribute="trailingMargin" secondItem="jG3-NE-b1n" secondAttribute="trailing" id="rIe-Fd-Xld"/>
+                            <constraint firstItem="uTl-99-w8Z" firstAttribute="bottom" secondItem="5tR-02-OO8" secondAttribute="bottom" id="tFu-di-ydB"/>
                             <constraint firstItem="5tR-02-OO8" firstAttribute="centerY" secondItem="7Ub-kN-dwU" secondAttribute="centerY" id="uAL-od-F6t"/>
-                            <constraint firstItem="5tR-02-OO8" firstAttribute="height" secondItem="FXR-FA-GeX" secondAttribute="height" id="uXS-m1-vRy"/>
-                            <constraint firstItem="5tR-02-OO8" firstAttribute="centerX" secondItem="FXR-FA-GeX" secondAttribute="centerX" id="v7f-nh-J8T"/>
                             <constraint firstItem="1NE-AC-m2L" firstAttribute="top" secondItem="7Ub-kN-dwU" secondAttribute="bottom" constant="8" id="vhV-Cr-k9w"/>
                             <constraint firstItem="al7-Fe-j4e" firstAttribute="top" secondItem="1NE-AC-m2L" secondAttribute="bottom" constant="8" id="wYC-qV-X4R"/>
+                            <constraint firstItem="Zdh-s8-AoX" firstAttribute="leading" secondItem="dBG-ri-V6W" secondAttribute="leading" id="wgz-Yh-NCI"/>
+                            <constraint firstItem="uTl-99-w8Z" firstAttribute="leading" secondItem="5tR-02-OO8" secondAttribute="leading" id="zWl-Sn-gZP"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="My Ranking" image="ic_crown_solid_30dp" id="wmU-m4-YNM"/>
                     <navigationItem key="navigationItem" title="Ranking" id="92H-DT-Gsk">
-                        <barButtonItem key="leftBarButtonItem" image="ic_arrow_back_green_24dp" id="S15-73-Rep">
-                            <connections>
-                                <action selector="backArrowPressed:" destination="zRC-8n-g9m" id="URD-NV-PSR"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" image="ic_arrow_back_green_24dp" id="S15-73-Rep"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="crownedIcon" destination="jG3-NE-b1n" id="GE7-IL-9ZS"/>
-                        <outlet property="profilePanel" destination="7Ub-kN-dwU" id="llq-c7-Iya"/>
-                        <outlet property="profilePicture" destination="5tR-02-OO8" id="GQ9-r9-EzS"/>
-                        <outlet property="rankBar" destination="1NE-AC-m2L" id="SQr-fm-J0c"/>
+                        <outlet property="badgesCollectionView" destination="al7-Fe-j4e" id="bK4-Et-7Ow"/>
+                        <outlet property="crownIcon" destination="jG3-NE-b1n" id="HR3-OB-BpJ"/>
+                        <outlet property="pointsLabel" destination="Zdh-s8-AoX" id="TgV-xp-gU2"/>
+                        <outlet property="profileImage" destination="5tR-02-OO8" id="Q9s-6T-NX8"/>
+                        <outlet property="profilePanel" destination="7Ub-kN-dwU" id="gzX-WG-hdm"/>
+                        <outlet property="profilePanelOverlay" destination="WAR-L7-MHl" id="buS-jE-ObT"/>
+                        <outlet property="rankBar" destination="1NE-AC-m2L" id="2Hq-CH-dAq"/>
+                        <outlet property="rankIcon" destination="Jzx-fy-t5z" id="aHT-eE-zAa"/>
+                        <outlet property="rankLabel" destination="dBG-ri-V6W" id="6Pa-Pl-STh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yeq-V4-V2m" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3559" y="35"/>
+            <point key="canvasLocation" x="4227" y="31"/>
         </scene>
-        <!--View Controller-->
+        <!--Leaderboard-->
         <scene sceneID="83J-iW-WEK">
             <objects>
-                <viewController id="HEE-Hs-4Fh" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="leaderboardViewController" id="HEE-Hs-4Fh" customClass="Leaderboard" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="WPn-rc-ufM"/>
                         <viewControllerLayoutGuide type="bottom" id="Ean-dM-OxB"/>
@@ -260,7 +367,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ESJ-zG-dCs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3559" y="763"/>
+            <point key="canvasLocation" x="4227" y="759"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dxn-eh-tf0">
@@ -377,7 +484,7 @@
                                     <constraint firstAttribute="bottom" secondItem="EEg-oV-F0h" secondAttribute="bottom" constant="12" id="ze0-Pr-E4i"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="x1X-gJ-ENY" userLabel="Counts">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="5" sectionFooterHeight="5" translatesAutoresizingMaskIntoConstraints="NO" id="x1X-gJ-ENY" userLabel="Counts">
                                 <rect key="frame" x="0.0" y="244" width="600" height="356"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>

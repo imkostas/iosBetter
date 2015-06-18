@@ -28,6 +28,10 @@
 #define STORYBOARD_ID_SETTINGS_NAVIGATION @"settingsNavigation"
 #define STORYBOARD_ID_MYINFORMATION_NAVIGATION @"myInfoNavigation"
 
+#define STORYBOARD_ID_MYRANKING @"myRankingViewController"
+#define STORYBOARD_ID_LEADERBOARD @"leaderboardViewController"
+#define STORYBOARD_ID_SEGUE_EMBED_RANKING @"embedMyRanking"
+
 	// Settings segues
 #define STORYBOARD_ID_SEGUE_SHOW_SETTINGS_MYACCOUNT @"showSettingsMyAccount"
 #define STORYBOARD_ID_SEGUE_SHOW_SETTINGS_NOTIFICATIONS @"showSettingsNotifications"
@@ -72,6 +76,7 @@
 #define COLOR_NAVIGATION_TINT ([UIColor colorWithWhite:0.8 alpha:1.0])
 #define COLOR_NAVIGATION_BAR ([UIColor colorWithWhite:0 alpha:0.1])
 #define COLOR_BETTER ([UIColor colorWithRed:29/255.0 green:233/255.0 blue:182/255.0 alpha:1.0])
+//#define COLOR_BETTER_DARK ([UIColor colorWithRed:0 green:0.47 blue:0.45 alpha:1.0])
 #define COLOR_BETTER_DARK ([UIColor colorWithRed:0 green:150/255.0 blue:136/255.0 alpha:1.0])
 #define COLOR_BETTER_DARKER ([UIColor colorWithRed:0 green:0.3 blue:0.25 alpha:1.0])
 #define COLOR_PICKER_BACKGROUND ([UIColor colorWithWhite:0.85 alpha:1.0])
@@ -96,6 +101,9 @@
 #define IMAGE_TUTORIAL_CROWN @"initial_tutorial_crown"
 
 #define IMAGE_EMPTY_PROFILE_PICTURE @"account_profile_panel_empty"
+
+#define IMAGE_PIXEL_TRANSPARENT @"TransparentPixel"
+#define IMAGE_PIXEL_COLOR_BETTER_DARK @"Color_better_dark"
 
 // Icons
 // Profile:
@@ -153,5 +161,6 @@
 
 // Font names
 #define FONT_RALEWAY_MEDIUM @"Raleway-Medium"
+#define FONT_SIZE_SEGMENTED_CONTROL [UIFont systemFontSize]
 
 #endif

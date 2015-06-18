@@ -106,4 +106,25 @@
 	return @"";
 }
 
+// Showing/hiding network activity indicator
+- (void)setNetworkActivityIndicatorVisible:(BOOL)visible
+{
+	// Acts kind of like a retain count--multiple objects can ask for the network indicator to turn on
+	// and turn off. When the variable is greater than zero, the indicator will be on, and when it gets back
+	// to zero, it turns off
+	static int numTimesRequestedVisible = 0;
+	
+	if(visible)
+		numTimesRequestedVisible++;
+	else if(numTimesRequestedVisible > 0) // Only decrement if it's above zero still
+		numTimesRequestedVisible--;
+	
+	// Debugging
+	if(numTimesRequestedVisible < 0)
+		NSLog(@"Network activity indicator index below zero: %i", numTimesRequestedVisible);
+	
+	// Set status of the indicator
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:(numTimesRequestedVisible > 0)];
+}
+
 @end

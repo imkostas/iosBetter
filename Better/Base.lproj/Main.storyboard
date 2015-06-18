@@ -166,7 +166,7 @@
                                                     <rect key="frame" x="190" y="259" width="21" height="19"/>
                                                 </variation>
                                             </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oKY-l3-3ZT" userLabel="Line">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oKY-l3-3ZT" userLabel="Line" customClass="BELine">
                                                 <rect key="frame" x="27" y="239" width="236" height="1"/>
                                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -179,7 +179,7 @@
                                                     <rect key="frame" x="27" y="268" width="137" height="1"/>
                                                 </variation>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GYg-On-qe2" userLabel="Line">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GYg-On-qe2" userLabel="Line" customClass="BELine">
                                                 <rect key="frame" x="333" y="239" width="254" height="1"/>
                                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <variation key="heightClass=regular" misplaced="YES">
@@ -391,7 +391,6 @@
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="logIn:" destination="3jU-cd-8j2" eventType="touchUpInside" id="iZL-GH-oHD"/>
                                                     <action selector="submitForgotPassword:" destination="LhZ-8H-dfc" eventType="touchUpInside" id="7bu-6m-5B9"/>
                                                 </connections>
                                             </button>
@@ -536,11 +535,11 @@
                                     <constraint firstAttribute="height" constant="75" id="jBM-SK-DIX"/>
                                 </constraints>
                             </imageView>
-                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OYC-bJ-GwM" userLabel="Line">
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OYC-bJ-GwM" userLabel="Line" customClass="BELine">
                                 <rect key="frame" x="16" y="303" width="254" height="1"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OUJ-LM-WsC" userLabel="Line">
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OUJ-LM-WsC" userLabel="Line" customClass="BELine">
                                 <rect key="frame" x="330" y="303" width="254" height="1"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -672,9 +671,9 @@
                                                     <outlet property="delegate" destination="EDX-Tj-Xsw" id="ESS-SC-k2s"/>
                                                 </connections>
                                             </textField>
-                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9hd-NN-DaA" userLabel="Divider">
+                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9hd-NN-DaA" userLabel="Divider" customClass="BELine">
                                                 <rect key="frame" x="0.0" y="379" width="600" height="1"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.85022095959595956" green="0.85022095959595956" blue="0.85022095959595956" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="iYp-PQ-gYw"/>
                                                 </constraints>
@@ -728,9 +727,9 @@
                                                     <constraint firstItem="GZE-LH-4mB" firstAttribute="leading" secondItem="Yqd-7b-xDC" secondAttribute="leading" constant="8" id="zgg-ua-Yy5"/>
                                                 </constraints>
                                             </view>
-                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WE7-uC-h5x" userLabel="Divider">
+                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WE7-uC-h5x" userLabel="Divider" customClass="BELine">
                                                 <rect key="frame" x="0.0" y="570" width="600" height="1"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.85022095959999999" green="0.85022095959999999" blue="0.85022095959999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="P6z-pi-Pix"/>
                                                 </constraints>

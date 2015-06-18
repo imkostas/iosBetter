@@ -281,9 +281,9 @@
                                                     <outlet property="delegate" destination="sk6-qe-xJ6" id="Jyf-j9-P2k"/>
                                                 </connections>
                                             </textField>
-                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0EI-7n-O9r" userLabel="Divider">
+                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0EI-7n-O9r" userLabel="Divider" customClass="BELine">
                                                 <rect key="frame" x="0.0" y="260" width="600" height="1"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.85022095959999999" green="0.85022095959999999" blue="0.85022095959999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="E40-Ci-1iE"/>
                                                 </constraints>
@@ -337,9 +337,9 @@
                                                     <constraint firstItem="XYa-fg-UE7" firstAttribute="top" secondItem="2tk-12-mCL" secondAttribute="top" constant="33" id="ojK-VP-PaJ"/>
                                                 </constraints>
                                             </view>
-                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ft5-Br-frZ" userLabel="Divider">
+                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ft5-Br-frZ" userLabel="Divider" customClass="BELine">
                                                 <rect key="frame" x="0.0" y="451" width="600" height="1"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.85022095959999999" green="0.85022095959999999" blue="0.85022095959999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="AoI-bb-us8"/>
                                                 </constraints>

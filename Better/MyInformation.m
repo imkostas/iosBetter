@@ -54,7 +54,7 @@
 	// Set up rank
 	switch([[user rank] rank])
 	{
-		case 3:
+		case 0:
 			[[self rankLabel] setText:@""];
 			[[self rankIcon] setImage:nil];
 			break;
@@ -66,7 +66,7 @@
 			[[self rankLabel] setText:@"Mainstream"];
 			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_MAINSTREAM]];
 			break;
-		case 0:
+		case 3:
 			[[self rankLabel] setText:@"Trailblazer"];
 			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRAILBLAZER]];
 			break;
@@ -232,18 +232,30 @@
 ///// ****** should probably put this in UserInfo, not here ********* ///////////
 - (void)getCounts
 {
+	// Get pointer to UserInfo object
+	UserInfo *user = [UserInfo user];
+	
+	// If there's already a UserCounts object stored in UserInfo, then reload the TableView with the previous
+	// values until the request is done
+	if([user counts] != nil)
+		[[self countsTableView] reloadData];
+	
+	// Turn on network indicator
+	[[UserInfo user] setNetworkActivityIndicatorVisible:YES];
+	
 	// Set up request
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
 	[manager setRequestSerializer:[AFJSONRequestSerializer serializer]];
 	[manager setResponseSerializer:[AFJSONResponseSerializer serializer]];
 	
-	// Get pointer to UserInfo object
-	UserInfo *user = [UserInfo user];
-	
 	// Perform the request
 	[manager GET:[NSString stringWithFormat:@"%@user/count/%i", [user uri], [user userID]]
 	  parameters:nil
 		 success:^(AFHTTPRequestOperation *operation, id responseObject) {
+			 
+			 // Turn off network indicator
+			 [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
+			 
 			 // Get the data out of the response
 			 
 			 // Looks like this; the values are ints
@@ -273,6 +285,10 @@
 			 [[self countsTableView] reloadData];
 		 }
 		 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+			 
+			 // Turn off network indicator
+			 [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
+			 
 			 // Get the error message, if any
 			 NSDictionary *errorResponse = [operation responseObject];
 			 NSString *errorMessage = [errorResponse objectForKey:@"error"];

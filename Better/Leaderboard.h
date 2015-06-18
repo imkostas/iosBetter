@@ -1,13 +1,13 @@
 //
-//  BELine.h
+//  Leaderboard.h
 //  Better
 //
-//  Created by Peter on 5/28/15.
+//  Created by Peter on 6/18/15.
 //  Copyright (c) 2015 Company. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface BELine : UIView
+@interface Leaderboard : UIViewController
 
 @end

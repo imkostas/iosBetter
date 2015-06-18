@@ -91,6 +91,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+	return YES;
+}
+
 #pragma mark - PageViewController datasource, delegate methods
 
 // Called when the page view controller is moving to the previous page (to the left)
@@ -251,6 +256,19 @@
 		UIPageViewController *pageViewController = (UIPageViewController *)[segue destinationViewController];
 		[pageViewController setDelegate:self];
 		[pageViewController setDataSource:self];
+
+//		// Find the UIPageControl within the UIPageViewController
+//		for(UIView *subview in [[pageViewController view] subviews])
+//		{
+//			if([subview isKindOfClass:[UIPageControl class]])
+//			{
+//				[self setPageControl:(UIPageControl *)subview];
+//				break;
+//			}
+//		}
+//		
+//		// Listen for event from UIPageControl
+//		[[self pageControl] addTarget:self action:@selector(pageControlValueChanged:) forControlEvents:UIControlEvent];
 		
 		// Set the first background image to be shown
 		[[self backgroundImage] setImage:[page1Content image]];
@@ -262,5 +280,10 @@
 									completion:nil];
 	}
 }
+
+//- (void)pageControlValueChanged:(UIPageControl *)sender
+//{
+//	NSLog(@"** value changed in page control");
+//}
 
 @end

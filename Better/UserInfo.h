@@ -41,4 +41,7 @@
 - (int)getAge;
 - (NSString *)getCountry;
 
+// Handles requests to show or hide the network activity indicator
+- (void)setNetworkActivityIndicatorVisible:(BOOL)visible;
+
 @end
