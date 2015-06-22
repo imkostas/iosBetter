@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UserInfo.h"
 #import "Definitions.h"
 #import "BELabel.h"
 #import "RankBarView.h"
+#import "BadgesCollectionViewCell.h"
 
-@interface MyRanking : UIViewController
+@interface MyRanking : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 // Profile pic UI elements
 @property (weak, nonatomic) IBOutlet UIImageView *profilePanel;

@@ -112,31 +112,16 @@
 {
 	// Change the segmented control's currently-selected button
 	if(page >= 0 && page < [[self pageSegmentedControl] numberOfSegments])
-		[[self pageSegmentedControl] setSelectedSegmentIndex:page];
+	{
+		// Do a fading animation when changing the selected segment
+		[UIView transitionWithView:[self pageSegmentedControl]
+						  duration:ANIM_DURATION_SEGMENTED_CONTROL_SWITCH
+						   options:UIViewAnimationOptionTransitionCrossDissolve
+						animations:^{
+							[[self pageSegmentedControl] setSelectedSegmentIndex:page];
+						}
+						completion:nil];
+	}
 }
-
-//- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
-//{
-//	NSLog(@"Hello 1");
-//	
-//	int currentIndex = [pages indexOfObject:viewController];
-//	
-//	if(currentIndex <= 0)
-//		return nil;
-//	else
-//		return [pages objectAtIndex:(currentIndex - 1)];
-//}
-//
-//- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
-//{
-//	NSLog(@"hello 2");
-//	
-//	int currentIndex = [pages indexOfObject:viewController];
-//	
-//	if(currentIndex >= [pages count] - 1)
-//		return nil;
-//	else
-//		return [pages objectAtIndex:(currentIndex + 1)];
-//}
 
 @end

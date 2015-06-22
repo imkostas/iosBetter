@@ -2,7 +2,8 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "ic_better_crown_38dp@1x.png"
     },
     {
       "idiom" : "universal",

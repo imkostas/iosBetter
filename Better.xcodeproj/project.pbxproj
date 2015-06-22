@@ -15,6 +15,8 @@
 		D006D1651B2776C7008A48FA /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = D006D1641B2776C7008A48FA /* Settings.m */; };
 		D00B29F11B38491F00DB87EC /* BEPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D00B29EF1B38491F00DB87EC /* BEPageViewController.m */; };
 		D00B29F21B38491F00DB87EC /* BEPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D00B29F01B38491F00DB87EC /* BEPageViewController.xib */; };
+		D00B29F91B3898D600DB87EC /* BadgesCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D00B29F71B3898D600DB87EC /* BadgesCollectionViewCell.m */; };
+		D00B29FA1B3898D600DB87EC /* BadgesCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D00B29F81B3898D600DB87EC /* BadgesCollectionViewCell.xib */; };
 		D01514CB1B1F686E00EFE991 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D01514CA1B1F686E00EFE991 /* UserInfo.m */; };
 		D01CB7411B29CBE3003DF616 /* Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = D01CB7401B29CBE3003DF616 /* Notifications.m */; };
 		D01CB7451B29D78D003DF616 /* Support.m in Sources */ = {isa = PBXBuildFile; fileRef = D01CB7441B29D78D003DF616 /* Support.m */; };
@@ -105,6 +107,9 @@
 		D00B29EE1B38491F00DB87EC /* BEPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEPageViewController.h; sourceTree = "<group>"; };
 		D00B29EF1B38491F00DB87EC /* BEPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEPageViewController.m; sourceTree = "<group>"; };
 		D00B29F01B38491F00DB87EC /* BEPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BEPageViewController.xib; sourceTree = "<group>"; };
+		D00B29F61B3898D600DB87EC /* BadgesCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BadgesCollectionViewCell.h; sourceTree = "<group>"; };
+		D00B29F71B3898D600DB87EC /* BadgesCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BadgesCollectionViewCell.m; sourceTree = "<group>"; };
+		D00B29F81B3898D600DB87EC /* BadgesCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BadgesCollectionViewCell.xib; sourceTree = "<group>"; };
 		D01514C91B1F686E00EFE991 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
 		D01514CA1B1F686E00EFE991 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
 		D01CB73F1B29CBE3003DF616 /* Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notifications.h; sourceTree = "<group>"; };
@@ -269,6 +274,16 @@
 				D006D1641B2776C7008A48FA /* Settings.m */,
 			);
 			name = Settings;
+			sourceTree = "<group>";
+		};
+		D00B29F31B3897EF00DB87EC /* Collection Views */ = {
+			isa = PBXGroup;
+			children = (
+				D00B29F61B3898D600DB87EC /* BadgesCollectionViewCell.h */,
+				D00B29F71B3898D600DB87EC /* BadgesCollectionViewCell.m */,
+				D00B29F81B3898D600DB87EC /* BadgesCollectionViewCell.xib */,
+			);
+			name = "Collection Views";
 			sourceTree = "<group>";
 		};
 		D01514C81B1F685200EFE991 /* UserInfo */ = {
@@ -515,6 +530,7 @@
 				D0835FB91B0CEE0700D88412 /* Text Field */,
 				D0E8D3711B1900AD008BA7A9 /* Pickers */,
 				D04DEE821B30B01E00BF1557 /* Table Views */,
+				D00B29F31B3897EF00DB87EC /* Collection Views */,
 				D09901931B0E63CC00760CDF /* View Controllers */,
 				D0CBA1C51B2239B3002DD192 /* Tappable View */,
 				D0A250E21B17588A003E7D0B /* Drawing in Views */,
@@ -584,14 +600,14 @@
 			children = (
 				D0CD72091B2B6237004A5765 /* MyRankingController.h */,
 				D0CD720A1B2B6237004A5765 /* MyRankingController.m */,
+				D06F394E1B33219100721FCE /* ExtendedNavBarView.h */,
+				D06F394F1B33219100721FCE /* ExtendedNavBarView.m */,
 				D06F394B1B3305C700721FCE /* MyRanking.h */,
 				D06F394C1B3305C700721FCE /* MyRanking.m */,
 				D06F39511B3369A800721FCE /* Leaderboard.h */,
 				D06F39521B3369A800721FCE /* Leaderboard.m */,
 				D0CD720C1B2B72D1004A5765 /* RankBarView.h */,
 				D0CD720D1B2B72D1004A5765 /* RankBarView.m */,
-				D06F394E1B33219100721FCE /* ExtendedNavBarView.h */,
-				D06F394F1B33219100721FCE /* ExtendedNavBarView.m */,
 			);
 			name = "My Ranking";
 			sourceTree = "<group>";
@@ -733,6 +749,7 @@
 				D05584D21B31D12A003FD842 /* Raleway-MediumItalic.ttf in Resources */,
 				D05584CA1B31D12A003FD842 /* Raleway-ExtraBold.ttf in Resources */,
 				D05584CD1B31D12A003FD842 /* Raleway-ExtraLightItalic.ttf in Resources */,
+				D00B29FA1B3898D600DB87EC /* BadgesCollectionViewCell.xib in Resources */,
 				D05584CC1B31D12A003FD842 /* Raleway-ExtraLight.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -788,6 +805,7 @@
 				D06F39501B33219100721FCE /* ExtendedNavBarView.m in Sources */,
 				D02DE0DD1B2F651F00FE6A6A /* MyInformation.m in Sources */,
 				D05EF75D1B0B70EF00D01AE4 /* Feed.m in Sources */,
+				D00B29F91B3898D600DB87EC /* BadgesCollectionViewCell.m in Sources */,
 				D030579C1B20E84E00F20072 /* (null) in Sources */,
 				D06F39531B3369A800721FCE /* Leaderboard.m in Sources */,
 				D01514CB1B1F686E00EFE991 /* UserInfo.m in Sources */,

@@ -312,6 +312,7 @@
 {
 	currentIcon++;
 	currentIcon %= 6;
+	[[[UserInfo user] rank] setRank:currentIcon];
 	
 	switch(currentIcon)
 	{

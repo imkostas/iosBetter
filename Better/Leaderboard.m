@@ -17,7 +17,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.	
+    // Do any additional setup after loading the view.
+	
+	// Set up this object
+	[[self view] setBackgroundColor:COLOR_LIGHT_LIGHT_GRAY];
 }
 
 - (void)didReceiveMemoryWarning

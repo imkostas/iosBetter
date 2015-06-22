@@ -42,6 +42,7 @@
 
 // Reuse identifiers
 #define REUSE_ID_MYINFORMATION_TABLECELL @"myInfoTableViewCell"
+#define REUSE_ID_BADGES_COLLECTION_CELL @"badgesCollectionViewCell"
 
 // Screen width and height
 #define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
@@ -61,7 +62,7 @@
 #define PADDING_TOP_KEYBOARD 20
 
 // My Ranking rank bar properties
-#define PADDING_MYRANKING_BETWEEN_SEGMENTS 2
+#define PADDING_MYRANKING_BETWEEN_SEGMENTS 3
 #define HEIGHT_MYRANKING_SEGMENT_PERCENT_OF_VIEW_HEIGHT 0.35
 
 // Text field icon padding / size ratios
@@ -76,7 +77,6 @@
 #define COLOR_NAVIGATION_TINT ([UIColor colorWithWhite:0.8 alpha:1.0])
 #define COLOR_NAVIGATION_BAR ([UIColor colorWithWhite:0 alpha:0.1])
 #define COLOR_BETTER ([UIColor colorWithRed:29/255.0 green:233/255.0 blue:182/255.0 alpha:1.0])
-//#define COLOR_BETTER_DARK ([UIColor colorWithRed:0 green:0.47 blue:0.45 alpha:1.0])
 #define COLOR_BETTER_DARK ([UIColor colorWithRed:0 green:150/255.0 blue:136/255.0 alpha:1.0])
 #define COLOR_BETTER_DARKER ([UIColor colorWithRed:0 green:0.3 blue:0.25 alpha:1.0])
 #define COLOR_PICKER_BACKGROUND ([UIColor colorWithWhite:0.85 alpha:1.0])
@@ -84,6 +84,7 @@
 #define COLOR_PICKER_TRANSPARENCY ([UIColor colorWithWhite:0.2 alpha:0.5])
 #define COLOR_LIGHT_LIGHT_GRAY ([UIColor colorWithWhite:0.96 alpha:1.0])
 #define COLOR_LIGHTER_GRAY ([UIColor colorWithWhite:0.98 alpha:1.0])
+#define COLOR_LIGHT_GRAY ([UIColor colorWithWhite:0.62 alpha:1.0])
 
 // Alpha values
 #define ALPHA_FEED_OVERLAY 0.65
@@ -104,6 +105,8 @@
 
 #define IMAGE_PIXEL_TRANSPARENT @"TransparentPixel"
 #define IMAGE_PIXEL_COLOR_BETTER_DARK @"Color_better_dark"
+
+#define IMAGE_BADGE_DEFAULT @"badge_default"
 
 // Icons
 // Profile:
@@ -145,6 +148,7 @@
 #define ANIM_DURATION_CHANGE_DRAWER_SIZE (200/1000.0)
 #define ANIM_DURATION_ALERT_SHOW (200/1000.0)
 #define ANIM_DURATION_ALERT_HIDE (250/1000.0)
+#define ANIM_DURATION_SEGMENTED_CONTROL_SWITCH (150/1000.0)
 
 // Date picker tags (for each ui element needing it)
 #define TAG_DATEPICKER_DOB 1
@@ -158,6 +162,13 @@
 #define GENDER_UNDEFINED 0
 #define GENDER_MALE '2' // API returns a string: "2"
 #define GENDER_FEMALE '1'
+
+// Rank levels
+#define RANK_NOOB 0		// There is one untitled level before newbie
+#define RANK_MAINSTREAM 1
+#define RANK_TRAILBLAZER 2
+#define RANK_TRENDSETTER 3
+#define RANK_CROWNED 4
 
 // Font names
 #define FONT_RALEWAY_MEDIUM @"Raleway-Medium"
