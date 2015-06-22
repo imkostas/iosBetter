@@ -10,4 +10,14 @@
 
 @interface Leaderboard : UIViewController
 
+// Daily/Weekly/AllTime segmented control
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+
+// TableView for showing the scores
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+// Called when user switches between Daily/Weekly/AllTime
+- (IBAction)segmentedControlValueChanged:(UISegmentedControl *)sender;
+
+
 @end

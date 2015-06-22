@@ -13,6 +13,8 @@
 		31C5CFD61B20E95800472161 /* Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C5CFD51B20E95800472161 /* Filter.m */; };
 		C7E587D3A4E84C486D8DF64F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC28AD39D34D3975720338BA /* libPods.a */; };
 		D006D1651B2776C7008A48FA /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = D006D1641B2776C7008A48FA /* Settings.m */; };
+		D00B29F11B38491F00DB87EC /* BEPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D00B29EF1B38491F00DB87EC /* BEPageViewController.m */; };
+		D00B29F21B38491F00DB87EC /* BEPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D00B29F01B38491F00DB87EC /* BEPageViewController.xib */; };
 		D01514CB1B1F686E00EFE991 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D01514CA1B1F686E00EFE991 /* UserInfo.m */; };
 		D01CB7411B29CBE3003DF616 /* Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = D01CB7401B29CBE3003DF616 /* Notifications.m */; };
 		D01CB7451B29D78D003DF616 /* Support.m in Sources */ = {isa = PBXBuildFile; fileRef = D01CB7441B29D78D003DF616 /* Support.m */; };
@@ -100,6 +102,9 @@
 		B0BFE93A98894EBBC42AA3B0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D006D1631B2776C7008A48FA /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		D006D1641B2776C7008A48FA /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
+		D00B29EE1B38491F00DB87EC /* BEPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEPageViewController.h; sourceTree = "<group>"; };
+		D00B29EF1B38491F00DB87EC /* BEPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEPageViewController.m; sourceTree = "<group>"; };
+		D00B29F01B38491F00DB87EC /* BEPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BEPageViewController.xib; sourceTree = "<group>"; };
 		D01514C91B1F686E00EFE991 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
 		D01514CA1B1F686E00EFE991 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
 		D01CB73F1B29CBE3003DF616 /* Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notifications.h; sourceTree = "<group>"; };
@@ -549,6 +554,9 @@
 			children = (
 				D09901901B0E619300760CDF /* BEScrollingViewController.h */,
 				D09901911B0E619300760CDF /* BEScrollingViewController.m */,
+				D00B29EE1B38491F00DB87EC /* BEPageViewController.h */,
+				D00B29EF1B38491F00DB87EC /* BEPageViewController.m */,
+				D00B29F01B38491F00DB87EC /* BEPageViewController.xib */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -718,6 +726,7 @@
 				D05584CB1B31D12A003FD842 /* Raleway-ExtraBoldItalic.ttf in Resources */,
 				D05584D31B31D12A003FD842 /* Raleway-Regular.ttf in Resources */,
 				D05584C61B31D12A003FD842 /* Raleway-Black.ttf in Resources */,
+				D00B29F21B38491F00DB87EC /* BEPageViewController.xib in Resources */,
 				D05584D11B31D12A003FD842 /* Raleway-Medium.ttf in Resources */,
 				D05584EF1B320A1D003FD842 /* Settings.storyboard in Resources */,
 				D05584D01B31D12A003FD842 /* Raleway-LightItalic.ttf in Resources */,
@@ -809,6 +818,7 @@
 				D0CD720B1B2B6237004A5765 /* MyRankingController.m in Sources */,
 				D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */,
 				D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */,
+				D00B29F11B38491F00DB87EC /* BEPageViewController.m in Sources */,
 				D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */,
 				D04DEE851B30BE6000BF1557 /* UserCounts.m in Sources */,
 				D099018F1B0E35A900760CDF /* Profile.m in Sources */,

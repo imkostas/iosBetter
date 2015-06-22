@@ -37,6 +37,20 @@
 	[[self segControlBackground] setBackgroundColor:COLOR_BETTER_DARK];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	
+	NSLog(@"**********MyRankingController will appear");
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	
+	NSLog(@"********MyRankingController did appear");
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -53,24 +67,18 @@
 	 // Get the page view controller as it's being embedded
 	 if([[segue identifier] isEqualToString:STORYBOARD_ID_SEGUE_EMBED_RANKING])
 	 {
-		 // Set delegate and datasource to this object
-		 UIPageViewController *rankingPageViewController = (UIPageViewController *)[segue destinationViewController];
-		 [rankingPageViewController setDataSource:self];
-		 [rankingPageViewController setDelegate:self];
+		 // Get the BEPageViewController destination
+		 BEPageViewController *pageViewController = (BEPageViewController *)[segue destinationViewController];
+		 [pageViewController setDataSource:self];
+		 [pageViewController setDelegate:self];
+		 [self setPageViewController:pageViewController]; // Save reference to this
 		 
 		 // Generate view controllers to use as pages
 		 if([self storyboard])
 		 {
-			 NSLog(@"generating pages");
 			 MyRanking *myRankVC = (MyRanking *)[[self storyboard] instantiateViewControllerWithIdentifier:STORYBOARD_ID_MYRANKING];
 			 Leaderboard *leaderboardVC = (Leaderboard *)[[self storyboard] instantiateViewControllerWithIdentifier:STORYBOARD_ID_LEADERBOARD];
 			 pages = [NSArray arrayWithObjects:myRankVC, leaderboardVC, nil];
-			 
-			 // Set the first view controller to be presented (first page)
-			 [rankingPageViewController setViewControllers:@[myRankVC]
-												 direction:UIPageViewControllerNavigationDirectionForward
-												  animated:YES
-												completion:nil];
 		 }
 	 }
 }
@@ -82,29 +90,53 @@
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - PageViewController datasource methods
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
+// Called on switch of segmented control
+- (IBAction)segControlValueChanged:(UISegmentedControl *)sender
 {
-	NSLog(@"Hello 1");
+	// Scroll to the correct position in the BEPageViewController's scrollview
+	CGPoint scrollViewTargetOffset;
+	scrollViewTargetOffset.x = CGRectGetWidth([[[self pageViewController] scrollView] frame]) * [sender selectedSegmentIndex];
+	scrollViewTargetOffset.y = 0;
 	
-	int currentIndex = [pages indexOfObject:viewController];
-	
-	if(currentIndex <= 0)
-		return nil;
-	else
-		return [pages objectAtIndex:(currentIndex - 1)];
+	[[[self pageViewController] scrollView] setContentOffset:scrollViewTargetOffset animated:YES];
 }
 
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
+#pragma mark - PageViewController datasource methods
+- (NSArray *)viewControllersForPageViewController:(BEPageViewController *)pageViewController
 {
-	NSLog(@"hello 2");
-	
-	int currentIndex = [pages indexOfObject:viewController];
-	
-	if(currentIndex >= [pages count] - 1)
-		return nil;
-	else
-		return [pages objectAtIndex:(currentIndex + 1)];
+	return pages;
 }
+
+#pragma mark - PageViewController delegate methods
+- (void)pageViewController:(BEPageViewController *)pageViewController switchedToPage:(NSInteger)page
+{
+	// Change the segmented control's currently-selected button
+	if(page >= 0 && page < [[self pageSegmentedControl] numberOfSegments])
+		[[self pageSegmentedControl] setSelectedSegmentIndex:page];
+}
+
+//- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
+//{
+//	NSLog(@"Hello 1");
+//	
+//	int currentIndex = [pages indexOfObject:viewController];
+//	
+//	if(currentIndex <= 0)
+//		return nil;
+//	else
+//		return [pages objectAtIndex:(currentIndex - 1)];
+//}
+//
+//- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
+//{
+//	NSLog(@"hello 2");
+//	
+//	int currentIndex = [pages indexOfObject:viewController];
+//	
+//	if(currentIndex >= [pages count] - 1)
+//		return nil;
+//	else
+//		return [pages objectAtIndex:(currentIndex + 1)];
+//}
 
 @end
