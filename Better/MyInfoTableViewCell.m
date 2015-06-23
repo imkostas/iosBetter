@@ -16,6 +16,9 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+	
+	// Make it's background color light gray for all states
+	[self setBackgroundColor:COLOR_LIGHT_LIGHT_GRAY];
 }
 
 @end

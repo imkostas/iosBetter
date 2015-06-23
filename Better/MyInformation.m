@@ -26,6 +26,10 @@
 	
 	currentIcon = 0;
 	
+	// Set up this view and TableView colors
+	[[self view] setBackgroundColor:COLOR_LIGHT_LIGHT_GRAY];
+	[[self countsTableView] setBackgroundColor:COLOR_LIGHT_LIGHT_GRAY];
+	
 	// Set up the navigation bar for the My Info area
 	[[[self navigationController] navigationBar] setBarTintColor:COLOR_BETTER_DARK];
 	[[[self navigationController] navigationBar] setTintColor:[UIColor whiteColor]];
@@ -54,27 +58,27 @@
 	// Set up rank
 	switch([[user rank] rank])
 	{
-		case 0:
+		case RANK_NORANK:
 			[[self rankLabel] setText:@""];
 			[[self rankIcon] setImage:nil];
 			break;
-		case 1:
+		case RANK_NOOB:
 			[[self rankLabel] setText:@"Newbie"];
 			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_NEWBIE]];
 			break;
-		case 2:
+		case RANK_MAINSTREAM:
 			[[self rankLabel] setText:@"Mainstream"];
 			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_MAINSTREAM]];
 			break;
-		case 3:
+		case RANK_TRAILBLAZER:
 			[[self rankLabel] setText:@"Trailblazer"];
 			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRAILBLAZER]];
 			break;
-		case 4:
+		case RANK_TRENDSETTER:
 			[[self rankLabel] setText:@"Trendsetter"];
 			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRENDSETTER]];
 			break;
-		case 5:
+		case RANK_CROWNED:
 			[[self rankLabel] setText:@"Crowned"];
 			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_CROWNED]];
 			break;
@@ -128,26 +132,28 @@
 // Called to determine the sections of the tableview
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	switch(section)
-	{
-		case 0:
-			return 1;
-		case 1:
-			return 1;
-		case 2:
-			return 2;
-		case 3:
-			return 2;
-		default:
-			return 0;
-	}
+	return 6;
+	
+//	switch(section)
+//	{
+//		case 0:
+//			return 1;
+//		case 1:
+//			return 1;
+//		case 2:
+//			return 2;
+//		case 3:
+//			return 2;
+//		default:
+//			return 0;
+//	}
 }
-
-// Called to determine how many sections the tableview has (4)
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-	return 4;
-}
+//
+//// Called to determine how many sections the tableview has (4)
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+//{
+//	return 4;
+//}
 
 // Called when the tableview wants to load a cell
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -171,7 +177,52 @@
 	UserInfo *user = [UserInfo user];
 	UserCounts *counts = [user counts];
 	
-	// Return cells based on the index path
+	// Return cells based on the index path (non-grouped)
+	switch ([indexPath indexAtPosition:1]) // position 0 is always zero (section zero)
+	{
+		case 0:
+			[[cell label] setText:@"My Votes"];
+			[[cell count] setText:[[counts myVotes] stringValue]];
+			[[cell icon] setImage:[UIImage imageNamed:ICON_CHECKMARK]];
+			break;
+		case 1:
+			[[cell label] setText:@"My Posts"];
+			[[cell count] setText:[[counts myPosts] stringValue]];
+			[[cell icon] setImage:[UIImage imageNamed:ICON_PORTRAIT]];
+			break;
+		case 2:
+			[[cell label] setText:@"Favorite Posts"];
+			[[cell count] setText:[[counts favoritePosts] stringValue]];
+			[[cell icon] setImage:[UIImage imageNamed:ICON_FAVORITE_OUTLINE]];
+			// Remove the separator from below this cell
+			// --> UIEdgeInsetsMake(top, left, bottom, right)
+			[cell setSeparatorInset:UIEdgeInsetsMake(0, CGRectGetWidth([cell frame]), 0, 0)];
+			break;
+		case 3:
+			[[cell label] setText:@"Favorite Tags"];
+			[[cell count] setText:[[counts favoriteTags] stringValue]];
+			[[cell icon] setImage:nil];
+			break;
+		case 4:
+			[[cell label] setText:@"Following"];
+			[[cell count] setText:[[counts following] stringValue]];
+			[[cell icon] setImage:[UIImage imageNamed:ICON_PERSON_ADD]];
+			// Remove the separator from below this cell
+			[cell setSeparatorInset:UIEdgeInsetsMake(0, CGRectGetWidth([cell frame]), 0, 0)];
+			break;
+		case 5:
+			[[cell label] setText:@"Followers"];
+			[[cell count] setText:[[counts followers] stringValue]];
+			[[cell icon] setImage:nil];
+			// Remove the separator from below this cell
+			[cell setSeparatorInset:UIEdgeInsetsMake(0, CGRectGetWidth([cell frame]), 0, 0)];
+			break;
+		default:
+			break;
+	}
+	
+	// Return cells based on the index path (grouped)
+	/*
 	switch([indexPath section])
 	{
 		case 0:
@@ -225,6 +276,7 @@
 		default:
 			break;
 	}
+	*/
 }
 
 #pragma mark - Retrieving user's counts

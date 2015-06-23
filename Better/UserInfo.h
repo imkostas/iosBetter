@@ -13,6 +13,7 @@
 #import "UserRank.h"
 #import "UserNotifications.h"
 #import "UserCounts.h"
+#import "LeaderboardData.h"
 
 @interface UserInfo : NSObject
 
@@ -28,6 +29,7 @@
 @property (strong, nonatomic)	UserRank *rank;
 @property (strong, nonatomic)	UserNotifications *notification;
 @property (strong, nonatomic)	UserCounts *counts;
+@property (strong, nonatomic)	LeaderboardData *leaderboardData;
 
 //global back-end paths
 @property (nonatomic, strong) NSString *uri;

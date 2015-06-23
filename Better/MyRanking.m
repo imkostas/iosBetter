@@ -71,15 +71,15 @@
 	[[self crownIcon] setImage:[UIImage imageNamed:ICON_CROWN_UNFILLED]];
 	
 	// Fill in the rankbar according to rank
-	if([userRank rank] > RANK_NOOB)
+	if([userRank rank] >= RANK_NOOB)
 		[[self rankBar] setFirstSegmentFilled:YES];
-	if([userRank rank] > RANK_MAINSTREAM)
+	if([userRank rank] >= RANK_MAINSTREAM)
 		[[self rankBar] setSecondSegmentFilled:YES];
-	if([userRank rank] > RANK_TRAILBLAZER)
+	if([userRank rank] >= RANK_TRAILBLAZER)
 		[[self rankBar] setThirdSegmentFilled:YES];
-	if([userRank rank] > RANK_TRENDSETTER)
+	if([userRank rank] >= RANK_TRENDSETTER)
 		[[self rankBar] setFourthSegmentFilled:YES];
-	if([userRank rank] > RANK_CROWNED)
+	if([userRank rank] >= RANK_CROWNED)
 	{
 		[[self rankBar] setFifthSegmentFilled:YES];
 		[[self crownIcon] setImage:[UIImage imageNamed:ICON_CROWN_FILLED]];
@@ -95,7 +95,8 @@
 	[[self badgesCollectionView] setBackgroundColor:COLOR_LIGHT_LIGHT_GRAY];
 	
 	  // Unlike a uitableview, this uicollectionview does not allow you to call -dequeue...... and get a cell
-	  // without doing -registerNib: first, so we do this once in -viewDidLoad
+	  // without doing -registerNib: first, so we do this once in -viewDidLoad.
+	  // It doesn't have the -dequeue method _without_ the ...forIndexPath: parameter like UITableview has
 	[[self badgesCollectionView] registerNib:[UINib nibWithNibName:@"BadgesCollectionViewCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:REUSE_ID_BADGES_COLLECTION_CELL];
 }
 
@@ -140,9 +141,9 @@
 // Size of a cell
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	CGFloat width = (CGRectGetWidth([collectionView frame]) - 2*16 - 2*16) / 3.25;
+	CGFloat width = (CGRectGetWidth([collectionView frame]) - 2*16 - 2*16) / 3.1;
 	
-	return CGSizeMake(width, width);
+	return CGSizeMake(width, width * 1.5);
 }
 
 // Section insets
@@ -155,6 +156,18 @@
 	insets.bottom = 16;
 	
 	return insets;
+}
+
+// Line spacing
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+	return 16;
+}
+
+// Inter-item spacing
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+	return 16;
 }
 
 /*

@@ -26,6 +26,9 @@
 		D02DE0E01B2F74A000FE6A6A /* UserRank.m in Sources */ = {isa = PBXBuildFile; fileRef = D02DE0DF1B2F74A000FE6A6A /* UserRank.m */; };
 		D030579C1B20E84E00F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D030579F1B20E85900F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		D031CEDF1B39DD900039A9C1 /* LeaderboardData.m in Sources */ = {isa = PBXBuildFile; fileRef = D031CEDE1B39DD900039A9C1 /* LeaderboardData.m */; };
+		D031CEE31B39E4D70039A9C1 /* LeaderboardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D031CEE11B39E4D70039A9C1 /* LeaderboardTableViewCell.m */; };
+		D031CEE41B39E4D70039A9C1 /* LeaderboardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D031CEE21B39E4D70039A9C1 /* LeaderboardTableViewCell.xib */; };
 		D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */ = {isa = PBXBuildFile; fileRef = D03DB44E1B1F4CAA00810E1E /* Countries.plist */; };
 		D04DEE7C1B30698400BF1557 /* UserNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = D04DEE7B1B30698400BF1557 /* UserNotifications.m */; };
 		D04DEE801B30AFFC00BF1557 /* MyInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D04DEE7E1B30AFFC00BF1557 /* MyInfoTableViewCell.m */; };
@@ -123,6 +126,11 @@
 		D02DE0DC1B2F651F00FE6A6A /* MyInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyInformation.m; sourceTree = "<group>"; };
 		D02DE0DE1B2F74A000FE6A6A /* UserRank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserRank.h; sourceTree = "<group>"; };
 		D02DE0DF1B2F74A000FE6A6A /* UserRank.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserRank.m; sourceTree = "<group>"; };
+		D031CEDD1B39DD900039A9C1 /* LeaderboardData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaderboardData.h; sourceTree = "<group>"; };
+		D031CEDE1B39DD900039A9C1 /* LeaderboardData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaderboardData.m; sourceTree = "<group>"; };
+		D031CEE01B39E4D70039A9C1 /* LeaderboardTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaderboardTableViewCell.h; sourceTree = "<group>"; };
+		D031CEE11B39E4D70039A9C1 /* LeaderboardTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaderboardTableViewCell.m; sourceTree = "<group>"; };
+		D031CEE21B39E4D70039A9C1 /* LeaderboardTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeaderboardTableViewCell.xib; sourceTree = "<group>"; };
 		D03DB44E1B1F4CAA00810E1E /* Countries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countries.plist; sourceTree = "<group>"; };
 		D04DEE7A1B30698400BF1557 /* UserNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNotifications.h; sourceTree = "<group>"; };
 		D04DEE7B1B30698400BF1557 /* UserNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNotifications.m; sourceTree = "<group>"; };
@@ -297,6 +305,8 @@
 				D04DEE7B1B30698400BF1557 /* UserNotifications.m */,
 				D04DEE831B30BE6000BF1557 /* UserCounts.h */,
 				D04DEE841B30BE6000BF1557 /* UserCounts.m */,
+				D031CEDD1B39DD900039A9C1 /* LeaderboardData.h */,
+				D031CEDE1B39DD900039A9C1 /* LeaderboardData.m */,
 			);
 			name = UserInfo;
 			sourceTree = "<group>";
@@ -354,6 +364,9 @@
 				D04DEE7D1B30AFFC00BF1557 /* MyInfoTableViewCell.h */,
 				D04DEE7E1B30AFFC00BF1557 /* MyInfoTableViewCell.m */,
 				D04DEE7F1B30AFFC00BF1557 /* MyInfoTableViewCell.xib */,
+				D031CEE01B39E4D70039A9C1 /* LeaderboardTableViewCell.h */,
+				D031CEE11B39E4D70039A9C1 /* LeaderboardTableViewCell.m */,
+				D031CEE21B39E4D70039A9C1 /* LeaderboardTableViewCell.xib */,
 			);
 			name = "Table Views";
 			sourceTree = "<group>";
@@ -745,6 +758,7 @@
 				D00B29F21B38491F00DB87EC /* BEPageViewController.xib in Resources */,
 				D05584D11B31D12A003FD842 /* Raleway-Medium.ttf in Resources */,
 				D05584EF1B320A1D003FD842 /* Settings.storyboard in Resources */,
+				D031CEE41B39E4D70039A9C1 /* LeaderboardTableViewCell.xib in Resources */,
 				D05584D01B31D12A003FD842 /* Raleway-LightItalic.ttf in Resources */,
 				D05584D21B31D12A003FD842 /* Raleway-MediumItalic.ttf in Resources */,
 				D05584CA1B31D12A003FD842 /* Raleway-ExtraBold.ttf in Resources */,
@@ -817,10 +831,12 @@
 				D04DEE801B30AFFC00BF1557 /* MyInfoTableViewCell.m in Sources */,
 				D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */,
 				D09901921B0E619300760CDF /* BEScrollingViewController.m in Sources */,
+				D031CEDF1B39DD900039A9C1 /* LeaderboardData.m in Sources */,
 				D01CB7451B29D78D003DF616 /* Support.m in Sources */,
 				D0A250E51B1758AA003E7D0B /* BELine.m in Sources */,
 				D05EF7881B0B9F0800D01AE4 /* Login.m in Sources */,
 				D02DE0E01B2F74A000FE6A6A /* UserRank.m in Sources */,
+				D031CEE31B39E4D70039A9C1 /* LeaderboardTableViewCell.m in Sources */,
 				31C5CFD01B20E65900472161 /* CustomAlert.m in Sources */,
 				D06F394D1B3305C700721FCE /* MyRanking.m in Sources */,
 				D0CBA1C81B2239F0002DD192 /* BETappableView.m in Sources */,

@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "Definitions.h"
+#import "UserInfo.h"
+#import "LeaderboardTableViewCell.h"
 
-@interface Leaderboard : UIViewController
+@interface Leaderboard : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 // Daily/Weekly/AllTime segmented control
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
@@ -19,6 +21,5 @@
 
 // Called when user switches between Daily/Weekly/AllTime
 - (IBAction)segmentedControlValueChanged:(UISegmentedControl *)sender;
-
 
 @end

@@ -43,6 +43,7 @@
 // Reuse identifiers
 #define REUSE_ID_MYINFORMATION_TABLECELL @"myInfoTableViewCell"
 #define REUSE_ID_BADGES_COLLECTION_CELL @"badgesCollectionViewCell"
+#define REUSE_ID_LEADERBOARD_TABLECELL @"leaderboardTableViewCell"
 
 // Screen width and height
 #define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
@@ -164,11 +165,12 @@
 #define GENDER_FEMALE '1'
 
 // Rank levels
-#define RANK_NOOB 0		// There is one untitled level before newbie
-#define RANK_MAINSTREAM 1
-#define RANK_TRAILBLAZER 2
-#define RANK_TRENDSETTER 3
-#define RANK_CROWNED 4
+#define RANK_NORANK 0
+#define RANK_NOOB 1
+#define RANK_MAINSTREAM 2
+#define RANK_TRAILBLAZER 3
+#define RANK_TRENDSETTER 4
+#define RANK_CROWNED 5
 
 // Font names
 #define FONT_RALEWAY_MEDIUM @"Raleway-Medium"

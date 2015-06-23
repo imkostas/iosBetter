@@ -86,7 +86,7 @@
 														 toDate:now
 														options:0];
 		
-		return [difference year];
+		return (int)[difference year];
 	}
 }
 

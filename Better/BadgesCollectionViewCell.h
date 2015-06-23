@@ -15,5 +15,4 @@
 @property (weak, nonatomic) IBOutlet UILabel *badgeTitle;
 @property (weak, nonatomic) IBOutlet UILabel *badgeStatus;
 
-
 @end
