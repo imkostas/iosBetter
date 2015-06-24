@@ -9,6 +9,10 @@
 #import "MyRanking.h"
 
 @interface MyRanking ()
+{
+	// Pointer to userinfo object
+	UserInfo *user;
+}
 
 @end
 
@@ -33,31 +37,31 @@
 	[[self profilePanelOverlay] setAlpha:ALPHA_PROFILE_PANEL_OVERLAY];
 	
 	// Set up rank
-	UserInfo *user = [UserInfo user];
+	user = [UserInfo user];
 	UserRank *userRank = [user rank];
 	switch([userRank rank])
 	{
-		case 0:
+		case RANK_NORANK:
 			[[self rankLabel] setText:@""];
 			[[self rankIcon] setImage:nil];
 			break;
-		case 1:
+		case RANK_NOOB:
 			[[self rankLabel] setText:@"Newbie"];
 			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_NEWBIE]];
 			break;
-		case 2:
+		case RANK_MAINSTREAM:
 			[[self rankLabel] setText:@"Mainstream"];
 			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_MAINSTREAM]];
 			break;
-		case 3:
+		case RANK_TRAILBLAZER:
 			[[self rankLabel] setText:@"Trailblazer"];
 			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRAILBLAZER]];
 			break;
-		case 4:
+		case RANK_TRENDSETTER:
 			[[self rankLabel] setText:@"Trendsetter"];
 			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRENDSETTER]];
 			break;
-		case 5:
+		case RANK_CROWNED:
 			[[self rankLabel] setText:@"Crowned"];
 			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_CROWNED]];
 			break;
@@ -132,9 +136,176 @@
 // Called when a cell is about to appear (we set its properties here)
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(BadgesCollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_DEFAULT]];
-	[[cell badgeStatus] setText:@"GOLD"];
-	[[cell badgeTitle] setText:@"Hello"];
+	// Get the user's rank object
+	UserRank *rank = [user rank];
+	
+	// Configure the cell depending on the user's rank and the badge
+	// So many cases........ :-)
+	switch([indexPath indexAtPosition:1]) // -indexAtPosition:1 gives 0,1,2,...5
+	{
+		case 0: // Admirer
+		{
+			// Set the badge title
+			[[cell badgeTitle] setText:@"Admirer"];
+			
+			// Bronze/silver/gold levels
+			switch([rank badgeAdmirer])
+			{
+				case 0:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_DEFAULT]];
+					[[cell badgeStatus] setText:@""];
+					break;
+				case 1:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_ADMIRER_BRONZE]];
+					[[cell badgeStatus] setText:@"BRONZE"];
+					break;
+				case 2:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_ADMIRER_SILVER]];
+					[[cell badgeStatus] setText:@"SILVER"];
+					break;
+				case 3:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_ADMIRER_GOLD]];
+					[[cell badgeStatus] setText:@"GOLD"];
+					break;
+			}
+			break;
+		}
+		case 1: // Adventurer
+		{
+			// Set the badge title
+			[[cell badgeTitle] setText:@"Adventurer"];
+			
+			// Bronze/silver/gold levels
+			switch([rank badgeAdmirer])
+			{
+				case 0:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_DEFAULT]];
+					[[cell badgeStatus] setText:@""];
+					break;
+				case 1:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_ADVENTURER_BRONZE]];
+					[[cell badgeStatus] setText:@"BRONZE"];
+					break;
+				case 2:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_ADVENTURER_SILVER]];
+					[[cell badgeStatus] setText:@"SILVER"];
+					break;
+				case 3:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_ADVENTURER_GOLD]];
+					[[cell badgeStatus] setText:@"GOLD"];
+					break;
+			}
+			break;
+		}
+		case 2: // Celebrity
+		{
+			// Set the badge title
+			[[cell badgeTitle] setText:@"Celebrity"];
+			
+			// Bronze/silver/gold levels
+			switch([rank badgeAdmirer])
+			{
+				case 0:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_DEFAULT]];
+					[[cell badgeStatus] setText:@""];
+					break;
+				case 1:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_CELEBRITY_BRONZE]];
+					[[cell badgeStatus] setText:@"BRONZE"];
+					break;
+				case 2:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_CELEBRITY_SILVER]];
+					[[cell badgeStatus] setText:@"SILVER"];
+					break;
+				case 3:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_CELEBRITY_GOLD]];
+					[[cell badgeStatus] setText:@"GOLD"];
+					break;
+			}
+			break;
+		}
+		case 3: // Idol
+		{
+			// Set the badge title
+			[[cell badgeTitle] setText:@"Idol"];
+			
+			// Bronze/silver/gold levels
+			switch([rank badgeAdmirer])
+			{
+				case 0:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_DEFAULT]];
+					[[cell badgeStatus] setText:@""];
+					break;
+				case 1:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_IDOL_BRONZE]];
+					[[cell badgeStatus] setText:@"BRONZE"];
+					break;
+				case 2:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_IDOL_SILVER]];
+					[[cell badgeStatus] setText:@"SILVER"];
+					break;
+//				case 3: // TO-DO: issing asset
+//					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_IDOL_GOLD]];
+//					[[cell badgeStatus] setText:@"GOLD"];
+//					break;
+			}
+			break;
+		}
+		case 4: // Role Model
+		{
+			// Set the badge title
+			[[cell badgeTitle] setText:@"Role Model"];
+			
+			// Bronze/silver/gold levels
+			switch([rank badgeAdmirer])
+			{
+				case 0:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_DEFAULT]];
+					[[cell badgeStatus] setText:@""];
+					break;
+				case 1:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_ROLEMODEL_BRONZE]];
+					[[cell badgeStatus] setText:@"BRONZE"];
+					break;
+				case 2:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_ROLEMODEL_SILVER]];
+					[[cell badgeStatus] setText:@"SILVER"];
+					break;
+				case 3:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_ROLEMODEL_GOLD]];
+					[[cell badgeStatus] setText:@"GOLD"];
+					break;
+			}
+			break;
+		}
+		case 5: // Tastemaker
+		{
+			// Set the badge title
+			[[cell badgeTitle] setText:@"Tastemaker"];
+			
+			// Bronze/silver/gold levels
+			switch([rank badgeAdmirer])
+			{
+				case 0:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_DEFAULT]];
+					[[cell badgeStatus] setText:@""];
+					break;
+				case 1:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_TASTEMAKER_BRONZE]];
+					[[cell badgeStatus] setText:@"BRONZE"];
+					break;
+				case 2:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_TASTEMAKER_SILVER]];
+					[[cell badgeStatus] setText:@"SILVER"];
+					break;
+				case 3:
+					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_TASTEMAKER_GOLD]];
+					[[cell badgeStatus] setText:@"GOLD"];
+					break;
+			}
+			break;
+		}
+	}
 }
 
 #pragma mark - UICollectionViewFlow delegate methods

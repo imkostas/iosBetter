@@ -119,7 +119,7 @@
 //				  UINavigationController *feedVCNavigation = [[self storyboard] instantiateViewControllerWithIdentifier:STORYBOARD_ID_FEED_NAVIGATION];
 				  // Get the Feed storyboard
 				  UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:STORYBOARD_FILENAME_FEED bundle:[NSBundle mainBundle]];
-				  UINavigationController *feedVCNavigation = [feedStoryboard instantiateViewControllerWithIdentifier:STORYBOARD_ID_FEED_NAVIGATION];
+				  UINavigationController *feedVCNavigation = [feedStoryboard instantiateViewControllerWithIdentifier:STORYBOARD_ID_FEED];
 				  [self presentViewController:feedVCNavigation animated:YES completion:^{
 					  // Clear both fields
 					  [[self usernameField] setText:@""];

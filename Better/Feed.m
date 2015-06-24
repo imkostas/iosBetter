@@ -29,22 +29,24 @@
 	// Do any additional setup after loading the view, typically from a nib.
 	
 	// Set up the navigation bar for Feed areas
-	[[[self navigationController] navigationBar] setBarTintColor:COLOR_BETTER_DARK];
-	[[[self navigationController] navigationBar] setTintColor:[UIColor whiteColor]];
-	[[[self navigationController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
-	[[[self navigationController] navigationBar] setTranslucent:NO];
+	[[self navigationBarCustom] setBarTintColor:COLOR_BETTER_DARK];
+	[[self navigationBarCustom] setTintColor:[UIColor whiteColor]];
+	[[self navigationBarCustom] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_NAVIGATION_BAR]}];
+	[[self navigationBarCustom] setTranslucent:NO];
 	
-	[self setTitle:@"Everything"];
+	// Set title
+	[[self navigationItemCustom] setTitle:@"Everything"];
 	
 	// Set view properties
-	[[self view] setBackgroundColor:COLOR_LIGHT_LIGHT_GRAY];
+//	[[self view] setBackgroundColor:COLOR_BETTER_DARK]; // This allows the status bar's background to match the custom navigation bar under it
+	[[self centerView] setBackgroundColor:COLOR_LIGHT_LIGHT_GRAY];
 	
 	// Set up gesture recognizers for screen edges
 	_leftEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(swipeFromLeftEdge:)];
 	_rightEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(swipeFromRightEdge:)];
 	[[self leftEdgePanRecognizer] setEdges:UIRectEdgeLeft];
 	[[self rightEdgePanRecognizer] setEdges:UIRectEdgeRight];
-	[[self view] setGestureRecognizers:@[[self leftEdgePanRecognizer], [self rightEdgePanRecognizer]]];
+	[[self centerView] setGestureRecognizers:@[[self leftEdgePanRecognizer], [self rightEdgePanRecognizer]]];
 	
 	// Set up gesture recognizers for dragging drawers when they are already out
 	UIPanGestureRecognizer *panMenu = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(swipeOnMenuDrawer:)];
@@ -71,6 +73,11 @@
 //	[self hideFilterDrawerAnimated:NO includingOverlay:NO];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+}
+
 #pragma mark - Navigation, embed segues
 // Called for navigation and embed segues
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -92,7 +99,7 @@
 - (IBAction)menuButtonPressed:(id)sender
 {
 	// Hide the Filter drawer (if it's open)
-	[self hideFilterDrawerAnimated:YES includingOverlay:NO];
+//	[self hideFilterDrawerAnimated:YES includingOverlay:NO];
 	
 	// Toggle the Menu drawer
 	if([self menuDrawerIsHidden])	// If Menu is not visible
@@ -104,7 +111,7 @@
 - (IBAction)filterButtonPressed:(id)sender
 {
 	// Hide the Menu drawer (if it's open)
-	[self hideMenuDrawerAnimated:YES includingOverlay:NO];
+//	[self hideMenuDrawerAnimated:YES includingOverlay:NO];
 	
 	// Toggle the Filter drawer
 	if([self filterDrawerIsHidden])	// If Filter is not visible
@@ -133,7 +140,7 @@
 	// this doesn't happen on iOS 8 (maybe a simulator problem?)
 	
 	// Change title
-	[self setTitle:filterString];
+	[[self navigationItemCustom] setTitle:filterString];
 }
 
 // Called when the UISearchBar in the filter drawer has focus
@@ -177,127 +184,159 @@
 					 }];
 }
 
+#pragma mark - UINavigationBarDelegate positioning
+// Where to position a UINavigationBar
+- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
+{
+	// Extends the navigation bar's color all the way to the top of its enclosing view, including the status bar
+	return UIBarPositionTopAttached;
+}
+
 #pragma mark - Toggling state of drawers without gestures
 // Hide the menu drawer (no gesture)
 - (void)hideMenuDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay
 {
 	// Hide the drawer (set its left side as -(drawer width) to the left of the screen)
-	[[self menuLeadingConstraint] setConstant: -1 * [[self menuWidthConstraint] constant]];
+//	[[self menuLeadingConstraint] setConstant: -1 * [[self menuWidthConstraint] constant]];
+	[[self centerViewLeadingConstraint] setConstant:0];
 	
 	// Animate the change in position if animated == TRUE
 	if(animated)
 	{
 		[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
 							  delay:0
-							options:UIViewAnimationOptionCurveEaseOut
+							options:UIViewAnimationOptionCurveEaseInOut
 						 animations:^{
 							 [[self view] layoutIfNeeded];
-							 if(animateOverlay)
-								 [[self transparencyView] setAlpha:0];
+//							 if(animateOverlay)
+//								 [[self transparencyView] setAlpha:0];
 						 }
 						 completion:^(BOOL completed){
+							 // Hide the filter view and hide the menu view
+							 [[self menuDrawer] setHidden:YES];
+							 [[self filterDrawer] setHidden:YES];
+							 
 							 // The purpose of animateOverlay is to not touch the transparent overlay in certain
 							 // cases (i.e. when one drawer is open, and you press the navigation bar button
 							 // to open the other drawer; you don't want to hide the overlay at all
-							 if(animateOverlay)
-								[[self transparencyView] setHidden:YES]; // Hide overlay (lets taps through it)
+//							 if(animateOverlay)
+//								[[self transparencyView] setHidden:YES]; // Hide overlay (lets taps through it)
 						 }];
 	}
 	else
 	{
 		[[self view] layoutIfNeeded]; // No animation
-		[[self transparencyView] setAlpha:0];
+//		[[self transparencyView] setAlpha:0];
 	}
 }
 // Show the menu drawer (no gesture)
 - (void)showMenuDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay
 {
+	// Hide the filter view and show the menu view
+	[[self menuDrawer] setHidden:NO];
+	[[self filterDrawer] setHidden:YES];
+	
 	// Show the drawer (set its left side to be aligned with the left of the screen)
-	[[self menuLeadingConstraint] setConstant:0];
+//	[[self menuLeadingConstraint] setConstant:0];
+	[[self centerViewLeadingConstraint] setConstant:[[self menuWidthConstraint] constant]];
 	
 	// Show the black overlay (still at 0 alpha)
-	if(animateOverlay)
-		[[self transparencyView] setHidden:NO];
+//	if(animateOverlay)
+//		[[self transparencyView] setHidden:NO];
 
 	// Animate the change in position if animated == TRUE
 	if(animated)
 	{
 		[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
 							  delay:0
-							options:UIViewAnimationOptionCurveEaseOut
+							options:UIViewAnimationOptionCurveEaseInOut
 						 animations:^{
 							 [[self view] layoutIfNeeded];
-							 if(animateOverlay)
-								 [[self transparencyView] setAlpha:ALPHA_FEED_OVERLAY];
+//							 if(animateOverlay)
+//								 [[self transparencyView] setAlpha:ALPHA_FEED_OVERLAY];
 						 }
 						 completion:nil];
 	}
 	else
 	{
 		[[self view] layoutIfNeeded]; // No animation
-		[[self transparencyView] setAlpha:ALPHA_FEED_OVERLAY];
+//		[[self transparencyView] setAlpha:ALPHA_FEED_OVERLAY];
 	}
 }
-- (BOOL)menuDrawerIsHidden {  return ([[self menuLeadingConstraint] constant] == 0) ? NO : YES;  }
+- (BOOL)menuDrawerIsHidden {
+	return ([[self centerViewLeadingConstraint] constant] > [[self menuWidthConstraint] constant] / 2) ? NO : YES;
+}
 
 // Hide filter (no gesture)
 - (void)hideFilterDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay
 {
 	// Hide the drawer (set its right side as (drawer width) right of the right side of the screen)
-	[[self filterTrailingConstraint] setConstant: -1 * [[self filterWidthConstraint] constant]];
+//	[[self filterTrailingConstraint] setConstant: -1 * [[self filterWidthConstraint] constant]];
+	[[self centerViewLeadingConstraint] setConstant:0];
 	
 	// Animate the change in position if animated == TRUE
 	if(animated)
 	{
 		[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
 							  delay:0
-							options:UIViewAnimationOptionCurveEaseOut
+							options:UIViewAnimationOptionCurveEaseInOut
 						 animations:^{
 							 [[self view] layoutIfNeeded];
-							 if(animateOverlay)
-								 [[self transparencyView] setAlpha:0];
+//							 if(animateOverlay)
+//								 [[self transparencyView] setAlpha:0];
 						 }
 						 completion:^(BOOL completed){
-							 if(animateOverlay)
-								[[self transparencyView] setHidden:YES]; // Hide overlay
+							 // Hide the filter view and hide the menu view
+							 [[self menuDrawer] setHidden:YES];
+							 [[self filterDrawer] setHidden:YES];
+							 
+//							 if(animateOverlay)
+//								[[self transparencyView] setHidden:YES]; // Hide overlay
 						 }];
 	}
 	else
 	{
 		[[self view] layoutIfNeeded]; // No animation
-		[[self transparencyView] setAlpha:0];
+//		[[self transparencyView] setAlpha:0];
 	}
 }
 // Show filter (no gesture)
 - (void)showFilterDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay
 {
+	// Hide the filter view and hide the menu view
+	[[self menuDrawer] setHidden:YES];
+	[[self filterDrawer] setHidden:NO];
+	
 	// Show the drawer (set its right side to be aligned with the right of the screen)
-	[[self filterTrailingConstraint] setConstant:0];
+//	[[self filterTrailingConstraint] setConstant:0];
+	[[self centerViewLeadingConstraint] setConstant:(-1 * [[self filterWidthConstraint] constant])];
 	
 	// Show the black overlay (still at 0 alpha)
-	if(animateOverlay)
-		[[self transparencyView] setHidden:NO];
+//	if(animateOverlay)
+//		[[self transparencyView] setHidden:NO];
 	
 	// Animate the change in position if animated == TRUE
 	if(animated)
 	{
 		[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
 							  delay:0
-							options:UIViewAnimationOptionCurveEaseOut
+							options:UIViewAnimationOptionCurveEaseInOut
 						 animations:^{
 							 [[self view] layoutIfNeeded];
-							 if(animateOverlay)
-								 [[self transparencyView] setAlpha:ALPHA_FEED_OVERLAY];
+//							 if(animateOverlay)
+//								 [[self transparencyView] setAlpha:ALPHA_FEED_OVERLAY];
 						 }
 						 completion:nil];
 	}
 	else
 	{
 		[[self view] layoutIfNeeded]; // No animation
-		[[self transparencyView] setAlpha:ALPHA_FEED_OVERLAY];
+//		[[self transparencyView] setAlpha:ALPHA_FEED_OVERLAY];
 	}
 }
-- (BOOL)filterDrawerIsHidden {  return ([[self filterTrailingConstraint] constant] == 0) ? NO : YES;  }
+- (BOOL)filterDrawerIsHidden {
+	return ([[self centerViewLeadingConstraint] constant] < (-1 * [[self filterWidthConstraint] constant] / 2)) ? NO : YES;
+}
 
 #pragma mark - Gesture recognizers
 // Swiping from left edge
@@ -312,12 +351,16 @@
 	// Gesture just started
 	if([gesture state] == UIGestureRecognizerStateBegan)
 	{
+		// Hide the filter view and show the menu view
+		[[self menuDrawer] setHidden:NO];
+		[[self filterDrawer] setHidden:YES];
+		
 		// Hide the filter drawer
-		[self hideFilterDrawerAnimated:YES includingOverlay:NO];
+//		[self hideFilterDrawerAnimated:YES includingOverlay:NO];
 		
 		// Show transparent overlay
 //		if(![self filterDrawerIsHidden])
-			[[self transparencyView] setHidden:NO];
+//			[[self transparencyView] setHidden:NO];
 	}
 	//
 	// User is in the process of moving their finger around
@@ -326,8 +369,9 @@
 		// Move the drawer according to the x-position of the gesture
 		if(touchPoint.x <= [[self menuWidthConstraint] constant]) // Limits maximum dragging width
 		{
-			[[self menuLeadingConstraint] setConstant:(-1 * [[self menuWidthConstraint] constant] + touchPoint.x)];
-			[[self transparencyView] setAlpha:(touchPoint.x / [[self menuWidthConstraint] constant] * ALPHA_FEED_OVERLAY)];
+			[[self centerViewLeadingConstraint] setConstant:touchPoint.x];
+//			[[self menuLeadingConstraint] setConstant:(-1 * [[self menuWidthConstraint] constant] + touchPoint.x)];
+//			[[self transparencyView] setAlpha:(touchPoint.x / [[self menuWidthConstraint] constant] * ALPHA_FEED_OVERLAY)];
 		}
 	}
 	//
@@ -364,12 +408,16 @@
 	// Gesture just started
 	if([gesture state] == UIGestureRecognizerStateBegan)
 	{
+		// Show the filter view and hide the menu view
+		[[self menuDrawer] setHidden:YES];
+		[[self filterDrawer] setHidden:NO];
+		
 		// Hide the filter drawer
-		[self hideMenuDrawerAnimated:YES includingOverlay:NO];
+//		[self hideMenuDrawerAnimated:YES includingOverlay:NO];
 		
 		// Show transparent overlay
 //		if(![self menuDrawerIsHidden])
-			[[self transparencyView] setHidden:NO];
+//			[[self transparencyView] setHidden:NO];
 	}
 	//
 	// User is in the process of moving their finger around
@@ -378,8 +426,9 @@
 		// Move the drawer according to the x-position of the gesture
 		if(touchPoint.x >= -1 * [[self filterWidthConstraint] constant]) // Limits maximum dragging width
 		{
-			[[self filterTrailingConstraint] setConstant:(-1 * [[self filterWidthConstraint] constant] - touchPoint.x)];
-			[[self transparencyView] setAlpha:(abs((int)touchPoint.x) / [[self filterWidthConstraint] constant] * ALPHA_FEED_OVERLAY)];
+//			[[self filterTrailingConstraint] setConstant:(-1 * [[self filterWidthConstraint] constant] - touchPoint.x)];
+			[[self centerViewLeadingConstraint] setConstant:touchPoint.x];
+//			[[self transparencyView] setAlpha:(abs((int)touchPoint.x) / [[self filterWidthConstraint] constant] * ALPHA_FEED_OVERLAY)];
 		}
 	}
 	//

@@ -3,7 +3,7 @@
 #import "Menu.h"
 #import "Filter.h"
 
-@interface Feed : UIViewController <UIGestureRecognizerDelegate, FilterDelegate>
+@interface Feed : UIViewController <UIGestureRecognizerDelegate, FilterDelegate, UINavigationBarDelegate>
 
 // Left and right container views (for left/right menus)
 - (IBAction)menuButtonPressed:(id)sender;
@@ -25,9 +25,20 @@
 // when they are brought out
 @property (weak, nonatomic) IBOutlet UIView *transparencyView;
 
+// The center view which slides left and right, inside of which is the Feed
+@property (weak, nonatomic) IBOutlet UIView *centerView;
+
+// The constraint that determines the offset of `centerView` from the left of the screen
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *centerViewLeadingConstraint;
+
 // Outlets to the two container views that hold the drawers
 @property (weak, nonatomic) IBOutlet UIView *menuDrawer;
 @property (weak, nonatomic) IBOutlet UIView *filterDrawer;
+
+// Outlet to the UINavigationBar (not controlled by a UINavigationController)
+// and its UINavigationItem
+@property (weak, nonatomic) IBOutlet UINavigationBar *navigationBarCustom;
+@property (weak, nonatomic) IBOutlet UINavigationItem *navigationItemCustom;
 
 // Outlets to the two UIBarButtonItems
 // *strong* because we set [[self navigationItem] leftBarButtonItem] to nil in the code to hide the buttons

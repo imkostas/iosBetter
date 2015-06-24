@@ -33,7 +33,7 @@
 	// Set up the navigation bar for the My Info area
 	[[[self navigationController] navigationBar] setBarTintColor:COLOR_BETTER_DARK];
 	[[[self navigationController] navigationBar] setTintColor:[UIColor whiteColor]];
-	[[[self navigationController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+	[[[self navigationController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_NAVIGATION_BAR]}];
 	[[[self navigationController] navigationBar] setTranslucent:NO];
 	
 	// Get pointer to UserInfo

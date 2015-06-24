@@ -50,14 +50,14 @@
 		return;
 	
 	// Remove previous viewcontrollers and subviews
-	for(UIViewController *vc in [self childViewControllers])
-	{
-		[[vc view] removeFromSuperview];
-		[vc removeFromParentViewController];
-	}
-	
-	// Delete all of the scrollview's existing constraints
-	[[self scrollView] removeConstraints:[[self scrollView] constraints]];
+//	for(UIViewController *vc in [self childViewControllers])
+//	{
+//		[[vc view] removeFromSuperview];
+//		[vc removeFromParentViewController];
+//	}
+//	
+//	// Delete all of the scrollview's existing constraints
+//	[[self scrollView] removeConstraints:[[self scrollView] constraints]];
 	
 	// Add the viewcontrollers as children of this viewcontroller
 	for(UIViewController *vc in _viewControllers)

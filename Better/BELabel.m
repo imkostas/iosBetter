@@ -8,6 +8,13 @@
 
 #import "BELabel.h"
 
+@interface BELabel ()
+
+// Hold the default font to revert back to if necessary
+@property (strong, nonatomic) UIFont *defaultFont;
+
+@end
+
 @implementation BELabel
 
 // Initialize from xib/storyboard
@@ -17,7 +24,10 @@
 	if (self)
 	{
 		// Set font to Raleway, with the existing font size
-		[self setFont:[UIFont fontWithName:FONT_RALEWAY_MEDIUM size:[[self font] pointSize]]];
+		UIFont *newFont = [UIFont fontWithName:FONT_RALEWAY_MEDIUM size:[[self font] pointSize]];
+		[self setFont:newFont];
+		[self setDefaultFont:newFont];
+		_emphasized = FALSE;
 	}
 	return self;
 }
@@ -29,9 +39,39 @@
 	if (self)
 	{
 		// Set font to Raleway, with the existing font size
-		[self setFont:[UIFont fontWithName:FONT_RALEWAY_MEDIUM size:[[self font] pointSize]]];
+		UIFont *newFont = [UIFont fontWithName:FONT_RALEWAY_MEDIUM size:[[self font] pointSize]];
+		[self setFont:newFont];
+		[self setDefaultFont:newFont];
+		_emphasized = FALSE;
 	}
 	return self;
+}
+
+// Go to default font
+- (void)revertToDefaultFont
+{
+	[self setFont:[self defaultFont]];
+}
+
+// Set bold/unbold
+- (void)setEmphasized:(BOOL)emphasized
+{
+	if(emphasized)
+	{
+		// Set font to Raleway bold, with the existing font size
+		UIFont *newFont = [UIFont fontWithName:FONT_RALEWAY_BOLD size:[[self font] pointSize]];
+		[self setFont:newFont];
+		[self setAlpha:1];
+		_emphasized = TRUE;
+	}
+	else
+	{
+		// Set font to Raleway, with the existing font size
+		UIFont *newFont = [UIFont fontWithName:FONT_RALEWAY_MEDIUM size:[[self font] pointSize]];
+		[self setFont:newFont];
+		[self setAlpha:0.6];
+		_emphasized = FALSE;
+	}
 }
 
 @end

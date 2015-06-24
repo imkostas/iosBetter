@@ -22,7 +22,7 @@
 #define STORYBOARD_ID_INTROPAGE_NOTITLE @"introPageNoTitle"
 
 #define STORYBOARD_ID_FEED @"feedViewController"
-#define STORYBOARD_ID_FEED_NAVIGATION @"feedViewControllerNavigation"
+//#define STORYBOARD_ID_FEED_NAVIGATION @"feedViewControllerNavigation" (not used anymore)
 
 #define STORYBOARD_ID_MYRANKING_NAVIGATION @"myRankingNavigation"
 #define STORYBOARD_ID_SETTINGS_NAVIGATION @"settingsNavigation"
@@ -107,7 +107,32 @@
 #define IMAGE_PIXEL_TRANSPARENT @"TransparentPixel"
 #define IMAGE_PIXEL_COLOR_BETTER_DARK @"Color_better_dark"
 
+  // Badges:
 #define IMAGE_BADGE_DEFAULT @"badge_default"
+
+#define IMAGE_BADGE_ADMIRER_BRONZE @"badge_bronze_admirer"
+#define IMAGE_BADGE_ADMIRER_SILVER @"badge_silver_admirer"
+#define IMAGE_BADGE_ADMIRER_GOLD @"badge_gold_admirer"
+
+#define IMAGE_BADGE_ADVENTURER_BRONZE @"badge_bronze_adventurer"
+#define IMAGE_BADGE_ADVENTURER_SILVER @"badge_silver_adventurer"
+#define IMAGE_BADGE_ADVENTURER_GOLD @"badge_gold_adventurer"
+
+#define IMAGE_BADGE_CELEBRITY_BRONZE @"badge_bronze_celebrity"
+#define IMAGE_BADGE_CELEBRITY_SILVER @"badge_silver_celebrity"
+#define IMAGE_BADGE_CELEBRITY_GOLD @"badge_gold_celebrity"
+
+#define IMAGE_BADGE_IDOL_BRONZE @"badge_bronze_idol"
+#define IMAGE_BADGE_IDOL_SILVER @"badge_silver_idol"
+//#define IMAGE_BADGE_IDOL_GOLD @"badge_gold_idol" // Mysteriously missing asset.....
+
+#define IMAGE_BADGE_ROLEMODEL_BRONZE @"badge_bronze_rolemodel"
+#define IMAGE_BADGE_ROLEMODEL_SILVER @"badge_silver_rolemodel"
+#define IMAGE_BADGE_ROLEMODEL_GOLD @"badge_gold_rolemodel"
+
+#define IMAGE_BADGE_TASTEMAKER_BRONZE @"badge_bronze_tastemaker"
+#define IMAGE_BADGE_TASTEMAKER_SILVER @"badge_silver_tastemaker"
+#define IMAGE_BADGE_TASTEMAKER_GOLD @"badge_gold_tastemaker"
 
 // Icons
 // Profile:
@@ -174,6 +199,9 @@
 
 // Font names
 #define FONT_RALEWAY_MEDIUM @"Raleway-Medium"
+#define FONT_RALEWAY_BOLD @"Raleway-Bold"
+#define FONT_RALEWAY_SEMIBOLD @"Raleway-SemiBold"
 #define FONT_SIZE_SEGMENTED_CONTROL [UIFont systemFontSize]
+#define FONT_SIZE_NAVIGATION_BAR 17
 
 #endif

@@ -35,7 +35,7 @@
 	// Set up the navigation bar for pre-login areas of app
 	[[[self navigationController] navigationBar] setBarTintColor:COLOR_NAVIGATION_BAR];
 	[[[self navigationController] navigationBar] setTintColor:COLOR_NAVIGATION_TINT];
-	[[[self navigationController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName:COLOR_NAVIGATION_TINT}];
+	[[[self navigationController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName:COLOR_NAVIGATION_TINT, NSFontAttributeName:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_NAVIGATION_BAR]}];
 	[[[self navigationController] navigationBar] setTranslucent:NO];
 	
 	// Set up the backgroundImage UIImageView

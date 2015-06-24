@@ -11,4 +11,10 @@
 
 @interface BELabel : UILabel
 
+// Method to revert this label's font back to the default font
+- (void)revertToDefaultFont;
+
+// Method/property to bold/unbold the font
+@property (nonatomic, getter=isEmphasized) BOOL emphasized;
+
 @end

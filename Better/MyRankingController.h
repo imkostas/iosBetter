@@ -10,17 +10,26 @@
 #import "Definitions.h"
 #import "UserInfo.h"
 #import "RankBarView.h"
+#import "BETappableView.h"
+#import "BELabel.h"
 #import "ExtendedNavBarView.h"
 #import "BEPageViewController.h"
+
+// For the 'switcher' (My Ranking / Leaderboard)
 
 // To generate pages for pageviewcontroller
 @class MyRanking, Leaderboard;
 
-@interface MyRankingController : UIViewController <BEPageViewControllerDataSource, BEPageViewControllerDelegate>
+@interface MyRankingController : UIViewController <BEPageViewControllerDataSource, BEPageViewControllerDelegate, BETappableViewDelegate>
 
-// The segmented control for switching pages
-@property (weak, nonatomic) IBOutlet UISegmentedControl *pageSegmentedControl;
-// The view that the seg. control is embedded inside
+// Tappable areas to switch between My Rank / Leaderboard
+@property (weak, nonatomic) IBOutlet BETappableView *myRankingTappableView;
+@property (weak, nonatomic) IBOutlet BETappableView *leaderboardTappableView;
+// The labels within the tappable areas
+@property (weak, nonatomic) IBOutlet BELabel *myRankingLabel;
+@property (weak, nonatomic) IBOutlet BELabel *leaderboardLabel;
+
+// The view that the switcher (My Rank / Leaderboard) is embedded inside
 @property (weak, nonatomic) IBOutlet ExtendedNavBarView *segControlBackground;
 
 // The BEPageViewController which is embedded within a container
@@ -28,8 +37,5 @@
 
 // Called when back arrow is pressed
 - (IBAction)backArrowPressed:(id)sender;
-
-// Called when user switches the seg. control
-- (IBAction)segControlValueChanged:(UISegmentedControl *)sender;
 
 @end
