@@ -86,6 +86,7 @@
 #define COLOR_LIGHT_LIGHT_GRAY ([UIColor colorWithWhite:0.96 alpha:1.0])
 #define COLOR_LIGHTER_GRAY ([UIColor colorWithWhite:0.98 alpha:1.0])
 #define COLOR_LIGHT_GRAY ([UIColor colorWithWhite:0.62 alpha:1.0])
+#define COLOR_GRAY_FEED ([UIColor colorWithRed:0.82 green:0.82 blue:0.83 alpha:1.0])
 
 // Alpha values
 #define ALPHA_FEED_OVERLAY 0.65
@@ -169,7 +170,7 @@
 #define ANIM_DURATION_INTRO (500/1000.0) // converts to seconds
 #define ANIM_DELAY_INTRO (300/1000.0)
 #define ANIM_DURATION_PICKER (250/1000.0)
-#define ANIM_DURATION_DRAWER_FULLSLIDE (300/1000.0)
+#define ANIM_DURATION_DRAWER_FULLSLIDE (285/1000.0)
 #define ANIM_DURATION_CHANGE_VIEWCONTROLLER_TITLE (200/1000.0)
 #define ANIM_DURATION_CHANGE_DRAWER_SIZE (200/1000.0)
 #define ANIM_DURATION_ALERT_SHOW (200/1000.0)
@@ -203,5 +204,12 @@
 #define FONT_RALEWAY_SEMIBOLD @"Raleway-SemiBold"
 #define FONT_SIZE_SEGMENTED_CONTROL [UIFont systemFontSize]
 #define FONT_SIZE_NAVIGATION_BAR 17
+
+// From organic parking
+#define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
+#define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 
 #endif

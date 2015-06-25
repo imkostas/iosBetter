@@ -12,6 +12,9 @@
 {
 	// Pointer to userinfo object
 	UserInfo *user;
+	
+	// iOS 8 or above
+	BOOL isIOS8OrAbove;
 }
 
 @end
@@ -22,6 +25,12 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+	
+	// Get iOS version
+	if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
+		isIOS8OrAbove = TRUE;
+	else
+		isIOS8OrAbove = FALSE;
 	
 	// Set up this view
 	[[self view] setBackgroundColor:COLOR_LIGHT_LIGHT_GRAY];
@@ -129,12 +138,26 @@
 		cell = (BadgesCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:REUSE_ID_BADGES_COLLECTION_CELL forIndexPath:indexPath];
 	}
 	
+	// For iOS 7. (see below)
+	if(!isIOS8OrAbove)
+		[self willDisplayCell:cell forIndexPath:indexPath];
+	
 	return cell;
 }
 
 #pragma mark - UICollectionView delegate methods
 // Called when a cell is about to appear (we set its properties here)
+// iOS 8 and later has this delegate method
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(BadgesCollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+{
+	[self willDisplayCell:cell forIndexPath:indexPath];
+}
+
+// Holds the contents of what would be in -collectionView:willDisplayCell:..., but iOS 7 doesn't have
+// willDisplayCell so, we call it inside -cellForItemAtIndexPath:.. when on iOS 7
+// This method is called by collectionView:willDisplayCell:forItemAtIndexPath for iOS 8 and later,
+// and by collectionView:cellForItemAtIndexPath: for iOS 7
+- (void)willDisplayCell:(BadgesCollectionViewCell *)cell forIndexPath:(NSIndexPath *)indexPath
 {
 	// Get the user's rank object
 	UserRank *rank = [user rank];
@@ -176,7 +199,7 @@
 			[[cell badgeTitle] setText:@"Adventurer"];
 			
 			// Bronze/silver/gold levels
-			switch([rank badgeAdmirer])
+			switch([rank badgeAdventurer])
 			{
 				case 0:
 					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_DEFAULT]];
@@ -203,7 +226,7 @@
 			[[cell badgeTitle] setText:@"Celebrity"];
 			
 			// Bronze/silver/gold levels
-			switch([rank badgeAdmirer])
+			switch([rank badgeCelebrity])
 			{
 				case 0:
 					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_DEFAULT]];
@@ -230,7 +253,7 @@
 			[[cell badgeTitle] setText:@"Idol"];
 			
 			// Bronze/silver/gold levels
-			switch([rank badgeAdmirer])
+			switch([rank badgeIdol])
 			{
 				case 0:
 					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_DEFAULT]];
@@ -257,7 +280,7 @@
 			[[cell badgeTitle] setText:@"Role Model"];
 			
 			// Bronze/silver/gold levels
-			switch([rank badgeAdmirer])
+			switch([rank badgeRoleModel])
 			{
 				case 0:
 					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_DEFAULT]];
@@ -284,7 +307,7 @@
 			[[cell badgeTitle] setText:@"Tastemaker"];
 			
 			// Bronze/silver/gold levels
-			switch([rank badgeAdmirer])
+			switch([rank badgeTastemaker])
 			{
 				case 0:
 					[[cell badgeImage] setImage:[UIImage imageNamed:IMAGE_BADGE_DEFAULT]];

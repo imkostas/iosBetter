@@ -6,17 +6,29 @@
 	float filterWidthOriginal;
 }
 
+// Gesture recognizers
+@property (strong, nonatomic) UIScreenEdgePanGestureRecognizer	*leftEdgePanRecognizer;
+@property (strong, nonatomic) UIScreenEdgePanGestureRecognizer	*rightEdgePanRecognizer;
+@property (strong, nonatomic) UIPanGestureRecognizer			*panCenterViewRecognizer;
+@property (strong, nonatomic) UITapGestureRecognizer			*tapCenterViewRecognizer;
+
+// Hide both drawers (i.e. move the centerView to the center)
+- (void)moveCenterViewToCenterAnimated:(BOOL)animated easeIn:(BOOL)shouldEaseIn;
+
 // Methods for hiding and showing the drawers, and detecting if they are hidden or not hidden
-- (void)hideMenuDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay;
-- (void)showMenuDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay;
+//- (void)hideMenuDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay;
+- (void)showMenuDrawerAnimated:(BOOL)animated easeIn:(BOOL)shouldEaseIn;
 - (BOOL)menuDrawerIsHidden;
 
-- (void)hideFilterDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay;
-- (void)showFilterDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay;
+//- (void)hideFilterDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay;
+- (void)showFilterDrawerAnimated:(BOOL)animated easeIn:(BOOL)shouldEaseIn;
 - (BOOL)filterDrawerIsHidden;
 
-// Method for responding to taps on the transparent overlay
-- (void)tappedOnOverlayView:(UITapGestureRecognizer *)gesture;
+// Method for panning the centerView (used for dragging it back to the center)
+- (void)panCenterView:(UIPanGestureRecognizer *)gesture;
+
+// Method for responding to taps on the center view
+- (void)tappedOnCenterView:(UITapGestureRecognizer *)gesture;
 
 @end
 
@@ -38,44 +50,54 @@
 	[[self navigationItemCustom] setTitle:@"Everything"];
 	
 	// Set view properties
-//	[[self view] setBackgroundColor:COLOR_BETTER_DARK]; // This allows the status bar's background to match the custom navigation bar under it
-	[[self centerView] setBackgroundColor:COLOR_LIGHT_LIGHT_GRAY];
+	[[self centerView] setBackgroundColor:COLOR_GRAY_FEED];
 	
 	// Set up gesture recognizers for screen edges
 	_leftEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(swipeFromLeftEdge:)];
 	_rightEdgePanRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(swipeFromRightEdge:)];
 	[[self leftEdgePanRecognizer] setEdges:UIRectEdgeLeft];
 	[[self rightEdgePanRecognizer] setEdges:UIRectEdgeRight];
+	[[self leftEdgePanRecognizer] setMaximumNumberOfTouches:1];
+	[[self rightEdgePanRecognizer] setMaximumNumberOfTouches:1];
 	[[self centerView] setGestureRecognizers:@[[self leftEdgePanRecognizer], [self rightEdgePanRecognizer]]];
 	
-	// Set up gesture recognizers for dragging drawers when they are already out
-	UIPanGestureRecognizer *panMenu = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(swipeOnMenuDrawer:)];
-	UIPanGestureRecognizer *panFilter = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(swipeOnFilterDrawer:)];
-	[[self menuDrawer] addGestureRecognizer:panMenu];
-	[[self filterDrawer] addGestureRecognizer:panFilter];
+	// Set up a gesture recognizer for dragging the centerView back to the middle
+	_panCenterViewRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panCenterView:)];
+	[_panCenterViewRecognizer setMaximumNumberOfTouches:1];
+	[_panCenterViewRecognizer setEnabled:NO]; // Disable for now (enable it when showing either drawer)
+	[[self centerView] addGestureRecognizer:_panCenterViewRecognizer];
 	
-	// Save references to recognizers so they can be disabled when it's necessary
-	[self setPanMenuDrawerGesture:panMenu];
-	[self setPanFilterDrawerGesture:panFilter];
-	
-	// Set up tap recognizer for overlay view
-	UITapGestureRecognizer *tapOnOverlayGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedOnOverlayView:)];
-	[[self transparencyView] addGestureRecognizer:tapOnOverlayGesture];
+	// Set up tap recognizer for centerView (this is disabled when centerView is not slid off to either side)
+	_tapCenterViewRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedOnCenterView:)];
+	[_tapCenterViewRecognizer setEnabled:NO]; // Disable for now (enable it when showing either drawer)
+	[[self centerView] addGestureRecognizer:_tapCenterViewRecognizer];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	// Store the initial value of the filter drawer
 	filterWidthOriginal = [[self filterWidthConstraint] constant];
-	
-	// Move the drawers off of the screen
-//	[self hideMenuDrawerAnimated:NO includingOverlay:NO];
-//	[self hideFilterDrawerAnimated:NO includingOverlay:NO];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+//- (void)viewDidAppear:(BOOL)animated
+//{
+//	[super viewDidAppear:animated];
+//}
+
+// Called after the view has laid out its subviews (thus.. we can figure out the real bounds of centerView
+// in order to draw its shadow)
+- (void)viewDidLayoutSubviews
 {
-	[super viewDidAppear:animated];
+	[super viewDidLayoutSubviews];
+	
+	// Draw shadow on sides of centerView
+	CALayer *layer = [[self centerView] layer];
+	CGPathRef shadowPath = [[UIBezierPath bezierPathWithRect:[[self centerView] bounds]] CGPath];
+	[layer setMasksToBounds:NO];
+	[layer setShadowPath:shadowPath];
+	[layer setShadowOpacity:0.5];
+	[layer setShadowOffset:CGSizeMake(0,1)];
+	[layer setShadowRadius:5];
 }
 
 #pragma mark - Navigation, embed segues
@@ -103,9 +125,9 @@
 	
 	// Toggle the Menu drawer
 	if([self menuDrawerIsHidden])	// If Menu is not visible
-		[self showMenuDrawerAnimated:YES includingOverlay:YES];
+		[self showMenuDrawerAnimated:YES easeIn:YES];
 	else							// If Menu is visible
-		[self hideMenuDrawerAnimated:YES includingOverlay:YES];
+		[self moveCenterViewToCenterAnimated:YES easeIn:YES];
 }
 
 - (IBAction)filterButtonPressed:(id)sender
@@ -115,9 +137,9 @@
 	
 	// Toggle the Filter drawer
 	if([self filterDrawerIsHidden])	// If Filter is not visible
-		[self showFilterDrawerAnimated:YES includingOverlay:YES];
+		[self showFilterDrawerAnimated:YES easeIn:YES];
 	else							// If Filter is visible
-		[self hideFilterDrawerAnimated:YES includingOverlay:YES];
+		[self moveCenterViewToCenterAnimated:YES easeIn:YES];
 }
 
 #pragma mark - Filter delegate methods
@@ -125,9 +147,9 @@
 - (void)filterChanged:(NSString *)filterString
 {
 	// Hide the drawer, overlay
-	[self hideFilterDrawerAnimated:YES includingOverlay:YES];
-//	[self hideTransparentOverlay];
+	[self moveCenterViewToCenterAnimated:YES easeIn:YES];
 	
+	// *** This doesn't really apply anymore:
 	// Change the title of this view controller with a cross dissolve animation
 //	[UIView transitionWithView:[[self navigationController] navigationBar]
 //					  duration:ANIM_DURATION_CHANGE_VIEWCONTROLLER_TITLE
@@ -154,7 +176,7 @@
 	[[self navigationItem] setRightBarButtonItem:nil animated:YES];
 	
 	// Disable the filter drawer's pan gesture
-	[[self panFilterDrawerGesture] setEnabled:NO];
+//	[[self panFilterDrawerGesture] setEnabled:NO];
 	
 	// Animate the growing
 	[UIView animateWithDuration:ANIM_DURATION_CHANGE_DRAWER_SIZE
@@ -174,13 +196,12 @@
 	[[self navigationItem] setRightBarButtonItem:[self filterBarButtonItem] animated:YES];
 	
 	// Enable the filter drawer's pan gesture
-	[[self panFilterDrawerGesture] setEnabled:YES];
+//	[[self panFilterDrawerGesture] setEnabled:YES];
 	
 	// Animate the shrinking
 	[UIView animateWithDuration:ANIM_DURATION_CHANGE_DRAWER_SIZE
 					 animations:^{
 						 [[self view] layoutIfNeeded];
-						 
 					 }];
 }
 
@@ -193,145 +214,126 @@
 }
 
 #pragma mark - Toggling state of drawers without gestures
-// Hide the menu drawer (no gesture)
-- (void)hideMenuDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay
+// Hide both drawers (i.e. move the centerView to the center)
+- (void)moveCenterViewToCenterAnimated:(BOOL)animated easeIn:(BOOL)shouldEaseIn
 {
-	// Hide the drawer (set its left side as -(drawer width) to the left of the screen)
-//	[[self menuLeadingConstraint] setConstant: -1 * [[self menuWidthConstraint] constant]];
-	[[self centerViewLeadingConstraint] setConstant:0];
+	[[self centerViewLeadingConstraint] setConstant:0]; // No offset from left
 	
-	// Animate the change in position if animated == TRUE
+	// Animate change
 	if(animated)
 	{
 		[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
 							  delay:0
-							options:UIViewAnimationOptionCurveEaseInOut
+							options:(shouldEaseIn) ? UIViewAnimationOptionCurveEaseInOut : UIViewAnimationOptionCurveEaseOut
 						 animations:^{
 							 [[self view] layoutIfNeeded];
-//							 if(animateOverlay)
-//								 [[self transparencyView] setAlpha:0];
 						 }
-						 completion:^(BOOL completed){
-							 // Hide the filter view and hide the menu view
-							 [[self menuDrawer] setHidden:YES];
-							 [[self filterDrawer] setHidden:YES];
-							 
-							 // The purpose of animateOverlay is to not touch the transparent overlay in certain
-							 // cases (i.e. when one drawer is open, and you press the navigation bar button
-							 // to open the other drawer; you don't want to hide the overlay at all
-//							 if(animateOverlay)
-//								[[self transparencyView] setHidden:YES]; // Hide overlay (lets taps through it)
+						 completion:^(BOOL completed) {
+							 if(completed) {
+								 // Re-enable both screen edge pan gestures
+								 [[self leftEdgePanRecognizer] setEnabled:YES];
+								 [[self rightEdgePanRecognizer] setEnabled:YES];
+								 
+								 // Disable panning on centerView
+								 [[self panCenterViewRecognizer] setEnabled:NO];
+								 
+								 // Set both drawers as not hidden
+								 [[self menuDrawer] setHidden:NO];
+								 [[self filterDrawer] setHidden:NO];
+							 }
 						 }];
 	}
-	else
+	else // No animation
 	{
-		[[self view] layoutIfNeeded]; // No animation
-//		[[self transparencyView] setAlpha:0];
+		[[self view] layoutIfNeeded];
+		
+		// Re-enable both screen edge pan gestures
+		[[self leftEdgePanRecognizer] setEnabled:YES];
+		[[self rightEdgePanRecognizer] setEnabled:YES];
+		
+		// Disable panning on centerView
+		[[self panCenterViewRecognizer] setEnabled:NO];
+		
+		// Set both drawers as not hidden
+		[[self menuDrawer] setHidden:NO];
+		[[self filterDrawer] setHidden:NO];
 	}
 }
+
 // Show the menu drawer (no gesture)
-- (void)showMenuDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay
+- (void)showMenuDrawerAnimated:(BOOL)animated easeIn:(BOOL)shouldEaseIn
 {
-	// Hide the filter view and show the menu view
-	[[self menuDrawer] setHidden:NO];
+	// Hide the filter view
 	[[self filterDrawer] setHidden:YES];
 	
-	// Show the drawer (set its left side to be aligned with the left of the screen)
-//	[[self menuLeadingConstraint] setConstant:0];
-	[[self centerViewLeadingConstraint] setConstant:[[self menuWidthConstraint] constant]];
+	// Disable the screen edge pan gestures
+	[[self leftEdgePanRecognizer] setEnabled:NO];
+	[[self rightEdgePanRecognizer] setEnabled:NO];
 	
-	// Show the black overlay (still at 0 alpha)
-//	if(animateOverlay)
-//		[[self transparencyView] setHidden:NO];
+	// Show the drawer (set its left side to be aligned with the left of the screen)
+	[[self centerViewLeadingConstraint] setConstant:[[self menuWidthConstraint] constant]];
 
 	// Animate the change in position if animated == TRUE
 	if(animated)
 	{
 		[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
 							  delay:0
-							options:UIViewAnimationOptionCurveEaseInOut
+							options:(shouldEaseIn) ? UIViewAnimationOptionCurveEaseInOut : UIViewAnimationOptionCurveEaseOut
 						 animations:^{
 							 [[self view] layoutIfNeeded];
-//							 if(animateOverlay)
-//								 [[self transparencyView] setAlpha:ALPHA_FEED_OVERLAY];
 						 }
-						 completion:nil];
+						 completion:^(BOOL completed) {
+							 if(completed) {
+								 [[self tapCenterViewRecognizer] setEnabled:YES]; // Enable tapping on center view
+								 [[self panCenterViewRecognizer] setEnabled:YES]; // Enable panning on center view
+							 }
+						 }];
 	}
 	else
 	{
 		[[self view] layoutIfNeeded]; // No animation
-//		[[self transparencyView] setAlpha:ALPHA_FEED_OVERLAY];
+		[[self tapCenterViewRecognizer] setEnabled:YES]; // Enable tapping on center view
+		[[self panCenterViewRecognizer] setEnabled:YES]; // Enable panning on center view
 	}
 }
 - (BOOL)menuDrawerIsHidden {
 	return ([[self centerViewLeadingConstraint] constant] > [[self menuWidthConstraint] constant] / 2) ? NO : YES;
 }
 
-// Hide filter (no gesture)
-- (void)hideFilterDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay
+// Show filter (no gesture)
+- (void)showFilterDrawerAnimated:(BOOL)animated easeIn:(BOOL)shouldEaseIn
 {
-	// Hide the drawer (set its right side as (drawer width) right of the right side of the screen)
-//	[[self filterTrailingConstraint] setConstant: -1 * [[self filterWidthConstraint] constant]];
-	[[self centerViewLeadingConstraint] setConstant:0];
+	// Hide the menu view
+	[[self menuDrawer] setHidden:YES];
+	
+	// Disable the screen edge pan gestures
+	[[self leftEdgePanRecognizer] setEnabled:NO];
+	[[self rightEdgePanRecognizer] setEnabled:NO];
+	
+	// Show the drawer (set its right side to be aligned with the right of the screen)
+	[[self centerViewLeadingConstraint] setConstant:(-1 * [[self filterWidthConstraint] constant])];
 	
 	// Animate the change in position if animated == TRUE
 	if(animated)
 	{
 		[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
 							  delay:0
-							options:UIViewAnimationOptionCurveEaseInOut
+							options:(shouldEaseIn) ? UIViewAnimationOptionCurveEaseInOut : UIViewAnimationOptionCurveEaseOut
 						 animations:^{
 							 [[self view] layoutIfNeeded];
-//							 if(animateOverlay)
-//								 [[self transparencyView] setAlpha:0];
 						 }
-						 completion:^(BOOL completed){
-							 // Hide the filter view and hide the menu view
-							 [[self menuDrawer] setHidden:YES];
-							 [[self filterDrawer] setHidden:YES];
-							 
-//							 if(animateOverlay)
-//								[[self transparencyView] setHidden:YES]; // Hide overlay
+						 completion:^(BOOL completed) {
+							 if(completed) {
+								 [[self tapCenterViewRecognizer] setEnabled:YES]; // Enable tapping on center view
+								 [[self panCenterViewRecognizer] setEnabled:YES]; // Enable panning on center view
+							 }
 						 }];
 	}
 	else
 	{
 		[[self view] layoutIfNeeded]; // No animation
-//		[[self transparencyView] setAlpha:0];
-	}
-}
-// Show filter (no gesture)
-- (void)showFilterDrawerAnimated:(BOOL)animated includingOverlay:(BOOL)animateOverlay
-{
-	// Hide the filter view and hide the menu view
-	[[self menuDrawer] setHidden:YES];
-	[[self filterDrawer] setHidden:NO];
-	
-	// Show the drawer (set its right side to be aligned with the right of the screen)
-//	[[self filterTrailingConstraint] setConstant:0];
-	[[self centerViewLeadingConstraint] setConstant:(-1 * [[self filterWidthConstraint] constant])];
-	
-	// Show the black overlay (still at 0 alpha)
-//	if(animateOverlay)
-//		[[self transparencyView] setHidden:NO];
-	
-	// Animate the change in position if animated == TRUE
-	if(animated)
-	{
-		[UIView animateWithDuration:ANIM_DURATION_DRAWER_FULLSLIDE
-							  delay:0
-							options:UIViewAnimationOptionCurveEaseInOut
-						 animations:^{
-							 [[self view] layoutIfNeeded];
-//							 if(animateOverlay)
-//								 [[self transparencyView] setAlpha:ALPHA_FEED_OVERLAY];
-						 }
-						 completion:nil];
-	}
-	else
-	{
-		[[self view] layoutIfNeeded]; // No animation
-//		[[self transparencyView] setAlpha:ALPHA_FEED_OVERLAY];
+		[[self tapCenterViewRecognizer] setEnabled:YES]; // Enable tapping on center view
+		[[self panCenterViewRecognizer] setEnabled:YES]; // Enable panning on center view
 	}
 }
 - (BOOL)filterDrawerIsHidden {
@@ -347,52 +349,48 @@
 	CGPoint touchVelocity = [gesture velocityInView:[self view]];
 	
 	// Perform different actions based on the state of the gesture:
-	
-	// Gesture just started
-	if([gesture state] == UIGestureRecognizerStateBegan)
+	switch([gesture state])
 	{
-		// Hide the filter view and show the menu view
-		[[self menuDrawer] setHidden:NO];
-		[[self filterDrawer] setHidden:YES];
-		
-		// Hide the filter drawer
-//		[self hideFilterDrawerAnimated:YES includingOverlay:NO];
-		
-		// Show transparent overlay
-//		if(![self filterDrawerIsHidden])
-//			[[self transparencyView] setHidden:NO];
-	}
-	//
-	// User is in the process of moving their finger around
-	else if([gesture state] == UIGestureRecognizerStateChanged)
-	{
-		// Move the drawer according to the x-position of the gesture
-		if(touchPoint.x <= [[self menuWidthConstraint] constant]) // Limits maximum dragging width
+		case UIGestureRecognizerStateBegan: // Gesture just started
 		{
-			[[self centerViewLeadingConstraint] setConstant:touchPoint.x];
-//			[[self menuLeadingConstraint] setConstant:(-1 * [[self menuWidthConstraint] constant] + touchPoint.x)];
-//			[[self transparencyView] setAlpha:(touchPoint.x / [[self menuWidthConstraint] constant] * ALPHA_FEED_OVERLAY)];
+			// Hide the filter view and show the menu view
+			[[self menuDrawer] setHidden:NO];
+			[[self filterDrawer] setHidden:YES];
+			break;
 		}
-	}
-	//
-	// Upon user releasing their finger, move the drawer to where it should go
-	else if([gesture state] == UIGestureRecognizerStateEnded || [gesture state] == UIGestureRecognizerStateCancelled)
-	{
-		// If the velocity of the gesture is fast, we want to move out the drawer all the way, even if the user
-		// released the drawer close to the left of the screen
-		
-		if(touchPoint.x > [[self menuWidthConstraint] constant] / RATIO_DRAWER_RELEASE_THRESHOLD_TO_WIDTH)
-			// Drawer is more than (width/ratio) of the way out
-			[self showMenuDrawerAnimated:YES includingOverlay:YES];
-		else
+		case UIGestureRecognizerStateChanged: // User is moving finger
 		{
-			// Drawer is less than (width/ratio) of the way out
-			
-			if(touchVelocity.x < GESTURE_THRESHOLD_FAST_DRAWER) // Gesture is slow
-				[self hideMenuDrawerAnimated:YES includingOverlay:YES]; // Hide drawer
-			else // Gesture is fast
-				[self showMenuDrawerAnimated:YES includingOverlay:YES]; // Show drawer
+			// Move center view according to x-position of gesture, and keep it from moving off the left
+			// side of the screen
+			if(touchPoint.x >= 0 && touchPoint.x <= [[self menuWidthConstraint] constant])
+				[[self centerViewLeadingConstraint] setConstant:touchPoint.x];
+			break;
 		}
+		case UIGestureRecognizerStateEnded: // Gesture ended normally or was interrupted
+		case UIGestureRecognizerStateCancelled:
+		{
+			// Fast gesture
+			if(abs((int)touchVelocity.x) > GESTURE_THRESHOLD_FAST_DRAWER)
+			{
+				if(touchVelocity.x > 0) // Positive velocity, to the right
+					[self showMenuDrawerAnimated:YES easeIn:NO];
+				else if(touchVelocity.x < 0) // Negative velocity, to the left
+					[self moveCenterViewToCenterAnimated:YES easeIn:NO];
+			}
+			else // Slow gesture
+			{
+				// If gesture ends when the center view is still mostly shown
+				if(touchPoint.x < [[self menuWidthConstraint] constant] / RATIO_DRAWER_RELEASE_THRESHOLD_TO_WIDTH)
+					[self moveCenterViewToCenterAnimated:YES easeIn:NO];
+				else
+					[self showMenuDrawerAnimated:YES easeIn:NO];
+			}
+			break;
+		}
+		case UIGestureRecognizerStateFailed:
+		case UIGestureRecognizerStatePossible:
+		default:
+			break;
 	}
 }
 
@@ -404,143 +402,207 @@
 	CGPoint touchVelocity = [gesture velocityInView:[self view]];
 	
 	// Perform different actions based on the state of the gesture:
+	switch([gesture state])
+	{
+		case UIGestureRecognizerStateBegan: // Gesture just started
+		{
+			// Show the filter view and hide the menu view
+			[[self menuDrawer] setHidden:YES];
+			[[self filterDrawer] setHidden:NO];
+			break;
+		}
+		case UIGestureRecognizerStateChanged: // User is moving finger
+		{
+			// Move center view according to x-position of gesture, and keep it from moving off the left
+			// side of the screen
+			if(touchPoint.x <= 0 && touchPoint.x >= -1 * [[self filterWidthConstraint] constant])
+				[[self centerViewLeadingConstraint] setConstant:touchPoint.x];
+			break;
+		}
+		case UIGestureRecognizerStateEnded: // Gesture ended normally or was interrupted
+		case UIGestureRecognizerStateCancelled:
+		{
+			// Fast gesture
+			if(abs((int)touchVelocity.x) > GESTURE_THRESHOLD_FAST_DRAWER)
+			{
+				if(touchVelocity.x > 0) // Positive velocity, to the right
+					[self moveCenterViewToCenterAnimated:YES easeIn:NO];
+				else if(touchVelocity.x < 0) // Negative velocity, to the left
+					[self showFilterDrawerAnimated:YES easeIn:NO];
+			}
+			else // Slow gesture
+			{
+				// If gesture ends when the center view is still mostly shown
+				if(touchPoint.x < -1 * [[self menuWidthConstraint] constant] / RATIO_DRAWER_RELEASE_THRESHOLD_TO_WIDTH)
+					[self showFilterDrawerAnimated:YES easeIn:NO];
+				else
+					[self moveCenterViewToCenterAnimated:YES easeIn:NO];
+			}
+			break;
+		}
+		case UIGestureRecognizerStateFailed:
+		case UIGestureRecognizerStatePossible:
+		default:
+			break;
+	}
 	
-	// Gesture just started
-	if([gesture state] == UIGestureRecognizerStateBegan)
-	{
-		// Show the filter view and hide the menu view
-		[[self menuDrawer] setHidden:YES];
-		[[self filterDrawer] setHidden:NO];
-		
-		// Hide the filter drawer
-//		[self hideMenuDrawerAnimated:YES includingOverlay:NO];
-		
-		// Show transparent overlay
-//		if(![self menuDrawerIsHidden])
-//			[[self transparencyView] setHidden:NO];
-	}
-	//
-	// User is in the process of moving their finger around
-	else if([gesture state] == UIGestureRecognizerStateChanged)
-	{
-		// Move the drawer according to the x-position of the gesture
-		if(touchPoint.x >= -1 * [[self filterWidthConstraint] constant]) // Limits maximum dragging width
-		{
-//			[[self filterTrailingConstraint] setConstant:(-1 * [[self filterWidthConstraint] constant] - touchPoint.x)];
-			[[self centerViewLeadingConstraint] setConstant:touchPoint.x];
-//			[[self transparencyView] setAlpha:(abs((int)touchPoint.x) / [[self filterWidthConstraint] constant] * ALPHA_FEED_OVERLAY)];
-		}
-	}
-	//
-	// Upon user releasing their finger, move the drawer to where it should go
-	else if([gesture state] == UIGestureRecognizerStateEnded || [gesture state] == UIGestureRecognizerStateCancelled)
-	{
-		// If the velocity of the gesture is fast, we want to move out the drawer all the way, even if the user
-		// released the drawer close to the left of the screen
-		
-		if(touchPoint.x < (-1 * [[self filterWidthConstraint] constant] / RATIO_DRAWER_RELEASE_THRESHOLD_TO_WIDTH))
-			// Drawer is more than (width/ratio) of the way out
-			[self showFilterDrawerAnimated:YES includingOverlay:YES];
-		else
-		{
-			// Drawer is less than (width/ratio) of the way out
-			
-			if(touchVelocity.x > (-1 * GESTURE_THRESHOLD_FAST_DRAWER)) // Gesture is slow
-				[self hideFilterDrawerAnimated:YES includingOverlay:YES]; // Hide drawer
-			else // Gesture is fast
-				[self showFilterDrawerAnimated:YES includingOverlay:YES]; // Show drawer
-		}
-	}
+//	// Get the position and velocity of the gesture
+//	CGPoint touchPoint = [gesture translationInView:[self view]];
+//	CGPoint touchVelocity = [gesture velocityInView:[self view]];
+//	
+//	// Perform different actions based on the state of the gesture:
+//	
+//	// Gesture just started
+//	if([gesture state] == UIGestureRecognizerStateBegan)
+//	{
+//		// Show the filter view and hide the menu view
+//		[[self menuDrawer] setHidden:YES];
+//		[[self filterDrawer] setHidden:NO];
+//	}
+//	//
+//	// User is in the process of moving their finger around
+//	else if([gesture state] == UIGestureRecognizerStateChanged)
+//	{
+//		// Move the drawer according to the x-position of the gesture
+//		if(touchPoint.x >= -1 * [[self filterWidthConstraint] constant]) // Limits maximum dragging width
+//			[[self centerViewLeadingConstraint] setConstant:touchPoint.x];
+//	}
+//	//
+//	// Upon user releasing their finger, move the drawer to where it should go
+//	else if([gesture state] == UIGestureRecognizerStateEnded || [gesture state] == UIGestureRecognizerStateCancelled)
+//	{
+//		// If the velocity of the gesture is fast, we want to move out the drawer all the way, even if the user
+//		// released the drawer close to the left of the screen
+//		
+//		if(touchPoint.x < (-1 * [[self filterWidthConstraint] constant] / RATIO_DRAWER_RELEASE_THRESHOLD_TO_WIDTH))
+//			// Drawer is more than (width/ratio) of the way out
+//			[self showFilterDrawerAnimated:YES easeIn:NO];
+//		else
+//		{
+//			// Drawer is less than (width/ratio) of the way out
+//			
+//			if(touchVelocity.x > (-1 * GESTURE_THRESHOLD_FAST_DRAWER)) // Gesture is slow
+//				[self moveCenterViewToCenterAnimated:YES easeIn:NO];
+//			else // Gesture is fast
+//				[self showFilterDrawerAnimated:YES easeIn:NO]; // Show drawer
+//		}
+//	}
 }
 
-// For panning on the menu drawer
-- (void)swipeOnMenuDrawer:(UIPanGestureRecognizer *)gesture
+// For tapping on the center view
+- (void)tappedOnCenterView:(UITapGestureRecognizer *)gesture
+{
+	// Return the centerView to the middle
+	[self moveCenterViewToCenterAnimated:YES easeIn:YES];
+	
+	// Disable this gesture (will be enabled by either showMenu... or showFilter...
+	[gesture setEnabled:NO];
+}
+
+// For panning on the center view
+- (void)panCenterView:(UIPanGestureRecognizer *)gesture
 {
 	// Get the position and velocity of the gesture
 	CGPoint touchPoint = [gesture translationInView:[self view]];
 	CGPoint touchVelocity = [gesture velocityInView:[self view]];
 	
-	//
-	// User is in the process of moving their finger around
-	if([gesture state] == UIGestureRecognizerStateChanged)
+	// Perform actions depending on the gesture state
+	switch([gesture state])
 	{
-		// Move the drawer according to the x-position of the gesture
-		if(touchPoint.x <= 0) // Limits maximum dragging width (touchPoint starts at 0 at the start of the pan)
+		case UIGestureRecognizerStateChanged: // User moving finger
 		{
-			[[self menuLeadingConstraint] setConstant:touchPoint.x];
-			[[self transparencyView] setAlpha: ALPHA_FEED_OVERLAY - (abs((int)touchPoint.x) / [[self menuWidthConstraint] constant] * ALPHA_FEED_OVERLAY)];
-		}
-	}
-	//
-	// Upon user releasing their finger, move the drawer to where it should go
-	else if([gesture state] == UIGestureRecognizerStateEnded || [gesture state] == UIGestureRecognizerStateCancelled)
-	{
-		// If the velocity of the gesture is fast, we want to move out the drawer all the way, even if the user
-		// released the drawer close to the left of the screen
-		
-		if(abs((int)touchPoint.x) > [[self menuWidthConstraint] constant] / RATIO_DRAWER_RELEASE_THRESHOLD_TO_WIDTH)
-			// Drawer is more than (width/ratio) of the way in
-			[self hideMenuDrawerAnimated:YES includingOverlay:YES];
-		else
-		{
-			// Drawer is less than (width/ratio) of the way in
+			// If the centerView's leading constraint is positive, then the menu drawer is visible.
+			// The pan should be limited to only negative values (movement left) and not more left than
+			// the left edge of the screen
+			if(touchPoint.x < 0 && [[self centerViewLeadingConstraint] constant] > 0)
+			{
+				CGFloat newLocation = [[self menuWidthConstraint] constant] + touchPoint.x;
+				if(newLocation <= 0) newLocation = 1; // Don't go too far left
+				
+				[[self centerViewLeadingConstraint] setConstant:newLocation];
+			}
+			// If filter drawer is visible
+			else if(touchPoint.x > 0 && [[self centerViewLeadingConstraint] constant] < 0)
+			{
+				CGFloat newLocation = -1 * [[self filterWidthConstraint] constant] + touchPoint.x;
+				if(newLocation >= 0) newLocation = -1; // Don't go too far right
+				
+				[[self centerViewLeadingConstraint] setConstant:newLocation];
+			}
 			
-			if(abs((int)touchVelocity.x) < GESTURE_THRESHOLD_FAST_DRAWER) // Gesture is slow
-				[self showMenuDrawerAnimated:YES includingOverlay:YES]; // show drawer
-			else // Gesture is fast
-				[self hideMenuDrawerAnimated:YES includingOverlay:YES]; // hide drawer
+			break;
 		}
+		case UIGestureRecognizerStateEnded: // User lifted finger, or app was closed/switched
+		case UIGestureRecognizerStateCancelled:
+		{
+			// Animate to the proper ending location
+			
+			// If the velocity is fast, then go in the direction that the gesture is moving in, otherwise,
+			// if the gesture velocity is slow, then decide the direction based on how far the gesture has
+			// moved in the x-direction
+			if(abs((int)touchVelocity.x) > GESTURE_THRESHOLD_FAST_DRAWER)
+			{
+				// For when the menu is visible
+				if([[self centerViewLeadingConstraint] constant] > 0)
+				{
+					if(touchVelocity.x > 0) // Positive velocity, towards right
+						[self showMenuDrawerAnimated:YES easeIn:NO];
+					else if(touchVelocity.x < 0) // Negative velocity, towards left
+						[self moveCenterViewToCenterAnimated:YES easeIn:NO];
+				}
+				// For when the filter is visible
+				else if([[self centerViewLeadingConstraint] constant] < 0)
+				{
+					if(touchVelocity.x > 0) // Positive velocity, towards right
+						[self moveCenterViewToCenterAnimated:YES easeIn:NO];
+					else if(touchVelocity.x < 0) // Negative velocity, towards left
+						[self showFilterDrawerAnimated:YES easeIn:NO];
+				}
+			}
+			else // Slow gesture
+			{
+				// For when the menu is visible
+				if([[self centerViewLeadingConstraint] constant] > 0)
+				{
+					// Gesture ended when centerView was far from the center, so keep the menu visible
+					if(touchPoint.x > (-1 * [[self menuWidthConstraint] constant] / RATIO_DRAWER_RELEASE_THRESHOLD_TO_WIDTH))
+						[self showMenuDrawerAnimated:YES easeIn:NO];
+					else
+						// Gesture ended when centerView was close to the center, so move it all the way to the
+						// center
+						[self moveCenterViewToCenterAnimated:YES easeIn:NO];
+				}
+				// For when the filter is visible
+				else if([[self centerViewLeadingConstraint] constant] < 0)
+				{
+					// Gesture ended when centerView was far from the center, so keep the filter visible
+					if(touchPoint.x < [[self filterWidthConstraint] constant] / RATIO_DRAWER_RELEASE_THRESHOLD_TO_WIDTH)
+						[self showFilterDrawerAnimated:YES easeIn:NO];
+					else
+						// Gesture ended when centerView was close to the center, so move it all the way to the
+						// center
+						[self moveCenterViewToCenterAnimated:YES easeIn:NO];
+				}
+			}
+			
+			break;
+		}
+		case UIGestureRecognizerStateBegan:
+		case UIGestureRecognizerStateFailed:
+		case UIGestureRecognizerStatePossible:
+		default:
+			break;
 	}
 }
 
-// For panning on the filter drawer
-- (void)swipeOnFilterDrawer:(UIPanGestureRecognizer *)gesture
-{
-	// Get the position and velocity of the gesture
-	CGPoint touchPoint = [gesture translationInView:[self view]];
-	CGPoint touchVelocity = [gesture velocityInView:[self view]];
-	
-	//
-	// User is in the process of moving their finger around
-	if([gesture state] == UIGestureRecognizerStateChanged)
-	{
-		// Move the drawer according to the x-position of the gesture
-		if(touchPoint.x > 0) // Limits maximum dragging width (touchPoint starts at 0 at the start of the pan)
-		{
-			[[self filterTrailingConstraint] setConstant: -1 * touchPoint.x];
-			[[self transparencyView] setAlpha: ALPHA_FEED_OVERLAY - (abs((int)touchPoint.x) / [[self filterWidthConstraint] constant] * ALPHA_FEED_OVERLAY)];
-		}
-	}
-	//
-	// Upon user releasing their finger, move the drawer to where it should go
-	else if([gesture state] == UIGestureRecognizerStateEnded || [gesture state] == UIGestureRecognizerStateCancelled)
-	{
-		// If the velocity of the gesture is fast, we want to move in the drawer all the way, even if the user
-		// released the drawer close to where it started
-		
-		if(abs((int)touchPoint.x) > [[self filterWidthConstraint] constant] / RATIO_DRAWER_RELEASE_THRESHOLD_TO_WIDTH)
-			// Drawer is more than (width/ratio) of the way in
-			[self hideFilterDrawerAnimated:YES includingOverlay:YES];
-		else
-		{
-			// Drawer is less than (width/ratio) of the way in
-			
-			if(abs((int)touchVelocity.x) < GESTURE_THRESHOLD_FAST_DRAWER) // Gesture is slow
-				[self showFilterDrawerAnimated:YES includingOverlay:YES]; // show drawer
-			else // Gesture is fast
-				[self hideFilterDrawerAnimated:YES includingOverlay:YES]; // hide drawer
-		}
-	}
-}
-
-// Tapping on transparent overlay
-- (void)tappedOnOverlayView:(UITapGestureRecognizer *)gesture
-{
-	if(![self menuDrawerIsHidden])
-		[self hideMenuDrawerAnimated:YES includingOverlay:YES]; // If not hidden, hide it
-	if(![self filterDrawerIsHidden])
-		[self hideFilterDrawerAnimated:YES includingOverlay:YES]; // If not hidden, hide it
-}
+//// Tapping on transparent overlay
+//- (void)tappedOnOverlayView:(UITapGestureRecognizer *)gesture
+//{
+//	if(![self menuDrawerIsHidden])
+//		[self hideMenuDrawerAnimated:YES includingOverlay:YES]; // If not hidden, hide it
+//	if(![self filterDrawerIsHidden])
+//		[self hideFilterDrawerAnimated:YES includingOverlay:YES]; // If not hidden, hide it
+//}
 
 #pragma mark - Memory management
 - (void)didReceiveMemoryWarning
