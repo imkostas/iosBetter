@@ -74,6 +74,9 @@
 #define RATIO_TEXTFIELD_ICON_TO_HEIGHT 2
 #define PADDING_TEXTFIELD_ICON 16
 
+/**** Feed cells ****/
+#define MARGIN_FEEDCELL_SHADOWVIEW 8
+
 // Colors
 #define COLOR_NAVIGATION_TINT ([UIColor colorWithWhite:0.8 alpha:1.0])
 #define COLOR_NAVIGATION_BAR ([UIColor colorWithWhite:0 alpha:0.1])
@@ -87,6 +90,10 @@
 #define COLOR_LIGHTER_GRAY ([UIColor colorWithWhite:0.98 alpha:1.0])
 #define COLOR_LIGHT_GRAY ([UIColor colorWithWhite:0.62 alpha:1.0])
 #define COLOR_GRAY_FEED ([UIColor colorWithRed:0.82 green:0.82 blue:0.83 alpha:1.0])
+
+#define COLOR_GRAY [UIColor colorWithWhite:0.85 alpha:1.0]
+#define COLOR_POST_DIVIDER [UIColor colorWithWhite:0.62 alpha:1.0]
+#define COLOR_DARKISH_GRAY [UIColor colorWithWhite:0.43 alpha:1.0]
 
 // Alpha values
 #define ALPHA_FEED_OVERLAY 0.65

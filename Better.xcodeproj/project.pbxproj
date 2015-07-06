@@ -65,6 +65,17 @@
 		D05EF7711B0B70EF00D01AE4 /* BetterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7701B0B70EF00D01AE4 /* BetterTests.m */; };
 		D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7831B0B945F00D01AE4 /* Signup.m */; };
 		D05EF7881B0B9F0800D01AE4 /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7871B0B9F0800D01AE4 /* Login.m */; };
+		D06629941B4AD7F900359261 /* FeedSingleImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D06629911B4AD7F900359261 /* FeedSingleImageCell.xib */; };
+		D06629951B4AD7F900359261 /* FeedLeftRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D06629921B4AD7F900359261 /* FeedLeftRightCell.xib */; };
+		D06629961B4AD7F900359261 /* FeedTopBottomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D06629931B4AD7F900359261 /* FeedTopBottomCell.xib */; };
+		D066299A1B4AD82200359261 /* FeedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D06629981B4AD82200359261 /* FeedTableViewController.m */; };
+		D066299B1B4AD82200359261 /* FeedTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D06629991B4AD82200359261 /* FeedTableViewController.xib */; };
+		D066299F1B4AD84A00359261 /* BEHotspotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D066299E1B4AD84A00359261 /* BEHotspotView.m */; };
+		D06629A51B4AD86700359261 /* FeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D06629A21B4AD86700359261 /* FeedCell.m */; };
+		D06629A61B4AD86700359261 /* FeedCellHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = D06629A41B4AD86700359261 /* FeedCellHeader.m */; };
+		D06629AC1B4AD88C00359261 /* FeedSingleImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D06629AB1B4AD88C00359261 /* FeedSingleImageCell.m */; };
+		D06629AF1B4AD89200359261 /* FeedLeftRightCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D06629AE1B4AD89200359261 /* FeedLeftRightCell.m */; };
+		D06629B21B4AD89900359261 /* FeedTopBottomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D06629B11B4AD89900359261 /* FeedTopBottomCell.m */; };
 		D06F394D1B3305C700721FCE /* MyRanking.m in Sources */ = {isa = PBXBuildFile; fileRef = D06F394C1B3305C700721FCE /* MyRanking.m */; };
 		D06F39501B33219100721FCE /* ExtendedNavBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = D06F394F1B33219100721FCE /* ExtendedNavBarView.m */; };
 		D06F39531B3369A800721FCE /* Leaderboard.m in Sources */ = {isa = PBXBuildFile; fileRef = D06F39521B3369A800721FCE /* Leaderboard.m */; };
@@ -180,6 +191,24 @@
 		D05EF7831B0B945F00D01AE4 /* Signup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Signup.m; sourceTree = "<group>"; };
 		D05EF7861B0B9F0800D01AE4 /* Login.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login.h; sourceTree = "<group>"; };
 		D05EF7871B0B9F0800D01AE4 /* Login.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Login.m; sourceTree = "<group>"; };
+		D06629911B4AD7F900359261 /* FeedSingleImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedSingleImageCell.xib; sourceTree = "<group>"; };
+		D06629921B4AD7F900359261 /* FeedLeftRightCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedLeftRightCell.xib; sourceTree = "<group>"; };
+		D06629931B4AD7F900359261 /* FeedTopBottomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedTopBottomCell.xib; sourceTree = "<group>"; };
+		D06629971B4AD82200359261 /* FeedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedTableViewController.h; sourceTree = "<group>"; };
+		D06629981B4AD82200359261 /* FeedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewController.m; sourceTree = "<group>"; };
+		D06629991B4AD82200359261 /* FeedTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedTableViewController.xib; sourceTree = "<group>"; };
+		D066299D1B4AD84A00359261 /* BEHotspotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEHotspotView.h; sourceTree = "<group>"; };
+		D066299E1B4AD84A00359261 /* BEHotspotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEHotspotView.m; sourceTree = "<group>"; };
+		D06629A11B4AD86700359261 /* FeedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedCell.h; sourceTree = "<group>"; };
+		D06629A21B4AD86700359261 /* FeedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedCell.m; sourceTree = "<group>"; };
+		D06629A31B4AD86700359261 /* FeedCellHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedCellHeader.h; sourceTree = "<group>"; };
+		D06629A41B4AD86700359261 /* FeedCellHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedCellHeader.m; sourceTree = "<group>"; };
+		D06629AA1B4AD88C00359261 /* FeedSingleImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedSingleImageCell.h; sourceTree = "<group>"; };
+		D06629AB1B4AD88C00359261 /* FeedSingleImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedSingleImageCell.m; sourceTree = "<group>"; };
+		D06629AD1B4AD89200359261 /* FeedLeftRightCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedLeftRightCell.h; sourceTree = "<group>"; };
+		D06629AE1B4AD89200359261 /* FeedLeftRightCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedLeftRightCell.m; sourceTree = "<group>"; };
+		D06629B01B4AD89900359261 /* FeedTopBottomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedTopBottomCell.h; sourceTree = "<group>"; };
+		D06629B11B4AD89900359261 /* FeedTopBottomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedTopBottomCell.m; sourceTree = "<group>"; };
 		D06F394B1B3305C700721FCE /* MyRanking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRanking.h; sourceTree = "<group>"; };
 		D06F394C1B3305C700721FCE /* MyRanking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyRanking.m; sourceTree = "<group>"; };
 		D06F394E1B33219100721FCE /* ExtendedNavBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtendedNavBarView.h; sourceTree = "<group>"; };
@@ -436,6 +465,7 @@
 				D05EF77A1B0B7AF800D01AE4 /* AppDelegate */,
 				D05EF77D1B0B8F2800D01AE4 /* Introduction */,
 				D05EF77B1B0B7B0900D01AE4 /* Feed */,
+				D066298E1B4AD7A600359261 /* Feed Table View */,
 				D03057981B20E83600F20072 /* Menu */,
 				D03057991B20E83E00F20072 /* Filter */,
 				D02DE0DA1B2F64E800FE6A6A /* My Information */,
@@ -533,6 +563,87 @@
 				D05EF7871B0B9F0800D01AE4 /* Login.m */,
 			);
 			name = Login;
+			sourceTree = "<group>";
+		};
+		D066298E1B4AD7A600359261 /* Feed Table View */ = {
+			isa = PBXGroup;
+			children = (
+				D066298F1B4AD7CD00359261 /* TableView Controller */,
+				D06629901B4AD7D400359261 /* TableView Cells */,
+				D066299C1B4AD83A00359261 /* Hotspots */,
+			);
+			name = "Feed Table View";
+			sourceTree = "<group>";
+		};
+		D066298F1B4AD7CD00359261 /* TableView Controller */ = {
+			isa = PBXGroup;
+			children = (
+				D06629971B4AD82200359261 /* FeedTableViewController.h */,
+				D06629981B4AD82200359261 /* FeedTableViewController.m */,
+				D06629991B4AD82200359261 /* FeedTableViewController.xib */,
+			);
+			name = "TableView Controller";
+			sourceTree = "<group>";
+		};
+		D06629901B4AD7D400359261 /* TableView Cells */ = {
+			isa = PBXGroup;
+			children = (
+				D06629A71B4AD86F00359261 /* Single image */,
+				D06629A81B4AD87700359261 /* Left-Right */,
+				D06629A91B4AD87B00359261 /* Top-Bottom */,
+				D06629A01B4AD85B00359261 /* Superclass */,
+				D06629911B4AD7F900359261 /* FeedSingleImageCell.xib */,
+				D06629921B4AD7F900359261 /* FeedLeftRightCell.xib */,
+				D06629931B4AD7F900359261 /* FeedTopBottomCell.xib */,
+			);
+			name = "TableView Cells";
+			sourceTree = "<group>";
+		};
+		D066299C1B4AD83A00359261 /* Hotspots */ = {
+			isa = PBXGroup;
+			children = (
+				D066299D1B4AD84A00359261 /* BEHotspotView.h */,
+				D066299E1B4AD84A00359261 /* BEHotspotView.m */,
+			);
+			name = Hotspots;
+			sourceTree = "<group>";
+		};
+		D06629A01B4AD85B00359261 /* Superclass */ = {
+			isa = PBXGroup;
+			children = (
+				D06629A11B4AD86700359261 /* FeedCell.h */,
+				D06629A21B4AD86700359261 /* FeedCell.m */,
+				D06629A31B4AD86700359261 /* FeedCellHeader.h */,
+				D06629A41B4AD86700359261 /* FeedCellHeader.m */,
+			);
+			name = Superclass;
+			sourceTree = "<group>";
+		};
+		D06629A71B4AD86F00359261 /* Single image */ = {
+			isa = PBXGroup;
+			children = (
+				D06629AA1B4AD88C00359261 /* FeedSingleImageCell.h */,
+				D06629AB1B4AD88C00359261 /* FeedSingleImageCell.m */,
+			);
+			name = "Single image";
+			sourceTree = "<group>";
+		};
+		D06629A81B4AD87700359261 /* Left-Right */ = {
+			isa = PBXGroup;
+			children = (
+				D06629AD1B4AD89200359261 /* FeedLeftRightCell.h */,
+				D06629AE1B4AD89200359261 /* FeedLeftRightCell.m */,
+			);
+			name = "Left-Right";
+			sourceTree = "<group>";
+		};
+		D06629A91B4AD87B00359261 /* Top-Bottom */ = {
+			isa = PBXGroup;
+			children = (
+				D06629B01B4AD89900359261 /* FeedTopBottomCell.h */,
+				D06629B11B4AD89900359261 /* FeedTopBottomCell.m */,
+			);
+			name = "Top-Bottom";
 			sourceTree = "<group>";
 		};
 		D0835FB51B0CECBE00D88412 /* Custom Objects */ = {
@@ -744,10 +855,13 @@
 				D05584C71B31D12A003FD842 /* Raleway-BlackItalic.ttf in Resources */,
 				D05584CE1B31D12A003FD842 /* Raleway-Italic.ttf in Resources */,
 				D05584C81B31D12A003FD842 /* Raleway-Bold.ttf in Resources */,
+				D066299B1B4AD82200359261 /* FeedTableViewController.xib in Resources */,
 				D05584D61B31D12A003FD842 /* Raleway-Thin.ttf in Resources */,
 				D05584D51B31D12A003FD842 /* Raleway-SemiBoldItalic.ttf in Resources */,
 				D05584D71B31D12A003FD842 /* Raleway-ThinItalic.ttf in Resources */,
 				D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */,
+				D06629961B4AD7F900359261 /* FeedTopBottomCell.xib in Resources */,
+				D06629941B4AD7F900359261 /* FeedSingleImageCell.xib in Resources */,
 				D05584D41B31D12A003FD842 /* Raleway-SemiBold.ttf in Resources */,
 				D05584CF1B31D12A003FD842 /* Raleway-Light.ttf in Resources */,
 				D05EF7621B0B70EF00D01AE4 /* Images.xcassets in Resources */,
@@ -765,6 +879,7 @@
 				D05584CD1B31D12A003FD842 /* Raleway-ExtraLightItalic.ttf in Resources */,
 				D00B29FA1B3898D600DB87EC /* BadgesCollectionViewCell.xib in Resources */,
 				D05584CC1B31D12A003FD842 /* Raleway-ExtraLight.ttf in Resources */,
+				D06629951B4AD7F900359261 /* FeedLeftRightCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -820,6 +935,7 @@
 				D02DE0DD1B2F651F00FE6A6A /* MyInformation.m in Sources */,
 				D05EF75D1B0B70EF00D01AE4 /* Feed.m in Sources */,
 				D00B29F91B3898D600DB87EC /* BadgesCollectionViewCell.m in Sources */,
+				D06629AF1B4AD89200359261 /* FeedLeftRightCell.m in Sources */,
 				D030579C1B20E84E00F20072 /* (null) in Sources */,
 				D06F39531B3369A800721FCE /* Leaderboard.m in Sources */,
 				D01514CB1B1F686E00EFE991 /* UserInfo.m in Sources */,
@@ -832,11 +948,13 @@
 				D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */,
 				D09901921B0E619300760CDF /* BEScrollingViewController.m in Sources */,
 				D031CEDF1B39DD900039A9C1 /* LeaderboardData.m in Sources */,
+				D066299F1B4AD84A00359261 /* BEHotspotView.m in Sources */,
 				D01CB7451B29D78D003DF616 /* Support.m in Sources */,
 				D0A250E51B1758AA003E7D0B /* BELine.m in Sources */,
 				D05EF7881B0B9F0800D01AE4 /* Login.m in Sources */,
 				D02DE0E01B2F74A000FE6A6A /* UserRank.m in Sources */,
 				D031CEE31B39E4D70039A9C1 /* LeaderboardTableViewCell.m in Sources */,
+				D06629AC1B4AD88C00359261 /* FeedSingleImageCell.m in Sources */,
 				31C5CFD01B20E65900472161 /* CustomAlert.m in Sources */,
 				D06F394D1B3305C700721FCE /* MyRanking.m in Sources */,
 				D0CBA1C81B2239F0002DD192 /* BETappableView.m in Sources */,
@@ -847,11 +965,15 @@
 				D006D1651B2776C7008A48FA /* Settings.m in Sources */,
 				D05584EA1B31F1C1003FD842 /* BELabel.m in Sources */,
 				D030579F1B20E85900F20072 /* (null) in Sources */,
+				D06629B21B4AD89900359261 /* FeedTopBottomCell.m in Sources */,
 				31C5CFD61B20E95800472161 /* Filter.m in Sources */,
 				D0F347DC1B289829001950E4 /* MyAccount.m in Sources */,
 				D0CD720B1B2B6237004A5765 /* MyRankingController.m in Sources */,
+				D066299A1B4AD82200359261 /* FeedTableViewController.m in Sources */,
 				D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */,
 				D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */,
+				D06629A51B4AD86700359261 /* FeedCell.m in Sources */,
+				D06629A61B4AD86700359261 /* FeedCellHeader.m in Sources */,
 				D00B29F11B38491F00DB87EC /* BEPageViewController.m in Sources */,
 				D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */,
 				D04DEE851B30BE6000BF1557 /* UserCounts.m in Sources */,
