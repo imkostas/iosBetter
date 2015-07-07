@@ -10,7 +10,7 @@
 #import "Definitions.h"
 #import "IntroPageContent.h"
 #import "IntroPage.h"
-#import "AppDelegate.h"
+//#import "AppDelegate.h"
 
 // This class is the delegate and DataSource of its UIPageViewController child, which is inside a storyboard Container View
 @interface Intro : UIViewController <UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIGestureRecognizerDelegate>
@@ -30,5 +30,8 @@
 // Creates an IntroPage instance (a subclass of UIViewController) given an IntroPageContent object
 // which contains the three lines of text and a boolean which specifies whether the first line is a title or not
 - (IntroPage *)generatePageWithPageContent:(IntroPageContent *)pageContent;
+
+// Method that is called by the unwind segue linked to the Log Out button
+- (IBAction)unwindToIntro:(UIStoryboardSegue *)sender;
 
 @end

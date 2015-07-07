@@ -15,6 +15,10 @@
 	
 	// boolean to make sure this view controller only does the introductory fade-in once
 	BOOL introFadeDone;
+	
+	// boolean that is set to false only by -unwindToIntro:, and controls whether the navigation bar uses
+	// animation when being hidden (false means no animation).
+	BOOL useAnimationWhenHidingNavBar;
 }
 
 //// Methods for fading a UIView in and out (setting alpha to 1 and 0)
@@ -32,6 +36,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 	
+	useAnimationWhenHidingNavBar = TRUE;
+	
 	// Set up the navigation bar for pre-login areas of app
 	[[[self navigationController] navigationBar] setBarTintColor:COLOR_NAVIGATION_BAR];
 	[[[self navigationController] navigationBar] setTintColor:COLOR_NAVIGATION_TINT];
@@ -41,10 +47,6 @@
 	// Set up the backgroundImage UIImageView
 	[[self backgroundImage] setClipsToBounds:YES]; // Make sure the image view does not display an image outside of its bounds
 	[[self backgroundImage] setContentMode:UIViewContentModeScaleAspectFill];
-	
-	// Save reference to Intro so the Logout button can go back to this view controller later
-	AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate setInitialViewController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -52,14 +54,20 @@
 	[super viewWillAppear:animated];
 	
 	// Hide the navigation bar when showing this view controller
-	[[self navigationController] setNavigationBarHidden:YES animated:YES];
+	if(useAnimationWhenHidingNavBar)
+		[[self navigationController] setNavigationBarHidden:YES animated:YES];
+	else
+	{
+		// Used by -unwindToIntro: to prevent an unsightly animation when the user uses the 'Log Out' button
+		// in the Settings area
+		[[self navigationController] setNavigationBarHidden:YES animated:NO];
+		useAnimationWhenHidingNavBar = TRUE; // Reset the flag to use animation
+	}
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
-	
-	NSLog(@"view did appear");
 	
 	// Fade in the Better logo first, and other UI elements after a delay, if this hasn't already happened once
 	if(!introFadeDone)
@@ -279,6 +287,22 @@
 									  animated:YES
 									completion:nil];
 	}
+}
+
+// Called when the user wants to 'Log Out'.
+// The method below goes within the view controller that you want to unwind TO (the destination), but in the
+// storyboard, you ctrl-drag from the view controller icon to the exit icon of the view controller that you're
+// unwinding FROM (the source). The source view controller is also the one that you'd call
+// -performSegueWithIdentifier:sender inside, also.
+//
+// This gets called before -viewWillAppear, which is good
+- (IBAction)unwindToIntro:(UIStoryboardSegue *)sender
+{
+	NSLog(@"Unwinding to intro");
+	
+	// Set the flag to prevent the navigation bar from using animation when it hides (normally we want this,
+	// so the flag is reset to TRUE in -viewWillAppear:)
+	useAnimationWhenHidingNavBar = FALSE;
 }
 
 //- (void)pageControlValueChanged:(UIPageControl *)sender

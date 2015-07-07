@@ -23,6 +23,10 @@
 	CGFloat tagsLabelHeightOneLine;
 	
 	UIImage *background;
+	UIImage *image2;
+	UIImage *image3;
+	UIImage *image4;
+	UIImage *image5;
 }
 
 @property (strong, nonatomic) FeedCell *dummyCell;
@@ -52,7 +56,22 @@
 	[[self tableView] registerNib:[UINib nibWithNibName:@"FeedTopBottomCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"feedTopBottomCell"];
 }
 
-// Called after auto-layout is finished, so we can calculate the estimated row height (need to know the width
+// Called before auto-layout has happened--here, we create the dummy cell and add it to [self view], but don't
+// run auto layout on it just yet
+- (void)viewWillLayoutSubviews
+{
+	/** Initialize the dummy cell and add it to [self view], but don't tell it to run auto-layout just yet **/
+	 
+	_dummyCell = (FeedCell *)[[self tableView] dequeueReusableCellWithIdentifier:@"feedSingleImageCell"];
+	[[self dummyCell] setHidden:YES];
+	[[self view] addSubview:[self dummyCell]];
+	
+	// Set the tagsLabel to have 1 line, and non-empty usernamelabel
+	[[self dummyCell].headerView.tagsLabel setText:@"#"];
+	[[self dummyCell].headerView.usernameLabel setText:@"username"];
+}
+
+// Called after auto-layout is finished(?), so we can calculate the estimated row height (need to know the width
 // of the TableView)
 - (void)viewDidLayoutSubviews
 {
@@ -60,29 +79,28 @@
 	// 98 --> height of the header UIView with 1 line of hashtags (contains hashtags, username, etc.)
 	rowHeightEstimate = CGRectGetWidth([[self tableView] bounds]) + 2 + 98;
 	
-	/** Get a dummy cell and set it up **/
+	// Set frame of dummy cell
+	[[self dummyCell] setFrame:CGRectMake(0, 0, CGRectGetWidth([[self tableView] bounds]), rowHeightEstimate)];
 	
-	_dummyCell = (FeedCell *)[[self tableView] dequeueReusableCellWithIdentifier:@"feedSingleImageCell"];
-	[_dummyCell setFrame:CGRectMake(0, 0, CGRectGetWidth([[self tableView] bounds]), rowHeightEstimate)];
-	[_dummyCell setHidden:YES];
-	[[self view] addSubview:_dummyCell];
-	
-	// Set the tagsLabel to have 1 line, and non-empty usernamelabel
-	[_dummyCell.headerView.tagsLabel setText:@"#"];
-	[_dummyCell.headerView.usernameLabel setText:@"username"];
-	
-	// Run auto-layout on dummy cell
-	[_dummyCell setNeedsLayout];
-	[_dummyCell layoutIfNeeded];
+	// Run auto-layout on dummy cell initialized in -viewWillLayoutSubviews
+	[[self dummyCell] setNeedsLayout];
+	[[self dummyCell] layoutIfNeeded];
 	
 	// Record the 1-line height
 	tagsLabelHeightOneLine = CGRectGetHeight([_dummyCell.headerView.tagsLabel bounds]);
 	
 	/** Set up the dummy UILabel to mimic the properties of the one in the dummy cell **/
-	
 	_dummyTagsLabel = [[UILabel alloc] initWithFrame:_dummyCell.headerView.tagsLabel.frame];
 	[[self dummyTagsLabel] setNumberOfLines:3];
 	[[self dummyTagsLabel] setPreferredMaxLayoutWidth:CGRectGetWidth([[self dummyTagsLabel] frame])];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	
+	// Get rid of dummy cell
+	[[self dummyCell] removeFromSuperview];
 }
 
 - (void)didReceiveMemoryWarning
@@ -95,13 +113,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	UITableViewCell *cell = nil;
+	NSInteger index = [indexPath row];
 	
 	// Generate different cells based on the type of the post
-	if([indexPath indexAtPosition:1] % 3 == 0)
+	if(index % 3 == 0)
 		cell = (FeedSingleImageCell *)[tableView dequeueReusableCellWithIdentifier:@"feedSingleImageCell" forIndexPath:indexPath];
-	else if([indexPath indexAtPosition:1] % 3 == 1)
+	else if(index % 3 == 1)
 		cell = (FeedLeftRightCell *)[tableView dequeueReusableCellWithIdentifier:@"feedLeftRightCell" forIndexPath:indexPath];
-	else if([indexPath indexAtPosition:1] % 3 == 2)
+	else if(index % 3 == 2)
 		cell = (FeedTopBottomCell *)[tableView dequeueReusableCellWithIdentifier:@"feedTopBottomCell" forIndexPath:indexPath];
 	
 	return cell;
@@ -117,7 +136,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	CGFloat adjustmentHeight = 0;
-	NSInteger index = [indexPath indexAtPosition:1];
+	NSInteger index = [indexPath row];
 	
 	if(index % 3 == 0)
 		[[self dummyTagsLabel] setText:@"#hashtag #lotsapoints"];
@@ -138,7 +157,7 @@
 //	return rowHeightEstimate;
 	
 	CGFloat adjustmentHeight = 0;
-	NSInteger index = [indexPath indexAtPosition:1];
+	NSInteger index = [indexPath row];
 	
 	if(index % 3 == 0)
 		[[self dummyTagsLabel] setText:@"#hello"];
@@ -147,7 +166,7 @@
 	else if(index % 3 == 2)
 		[[self dummyTagsLabel] setText:@"#hey #hashtags #twitter #fb #meme"];
 	
-	int multiple = round([self dummyTagsLabel].intrinsicContentSize.height / tagsLabelHeightOneLine);
+	int multiple = roundf([self dummyTagsLabel].intrinsicContentSize.height / tagsLabelHeightOneLine);
 	if(multiple == 3) // 3 lines of text
 		adjustmentHeight = tagsLabelHeightOneLine; // Add one line of vertical space
 	
@@ -161,14 +180,14 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(FeedCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	// Set prof pic
-	if([indexPath indexAtPosition:1] % 2 == 0)
-		[cell.headerView.profileImageView setImage:[UIImage imageNamed:@"donkey"]];
+	if([indexPath row] % 2 == 0)
+		[cell.headerView.profileImageView setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_FEMALE]];
 	else
-		[cell.headerView.profileImageView setImage:[UIImage imageNamed:@"goat"]];
+		[cell.headerView.profileImageView setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_MALE]];
 	
 //	[[[cell headerView] profileImageView] setBackgroundColor:[UIColor greenColor]];
 	
-	if([indexPath indexAtPosition:1] % 3 == 0)
+	if([indexPath row] % 3 == 0)
 	{
 		FeedSingleImageCell *thisCell = (FeedSingleImageCell *)cell;
 		
@@ -183,11 +202,19 @@
 		[thisCell.headerView.usernameLabel setText:@"DONKEY"];
 		[thisCell.headerView.numberOfVotesLabel setText:@"5000"];
 	}
-	else if([indexPath indexAtPosition:1] % 3 == 1)
+	else if([indexPath row] % 3 == 1)
 	{
 		FeedLeftRightCell *thisCell = (FeedLeftRightCell *)cell;
-		[[thisCell leftImageView] setBackgroundColor:COLOR1];
-		[[thisCell rightImageView] setBackgroundColor:COLOR2];
+		
+		if(image2)
+			[[thisCell leftImageView] setImage:image2];
+		else
+			[[thisCell leftImageView] setBackgroundColor:COLOR1];
+		
+		if(image3)
+			[[thisCell rightImageView] setImage:image3];
+		else
+			[[thisCell rightImageView] setBackgroundColor:COLOR2];
 		
 		[thisCell.hotspot1 setPercentageValue:0.55];
 		[thisCell.hotspot2 setPercentageValue:0.45];
@@ -195,11 +222,19 @@
 		[thisCell.headerView.usernameLabel setText:@"GOAT"];
 		[thisCell.headerView.numberOfVotesLabel setText:@"6"];
 	}
-	else if([indexPath indexAtPosition:1] % 3 == 2)
+	else if([indexPath row] % 3 == 2)
 	{
 		FeedTopBottomCell *thisCell = (FeedTopBottomCell *)cell;
-		[[thisCell topImageView] setBackgroundColor:COLOR1];
-		[[thisCell bottomImageView] setBackgroundColor:COLOR2];
+		
+		if(image4)
+			[[thisCell topImageView] setImage:image4];
+		else
+			[[thisCell topImageView] setBackgroundColor:COLOR1];
+		
+		if(image5)
+			[[thisCell bottomImageView] setImage:image5];
+		else
+			[[thisCell bottomImageView] setBackgroundColor:COLOR2];
 		
 		[thisCell.hotspot1 setPercentageValue:0.01];
 		[thisCell.hotspot2 setPercentageValue:0.99];
@@ -219,8 +254,6 @@
 											  if(!background)
 												  NSLog(@"Downloaded image is nil");
 											  
-											  NSLog(@"Response: %@", response);
-											  
 											  if(background)
 											  {
 												  NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]];
@@ -232,6 +265,82 @@
 											  }
 										  }];
 	[urlTask resume];
+	
+	NSURLSessionTask *urlTask2 = [urlSession dataTaskWithURL:[NSURL URLWithString:@"http://dummyimage.com/300x600/f04/333.png"]
+										  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+											  
+											  image2 = [UIImage imageWithData:data];
+											  if(!image2)
+												  NSLog(@"Downloaded image is nil");
+											  
+											  if(image2)
+											  {
+												  NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]];
+												  
+												  // Update the tableview on the main thread (UI runs on main thread)
+												  dispatch_async(dispatch_get_main_queue(), ^{
+													  [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+												  });
+											  }
+										  }];
+	[urlTask2 resume];
+	
+	NSURLSessionTask *urlTask3 = [urlSession dataTaskWithURL:[NSURL URLWithString:@"http://dummyimage.com/300x600/eee/c0c.png"]
+										  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+											  
+											  image3 = [UIImage imageWithData:data];
+											  if(!image3)
+												  NSLog(@"Downloaded image is nil");
+											  
+											  if(image3)
+											  {
+												  NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]];
+												  
+												  // Update the tableview on the main thread (UI runs on main thread)
+												  dispatch_async(dispatch_get_main_queue(), ^{
+													  [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+												  });
+											  }
+										  }];
+	[urlTask3 resume];
+	
+	NSURLSessionTask *urlTask4 = [urlSession dataTaskWithURL:[NSURL URLWithString:@"http://dummyimage.com/600x300/bbb/f03.png"]
+										   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+											   
+											   image4 = [UIImage imageWithData:data];
+											   if(!image4)
+												   NSLog(@"Downloaded image is nil");
+											   
+											   if(image4)
+											   {
+												   NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:0]];
+												   
+												   // Update the tableview on the main thread (UI runs on main thread)
+												   dispatch_async(dispatch_get_main_queue(), ^{
+													   [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+												   });
+											   }
+										   }];
+	[urlTask4 resume];
+	
+	NSURLSessionTask *urlTask5 = [urlSession dataTaskWithURL:[NSURL URLWithString:@"http://dummyimage.com/600x300/123/456.png"]
+										   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+											   
+											   image5 = [UIImage imageWithData:data];
+											   if(!image5)
+												   NSLog(@"Downloaded image is nil");
+											   
+											   if(image5)
+											   {
+												   NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:0]];
+												   
+												   // Update the tableview on the main thread (UI runs on main thread)
+												   dispatch_async(dispatch_get_main_queue(), ^{
+													   [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+												   });
+											   }
+										   }];
+	[urlTask5 resume];
 }
 
 /*

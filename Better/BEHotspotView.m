@@ -38,7 +38,7 @@
 		// Configure properties
 //		[[self percentageLabel] setBackgroundColor:[UIColor blueColor]];
 		[[self percentageLabel] setTextAlignment:NSTextAlignmentCenter];
-		[[self percentageLabel] setTextColor:[UIColor colorWithWhite:0.85 alpha:1]];
+		[[self percentageLabel] setTextColor:[UIColor colorWithWhite:0.88 alpha:1]];
 		
 		[[[self backgroundImageView] layer] setRasterizationScale:[[UIScreen mainScreen] scale]];
 		[[[self backgroundImageView] layer] setShouldRasterize:YES];

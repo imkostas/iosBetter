@@ -21,6 +21,8 @@
 #define STORYBOARD_ID_INTROPAGE_TITLE @"introPageTitle"
 #define STORYBOARD_ID_INTROPAGE_NOTITLE @"introPageNoTitle"
 
+#define STORYBOARD_ID_SEGUE_UNWIND_TO_INTRO @"unwindToIntro"
+
 #define STORYBOARD_ID_FEED @"feedViewController"
 //#define STORYBOARD_ID_FEED_NAVIGATION @"feedViewControllerNavigation" (not used anymore)
 
@@ -110,7 +112,9 @@
 #define IMAGE_TUTORIAL_POST @"initial_tutorial_post"
 #define IMAGE_TUTORIAL_CROWN @"initial_tutorial_crown"
 
-#define IMAGE_EMPTY_PROFILE_PICTURE @"account_profile_panel_empty"
+#define IMAGE_EMPTY_PROFILE_PANEL @"account_profile_panel_empty"
+#define IMAGE_EMPTY_PROFILE_PICTURE_FEMALE @"blank_profile_female_noalpha"
+#define IMAGE_EMPTY_PROFILE_PICTURE_MALE @"blank_profile_male_noalpha"
 
 #define IMAGE_PIXEL_TRANSPARENT @"TransparentPixel"
 #define IMAGE_PIXEL_COLOR_BETTER_DARK @"Color_better_dark"

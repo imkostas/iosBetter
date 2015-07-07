@@ -237,6 +237,9 @@
 								 // Disable panning on centerView
 								 [[self panCenterViewRecognizer] setEnabled:NO];
 								 
+								 // Enable interaction with feed container
+								 [[self feedContainer] setUserInteractionEnabled:YES];
+								 
 								 // Set both drawers as not hidden
 								 [[self menuDrawer] setHidden:NO];
 								 [[self filterDrawer] setHidden:NO];
@@ -253,6 +256,9 @@
 		
 		// Disable panning on centerView
 		[[self panCenterViewRecognizer] setEnabled:NO];
+		
+		// Enable interaction with feed container
+		[[self feedContainer] setUserInteractionEnabled:YES];
 		
 		// Set both drawers as not hidden
 		[[self menuDrawer] setHidden:NO];
@@ -286,6 +292,8 @@
 							 if(completed) {
 								 [[self tapCenterViewRecognizer] setEnabled:YES]; // Enable tapping on center view
 								 [[self panCenterViewRecognizer] setEnabled:YES]; // Enable panning on center view
+								 [[self feedContainer] setUserInteractionEnabled:NO]; // Disable interaction with Feed
+										// e.g. no scrolling when the Menu or Filter is being shown
 							 }
 						 }];
 	}
@@ -294,6 +302,7 @@
 		[[self view] layoutIfNeeded]; // No animation
 		[[self tapCenterViewRecognizer] setEnabled:YES]; // Enable tapping on center view
 		[[self panCenterViewRecognizer] setEnabled:YES]; // Enable panning on center view
+		[[self feedContainer] setUserInteractionEnabled:NO]; // Disable interaction with Feed
 	}
 }
 - (BOOL)menuDrawerIsHidden {
@@ -326,6 +335,7 @@
 							 if(completed) {
 								 [[self tapCenterViewRecognizer] setEnabled:YES]; // Enable tapping on center view
 								 [[self panCenterViewRecognizer] setEnabled:YES]; // Enable panning on center view
+								 [[self feedContainer] setUserInteractionEnabled:NO]; // Disable interaction with Feed
 							 }
 						 }];
 	}
@@ -334,6 +344,7 @@
 		[[self view] layoutIfNeeded]; // No animation
 		[[self tapCenterViewRecognizer] setEnabled:YES]; // Enable tapping on center view
 		[[self panCenterViewRecognizer] setEnabled:YES]; // Enable panning on center view
+		[[self feedContainer] setUserInteractionEnabled:NO]; // Disable interaction with Feed
 	}
 }
 - (BOOL)filterDrawerIsHidden {
@@ -445,48 +456,6 @@
 		default:
 			break;
 	}
-	
-//	// Get the position and velocity of the gesture
-//	CGPoint touchPoint = [gesture translationInView:[self view]];
-//	CGPoint touchVelocity = [gesture velocityInView:[self view]];
-//	
-//	// Perform different actions based on the state of the gesture:
-//	
-//	// Gesture just started
-//	if([gesture state] == UIGestureRecognizerStateBegan)
-//	{
-//		// Show the filter view and hide the menu view
-//		[[self menuDrawer] setHidden:YES];
-//		[[self filterDrawer] setHidden:NO];
-//	}
-//	//
-//	// User is in the process of moving their finger around
-//	else if([gesture state] == UIGestureRecognizerStateChanged)
-//	{
-//		// Move the drawer according to the x-position of the gesture
-//		if(touchPoint.x >= -1 * [[self filterWidthConstraint] constant]) // Limits maximum dragging width
-//			[[self centerViewLeadingConstraint] setConstant:touchPoint.x];
-//	}
-//	//
-//	// Upon user releasing their finger, move the drawer to where it should go
-//	else if([gesture state] == UIGestureRecognizerStateEnded || [gesture state] == UIGestureRecognizerStateCancelled)
-//	{
-//		// If the velocity of the gesture is fast, we want to move out the drawer all the way, even if the user
-//		// released the drawer close to the left of the screen
-//		
-//		if(touchPoint.x < (-1 * [[self filterWidthConstraint] constant] / RATIO_DRAWER_RELEASE_THRESHOLD_TO_WIDTH))
-//			// Drawer is more than (width/ratio) of the way out
-//			[self showFilterDrawerAnimated:YES easeIn:NO];
-//		else
-//		{
-//			// Drawer is less than (width/ratio) of the way out
-//			
-//			if(touchVelocity.x > (-1 * GESTURE_THRESHOLD_FAST_DRAWER)) // Gesture is slow
-//				[self moveCenterViewToCenterAnimated:YES easeIn:NO];
-//			else // Gesture is fast
-//				[self showFilterDrawerAnimated:YES easeIn:NO]; // Show drawer
-//		}
-//	}
 }
 
 // For tapping on the center view

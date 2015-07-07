@@ -27,6 +27,12 @@
 	// Set background color of view
 	[[self view] setBackgroundColor:COLOR_LIGHT_LIGHT_GRAY];
 	
+	// Set up the scrollview
+	//
+	// Disable scrolls-to-top feature for Menu (it's unecessary and the scrollview that actually needs it
+	// is the Feed's UITableView which displays all of the posts)
+	[[self scrollView] setScrollsToTop:NO];
+	
 	// Set the profile image
 	[[[self profileImageView] layer] setMasksToBounds:YES];
 	[[[self profileImageView] layer] setCornerRadius:[[self profileImageView] frame].size.height / 2];

@@ -41,7 +41,7 @@
 	if([[UserInfo user] profileImage] == nil)
 	{
 		[[self profileImage] setImage:[UIImage imageNamed:ICON_TAKEPICTURE]];
-		[[self profileImageBackground] setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE]];
+		[[self profileImageBackground] setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PANEL]];
 	}
 	
 	// Get the list of countries from Countries.plist

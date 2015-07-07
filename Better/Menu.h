@@ -12,6 +12,9 @@
 
 @interface MenuViewController : UIViewController <BETappableViewDelegate>
 
+// The UIScrollView that contains all UI elements of the Menu
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
 // Profile image and username label are contained within the profileView UIView
 @property (weak, nonatomic) IBOutlet BETappableView *profileView;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;

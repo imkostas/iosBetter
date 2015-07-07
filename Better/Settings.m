@@ -84,12 +84,8 @@
 			[logoutAlert addAction:[UIAlertAction actionWithTitle:@"Yes"
 															style:UIAlertActionStyleDefault
 														  handler:^(UIAlertAction *action) {
-															  // Go back to the login/tutorial screen
-															  AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-															  
-															  // Uncomment following line to go back to tutorial screen instead of login
-															  [[[appDelegate initialViewController] navigationController] popToRootViewControllerAnimated:NO];
-															  [[appDelegate initialViewController] dismissViewControllerAnimated:YES completion:nil];
+															  // Use unwind segue to go back to Intro
+															  [self performSegueWithIdentifier:STORYBOARD_ID_SEGUE_UNWIND_TO_INTRO sender:self];
 														  }]];
 			// Show the alert
 			[self presentViewController:logoutAlert animated:YES completion:nil];
@@ -119,6 +115,7 @@
     // Pass the selected object to the new view controller.
 }
 */
+
 
 /*#pragma mark - CustomAlert delegate methods
 - (void)leftActionMethod:(int)method
