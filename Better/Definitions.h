@@ -95,7 +95,9 @@
 
 #define COLOR_GRAY [UIColor colorWithWhite:0.85 alpha:1.0]
 #define COLOR_POST_DIVIDER [UIColor colorWithWhite:0.62 alpha:1.0]
-#define COLOR_DARKISH_GRAY [UIColor colorWithWhite:0.43 alpha:1.0]
+#define COLOR_FEED_HEADERTEXT [UIColor colorWithWhite:0.46 alpha:1.0]
+#define COLOR_FEED_HASHTAGS_STOCK [UIColor colorWithWhite:0.38 alpha:1.0]
+#define COLOR_FEED_HASHTAGS_CUSTOM [UIColor blackColor]
 
 // Alpha values
 #define ALPHA_FEED_OVERLAY 0.65

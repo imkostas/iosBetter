@@ -67,8 +67,10 @@
 	[[self view] addSubview:[self dummyCell]];
 	
 	// Set the tagsLabel to have 1 line, and non-empty usernamelabel
-	[[self dummyCell].headerView.tagsLabel setText:@"#"];
-	[[self dummyCell].headerView.usernameLabel setText:@"username"];
+//	[[self dummyCell].headerView.tagsLabel setText:@"#"];
+//	[[self dummyCell].headerView.usernameLabel setText:@"username"];
+	[[self dummyCell].tagsLabel setText:@"#"];
+	[[self dummyCell].usernameLabel setText:@"username"];
 }
 
 // Called after auto-layout is finished(?), so we can calculate the estimated row height (need to know the width
@@ -87,10 +89,12 @@
 	[[self dummyCell] layoutIfNeeded];
 	
 	// Record the 1-line height
-	tagsLabelHeightOneLine = CGRectGetHeight([_dummyCell.headerView.tagsLabel bounds]);
+//	tagsLabelHeightOneLine = CGRectGetHeight([_dummyCell.headerView.tagsLabel bounds]);
+	tagsLabelHeightOneLine = CGRectGetHeight([_dummyCell.tagsLabel bounds]);
 	
 	/** Set up the dummy UILabel to mimic the properties of the one in the dummy cell **/
-	_dummyTagsLabel = [[UILabel alloc] initWithFrame:_dummyCell.headerView.tagsLabel.frame];
+//	_dummyTagsLabel = [[UILabel alloc] initWithFrame:_dummyCell.headerView.tagsLabel.frame];
+	_dummyTagsLabel = [[UILabel alloc] initWithFrame:_dummyCell.tagsLabel.frame];
 	[[self dummyTagsLabel] setNumberOfLines:3];
 	[[self dummyTagsLabel] setPreferredMaxLayoutWidth:CGRectGetWidth([[self dummyTagsLabel] frame])];
 }
@@ -181,9 +185,11 @@
 {
 	// Set prof pic
 	if([indexPath row] % 2 == 0)
-		[cell.headerView.profileImageView setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_FEMALE]];
+//		[cell.headerView.profileImageView setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_FEMALE]];
+		[cell.profileImageView setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_FEMALE]];
 	else
-		[cell.headerView.profileImageView setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_MALE]];
+//		[cell.headerView.profileImageView setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_MALE]];
+		[cell.profileImageView setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_MALE]];
 	
 //	[[[cell headerView] profileImageView] setBackgroundColor:[UIColor greenColor]];
 	
@@ -198,9 +204,12 @@
 		
 		[thisCell.hotspot1 setPercentageValue:0.2];
 		[thisCell.hotspot2 setPercentageValue:0.8];
-		[thisCell.headerView.tagsLabel setText:@"#hashtag #lotsapoints"];
-		[thisCell.headerView.usernameLabel setText:@"DONKEY"];
-		[thisCell.headerView.numberOfVotesLabel setText:@"5000"];
+//		[thisCell.headerView.tagsLabel setText:@"#hashtag #lotsapoints"];
+//		[thisCell.headerView.usernameLabel setText:@"DONKEY"];
+//		[thisCell.headerView.numberOfVotesLabel setText:@"5000"];
+		[thisCell.tagsLabel setText:@"#hashtag #lotsapoints"];
+		[thisCell.usernameLabel setText:@"DONKEY"];
+		[thisCell.numberOfVotesLabel setText:@"5000"];
 	}
 	else if([indexPath row] % 3 == 1)
 	{
@@ -218,9 +227,12 @@
 		
 		[thisCell.hotspot1 setPercentageValue:0.55];
 		[thisCell.hotspot2 setPercentageValue:0.45];
-		[thisCell.headerView.tagsLabel setText:@"#charger #donkey #firstdate #romantic #hair #workplace #beauty #classic #splurge #partytime"];
-		[thisCell.headerView.usernameLabel setText:@"GOAT"];
-		[thisCell.headerView.numberOfVotesLabel setText:@"6"];
+//		[thisCell.headerView.tagsLabel setText:@"#charger #donkey #firstdate #romantic #hair #workplace #beauty #classic #splurge #partytime"];
+//		[thisCell.headerView.usernameLabel setText:@"GOAT"];
+//		[thisCell.headerView.numberOfVotesLabel setText:@"6"];
+		[thisCell.tagsLabel setText:@"#charger #donkey #firstdate #romantic #hair #workplace #beauty #classic #splurge #partytime"];
+		[thisCell.usernameLabel setText:@"GOAT"];
+		[thisCell.numberOfVotesLabel setText:@"6"];
 	}
 	else if([indexPath row] % 3 == 2)
 	{
@@ -238,9 +250,12 @@
 		
 		[thisCell.hotspot1 setPercentageValue:0.01];
 		[thisCell.hotspot2 setPercentageValue:0.99];
-		[thisCell.headerView.tagsLabel setText:@"#hey #hashtags #twitter #fb #meme"];
-		[thisCell.headerView.usernameLabel setText:@"UUUUUSER"];
-		[thisCell.headerView.numberOfVotesLabel setText:@"9999"];
+//		[thisCell.headerView.tagsLabel setText:@"#hey #hashtags #twitter #fb #meme"];
+//		[thisCell.headerView.usernameLabel setText:@"UUUUUSER"];
+//		[thisCell.headerView.numberOfVotesLabel setText:@"9999"];
+		[thisCell.tagsLabel setText:@"#hey #hashtags #twitter #fb #meme"];
+		[thisCell.usernameLabel setText:@"UUUUUSER"];
+		[thisCell.numberOfVotesLabel setText:@"9999"];
 	}
 }
 

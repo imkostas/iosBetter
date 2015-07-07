@@ -33,6 +33,8 @@
 		D04DEE7C1B30698400BF1557 /* UserNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = D04DEE7B1B30698400BF1557 /* UserNotifications.m */; };
 		D04DEE801B30AFFC00BF1557 /* MyInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D04DEE7E1B30AFFC00BF1557 /* MyInfoTableViewCell.m */; };
 		D04DEE851B30BE6000BF1557 /* UserCounts.m in Sources */ = {isa = PBXBuildFile; fileRef = D04DEE841B30BE6000BF1557 /* UserCounts.m */; };
+		D054D8A21B4C247A00E72132 /* CreatePost.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D054D8A11B4C247A00E72132 /* CreatePost.storyboard */; };
+		D054D8A41B4C38A600E72132 /* FeedCellHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = D054D8A31B4C38A600E72132 /* FeedCellHeader.xib */; };
 		D05584C61B31D12A003FD842 /* Raleway-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D05584B41B31D12A003FD842 /* Raleway-Black.ttf */; };
 		D05584C71B31D12A003FD842 /* Raleway-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D05584B51B31D12A003FD842 /* Raleway-BlackItalic.ttf */; };
 		D05584C81B31D12A003FD842 /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D05584B61B31D12A003FD842 /* Raleway-Bold.ttf */; };
@@ -150,6 +152,8 @@
 		D04DEE7F1B30AFFC00BF1557 /* MyInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MyInfoTableViewCell.xib; path = Base.lproj/MyInfoTableViewCell.xib; sourceTree = "<group>"; };
 		D04DEE831B30BE6000BF1557 /* UserCounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCounts.h; sourceTree = "<group>"; };
 		D04DEE841B30BE6000BF1557 /* UserCounts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCounts.m; sourceTree = "<group>"; };
+		D054D8A11B4C247A00E72132 /* CreatePost.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CreatePost.storyboard; sourceTree = "<group>"; };
+		D054D8A31B4C38A600E72132 /* FeedCellHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedCellHeader.xib; sourceTree = "<group>"; };
 		D05584B41B31D12A003FD842 /* Raleway-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Black.ttf"; path = "Resources/Raleway-Black.ttf"; sourceTree = "<group>"; };
 		D05584B51B31D12A003FD842 /* Raleway-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-BlackItalic.ttf"; path = "Resources/Raleway-BlackItalic.ttf"; sourceTree = "<group>"; };
 		D05584B61B31D12A003FD842 /* Raleway-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Bold.ttf"; path = "Resources/Raleway-Bold.ttf"; sourceTree = "<group>"; };
@@ -481,6 +485,7 @@
 				D0835FB51B0CECBE00D88412 /* Custom Objects */,
 				D05EF75E1B0B70EF00D01AE4 /* Main.storyboard */,
 				D0C082901B2F0A49009341B0 /* Feed.storyboard */,
+				D054D8A11B4C247A00E72132 /* CreatePost.storyboard */,
 				D05584EE1B320A1D003FD842 /* Settings.storyboard */,
 				D05EF7611B0B70EF00D01AE4 /* Images.xcassets */,
 				D05EF7631B0B70EF00D01AE4 /* LaunchScreen.xib */,
@@ -592,6 +597,7 @@
 				D06629A81B4AD87700359261 /* Left-Right */,
 				D06629A91B4AD87B00359261 /* Top-Bottom */,
 				D06629A01B4AD85B00359261 /* Superclass */,
+				D054D8A31B4C38A600E72132 /* FeedCellHeader.xib */,
 				D06629911B4AD7F900359261 /* FeedSingleImageCell.xib */,
 				D06629921B4AD7F900359261 /* FeedLeftRightCell.xib */,
 				D06629931B4AD7F900359261 /* FeedTopBottomCell.xib */,
@@ -851,6 +857,7 @@
 				D05584D81B31D355003FD842 /* MyInfoTableViewCell.xib in Resources */,
 				D05584D91B31D355003FD842 /* Main.storyboard in Resources */,
 				D05584DA1B31D355003FD842 /* Feed.storyboard in Resources */,
+				D054D8A21B4C247A00E72132 /* CreatePost.storyboard in Resources */,
 				D05584DB1B31D355003FD842 /* LaunchScreen.xib in Resources */,
 				D05584C71B31D12A003FD842 /* Raleway-BlackItalic.ttf in Resources */,
 				D05584CE1B31D12A003FD842 /* Raleway-Italic.ttf in Resources */,
@@ -863,6 +870,7 @@
 				D06629961B4AD7F900359261 /* FeedTopBottomCell.xib in Resources */,
 				D06629941B4AD7F900359261 /* FeedSingleImageCell.xib in Resources */,
 				D05584D41B31D12A003FD842 /* Raleway-SemiBold.ttf in Resources */,
+				D054D8A41B4C38A600E72132 /* FeedCellHeader.xib in Resources */,
 				D05584CF1B31D12A003FD842 /* Raleway-Light.ttf in Resources */,
 				D05EF7621B0B70EF00D01AE4 /* Images.xcassets in Resources */,
 				D05584C91B31D12A003FD842 /* Raleway-BoldItalic.ttf in Resources */,

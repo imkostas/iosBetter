@@ -27,8 +27,12 @@
 {
     // Initialization code
 	
-	// Create header view
-	[self setHeaderView:[[FeedCellHeader alloc] init]];
+	// Load header nib
+	// Tried to do something like this previously, couldn't figure it out, then saw the solution in Apple
+	// sample code for using the camera (the "PhotoPicker" sample code). The method -loadNibNamed: returns an
+	// NSArray of the objects in the nib file, but in this case we don't need to save them because all the
+	// connections to the ui elements are created (due to specifying "self" for File's Owner) within loadNibNamed
+	[[NSBundle mainBundle] loadNibNamed:@"FeedCellHeader" owner:self options:nil];
 	
 	// Create hotspots;
 	// ** Subclasses are responsible for setting their frames and adding them as subviews
@@ -42,9 +46,10 @@
 	// Set up divider
 	[[self dividerView] setBackgroundColor:COLOR_POST_DIVIDER];
 	
-	// Set up username and votes labels
-	[self.headerView.usernameLabel setTextColor:COLOR_DARKISH_GRAY];
-	[self.headerView.numberOfVotesLabel setTextColor:COLOR_DARKISH_GRAY];
+	// Set up username, tags, and votes labels
+	[[self usernameLabel] setTextColor:COLOR_FEED_HEADERTEXT];
+	[[self numberOfVotesLabel] setTextColor:COLOR_FEED_HEADERTEXT];
+	[[self tagsLabel] setTextColor:COLOR_FEED_HASHTAGS_STOCK];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -90,9 +95,9 @@
 
 		/** Set up the label's # of lines and preferred max width (this seems to be better than hard-coding
 		 a value in the .xib -- thank you Stack overflow) **/
-		[self.headerView.tagsLabel setPreferredMaxLayoutWidth:CGRectGetWidth([self.headerView.tagsLabel bounds])];
-		[self.headerView.tagsLabel setNumberOfLines:3];
 //		NSLog(@"preferred width: %.1f", [self.headerView.tagsLabel preferredMaxLayoutWidth]);
+		[self.tagsLabel setPreferredMaxLayoutWidth:CGRectGetWidth([self.tagsLabel bounds])];
+		[self.tagsLabel setNumberOfLines:3];
 		
 		/** Set up the cell's shadow **/
 		CALayer *layer = [[self shadowView] layer];
@@ -106,9 +111,9 @@
 //		[layer setShouldRasterize:YES];
 //
 //		/** Set up profile picture layer properties **/
-		CALayer *profileLayer = [self.headerView.profileImageView layer];
+		CALayer *profileLayer = [self.profileImageView layer];
 		[profileLayer setMasksToBounds:YES];
-		[profileLayer setCornerRadius:CGRectGetWidth([self.headerView.profileImageView bounds]) / 2];
+		[profileLayer setCornerRadius:CGRectGetWidth([self.profileImageView bounds]) / 2];
 //		[profileLayer setRasterizationScale:[[UIScreen mainScreen] scale]];
 //		[profileLayer setShouldRasterize:YES];
 		

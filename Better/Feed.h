@@ -41,6 +41,9 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *menuBarButtonItem;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *filterBarButtonItem;
 
+// Outlet to the "take picture" / create post Android-style button
+@property (weak, nonatomic) IBOutlet UIButton *createPostButton;
+
 // Instance methods
 - (void)swipeFromLeftEdge:(UIGestureRecognizer *)gesture;
 - (void)swipeFromRightEdge:(UIGestureRecognizer *)gesture;

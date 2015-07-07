@@ -213,6 +213,12 @@
 	return UIBarPositionTopAttached;
 }
 
+#pragma mark - Creating a post
+- (IBAction)pressedCreatePost:(id)sender
+{
+	
+}
+
 #pragma mark - Toggling state of drawers without gestures
 // Hide both drawers (i.e. move the centerView to the center)
 - (void)moveCenterViewToCenterAnimated:(BOOL)animated easeIn:(BOOL)shouldEaseIn

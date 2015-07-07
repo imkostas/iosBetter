@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -51,6 +52,19 @@
                                             <segue destination="t2g-GN-JuO" kind="embed" id="rJm-r0-E16"/>
                                         </connections>
                                     </containerView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HL4-aL-Ixx" userLabel="Create Post Button">
+                                        <rect key="frame" x="520" y="500" width="64" height="64"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="64" id="cPk-oX-a7n"/>
+                                            <constraint firstAttribute="width" secondItem="HL4-aL-Ixx" secondAttribute="height" multiplier="1:1" id="wun-dg-dcn"/>
+                                        </constraints>
+                                        <state key="normal" image="feed_take_picture">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="pressedCreatePost:" destination="8V0-lg-oXn" eventType="touchUpInside" id="gca-f0-UxI"/>
+                                        </connections>
+                                    </button>
                                     <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="34e-Xm-cKX">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <items>
@@ -80,6 +94,8 @@
                                     <constraint firstItem="m1Y-ba-mvz" firstAttribute="top" secondItem="34e-Xm-cKX" secondAttribute="bottom" id="Z61-Tt-pq4"/>
                                     <constraint firstAttribute="trailing" secondItem="34e-Xm-cKX" secondAttribute="trailing" id="fhl-qX-Fhc"/>
                                     <constraint firstItem="34e-Xm-cKX" firstAttribute="leading" secondItem="t9x-KT-cc8" secondAttribute="leading" id="qYi-BA-l3i"/>
+                                    <constraint firstAttribute="bottom" secondItem="HL4-aL-Ixx" secondAttribute="bottom" constant="16" id="uuD-YT-2FF"/>
+                                    <constraint firstAttribute="trailing" secondItem="HL4-aL-Ixx" secondAttribute="trailing" constant="16" id="vHY-7r-HJt"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -106,6 +122,7 @@
                     <connections>
                         <outlet property="centerView" destination="t9x-KT-cc8" id="uPB-65-h1g"/>
                         <outlet property="centerViewLeadingConstraint" destination="hZG-67-NLx" id="mTl-7x-NDE"/>
+                        <outlet property="createPostButton" destination="HL4-aL-Ixx" id="1hU-Bp-88z"/>
                         <outlet property="feedContainer" destination="m1Y-ba-mvz" id="EE9-KU-ubc"/>
                         <outlet property="filterBarButtonItem" destination="N6m-9G-2DP" id="IP3-p6-NJK"/>
                         <outlet property="filterDrawer" destination="Cgc-Jo-K3C" id="UCe-49-AK1"/>
@@ -805,11 +822,11 @@
                                             <constraint firstItem="nH7-8Z-owS" firstAttribute="trailing" secondItem="2Vo-h2-bNa" secondAttribute="trailing" id="TbS-Xd-BY7"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="1Uf-bO-qb6" secondAttribute="trailing" constant="8" id="U0G-OH-pP5"/>
                                             <constraint firstItem="nH7-8Z-owS" firstAttribute="leading" secondItem="2Vo-h2-bNa" secondAttribute="leading" id="ejj-K6-1lA"/>
-                                            <constraint firstAttribute="height" secondItem="2Vo-h2-bNa" secondAttribute="height" id="hcX-PE-Ilf"/>
                                             <constraint firstItem="nH7-8Z-owS" firstAttribute="bottom" secondItem="2Vo-h2-bNa" secondAttribute="bottom" id="i6h-2U-Afa"/>
                                             <constraint firstAttribute="trailing" secondItem="2Vo-h2-bNa" secondAttribute="trailing" id="jhj-k0-3r1"/>
                                             <constraint firstItem="JAK-mI-9eR" firstAttribute="height" secondItem="es9-Zz-Yg7" secondAttribute="height" id="jvO-eO-OKE"/>
                                             <constraint firstItem="nH7-8Z-owS" firstAttribute="top" secondItem="2Vo-h2-bNa" secondAttribute="top" id="l6i-Fx-6ur"/>
+                                            <constraint firstAttribute="bottom" secondItem="2Vo-h2-bNa" secondAttribute="bottom" id="mCx-NZ-Xcy"/>
                                             <constraint firstItem="1Uf-bO-qb6" firstAttribute="top" secondItem="es9-Zz-Yg7" secondAttribute="bottom" constant="12" id="oHd-Bc-kBq"/>
                                         </constraints>
                                     </view>
@@ -940,6 +957,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="feed_take_picture" width="89" height="89"/>
         <image name="ic_arrow_back_green_24dp" width="22" height="22"/>
         <image name="ic_better_crown_38dp" width="45" height="45"/>
         <image name="ic_cam_circle_account_116dp" width="348" height="348"/>
