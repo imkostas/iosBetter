@@ -30,6 +30,9 @@
 		D031CEE31B39E4D70039A9C1 /* LeaderboardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D031CEE11B39E4D70039A9C1 /* LeaderboardTableViewCell.m */; };
 		D031CEE41B39E4D70039A9C1 /* LeaderboardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D031CEE21B39E4D70039A9C1 /* LeaderboardTableViewCell.xib */; };
 		D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */ = {isa = PBXBuildFile; fileRef = D03DB44E1B1F4CAA00810E1E /* Countries.plist */; };
+		D04999E51B4D6EA600A52FD2 /* PostLayoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D04999E41B4D6EA600A52FD2 /* PostLayoutViewController.m */; };
+		D04999E81B4D6FE700A52FD2 /* PostHashtagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D04999E71B4D6FE700A52FD2 /* PostHashtagsViewController.m */; };
+		D04999EF1B4D833500A52FD2 /* BEAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = D04999EE1B4D833500A52FD2 /* BEAlert.m */; };
 		D04DEE7C1B30698400BF1557 /* UserNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = D04DEE7B1B30698400BF1557 /* UserNotifications.m */; };
 		D04DEE801B30AFFC00BF1557 /* MyInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D04DEE7E1B30AFFC00BF1557 /* MyInfoTableViewCell.m */; };
 		D04DEE851B30BE6000BF1557 /* UserCounts.m in Sources */ = {isa = PBXBuildFile; fileRef = D04DEE841B30BE6000BF1557 /* UserCounts.m */; };
@@ -145,6 +148,12 @@
 		D031CEE11B39E4D70039A9C1 /* LeaderboardTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaderboardTableViewCell.m; sourceTree = "<group>"; };
 		D031CEE21B39E4D70039A9C1 /* LeaderboardTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeaderboardTableViewCell.xib; sourceTree = "<group>"; };
 		D03DB44E1B1F4CAA00810E1E /* Countries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countries.plist; sourceTree = "<group>"; };
+		D04999E31B4D6EA600A52FD2 /* PostLayoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostLayoutViewController.h; sourceTree = "<group>"; };
+		D04999E41B4D6EA600A52FD2 /* PostLayoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostLayoutViewController.m; sourceTree = "<group>"; };
+		D04999E61B4D6FE700A52FD2 /* PostHashtagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostHashtagsViewController.h; sourceTree = "<group>"; };
+		D04999E71B4D6FE700A52FD2 /* PostHashtagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostHashtagsViewController.m; sourceTree = "<group>"; };
+		D04999ED1B4D833500A52FD2 /* BEAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEAlert.h; sourceTree = "<group>"; };
+		D04999EE1B4D833500A52FD2 /* BEAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEAlert.m; sourceTree = "<group>"; };
 		D04DEE7A1B30698400BF1557 /* UserNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNotifications.h; sourceTree = "<group>"; };
 		D04DEE7B1B30698400BF1557 /* UserNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNotifications.m; sourceTree = "<group>"; };
 		D04DEE7D1B30AFFC00BF1557 /* MyInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyInfoTableViewCell.h; sourceTree = "<group>"; };
@@ -391,6 +400,26 @@
 			name = Filter;
 			sourceTree = "<group>";
 		};
+		D04999E21B4D6C7C00A52FD2 /* Creating a Post */ = {
+			isa = PBXGroup;
+			children = (
+				D04999E31B4D6EA600A52FD2 /* PostLayoutViewController.h */,
+				D04999E41B4D6EA600A52FD2 /* PostLayoutViewController.m */,
+				D04999E61B4D6FE700A52FD2 /* PostHashtagsViewController.h */,
+				D04999E71B4D6FE700A52FD2 /* PostHashtagsViewController.m */,
+			);
+			name = "Creating a Post";
+			sourceTree = "<group>";
+		};
+		D04999EC1B4D826700A52FD2 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				D04999ED1B4D833500A52FD2 /* BEAlert.h */,
+				D04999EE1B4D833500A52FD2 /* BEAlert.m */,
+			);
+			name = Alert;
+			sourceTree = "<group>";
+		};
 		D04DEE821B30B01E00BF1557 /* Table Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -469,6 +498,7 @@
 				D05EF77A1B0B7AF800D01AE4 /* AppDelegate */,
 				D05EF77D1B0B8F2800D01AE4 /* Introduction */,
 				D05EF77B1B0B7B0900D01AE4 /* Feed */,
+				D04999E21B4D6C7C00A52FD2 /* Creating a Post */,
 				D066298E1B4AD7A600359261 /* Feed Table View */,
 				D03057981B20E83600F20072 /* Menu */,
 				D03057991B20E83E00F20072 /* Filter */,
@@ -655,6 +685,7 @@
 		D0835FB51B0CECBE00D88412 /* Custom Objects */ = {
 			isa = PBXGroup;
 			children = (
+				D04999EC1B4D826700A52FD2 /* Alert */,
 				D05584E71B31F168003FD842 /* Labels, buttons */,
 				D0D7CA941B0F898300363A39 /* Intro Page */,
 				D0835FB91B0CEE0700D88412 /* Text Field */,
@@ -942,6 +973,7 @@
 				D06F39501B33219100721FCE /* ExtendedNavBarView.m in Sources */,
 				D02DE0DD1B2F651F00FE6A6A /* MyInformation.m in Sources */,
 				D05EF75D1B0B70EF00D01AE4 /* Feed.m in Sources */,
+				D04999E51B4D6EA600A52FD2 /* PostLayoutViewController.m in Sources */,
 				D00B29F91B3898D600DB87EC /* BadgesCollectionViewCell.m in Sources */,
 				D06629AF1B4AD89200359261 /* FeedLeftRightCell.m in Sources */,
 				D030579C1B20E84E00F20072 /* (null) in Sources */,
@@ -956,6 +988,7 @@
 				D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */,
 				D09901921B0E619300760CDF /* BEScrollingViewController.m in Sources */,
 				D031CEDF1B39DD900039A9C1 /* LeaderboardData.m in Sources */,
+				D04999EF1B4D833500A52FD2 /* BEAlert.m in Sources */,
 				D066299F1B4AD84A00359261 /* BEHotspotView.m in Sources */,
 				D01CB7451B29D78D003DF616 /* Support.m in Sources */,
 				D0A250E51B1758AA003E7D0B /* BELine.m in Sources */,
@@ -972,6 +1005,7 @@
 				D01CB7411B29CBE3003DF616 /* Notifications.m in Sources */,
 				D006D1651B2776C7008A48FA /* Settings.m in Sources */,
 				D05584EA1B31F1C1003FD842 /* BELabel.m in Sources */,
+				D04999E81B4D6FE700A52FD2 /* PostHashtagsViewController.m in Sources */,
 				D030579F1B20E85900F20072 /* (null) in Sources */,
 				D06629B21B4AD89900359261 /* FeedTopBottomCell.m in Sources */,
 				31C5CFD61B20E95800472161 /* Filter.m in Sources */,

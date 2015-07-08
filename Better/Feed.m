@@ -30,6 +30,11 @@
 // Method for responding to taps on the center view
 - (void)tappedOnCenterView:(UITapGestureRecognizer *)gesture;
 
+
+// A reference to a storyboard-instantiated UINavigationController, to which we pass the image that the
+// UIImagePickerController returns (this image picker is different from the one within PostLayoutViewController)
+@property (strong, nonatomic) UINavigationController *postNavigationController;
+
 @end
 
 @implementation Feed
@@ -43,7 +48,7 @@
 	// Set up the navigation bar for Feed areas
 	[[self navigationBarCustom] setBarTintColor:COLOR_BETTER_DARK];
 	[[self navigationBarCustom] setTintColor:[UIColor whiteColor]];
-	[[self navigationBarCustom] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_NAVIGATION_BAR]}];
+	[[self navigationBarCustom] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_NAVIGATION_BAR]}];
 	[[self navigationBarCustom] setTranslucent:NO];
 	
 	// Set title
@@ -213,11 +218,75 @@
 	return UIBarPositionTopAttached;
 }
 
-#pragma mark - Creating a post
+#pragma mark - Creating a post, UIImagePickerController delegate
 - (IBAction)pressedCreatePost:(id)sender
 {
-	
+    // Loads the Create Post navigation controller
+    UIStoryboard *createPostStoryboard = [UIStoryboard storyboardWithName:STORYBOARD_FILENAME_CREATEPOST bundle:[NSBundle mainBundle]];
+    UINavigationController *postNavigation = [createPostStoryboard instantiateViewControllerWithIdentifier:STORYBOARD_ID_CREATEPOST_NAVIGATION];
+    
+    // Present the nav controller
+    [self presentViewController:postNavigation animated:YES completion:nil];
+
+//    // Create a one-off instance of a UIImagePickerController just for selecting the first image for a post,
+//    // because we want it to show up first (and not the post creation view controller)
+//    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+//    
+//    // Make this class the delegate of the ImagePickerController to get the image it captures/
+//    // retrieves
+//    [imagePicker setDelegate:self];
+//    
+//    // If camera is available, use it; otherwise, open up the saved photos list
+//    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+//    {
+//        [imagePicker setSourceType:UIImagePickerControllerSourceTypeCamera];
+//        [imagePicker setShowsCameraControls:YES];
+//    }
+//    else // No camera
+//        [imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+//    
+//    // More properties
+//    [imagePicker setModalPresentationStyle:UIModalPresentationCurrentContext];
+//    [imagePicker setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+//    [imagePicker setAllowsEditing:YES];
+//    
+//    // Present the image picker
+//    [self presentViewController:imagePicker animated:YES completion:^(void){
+//        // Loads the Create Post navigation controller
+//        UIStoryboard *createPostStoryboard = [UIStoryboard storyboardWithName:STORYBOARD_FILENAME_CREATEPOST bundle:[NSBundle mainBundle]];
+//        UINavigationController *postNavigation = [createPostStoryboard instantiateViewControllerWithIdentifier:STORYBOARD_ID_CREATEPOST_NAVIGATION];
+//        
+//        // Set transition property
+//        [postNavigation setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+//        
+//        // Save reference so we can run -presentViewController later, if the user selects an image
+//        [self setPostNavigationController:postNavigation];
+//    }];
 }
+
+// Called when the image picker successfully gets an image
+//- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+//{
+//    // Get the image from the picker
+//    UIImage *firstPostImage = [info objectForKey:UIImagePickerControllerEditedImage];
+//    
+//    // Dismiss the image picker
+//    [self dismissViewControllerAnimated:YES completion:^{
+//        NSLog(@"Image picker finished picking image");
+//    }];
+//    
+//    // Show the post creation view controller
+//    [self presentViewController:[self postNavigationController] animated:YES completion:nil];
+//}
+//
+//// Called when the image picker is cancelled
+//- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+//{
+//    // Dismiss the image picker
+//    [self dismissViewControllerAnimated:YES completion:^(void){
+//        NSLog(@"Image picker cancelled");
+//    }];
+//}
 
 #pragma mark - Toggling state of drawers without gestures
 // Hide both drawers (i.e. move the centerView to the center)

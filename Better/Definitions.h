@@ -12,6 +12,7 @@
 // Storyboard filenames
 #define STORYBOARD_FILENAME_FEED @"Feed"
 #define STORYBOARD_FILENAME_SETTINGS @"Settings"
+#define STORYBOARD_FILENAME_CREATEPOST @"CreatePost"
 
 // Storyboard identifiers
 #define STORYBOARD_ID_SEGUE_EMBED_INTRO @"embedPageViewController"
@@ -23,24 +24,29 @@
 
 #define STORYBOARD_ID_SEGUE_UNWIND_TO_INTRO @"unwindToIntro"
 
-#define STORYBOARD_ID_FEED @"feedViewController"
-//#define STORYBOARD_ID_FEED_NAVIGATION @"feedViewControllerNavigation" (not used anymore)
+    /*** Navigation controllers **/
+    #define STORYBOARD_ID_MYRANKING_NAVIGATION @"myRankingNavigation"
+    #define STORYBOARD_ID_SETTINGS_NAVIGATION @"settingsNavigation"
+    #define STORYBOARD_ID_MYINFORMATION_NAVIGATION @"myInfoNavigation"
+    #define STORYBOARD_ID_CREATEPOST_NAVIGATION @"createPostNavigation"
 
-#define STORYBOARD_ID_MYRANKING_NAVIGATION @"myRankingNavigation"
-#define STORYBOARD_ID_SETTINGS_NAVIGATION @"settingsNavigation"
-#define STORYBOARD_ID_MYINFORMATION_NAVIGATION @"myInfoNavigation"
+    /*** View controllers **/
+    #define STORYBOARD_ID_FEED @"feedViewController"
+    #define STORYBOARD_ID_MYRANKING @"myRankingViewController"
+    #define STORYBOARD_ID_LEADERBOARD @"leaderboardViewController"
+    #define STORYBOARD_ID_SEGUE_EMBED_RANKING @"embedMyRanking"
+    #define STORYBOARD_ID_CREATEPOST_LAYOUT @"postLayoutViewController"
 
-#define STORYBOARD_ID_MYRANKING @"myRankingViewController"
-#define STORYBOARD_ID_LEADERBOARD @"leaderboardViewController"
-#define STORYBOARD_ID_SEGUE_EMBED_RANKING @"embedMyRanking"
+    /** Settings segues **/
+    #define STORYBOARD_ID_SEGUE_SHOW_SETTINGS_MYACCOUNT @"showSettingsMyAccount"
+    #define STORYBOARD_ID_SEGUE_SHOW_SETTINGS_NOTIFICATIONS @"showSettingsNotifications"
+    #define STORYBOARD_ID_SEGUE_SHOW_SETTINGS_SUPPORT @"showSettingsSupport"
 
-	// Settings segues
-#define STORYBOARD_ID_SEGUE_SHOW_SETTINGS_MYACCOUNT @"showSettingsMyAccount"
-#define STORYBOARD_ID_SEGUE_SHOW_SETTINGS_NOTIFICATIONS @"showSettingsNotifications"
-#define STORYBOARD_ID_SEGUE_SHOW_SETTINGS_SUPPORT @"showSettingsSupport"
+    /** Support segue **/
+    #define STORYBOARD_ID_SEGUE_SHOW_SUPPORT_TERMSPRIVACY @"showSupportTermsPrivacy"
 
-	// Support segue
-#define STORYBOARD_ID_SEGUE_SHOW_SUPPORT_TERMSPRIVACY @"showSupportTermsPrivacy"
+    /** Create Post segues **/
+    #define STORYBOARD_ID_SEGUE_SHOW_HASHTAGS_SETUP @"showPostHashtags"
 
 // Reuse identifiers
 #define REUSE_ID_MYINFORMATION_TABLECELL @"myInfoTableViewCell"
@@ -99,6 +105,8 @@
 #define COLOR_FEED_HASHTAGS_STOCK [UIColor colorWithWhite:0.38 alpha:1.0]
 #define COLOR_FEED_HASHTAGS_CUSTOM [UIColor blackColor]
 
+#define COLOR_CREATEPOST_LAYOUT_SWITCHER [UIColor colorWithWhite:66/255. alpha:1.0] // 0x42
+
 // Alpha values
 #define ALPHA_FEED_OVERLAY 0.65
 #define ALPHA_PROFILE_PANEL_OVERLAY 0.69
@@ -121,7 +129,7 @@
 #define IMAGE_PIXEL_TRANSPARENT @"TransparentPixel"
 #define IMAGE_PIXEL_COLOR_BETTER_DARK @"Color_better_dark"
 
-  // Badges:
+// Badges:
 #define IMAGE_BADGE_DEFAULT @"badge_default"
 
 #define IMAGE_BADGE_ADMIRER_BRONZE @"badge_bronze_admirer"
@@ -162,18 +170,18 @@
 #define ICON_MENU @"ic_menu_green900_24dp"
 #define ICON_FILTER @"ic_filter_list_green900_24dp"
 
-  // Crown:
+// Crown:
 #define ICON_CROWN_UNFILLED @"ic_better_crown_38dp"
 #define ICON_CROWN_FILLED @"ic_crown_solid_30dp"
 
-  // Rank:
+// Rank:
 #define ICON_RANK_NEWBIE @"ic_rank_newbie_grey_24dp"
 #define ICON_RANK_MAINSTREAM @"ic_rank_mainstream_grey_24dp"
 #define ICON_RANK_TRAILBLAZER @"ic_rank_trailblazer_grey_24dp"
 #define ICON_RANK_TRENDSETTER @"ic_rank_trendsetter_grey_24dp"
 #define ICON_RANK_CROWNED @"ic_rank_crowned_grey_24dp"
 
-  // Rank table view:
+// Rank table view:
 #define ICON_CHECKMARK @"ic_check_grey600_18dp"
 #define ICON_PORTRAIT @"ic_portrait_grey600_24dp"
 #define ICON_FAVORITE_OUTLINE @"ic_favorite_outline_grey600_24dp"

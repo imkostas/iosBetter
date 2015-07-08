@@ -105,6 +105,16 @@
 	}
 }
 
+// For iOS 7's UIAlertView
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"])
+    {
+        // Use unwind segue to go back to Intro
+        [self performSegueWithIdentifier:STORYBOARD_ID_SEGUE_UNWIND_TO_INTRO sender:self];
+    }
+}
+
 /*
 #pragma mark - Navigation
 

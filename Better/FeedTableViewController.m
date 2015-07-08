@@ -105,6 +105,7 @@
 	
 	// Get rid of dummy cell
 	[[self dummyCell] removeFromSuperview];
+    _dummyCell = nil;
 }
 
 - (void)didReceiveMemoryWarning

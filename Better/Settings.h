@@ -12,7 +12,7 @@
 #import "CustomAlert.h"
 #import "AppDelegate.h"
 
-@interface Settings : UIViewController <BETappableViewDelegate>//, CustomAlertDelegate>
+@interface Settings : UIViewController <BETappableViewDelegate, UIAlertViewDelegate>//, CustomAlertDelegate>
 
 // The small profile image icon for My Account
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;

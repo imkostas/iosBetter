@@ -3,7 +3,7 @@
 #import "Menu.h"
 #import "Filter.h"
 
-@interface Feed : UIViewController <UIGestureRecognizerDelegate, FilterDelegate, UINavigationBarDelegate>
+@interface Feed : UIViewController <UIGestureRecognizerDelegate, FilterDelegate, UINavigationBarDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 // Left and right container views (for left/right menus)
 - (IBAction)menuButtonPressed:(id)sender;
