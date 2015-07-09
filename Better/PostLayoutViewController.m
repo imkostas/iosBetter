@@ -8,11 +8,43 @@
 
 #import "PostLayoutViewController.h"
 
+// A way to tell a method which image you'd like it to work on
+typedef enum {
+    PostLayoutImageA,
+    PostLayoutImageB
+} PostLayoutImage;
+
 @interface PostLayoutViewController ()
+{
+    // An integer that keeps track of the state of the image layout--there are three states:
+    // (0) image A is fully shown, image B is hidden
+    // (1) image A is on the left, image B is on the right
+    // (2) image A is on the top, image B is on the bottom
+    enum { LAYOUTSTATE_A_ONLY, LAYOUTSTATE_LEFT_RIGHT, LAYOUTSTATE_TOP_BOTTOM };
+    int layoutState;
+    
+    // An integer that keeps track of which image we are currently picking:
+    // (0) choosing image A
+    // (1) choosing image B
+    enum { TARGETIMAGE_A, TARGETIMAGE_B };
+    int targetImageState;
+}
 
 // Images to display within the UIScrollViews
-@property (strong, nonatomic) UIImageView *imageA;
-@property (strong, nonatomic) UIImageView *imageB;
+@property (strong, nonatomic) UIImageView *imageViewA;
+@property (strong, nonatomic) UIImageView *imageViewB;
+
+// CGSizes to remember what the original sizes of the UIImageViews are when taken from the image picker, because
+// when they are added to the scrollview, the scrollview changes its frame size to whatever it wants to, and
+// we lose track of what the scrollview's original content size should be
+@property (nonatomic) CGSize imageViewAOriginalSize;
+@property (nonatomic) CGSize imageViewBOriginalSize;
+
+// Keep a scrollview's subview centered when zooming out
+- (void)keepSubviewCenteredInScrollView:(UIScrollView *)scrollView;
+
+// Update the minimum zoom scale for a given image (either A or B)
+- (void)updateMinimumZoomScaleForImage:(PostLayoutImage)image;
 
 @end
 
@@ -24,6 +56,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    // Initialize state variables, see top of file for how these are used
+    layoutState = LAYOUTSTATE_A_ONLY;
+    targetImageState = TARGETIMAGE_A;
+    
     // Set up the navigation bar for Create Post area
     [[[self navigationController] navigationBar] setBarTintColor:COLOR_BETTER_DARK];
     [[[self navigationController] navigationBar] setTintColor:[UIColor whiteColor]];
@@ -32,11 +68,11 @@
     
     // Set up image ScrollViews
     [[self scrollViewA] setDelegate:self];
-    [[self scrollViewA] setMinimumZoomScale:1];
+    [[self scrollViewA] setBounces:NO];
     [[self scrollViewA] setMaximumZoomScale:5];
     
     [[self scrollViewB] setDelegate:self];
-    [[self scrollViewB] setMinimumZoomScale:1];
+    [[self scrollViewB] setBounces:NO];
     [[self scrollViewB] setMaximumZoomScale:5];
     
     // Show image picker
@@ -77,8 +113,8 @@
     [super viewDidLayoutSubviews];
     
     // Set up the correct constants for the ScrollViews
-    [[self scrollViewATrailing] setConstant:0];
-    [[self scrollViewBLeading] setConstant:CGRectGetWidth([[[self scrollViewB] superview] frame])];
+    [[self scrollViewATrailing] setConstant:0]; // Show entire image A
+    [[self scrollViewBLeading] setConstant:CGRectGetWidth([[self scrollViewContainer] frame])]; // Hide image B
 }
 
 - (void)didReceiveMemoryWarning
@@ -92,14 +128,62 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     // Get the image from the picker
-    UIImage *firstPostImage = [info objectForKey:UIImagePickerControllerEditedImage];
+    UIImage *capturedImage = [info objectForKey:UIImagePickerControllerEditedImage];
     
-    // Save a UIImageView with this image
-    [self setImageA:[[UIImageView alloc] initWithImage:firstPostImage]];
-    
-    // Put it in the scrollview
-    [[self scrollViewA] addSubview:[self imageA]];
-    [[self scrollViewA] setContentSize:[self imageA].frame.size];
+    // Assign and configure the correct image
+    switch(targetImageState)
+    {
+        case TARGETIMAGE_A: // Choosing image A
+        {
+            // Remove previous UIImageView from the UIScrollView, if necessary
+            if([self imageViewA])
+            {
+                [[self imageViewA] removeFromSuperview];
+                _imageViewA = nil;
+            }
+            
+            // Save a UIImageView with this image
+            [self setImageViewA:[[UIImageView alloc] initWithImage:capturedImage]];
+            
+            // Remember what its original size is
+            [self setImageViewAOriginalSize:[[self imageViewA] frame].size];
+            
+            // Put it in the scrollview
+            [[self scrollViewA] addSubview:[self imageViewA]];
+            [[self scrollViewA] setContentSize:[self imageViewAOriginalSize]];
+            
+            // Update the minimum zoom scale
+            [self updateMinimumZoomScaleForImage:PostLayoutImageA];
+            
+            break;
+        }
+        case TARGETIMAGE_B: // Choosing image B
+        {
+            // Remove previous UIImageView from the UIScrollView, if necessary
+            if([self imageViewB])
+            {
+                [[self imageViewA] removeFromSuperview];
+                _imageViewB = nil;
+            }
+            
+            // Save a UIImageView with this image
+            [self setImageViewB:[[UIImageView alloc] initWithImage:capturedImage]];
+            
+            // Remember what its original size is
+            [self setImageViewBOriginalSize:[[self imageViewB] frame].size];
+            
+            // Put it in the scrollview
+            [[self scrollViewB] addSubview:[self imageViewB]];
+            [[self scrollViewB] setContentSize:[self imageViewBOriginalSize]];
+            
+            // Update the minimum zoom scale
+            [self updateMinimumZoomScaleForImage:PostLayoutImageB];
+            
+            break;
+        }
+        default:
+            break;
+    }
 
     // Dismiss the image picker
     [self dismissViewControllerAnimated:YES completion:^{
@@ -116,20 +200,104 @@
     }];
 }
 
-#pragma mark - UIScrollViewDelegate methods
+#pragma mark - UIScrollView, delegate methods
+// Provides the UIView that the zooming will be based upon
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
-    NSLog(@"viewforzooming");
-    
     // Provide different imageviews based on `scrollView`
     if(scrollView == [self scrollViewA])
-        return [self imageA];
+        return [self imageViewA];
     else if(scrollView == [self scrollViewB])
-        return [self imageB];
+        return [self imageViewB];
     else
         return nil;
 }
 
+// Called when a ScrollView is zooming
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView
+{
+    // Keep the image centered when zooming out
+    if(scrollView == [self scrollViewA])
+        [self keepSubviewCenteredInScrollView:[self scrollViewA]];
+    else if(scrollView == [self scrollViewB])
+        [self keepSubviewCenteredInScrollView:[self scrollViewB]];
+}
+
+//// Called when zooming is done
+//- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale
+//{
+//    if(scrollView == [self scrollViewA])
+//    {
+//        [scrollView setContentSize:CGSizeMake(<#CGFloat width#>, <#CGFloat height#>)]
+//    }
+//}
+
+// Called to keep a scrollview's subview centered when it is zooming out, past the minimum zoom scale
+- (void)keepSubviewCenteredInScrollView:(UIScrollView *)scrollView
+{
+    // Get the ScrollView's contentSize, which shrinks/grows according to the zoom level
+    CGSize scrollViewSize = [scrollView frame].size;
+    CGSize scrollViewContentSize = [scrollView contentSize];
+    UIEdgeInsets newScrollViewInsets = UIEdgeInsetsZero;
+    
+    // Adjust the subview's frame's origin, if the subview's frame is smaller than the scrollview's frame
+    // (means that the ScrollView has been zoomed out far enough so the subview is smaller than the scrollview)
+    CGFloat differenceInWidth = scrollViewSize.width - scrollViewContentSize.width;
+    if(differenceInWidth > 0)
+        newScrollViewInsets.left = differenceInWidth / 2;
+    
+    CGFloat differenceInHeight = scrollViewSize.height - scrollViewContentSize.height;
+    if(differenceInHeight > 0)
+        newScrollViewInsets.top = differenceInHeight / 2;
+    
+    // Set the ScrollView's contentinsets
+    [scrollView setContentInset:newScrollViewInsets];
+}
+
+- (void)updateMinimumZoomScaleForImage:(PostLayoutImage)image
+{
+    // Stop if the image is nil (hasn't been selected)
+    UIImageView *imageView = (image == PostLayoutImageA) ? [self imageViewA] : [self imageViewB];
+    if(imageView == nil)
+        return;
+    
+    // Select the correct ScrollView and ImageView
+    UIScrollView *scrollView = (image == PostLayoutImageA) ?  [self scrollViewA] : [self scrollViewB];
+    CGSize originalSize = (image == PostLayoutImageA) ? [self imageViewAOriginalSize] : [self imageViewBOriginalSize];
+    
+    // Reset the ScrollView's contentSize to the original size of the image -- while zooming, the ScrollView
+    // changes its contentSize and so it loses track of it after switching between layouts; this resets it
+//    CGSize newContentSize;
+//    newContentSize.width = originalSize.width * [scrollView zoomScale];
+//    newContentSize.height = originalSize.height * [scrollView zoomScale];
+//    [scrollView setContentSize:newContentSize];
+    
+    // Calculate the minimum zoom scale in each direction (horizontal,vertical)
+    float minZoomScaleHorizontal = CGRectGetWidth([scrollView frame]) / originalSize.width;
+    float minZoomScaleVertical = CGRectGetHeight([scrollView frame]) / originalSize.height;
+    
+    // Set the zoom scales depending on the current layout state
+    switch(layoutState)
+    {
+        case LAYOUTSTATE_A_ONLY:
+            [scrollView setMinimumZoomScale:fminf(minZoomScaleHorizontal, minZoomScaleVertical)];
+            break;
+            
+        case LAYOUTSTATE_LEFT_RIGHT:
+            [scrollView setMinimumZoomScale:minZoomScaleVertical];
+            break;
+            
+        case LAYOUTSTATE_TOP_BOTTOM:
+            [scrollView setMinimumZoomScale:minZoomScaleHorizontal];
+            break;
+            
+        default:
+            break;
+    }
+    
+    NSLog(@"min zoom scale: %.2f", [scrollView minimumZoomScale]);
+    [scrollView setZoomScale:[scrollView minimumZoomScale] animated:YES];
+}
 
 #pragma mark - Navigation
 /*
@@ -141,6 +309,7 @@
 }
 */
 
+#pragma mark - Button handling
 - (IBAction)pressedBackArrow:(id)sender
 {
     // Dismiss this, go back to the Feed
@@ -191,4 +360,95 @@
     }
 }
 
+- (IBAction)pressedAOnlyLayoutButton:(id)sender
+{
+    // Change the layout
+    if(layoutState != LAYOUTSTATE_A_ONLY)
+    {
+        // Change state
+        layoutState = LAYOUTSTATE_A_ONLY;
+        
+        // Set constraints
+        [[self scrollViewContainer] layoutIfNeeded];
+        [UIView animateWithDuration:0.3
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             // Update constraints
+                             [[self scrollViewABottom] setConstant:0];
+                             [[self scrollViewATrailing] setConstant:0];
+                             [[self scrollViewBLeading] setConstant:CGRectGetWidth([[self scrollViewContainer] frame])];
+                             [[self scrollViewBTop] setConstant:0];
+                             
+                             // Apply changes
+                             [[self scrollViewContainer] layoutIfNeeded];
+                         }
+                         completion:^(BOOL completed) {
+                             // Update zoom
+                             [self updateMinimumZoomScaleForImage:PostLayoutImageA];
+                         }];
+    }
+}
+
+- (IBAction)pressedLeftRightLayoutButton:(id)sender
+{
+    // Change the layout
+    if(layoutState != LAYOUTSTATE_LEFT_RIGHT)
+    {
+        // Change state
+        layoutState = LAYOUTSTATE_LEFT_RIGHT;
+        
+        // Set constraints
+        [[self scrollViewContainer] layoutIfNeeded];
+        [UIView animateWithDuration:0.3
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             // Update constraints
+                             [[self scrollViewABottom] setConstant:0];
+                             [[self scrollViewATrailing] setConstant:(CGRectGetWidth([[self scrollViewContainer] frame]) / 2)];
+                             [[self scrollViewBLeading] setConstant:(CGRectGetWidth([[self scrollViewContainer] frame]) / 2)];
+                             [[self scrollViewBTop] setConstant:0];
+                             
+                             // Apply changes
+                             [[self scrollViewContainer] layoutIfNeeded];
+                         }
+                         completion:^(BOOL completed) {
+                             // Update zooms
+                             [self updateMinimumZoomScaleForImage:PostLayoutImageA];
+                             [self updateMinimumZoomScaleForImage:PostLayoutImageB];
+                         }];
+    }
+}
+
+- (IBAction)pressedTopBottomLayoutButton:(id)sender
+{
+    // Change the layout
+    if(layoutState != LAYOUTSTATE_TOP_BOTTOM)
+    {
+        // Change state
+        layoutState = LAYOUTSTATE_TOP_BOTTOM;
+        
+        // Set constraints
+        [[self scrollViewContainer] layoutIfNeeded];
+        [UIView animateWithDuration:0.3
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             // Update constraints
+                             [[self scrollViewABottom] setConstant:(CGRectGetHeight([[self scrollViewContainer] frame]) / 2)];
+                             [[self scrollViewATrailing] setConstant:0];
+                             [[self scrollViewBLeading] setConstant:0];
+                             [[self scrollViewBTop] setConstant:(CGRectGetHeight([[self scrollViewContainer] frame]) / 2)];
+                             
+                             // Apply changes
+                             [[self scrollViewContainer] layoutIfNeeded];
+                         }
+                         completion:^(BOOL completed) {
+                             // Update zooms
+                             [self updateMinimumZoomScaleForImage:PostLayoutImageA];
+                             [self updateMinimumZoomScaleForImage:PostLayoutImageB];
+                         }];
+    }
+}
 @end

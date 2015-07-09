@@ -13,6 +13,7 @@
 
 // Outlets to the post's two potential images (here as "A" and "B"), which
 // are within UIScrollViews
+@property (weak, nonatomic) IBOutlet UIView *scrollViewContainer; // Container that holds scrollViewA and B
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollViewA;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollViewB;
 
@@ -28,5 +29,10 @@
 
 // Called when Next button is pressed
 - (IBAction)pressedNextButton:(id)sender;
+
+// Called when the layout buttons are pressed
+- (IBAction)pressedAOnlyLayoutButton:(id)sender;
+- (IBAction)pressedLeftRightLayoutButton:(id)sender;
+- (IBAction)pressedTopBottomLayoutButton:(id)sender;
 
 @end
