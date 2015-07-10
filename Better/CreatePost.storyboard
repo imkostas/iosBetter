@@ -37,17 +37,15 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vpj-SQ-hpo" userLabel="Images Container">
                                 <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hck-XJ-N5k" userLabel="Plus A">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Plus" translatesAutoresizingMaskIntoConstraints="NO" id="Hck-XJ-N5k" userLabel="Plus A">
                                         <rect key="frame" x="130" y="280" width="40" height="40"/>
-                                        <color key="backgroundColor" red="1" green="0.14127084610000001" blue="0.1168944366" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="Hbf-ks-ywQ"/>
                                             <constraint firstAttribute="width" constant="40" id="b9M-b5-vs4"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nw0-J6-sx5" userLabel="Plus B">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Plus" translatesAutoresizingMaskIntoConstraints="NO" id="nw0-J6-sx5" userLabel="Plus B">
                                         <rect key="frame" x="430" y="280" width="40" height="40"/>
-                                        <color key="backgroundColor" red="1" green="0.14127084610000001" blue="0.1168944366" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="YGx-Rk-1Bx"/>
                                             <constraint firstAttribute="width" constant="40" id="lsU-OD-Ymj"/>
@@ -161,6 +159,8 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="800"/>
                     <connections>
+                        <outlet property="plusIconA" destination="Hck-XJ-N5k" id="RL3-i1-Z2G"/>
+                        <outlet property="plusIconB" destination="nw0-J6-sx5" id="h8U-Mx-oUU"/>
                         <outlet property="scrollViewA" destination="gTz-iC-y7X" id="axH-ac-oXQ"/>
                         <outlet property="scrollViewABottom" destination="XDX-Hb-GtQ" id="8ys-eH-US2"/>
                         <outlet property="scrollViewATrailing" destination="Kl8-oM-Stw" id="yoD-T9-hGr"/>
@@ -195,6 +195,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Plus" width="36" height="36"/>
         <image name="ic_arrow_back_green_24dp" width="22" height="22"/>
     </resources>
 </document>

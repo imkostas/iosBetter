@@ -7,6 +7,9 @@
 //
 
 #import "PostLayoutViewController.h"
+#import <AFNetworking/AFNetworking.h>
+
+#define MAX_ZOOM 4
 
 // A way to tell a method which image you'd like it to work on
 typedef enum {
@@ -28,7 +31,19 @@ typedef enum {
     // (1) choosing image B
     enum { TARGETIMAGE_A, TARGETIMAGE_B };
     int targetImageState;
+    
+    // An integer that keeps track of the state of the posting process for this view controller--it has 2 states:
+    // (0) Taking pictures and setting their layout and zoom levels
+    // (1) Placing the spotlights and setting their labels
+    enum { POSTINGSTATE_PICTURES, POSTINGSTATE_SPOTLIGHTS };
+    int postState;
+    
+    // Boolean to remember if we have already shown the image picker once automatically
+    BOOL alreadyOpenedImagePickerAuto;
 }
+
+// Reference to a UIImagePickerController
+@property (strong, nonatomic) UIImagePickerController *imagePickerController;
 
 // Images to display within the UIScrollViews
 @property (strong, nonatomic) UIImageView *imageViewA;
@@ -40,11 +55,22 @@ typedef enum {
 @property (nonatomic) CGSize imageViewAOriginalSize;
 @property (nonatomic) CGSize imageViewBOriginalSize;
 
+// Gesture recognizers and their action methods for tapping on a UIScrollView to take a new picture
+@property (strong, nonatomic) UITapGestureRecognizer *tapScrollViewARecognizer;
+- (void)tappedOnScrollViewA:(UITapGestureRecognizer *)gesture;
+
+@property (strong, nonatomic) UITapGestureRecognizer *tapScrollViewBRecognizer;
+- (void)tappedOnScrollViewB:(UITapGestureRecognizer *)gesture;
+
 // Keep a scrollview's subview centered when zooming out
 - (void)keepSubviewCenteredInScrollView:(UIScrollView *)scrollView;
 
 // Update the minimum zoom scale for a given image (either A or B)
 - (void)updateMinimumZoomScaleForImage:(PostLayoutImage)image;
+
+// "Lock" and "unlock" a ScrollView -- prevent it from panning or zooming
+- (void)lockScrollViewForImage:(PostLayoutImage)image;
+- (void)unlockScrollViewForImage:(PostLayoutImage)image;
 
 @end
 
@@ -59,6 +85,8 @@ typedef enum {
     // Initialize state variables, see top of file for how these are used
     layoutState = LAYOUTSTATE_A_ONLY;
     targetImageState = TARGETIMAGE_A;
+    postState = POSTINGSTATE_PICTURES;
+    alreadyOpenedImagePickerAuto = FALSE;
     
     // Set up the navigation bar for Create Post area
     [[[self navigationController] navigationBar] setBarTintColor:COLOR_BETTER_DARK];
@@ -69,52 +97,68 @@ typedef enum {
     // Set up image ScrollViews
     [[self scrollViewA] setDelegate:self];
     [[self scrollViewA] setBounces:NO];
-    [[self scrollViewA] setMaximumZoomScale:5];
-    
+    [[self scrollViewA] setMaximumZoomScale:MAX_ZOOM];
     [[self scrollViewB] setDelegate:self];
     [[self scrollViewB] setBounces:NO];
-    [[self scrollViewB] setMaximumZoomScale:5];
+    [[self scrollViewB] setMaximumZoomScale:MAX_ZOOM];
     
-    // Show image picker
-    [self showImagePicker];
-}
-
-- (void)showImagePicker
-{
+    // Begin with Plus B icon hidden
+    [[self plusIconB] setAlpha:0];
+    
+    // Set up tap gesture recognizers
+    _tapScrollViewARecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedOnScrollViewA:)];
+    _tapScrollViewBRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedOnScrollViewB:)];
+    // Add them to the ScrollViews
+    [[self scrollViewA] addGestureRecognizer:[self tapScrollViewARecognizer]];
+    [[self scrollViewB] addGestureRecognizer:[self tapScrollViewBRecognizer]];
+    
+    /** Set up the UIImagePickerController **/
+    
     // Create an image picker
-    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    _imagePickerController = [[UIImagePickerController alloc] init];
     
     // Make this PostLayoutViewController the delegate of the ImagePickerController to get the image it captures/
     // retrieves
-    [imagePicker setDelegate:self];
+    [[self imagePickerController] setDelegate:self];
     
     // If camera is available, use it; otherwise, open up the saved photos list
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
-        [imagePicker setSourceType:UIImagePickerControllerSourceTypeCamera];
-        [imagePicker setShowsCameraControls:YES];
+        [[self imagePickerController] setSourceType:UIImagePickerControllerSourceTypeCamera];
+        [[self imagePickerController] setShowsCameraControls:YES];
     }
     else // No camera
-    {
-        [imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-    }
+        [[self imagePickerController] setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
     
     // More properties
-    [imagePicker setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-    [imagePicker setAllowsEditing:YES];
-    
-    // Present the image picker
-    [self presentViewController:imagePicker animated:YES completion:nil];
+    [[self imagePickerController] setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+    [[self imagePickerController] setAllowsEditing:YES];
 }
 
+// After the layout has been done
 - (void)viewDidLayoutSubviews
 {
     // Call super
     [super viewDidLayoutSubviews];
     
     // Set up the correct constants for the ScrollViews
-    [[self scrollViewATrailing] setConstant:0]; // Show entire image A
-    [[self scrollViewBLeading] setConstant:CGRectGetWidth([[self scrollViewContainer] frame])]; // Hide image B
+    if(layoutState == LAYOUTSTATE_A_ONLY)
+    {
+        [[self scrollViewATrailing] setConstant:0]; // Show entire image A
+        [[self scrollViewBLeading] setConstant:CGRectGetWidth([[self scrollViewContainer] frame])]; // Hide image B
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    if(!alreadyOpenedImagePickerAuto)
+    {
+        // Present the image picker
+        [self presentViewController:[self imagePickerController] animated:YES completion:nil];
+        
+        // Don't show it automatically again
+        alreadyOpenedImagePickerAuto = TRUE;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -155,6 +199,9 @@ typedef enum {
             // Update the minimum zoom scale
             [self updateMinimumZoomScaleForImage:PostLayoutImageA];
             
+            // Zoom out all the way
+            [[self scrollViewA] setZoomScale:[[self scrollViewA] minimumZoomScale] animated:NO];
+            
             break;
         }
         case TARGETIMAGE_B: // Choosing image B
@@ -162,7 +209,7 @@ typedef enum {
             // Remove previous UIImageView from the UIScrollView, if necessary
             if([self imageViewB])
             {
-                [[self imageViewA] removeFromSuperview];
+                [[self imageViewB] removeFromSuperview];
                 _imageViewB = nil;
             }
             
@@ -178,6 +225,9 @@ typedef enum {
             
             // Update the minimum zoom scale
             [self updateMinimumZoomScaleForImage:PostLayoutImageB];
+            
+            // Zoom out all the way
+            [[self scrollViewB] setZoomScale:[[self scrollViewB] minimumZoomScale] animated:NO];
             
             break;
         }
@@ -295,8 +345,37 @@ typedef enum {
             break;
     }
     
-    NSLog(@"min zoom scale: %.2f", [scrollView minimumZoomScale]);
-    [scrollView setZoomScale:[scrollView minimumZoomScale] animated:YES];
+//    NSLog(@"min zoom scale: %.2f", [scrollView minimumZoomScale]);
+//    [scrollView setZoomScale:[scrollView minimumZoomScale] animated:YES];
+}
+
+// Lock a ScrollView
+- (void)lockScrollViewForImage:(PostLayoutImage)image
+{
+    // Select the correct scrollview
+    UIScrollView *scrollView = (image == PostLayoutImageA) ? [self scrollViewA] : [self scrollViewB];
+    
+    // Disable scrolling
+    [scrollView setScrollEnabled:NO];
+    
+    // Lock the zoom -- set both min and max zoom to the current zoom scale
+    CGFloat currentZoom = [scrollView zoomScale];
+    [scrollView setMaximumZoomScale:currentZoom];
+    [scrollView setMinimumZoomScale:currentZoom];
+}
+
+// Unlock a ScrollView
+- (void)unlockScrollViewForImage:(PostLayoutImage)image
+{
+    // Select the correct scrollview
+    UIScrollView *scrollView = (image == PostLayoutImageA) ? [self scrollViewA] : [self scrollViewB];
+    
+    // Enable scrolling
+    [scrollView setScrollEnabled:YES];
+    
+    // Unlock the zoom -- re-set the max and min zoom
+    [scrollView setMaximumZoomScale:MAX_ZOOM];
+    [self updateMinimumZoomScaleForImage:image]; // Updates the minimum zoom
 }
 
 #pragma mark - Navigation
@@ -308,6 +387,27 @@ typedef enum {
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - Gesture recognizer handling
+// Scroll View A tap
+- (void)tappedOnScrollViewA:(UITapGestureRecognizer *)gesture
+{
+    // Set the image that we are picking
+    targetImageState = TARGETIMAGE_A;
+    
+    // Show the image picker
+    [self presentViewController:[self imagePickerController] animated:YES completion:nil];
+}
+
+// Scroll View B tap
+- (void)tappedOnScrollViewB:(UITapGestureRecognizer *)gesture
+{
+    // Set the image that we are picking
+    targetImageState = TARGETIMAGE_B;
+    
+    // Show the image picker
+    [self presentViewController:[self imagePickerController] animated:YES completion:nil];
+}
 
 #pragma mark - Button handling
 - (IBAction)pressedBackArrow:(id)sender
@@ -347,7 +447,71 @@ typedef enum {
 
 - (IBAction)pressedNextButton:(id)sender
 {
+    // Get the CGImage representation of the current image in the ScrollView
+    CGImageRef image = [[[self imageViewA] image] CGImage];
     
+    // Crop out the selected portion (rectangle) of the image
+    CGFloat scrollViewCurrentZoom = [[self scrollViewA] zoomScale];
+    CGFloat scrollViewMinimumZoom = [[self scrollViewA] minimumZoomScale];
+    
+    // Figure out the cropping region
+    CGRect cropRegion;
+    cropRegion.origin.x = [[self scrollViewA] contentOffset].x / scrollViewCurrentZoom;
+    cropRegion.origin.y = [[self scrollViewA] contentOffset].y / scrollViewCurrentZoom;
+    cropRegion.size.width = [self imageViewAOriginalSize].width * (scrollViewMinimumZoom / scrollViewCurrentZoom);
+    cropRegion.size.height = [self imageViewAOriginalSize].height * (scrollViewMinimumZoom / scrollViewCurrentZoom);
+    
+    // Adjust the region according to the current layout state
+    switch(layoutState)
+    {
+        case LAYOUTSTATE_LEFT_RIGHT:
+            cropRegion.size.width /= 2;
+            break;
+            
+        case LAYOUTSTATE_TOP_BOTTOM:
+            cropRegion.size.height /= 2;
+            break;
+            
+        default:
+            break;
+    }
+    
+    CGImageRef croppedImageRef = CGImageCreateWithImageInRect(image, cropRegion);
+    UIImage *croppedImage = [UIImage imageWithCGImage:croppedImageRef];
+    
+    if(!croppedImage)
+    {
+        NSLog(@"Invalid crop rectangle!!!!");
+        return;
+    }
+    
+    // Lock the ScrollViews
+    [self lockScrollViewForImage:PostLayoutImageA];
+    [self lockScrollViewForImage:PostLayoutImageB];
+    
+    // Disable tap gesture recognizers
+    [[self tapScrollViewARecognizer] setEnabled:NO];
+    [[self tapScrollViewBRecognizer] setEnabled:NO];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    [manager setRequestSerializer:[AFJSONRequestSerializer serializer]];
+    [manager setResponseSerializer:[AFHTTPResponseSerializer serializer]];
+    
+    [manager POST:@"http://10.1.0.144/imageupload.php"
+       parameters:nil
+constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [formData appendPartWithFileData:UIImageJPEGRepresentation(croppedImage, 1)
+                                name:@"image"
+                            fileName:@"image.jpg"
+                            mimeType:@"image/jpeg"];
+}
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              NSLog(@"Upload success!!");
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              NSLog(@"%@", error);
+          }];
 }
 
 // For iOS7's UIAlertView
@@ -380,6 +544,9 @@ typedef enum {
                              [[self scrollViewBLeading] setConstant:CGRectGetWidth([[self scrollViewContainer] frame])];
                              [[self scrollViewBTop] setConstant:0];
                              
+                             // Fade out (+) icon B
+                             [[self plusIconB] setAlpha:0];
+                             
                              // Apply changes
                              [[self scrollViewContainer] layoutIfNeeded];
                          }
@@ -409,6 +576,9 @@ typedef enum {
                              [[self scrollViewATrailing] setConstant:(CGRectGetWidth([[self scrollViewContainer] frame]) / 2)];
                              [[self scrollViewBLeading] setConstant:(CGRectGetWidth([[self scrollViewContainer] frame]) / 2)];
                              [[self scrollViewBTop] setConstant:0];
+                             
+                             // Fade in (+) icon B
+                             [[self plusIconB] setAlpha:1];
                              
                              // Apply changes
                              [[self scrollViewContainer] layoutIfNeeded];
@@ -440,6 +610,9 @@ typedef enum {
                              [[self scrollViewATrailing] setConstant:0];
                              [[self scrollViewBLeading] setConstant:0];
                              [[self scrollViewBTop] setConstant:(CGRectGetHeight([[self scrollViewContainer] frame]) / 2)];
+                             
+                             // Fade in (+) icon B
+                             [[self plusIconB] setAlpha:1];
                              
                              // Apply changes
                              [[self scrollViewContainer] layoutIfNeeded];

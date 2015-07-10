@@ -24,6 +24,10 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewBLeading;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewBTop;
 
+// Outlets to the "(+)" icons
+@property (weak, nonatomic) IBOutlet UIImageView *plusIconA;
+@property (weak, nonatomic) IBOutlet UIImageView *plusIconB;
+
 // Called when back arrow is pressed
 - (IBAction)pressedBackArrow:(id)sender;
 

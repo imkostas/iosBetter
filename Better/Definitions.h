@@ -187,6 +187,9 @@
 #define ICON_FAVORITE_OUTLINE @"ic_favorite_outline_grey600_24dp"
 #define ICON_PERSON_ADD @"ic_person_add_grey_24dp"
 
+// General icons
+#define ICON_PLUS @"Plus"
+
 // Animation properties
 #define ANIM_DURATION_INTRO (500/1000.0) // converts to seconds
 #define ANIM_DELAY_INTRO (300/1000.0)

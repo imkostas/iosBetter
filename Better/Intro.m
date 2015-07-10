@@ -231,27 +231,27 @@
 																		  secondLine:@"best version of yourselves,"
 																		   thirdLine:@"one day at a time."
 																	firstLineIsTitle:NO
-																			   image:[UIImage imageNamed:IMAGE_TUTORIAL_SHOES_DARK]];
+																			   image:nil/*[UIImage imageNamed:IMAGE_TUTORIAL_SHOES_DARK]*/];
 		
 		
 		IntroPageContent *page2Content = [[IntroPageContent alloc] initWithFirstLine:@"Cast Your Vote"
 																		  secondLine:@"Simply tap to vote for the"
 																		   thirdLine:@"better beauty choice."
 																	firstLineIsTitle:YES
-																			   image:[UIImage imageNamed:IMAGE_TUTORIAL_SHOES_SPOT]];
+																			   image:nil/*[UIImage imageNamed:IMAGE_TUTORIAL_SHOES_SPOT]*/];
 		
 		
 		IntroPageContent *page3Content = [[IntroPageContent alloc] initWithFirstLine:@"Make Better Decisions"
 																		  secondLine:@"Post your own style questions"
 																		   thirdLine:@"and get immediate feedback."
 																	firstLineIsTitle:YES
-																			   image:[UIImage imageNamed:IMAGE_TUTORIAL_POST]];
+																			   image:nil/*[UIImage imageNamed:IMAGE_TUTORIAL_POST]*/];
 		
 		IntroPageContent *page4Content = [[IntroPageContent alloc] initWithFirstLine:@"Rise in the Ranks"
 																		  secondLine:@"Rise in the ranks to get"
 																		   thirdLine:@"crowned as a beauty icon."
 																	firstLineIsTitle:YES
-																			   image:[UIImage imageNamed:IMAGE_TUTORIAL_CROWN]];
+																			   image:nil/*[UIImage imageNamed:IMAGE_TUTORIAL_CROWN]*/];
 		
 		IntroPage *page1 = [self generatePageWithPageContent:page1Content];
 		IntroPage *page2 = [self generatePageWithPageContent:page2Content];
