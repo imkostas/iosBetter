@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Definitions.h"
+#import "UserInfo.h"
 
 @interface PostLayoutViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate, UIScrollViewDelegate>
 
