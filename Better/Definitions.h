@@ -190,6 +190,14 @@
 // General icons
 #define ICON_PLUS @"Plus"
 
+// Posting processs
+#define ICON_POSTLAYOUT_SINGLE_DARK @"post_single_image_gray"
+#define ICON_POSTLAYOUT_SINGLE_LIGHT @"post_single_image_white"
+#define ICON_POSTLAYOUT_LEFTRIGHT_DARK @"post_left_right_gray"
+#define ICON_POSTLAYOUT_LEFTRIGHT_LIGHT @"post_left_right_white"
+#define ICON_POSTLAYOUT_TOPBOTTOM_DARK @"post_top_bottom_gray"
+#define ICON_POSTLAYOUT_TOPBOTTOM_LIGHT @"post_top_bottom_white"
+
 // Animation properties
 #define ANIM_DURATION_INTRO (500/1000.0) // converts to seconds
 #define ANIM_DELAY_INTRO (300/1000.0)
@@ -200,6 +208,7 @@
 #define ANIM_DURATION_ALERT_SHOW (200/1000.0)
 #define ANIM_DURATION_ALERT_HIDE (250/1000.0)
 #define ANIM_DURATION_SEGMENTED_CONTROL_SWITCH (150/1000.0)
+#define ANIM_DURATION_POST_LAYOUT_CHANGE (300/1000.0)
 
 // Date picker tags (for each ui element needing it)
 #define TAG_DATEPICKER_DOB 1

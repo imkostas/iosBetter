@@ -19,10 +19,12 @@ typedef enum {
 
 @interface PostLayoutViewController ()
 {
-    // An integer that keeps track of the state of the image layout--there are three states:
-    // (0) image A is fully shown, image B is hidden
-    // (1) image A is on the left, image B is on the right
-    // (2) image A is on the top, image B is on the bottom
+    /**
+     An integer that keeps track of the state of the image layout--there are three states:
+     (0) image A is fully shown, image B is hidden
+     (1) image A is on the left, image B is on the right
+     (2) image A is on the top, image B is on the bottom
+     */
     enum { LAYOUTSTATE_A_ONLY, LAYOUTSTATE_LEFT_RIGHT, LAYOUTSTATE_TOP_BOTTOM };
     int layoutState;
     
@@ -72,6 +74,12 @@ typedef enum {
 - (void)lockScrollViewForImage:(PostLayoutImage)image;
 - (void)unlockScrollViewForImage:(PostLayoutImage)image;
 
+// Generates an image that is cropped to the portion of it that's visible in the UIScrollView its inside
+- (UIImage *)cropToVisible:(PostLayoutImage)image;
+
+// returns TRUE if there is a problem, FALSE if there is no problem
+- (BOOL)validateImageLayout;
+
 @end
 
 @implementation PostLayoutViewController
@@ -102,7 +110,7 @@ typedef enum {
     [[self scrollViewB] setBounces:NO];
     [[self scrollViewB] setMaximumZoomScale:MAX_ZOOM];
     
-    // Begin with Plus B icon hidden
+    // Set up initial UI
     [[self plusIconB] setAlpha:0];
     
     // Set up tap gesture recognizers
@@ -133,7 +141,7 @@ typedef enum {
     // More properties
     [[self imagePickerController] setModalPresentationStyle:UIModalPresentationFullScreen];
     [[self imagePickerController] setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-//    [[self imagePickerController] setAllowsEditing:YES];
+    //    [[self imagePickerController] setAllowsEditing:YES];
 }
 
 // After the layout has been done
@@ -148,6 +156,12 @@ typedef enum {
         [[self scrollViewATrailing] setConstant:0]; // Show entire image A
         [[self scrollViewBLeading] setConstant:CGRectGetWidth([[self scrollViewContainer] frame])]; // Hide image B
     }
+    
+    // Set up the hotspot directions label
+    [[self hotspotDirectionsLabel] setNumberOfLines:2];
+    [[self hotspotDirectionsLabel] setPreferredMaxLayoutWidth:CGRectGetWidth([[self hotspotDirectionsLabel] frame])];
+    [[self hotspotDirectionsLabel] setText:@"Drag spotlights to desired\npositions and double tap to tag."];
+    ///***!! --> add attribute for line spacing **/
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -177,7 +191,7 @@ typedef enum {
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     // Get the image from the picker
-//    UIImage *capturedImage = [info objectForKey:UIImagePickerControllerEditedImage];
+    //    UIImage *capturedImage = [info objectForKey:UIImagePickerControllerEditedImage];
     UIImage *capturedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     
     // Assign and configure the correct image
@@ -240,7 +254,7 @@ typedef enum {
         default:
             break;
     }
-
+    
     // Dismiss the image picker
     [self dismissViewControllerAnimated:YES completion:^{
         NSLog(@"Image picker finished picking image");
@@ -268,11 +282,11 @@ typedef enum {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
 }
 
-#pragma mark - UINavigationControllerDelegate methods (from image picker)
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
-    NSLog(@"hello");
-}
+//#pragma mark - UINavigationControllerDelegate methods (from image picker)
+//- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+//{
+//    NSLog(@"hello");
+//}
 
 #pragma mark - UIScrollView, delegate methods
 // Provides the UIView that the zooming will be based upon
@@ -339,36 +353,11 @@ typedef enum {
     UIScrollView *scrollView = (image == PostLayoutImageA) ?  [self scrollViewA] : [self scrollViewB];
     CGSize originalSize = (image == PostLayoutImageA) ? [self imageViewAOriginalSize] : [self imageViewBOriginalSize];
     
-    // Reset the ScrollView's contentSize to the original size of the image -- while zooming, the ScrollView
-    // changes its contentSize and so it loses track of it after switching between layouts; this resets it
-//    CGSize newContentSize;
-//    newContentSize.width = originalSize.width * [scrollView zoomScale];
-//    newContentSize.height = originalSize.height * [scrollView zoomScale];
-//    [scrollView setContentSize:newContentSize];
-    
     // Calculate the minimum zoom scale in each direction (horizontal,vertical)
     float minZoomScaleHorizontal = CGRectGetWidth([scrollView frame]) / originalSize.width;
     float minZoomScaleVertical = CGRectGetHeight([scrollView frame]) / originalSize.height;
     
-    // Set the zoom scales depending on the current layout state
-//    switch(layoutState)
-//    {
-//        case LAYOUTSTATE_A_ONLY:
-//            [scrollView setMinimumZoomScale:fmaxf(minZoomScaleHorizontal, minZoomScaleVertical)];
-//            break;
-//            
-//        case LAYOUTSTATE_LEFT_RIGHT:
-//            [scrollView setMinimumZoomScale:fminZoomScaleVertical];
-//            break;
-//            
-//        case LAYOUTSTATE_TOP_BOTTOM:
-//            [scrollView setMinimumZoomScale:minZoomScaleHorizontal];
-//            break;
-//            
-//        default:
-//            break;
-//    }
-    
+    // Pick the larger of the two zoom scales in order to show the image with no empty space around it
     [scrollView setMinimumZoomScale:fmaxf(minZoomScaleHorizontal, minZoomScaleVertical)];
     
     NSLog(@"min zoom scale: %.2f", [scrollView minimumZoomScale]);
@@ -406,13 +395,343 @@ typedef enum {
 
 #pragma mark - Navigation
 /*
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+ {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
+
+#pragma mark - Image processing
+// Crops either the A or B image to the portion that's visible
+- (UIImage *)cropToVisible:(PostLayoutImage)image
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    // Select the correct ScrollView and ImageView based on `image` parameter
+    UIScrollView *scrollView = (image == PostLayoutImageA) ? [self scrollViewA] : [self scrollViewB];
+    UIImageView *imageView = (image == PostLayoutImageA) ? [self imageViewA] : [self imageViewB];
+    CGSize originalImageSize = (image == PostLayoutImageA) ? [self imageViewAOriginalSize] : [self imageViewBOriginalSize];
+    
+    // Stop if the image doesn't exist
+    if([imageView image] == nil)
+        return nil;
+    
+    // Get the CGImage representation of the current image in the ScrollView
+    UIImage *imageInView = [imageView image];
+    CGImageRef imageRef = [imageInView CGImage];
+    
+    NSLog(@"picture orientation: ");
+    
+    // Crop out the selected portion (rectangle) of the image
+    CGPoint scrollViewOffset = [scrollView contentOffset];
+    CGFloat scrollViewCurrentZoom = [scrollView zoomScale];
+    CGFloat scrollViewMinimumZoom = [scrollView minimumZoomScale];
+    CGFloat zoomRatio = (scrollViewMinimumZoom / scrollViewCurrentZoom);
+    
+    // Figure out the cropping region
+    CGRect cropRegion;
+    cropRegion.origin.x = scrollViewOffset.x / scrollViewCurrentZoom;
+    cropRegion.origin.y = scrollViewOffset.y / scrollViewCurrentZoom;
+    
+    switch([imageInView imageOrientation])
+    {
+            /// No rotation ///
+        case UIImageOrientationUp:
+        case UIImageOrientationUpMirrored:
+        {
+            NSLog(@"   UP orientation");
+            
+            // Adjust size based on the layout
+            switch(layoutState)
+            {
+                case LAYOUTSTATE_A_ONLY:
+                {
+                    // Determine size of the region -- we want to take the smallest side of the image and set that
+                    // value to the desired image's width and height
+                    CGFloat squareSize = fminf(originalImageSize.width * zoomRatio, originalImageSize.height * zoomRatio);
+                    cropRegion.size.width = squareSize;
+                    cropRegion.size.height = squareSize;
+                    
+                    break;
+                }
+                    
+                case LAYOUTSTATE_LEFT_RIGHT:
+                {
+                    // Determine size of the region -- base it on the height of the image
+                    cropRegion.size.height = originalImageSize.height * zoomRatio;
+                    cropRegion.size.width = cropRegion.size.height / 2;
+                    
+                    break;
+                }
+                case LAYOUTSTATE_TOP_BOTTOM:
+                {
+                    // Determine size of the region -- base it on the width of the image
+                    cropRegion.size.width = originalImageSize.width * zoomRatio;
+                    cropRegion.size.height = cropRegion.size.width / 2;
+                    
+                    break;
+                }
+                default:
+                    break;
+            }
+            
+            break;
+        }
+            
+            /// Rotated left 90 degrees (comes out of camera) ///
+            /// Translating between coordinate systems is hard...
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+        {
+            NSLog(@"   RIGHT orientation");
+            
+            // Determine region size based on the layout format
+            switch(layoutState)
+            {
+                    // 1 image only
+                case LAYOUTSTATE_A_ONLY:
+                {
+                    cropRegion.size.width = originalImageSize.width * zoomRatio;
+                    cropRegion.size.height = cropRegion.size.width;
+                    
+                    // Flip the x and y values of the origin if the orientation is UIImageOrientationRight, a.k.a. rotated 90 deg left)
+                    CGPoint oldOrigin = cropRegion.origin;
+                    cropRegion.origin = CGPointMake(oldOrigin.y, originalImageSize.width - cropRegion.size.width - oldOrigin.x);
+                    
+                    break;
+                }
+                    
+                    // Images left and right
+                case LAYOUTSTATE_LEFT_RIGHT:
+                {
+                    cropRegion.size.width = originalImageSize.height * zoomRatio;
+                    cropRegion.size.height = cropRegion.size.width / 2;
+                    
+                    // Flip the x and y values of the origin if the orientation is UIImageOrientationRight, a.k.a. rotated 90 deg left)
+                    CGPoint oldOrigin = cropRegion.origin;
+                    cropRegion.origin = CGPointMake(oldOrigin.y, originalImageSize.width - cropRegion.size.height - oldOrigin.x);
+                    
+                    break;
+                }
+                    
+                    // Images top and bottom
+                case LAYOUTSTATE_TOP_BOTTOM:
+                {
+                    cropRegion.size.height = originalImageSize.width * zoomRatio;
+                    cropRegion.size.width = cropRegion.size.height / 2;
+                    
+                    // Flip the x and y values of the origin if the orientation is UIImageOrientationRight, a.k.a. rotated 90 deg left)
+                    CGPoint oldOrigin = cropRegion.origin;
+                    cropRegion.origin = CGPointMake(oldOrigin.y, originalImageSize.width - cropRegion.size.height - oldOrigin.x);
+                    
+                    break;
+                }
+                    
+                default:
+                    break;
+            }
+            
+            break;
+        }
+            
+            /// Image is flipped (rotated 180 deg)
+        case UIImageOrientationDown:
+        case UIImageOrientationDownMirrored:
+        {
+            NSLog(@"   DOWN orientation");
+            
+            // Adjust size based on the layout
+            switch(layoutState)
+            {
+                case LAYOUTSTATE_A_ONLY:
+                {
+                    // Determine size of the region -- we want to take the smallest side of the image and set that
+                    // value to the desired image's width and height
+                    CGFloat squareSize = fminf(originalImageSize.width * zoomRatio, originalImageSize.height * zoomRatio);
+                    cropRegion.size.width = squareSize;
+                    cropRegion.size.height = squareSize;
+                    
+                    break;
+                }
+                    
+                case LAYOUTSTATE_LEFT_RIGHT:
+                {
+                    // Determine size of the region -- base it on the height of the image
+                    cropRegion.size.height = originalImageSize.height * zoomRatio;
+                    cropRegion.size.width = cropRegion.size.height / 2;
+                    
+                    break;
+                }
+                case LAYOUTSTATE_TOP_BOTTOM:
+                {
+                    // Determine size of the region -- base it on the width of the image
+                    cropRegion.size.width = originalImageSize.width * zoomRatio;
+                    cropRegion.size.height = cropRegion.size.width / 2;
+                    
+                    break;
+                }
+                default:
+                    break;
+            }
+            
+            // Adjust origin (same for all layouts in orientation Down)
+            CGPoint oldOrigin = cropRegion.origin;
+            cropRegion.origin = CGPointMake(originalImageSize.width - cropRegion.size.width - oldOrigin.x, originalImageSize.height - cropRegion.size.height - oldOrigin.y);
+            
+            break;
+        }
+            
+            /// Rotataed 90 deg clockwise ///
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+        {
+            NSLog(@"   LEFT orientation");
+            
+            // Determine region size based on the layout format
+            switch(layoutState)
+            {
+                    // 1 image only
+                case LAYOUTSTATE_A_ONLY:
+                {
+                    cropRegion.size.width = originalImageSize.width * zoomRatio;
+                    cropRegion.size.height = cropRegion.size.width;
+                    
+                    // Adjust the origin for UIImageOrientationLeft
+                    CGPoint oldOrigin = cropRegion.origin;
+                    cropRegion.origin = CGPointMake(originalImageSize.height - cropRegion.size.height - oldOrigin.y, oldOrigin.x);
+                    
+                    break;
+                }
+                    
+                    // Images left and right
+                case LAYOUTSTATE_LEFT_RIGHT:
+                {
+                    cropRegion.size.width = originalImageSize.height * zoomRatio;
+                    cropRegion.size.height = cropRegion.size.width / 2;
+                    
+                    // Adjust the origin for UIImageOrientationLeft
+                    CGPoint oldOrigin = cropRegion.origin;
+                    cropRegion.origin = CGPointMake(originalImageSize.height - cropRegion.size.width - oldOrigin.y, oldOrigin.x);
+                    
+                    break;
+                }
+                    
+                    // Images top and bottom
+                case LAYOUTSTATE_TOP_BOTTOM:
+                {
+                    cropRegion.size.height = originalImageSize.width * zoomRatio;
+                    cropRegion.size.width = cropRegion.size.height / 2;
+                    
+                    // Flip the x and y values of the origin if the orientation is UIImageOrientationRight, a.k.a. rotated 90 deg left)
+                    CGPoint oldOrigin = cropRegion.origin;
+                    cropRegion.origin = CGPointMake(originalImageSize.height - cropRegion.size.width - oldOrigin.y, oldOrigin.x);
+                    
+                    break;
+                }
+                    
+                default:
+                    break;
+            }
+            
+            break;
+        }
+            
+        default:
+            break;
+    }
+    
+    NSLog(@"%@", CGRectCreateDictionaryRepresentation(cropRegion));
+    
+    // Crop the image using CGImageCreateWithImageInRect
+    CGImageRef croppedImageRef = CGImageCreateWithImageInRect(imageRef, cropRegion);
+    
+    //    UIImage *croppedImage = [UIImage imageWithCGImage:croppedImageRef];
+    
+    // I think we may need to add code to actually rotate the pixels in the image instead of marking the image
+    // as "rotated", because (possibly) some phones will ignore the rotation flag and show the image sideways
+    UIImage *croppedImage = [UIImage imageWithCGImage:croppedImageRef
+                                                scale:[imageInView scale]
+                                          orientation:[imageInView imageOrientation]];
+    
+    // Get rid of image data
+    CGImageRelease(croppedImageRef);
+    
+    if(!croppedImage)
+    {
+        NSLog(@"Invalid crop rectangle!!!!");
+        return nil;
+    }
+    else
+        return croppedImage;
 }
-*/
+
+// Returns TRUE if there is a problem with the images, or FALSE if there is no error
+- (BOOL)validateImageLayout
+{
+    // Get pointers to the images in the ImageViews
+    UIImage *imageA = [[self imageViewA] image];
+    UIImage *imageB = [[self imageViewB] image];
+    
+    // Error-check the images (i.e. are they missing?)
+    BOOL problemExists = FALSE;
+    NSString *errorTitle = nil;
+    NSString *errorMessage = nil;
+    
+    // Set different error titles and messages depending on the layout state and which images exist
+    if(layoutState == LAYOUTSTATE_A_ONLY && !imageA)
+    {
+        errorTitle = @"Missing image";
+        errorMessage = @"Please add an image to continue your post";
+        problemExists = TRUE;
+    }
+    // 2-image layouts
+    else if(layoutState == LAYOUTSTATE_LEFT_RIGHT || layoutState == LAYOUTSTATE_TOP_BOTTOM)
+    {
+        // No images picked
+        if(!imageA && !imageB)
+        {
+            errorTitle = @"Missing images";
+            errorMessage = @"Please add both images to continue your post";
+            problemExists = TRUE;
+        }
+        // One image has been picked
+        else if((imageA && !imageB) || (!imageA && imageB))
+        {
+            errorTitle = @"Missing image";
+            errorMessage = @"Please add another image to continue your post";
+            problemExists = TRUE;
+        }
+    }
+    
+    // Show an error message if there's a problem
+    if(problemExists)
+    {
+        if([UIAlertController class]) // iOS 8+
+        {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:errorTitle
+                                                                           message:errorMessage
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"OK"
+                                                      style:UIAlertActionStyleCancel
+                                                    handler:nil]];
+            // Present it
+            [self presentViewController:alert animated:YES completion:nil];
+            // Set its tint color
+            [[alert view] setTintColor:COLOR_BETTER_DARK];
+        }
+        else // iOS 7
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:errorTitle
+                                                            message:errorMessage
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+    }
+    
+    return problemExists;
+}
 
 #pragma mark - Gesture recognizer handling
 // Scroll View A tap
@@ -446,247 +765,160 @@ typedef enum {
 #pragma mark - Button handling
 - (IBAction)pressedBackArrow:(id)sender
 {
-    // Dismiss this, go back to the Feed
-    
-    if([UIAlertController class]) // UIAlertController is not available before iOS 8
+    // Perform different actions based on which posting state we're in:
+    switch(postState)
     {
-        UIAlertController *dismissAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you want to quit the posting process?"
-                                                                              message:nil
-                                                                       preferredStyle:UIAlertControllerStyleAlert];
-        [dismissAlert addAction:[UIAlertAction actionWithTitle:@"Cancel"
-                                                         style:UIAlertActionStyleDefault
-                                                       handler:nil]];
-        [dismissAlert addAction:[UIAlertAction actionWithTitle:@"Quit"
-                                                         style:UIAlertActionStyleDefault
-                                                       handler:^(UIAlertAction *action) {
-                                                           // Show Feed again
-                                                           [self dismissViewControllerAnimated:YES completion:nil];
-                                                       }]];
-        // Show the alert
-        [self presentViewController:dismissAlert animated:YES completion:nil];
-        
-        // Set its tint color (changes the font color of the buttons)
-        [[dismissAlert view] setTintColor:COLOR_BETTER_DARK];
-    }
-    else
-    {
-        UIAlertView *dismissAlert = [[UIAlertView alloc] initWithTitle:@"Are you sure you want to quit the posting process?"
-                                                               message:nil
-                                                              delegate:self
-                                                     cancelButtonTitle:nil
-                                                     otherButtonTitles:@"Cancel", @"Quit", nil];
-        [dismissAlert show];
+        case POSTINGSTATE_PICTURES: // Selecting images and moving them around
+        {
+            // Dismiss this, go back to the Feed
+            NSString *errorTitle = @"Discard this post?";
+            NSString *errorMessage = @"Are you sure you want to quit the posting process? Your images will not be saved.";
+            
+            if([UIAlertController class]) // UIAlertController is not available before iOS 8
+            {
+                UIAlertController *dismissAlert = [UIAlertController alertControllerWithTitle:errorTitle
+                                                                                      message:errorMessage
+                                                                               preferredStyle:UIAlertControllerStyleAlert];
+                [dismissAlert addAction:[UIAlertAction actionWithTitle:@"Cancel"
+                                                                 style:UIAlertActionStyleCancel
+                                                               handler:nil]];
+                [dismissAlert addAction:[UIAlertAction actionWithTitle:@"Quit"
+                                                                 style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction *action) {
+                                                                   // Show Feed again
+                                                                   [self dismissViewControllerAnimated:YES completion:nil];
+                                                               }]];
+                // Show the alert
+                [self presentViewController:dismissAlert animated:YES completion:nil];
+                
+                // Set its tint color (changes the font color of the buttons)
+                [[dismissAlert view] setTintColor:COLOR_BETTER_DARK];
+            }
+            else // iOS 7
+            {
+                UIAlertView *dismissAlert = [[UIAlertView alloc] initWithTitle:errorTitle
+                                                                       message:errorMessage
+                                                                      delegate:self
+                                                             cancelButtonTitle:@"Cancel"
+                                                             otherButtonTitles:@"Quit", nil];
+                [dismissAlert show];
+            }
+            
+            break;
+        }
+        case POSTINGSTATE_SPOTLIGHTS: // Going back from moving hotspots and adding hashtags to them
+        {
+            // Unlock ScrollViews
+            [self unlockScrollViewForImage:PostLayoutImageA];
+            [self unlockScrollViewForImage:PostLayoutImageB];
+            
+            // Enable tap gesture recognizers
+            [[self tapScrollViewARecognizer] setEnabled:YES];
+            [[self tapScrollViewBRecognizer] setEnabled:YES];
+            
+            // Show layout buttons, hide hotspot help label
+            [UIView animateWithDuration:ANIM_DURATION_POST_LAYOUT_CHANGE
+                             animations:^{
+                                 [[self hotspotDirectionsLabel] setAlpha:0];
+                                 [[self layoutButtonSingle] setAlpha:1];
+                                 [[self layoutButtonLeftRight] setAlpha:1];
+                                 [[self layoutButtonTopBottom] setAlpha:1];
+                             }];
+            
+            // Set state
+            postState = POSTINGSTATE_PICTURES;
+            
+            break;
+        }
     }
 }
 
 - (IBAction)pressedNextButton:(id)sender
 {
-    // Get the CGImage representation of the current image in the ScrollView
-    UIImage *imageInView = [[self imageViewA] image];
-    CGImageRef image = [imageInView CGImage];
-    
-    NSLog(@"picture orientation: ");
-    switch([imageInView imageOrientation])
+    // Perform different actions based on which posting state we're in:
+    switch(postState)
     {
-        case UIImageOrientationUp:
-            NSLog(@"   UP orientation");
-            break;
-        case UIImageOrientationRight:
-            NSLog(@"   RIGHT orientation");
-            break;
-        default:
-            NSLog(@"   Unrecognized orientation: %i", [imageInView imageOrientation]);
-            NSLog(@"   ** Choose a different image **");
-            return;
-    }
-    
-    // Crop out the selected portion (rectangle) of the image
-    CGPoint scrollViewOffset = [[self scrollViewA] contentOffset];
-    CGFloat scrollViewCurrentZoom = [[self scrollViewA] zoomScale];
-    CGFloat scrollViewMinimumZoom = [[self scrollViewA] minimumZoomScale];
-    CGFloat zoomRatio = (scrollViewMinimumZoom / scrollViewCurrentZoom);
-    
-    // Figure out the cropping region
-    CGRect cropRegion;
-    cropRegion.origin.x = scrollViewOffset.x / scrollViewCurrentZoom;
-    cropRegion.origin.y = scrollViewOffset.y / scrollViewCurrentZoom;
-    
-    switch([imageInView imageOrientation])
-    {
-        /// No rotation ///
-        case UIImageOrientationUp:
+        case POSTINGSTATE_PICTURES: // Selecting images and moving them around
         {
-            // Adjust based on the layout
-            switch(layoutState)
+            // Get the images cropped to their visible regions
+            UIImage *croppedImageA = [self cropToVisible:PostLayoutImageA];
+            UIImage *croppedImageB = [self cropToVisible:PostLayoutImageB];
+            
+            // Error-check the image layout and display an alert dialog if there is a problem
+            BOOL problemExists = [self validateImageLayout];
+            
+            // Continue if there's no problem
+            if(!problemExists)
             {
-                case LAYOUTSTATE_A_ONLY:
-                {
-                    // Determine size of the region -- we want to take the smallest side of the image and set that
-                    // value to the desired image's width and height
-                    CGFloat squareSize = fminf([self imageViewAOriginalSize].width * zoomRatio, [self imageViewAOriginalSize].height * zoomRatio);
-                    cropRegion.size.width = squareSize;
-                    cropRegion.size.height = squareSize;
-                    
-                    break;
-                }
-                    
-                case LAYOUTSTATE_LEFT_RIGHT:
-                {
-                    // Determine size of the region -- base it on the height of the image
-                    cropRegion.size.height = [self imageViewAOriginalSize].height;
-                    cropRegion.size.width = cropRegion.size.height;
-                    
-                    // Adjust for smaller width
-                    cropRegion.size.width /= 2;
-                    
-                    break;
-                }
-                case LAYOUTSTATE_TOP_BOTTOM:
-                {
-                    // Determine size of the region -- base it on the width of the image
-                    cropRegion.size.width = [self imageViewAOriginalSize].width;
-                    cropRegion.size.height = cropRegion.size.width;
-                    
-                    // Adjust for smaller height
-                    cropRegion.size.height /= 2;
-                    
-                    break;
-                }
-                default: break;
+                // Lock the ScrollViews
+                [self lockScrollViewForImage:PostLayoutImageA];
+                [self lockScrollViewForImage:PostLayoutImageB];
+            
+                // Disable tap gesture recognizers
+                [[self tapScrollViewARecognizer] setEnabled:NO];
+                [[self tapScrollViewBRecognizer] setEnabled:NO];
+                
+                // Hide layout buttons
+                [UIView animateWithDuration:ANIM_DURATION_POST_LAYOUT_CHANGE
+                                 animations:^{
+                                     [[self hotspotDirectionsLabel] setAlpha:1];
+                                     [[self layoutButtonSingle] setAlpha:0];
+                                     [[self layoutButtonLeftRight] setAlpha:0];
+                                     [[self layoutButtonTopBottom] setAlpha:0];
+                                 }];
+                
+                ////// A temporary way to check how the images look when they are off of the phone -- this code sends the
+                // image to a .php file with the following lines:
+                /*
+                 <?php
+                 
+                 move_uploaded_file($_FILES["image"]["tmp_name"], "./".$_FILES["image"]["name"]);
+                 move_uploaded_file($_FILES["image2"]["tmp_name"], "./".$_FILES["image2"]["name"]);
+                 
+                 ?>
+                 */
+                AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+                
+                [manager setRequestSerializer:[AFHTTPRequestSerializer serializer]];
+                [manager setResponseSerializer:[AFHTTPResponseSerializer serializer]];
+                
+                // Turn on network indicator
+                [[UserInfo user] setNetworkActivityIndicatorVisible:YES];
+                
+                [manager POST:@"http://10.1.0.144/imageupload.php"
+                   parameters:nil
+    constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        
+        [formData appendPartWithFileData:UIImageJPEGRepresentation(croppedImageA, 0.8) // 0.8 out of 1 is the quality
+                                    name:@"image"
+                                fileName:@"image.jpg"
+                                mimeType:@"image/jpeg"];
+        if(croppedImageB != nil)
+            [formData appendPartWithFileData:UIImageJPEGRepresentation(croppedImageB, 0.8)
+                                        name:@"image2"
+                                    fileName:@"image2.jpg"
+                                    mimeType:@"image/jpeg"];
+    }
+                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                          NSLog(@"Upload success!!");
+                          
+                          // Turn off network indicator
+                          [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
+                          
+                          // Change state
+                          postState = POSTINGSTATE_SPOTLIGHTS;
+                      }
+                      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                          NSLog(@"**!!** Network error! %@", error);
+                          
+                          // Turn off network indicator
+                          [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
+                      }];
             }
             
             break;
         }
-            
-        /// Rotated left 90 degrees (comes out of camera) ///
-        /// Translating between coordinate systems is hard...
-        case UIImageOrientationRight:
-        {
-            // Determine region size based on the layout format
-            switch(layoutState)
-            {
-                // 1 image only
-                case LAYOUTSTATE_A_ONLY:
-                {
-                    cropRegion.size.width = [self imageViewAOriginalSize].width * zoomRatio;
-                    cropRegion.size.height = cropRegion.size.width;
-                    
-                    // Flip the x and y values of the origin if the orientation is UIImageOrientationRight, a.k.a. rotated 90 deg left)
-                    CGPoint oldOrigin = cropRegion.origin;
-                    cropRegion.origin = CGPointMake(oldOrigin.y, [self imageViewAOriginalSize].width - cropRegion.size.width - oldOrigin.x);
-                    
-                    break;
-                }
-                    
-                // Images left and right
-                case LAYOUTSTATE_LEFT_RIGHT:
-                {
-                    cropRegion.size.width = [self imageViewAOriginalSize].height * zoomRatio;
-                    cropRegion.size.height = cropRegion.size.width / 2;
-                    
-                    // Flip the x and y values of the origin if the orientation is UIImageOrientationRight, a.k.a. rotated 90 deg left)
-                    CGPoint oldOrigin = cropRegion.origin;
-                    cropRegion.origin = CGPointMake(oldOrigin.y, [self imageViewAOriginalSize].width - cropRegion.size.height - oldOrigin.x);
-                    
-                    break;
-                }
-                    
-                // Images top and bottom
-                case LAYOUTSTATE_TOP_BOTTOM:
-                {
-                    cropRegion.size.height = [self imageViewAOriginalSize].width * zoomRatio;
-                    cropRegion.size.width = cropRegion.size.height / 2;
-                    
-                    // Flip the x and y values of the origin if the orientation is UIImageOrientationRight, a.k.a. rotated 90 deg left)
-                    CGPoint oldOrigin = cropRegion.origin;
-                    cropRegion.origin = CGPointMake(oldOrigin.y, [self imageViewAOriginalSize].width - cropRegion.size.height - oldOrigin.x);
-                    
-                    break;
-                }
-                    
-                default:
-                    break;
-            }
-            
-            break;
-        }
-            
-        default:
-            break;
     }
-    
-    // old code:
-//    cropRegion.origin.x = [[self scrollViewA] contentOffset].x / scrollViewCurrentZoom;
-//    cropRegion.origin.y = [[self scrollViewA] contentOffset].y / scrollViewCurrentZoom;
-//    cropRegion.size.width = [self imageViewAOriginalSize].width * (scrollViewMinimumZoom / scrollViewCurrentZoom);
-//    cropRegion.size.height = [self imageViewAOriginalSize].height * (scrollViewMinimumZoom / scrollViewCurrentZoom);
-    
-    NSLog(@"   %@", CGRectCreateDictionaryRepresentation(cropRegion));
-    
-    // Crop the image using CGImageCreateWithImageInRect
-    CGImageRef croppedImageRef = CGImageCreateWithImageInRect(image, cropRegion);
-    
-//    UIImage *croppedImage = [UIImage imageWithCGImage:croppedImageRef];
-    
-    // I think we may need to add code to actually rotate the pixels in the image instead of marking the image
-    // as "rotated", because (possibly) some phones will ignore the rotation flag and show the image sideways
-    UIImage *croppedImage = [UIImage imageWithCGImage:croppedImageRef
-                                                scale:[imageInView scale]
-                                          orientation:[imageInView imageOrientation]];
-    
-    // Get rid of image data
-    CGImageRelease(croppedImageRef);
-    
-    if(!croppedImage)
-    {
-        NSLog(@"Invalid crop rectangle!!!!");
-        return;
-    }
-    
-//    // Lock the ScrollViews
-//    [self lockScrollViewForImage:PostLayoutImageA];
-//    [self lockScrollViewForImage:PostLayoutImageB];
-//    
-//    // Disable tap gesture recognizers
-//    [[self tapScrollViewARecognizer] setEnabled:NO];
-//    [[self tapScrollViewBRecognizer] setEnabled:NO];
-    
-    ////// A temporary way to check how the images look when they are off of the phone -- this code sends the
-    // image to a .php file with the following lines:
-    /*
-     <?php
-     if(move_uploaded_file($_FILES["image"]["tmp_name"], "./".$_FILES["image"]["name"]))
-         printf("OK");
-     ?>
-     */
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    
-    [manager setRequestSerializer:[AFHTTPRequestSerializer serializer]];
-    [manager setResponseSerializer:[AFHTTPResponseSerializer serializer]];
-    
-    // Turn on network indicator
-    [[UserInfo user] setNetworkActivityIndicatorVisible:YES];
-    
-    [manager POST:@"http://10.1.0.144/imageupload.php"
-       parameters:nil
-constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-    [formData appendPartWithFileData:UIImageJPEGRepresentation(croppedImage, 0.8) // 0.8 out of 1 is the quality
-                                name:@"image"
-                            fileName:@"image.jpg"
-                            mimeType:@"image/jpeg"];
-}
-          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-              NSLog(@"Upload success!!");
-              
-              // Turn off network indicator
-              [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
-          }
-          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              NSLog(@"%@", error);
-              
-              // Turn off network indicator
-              [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
-          }];
 }
 
 // For iOS7's UIAlertView
@@ -694,7 +926,7 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
 {
     if([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Quit"])
     {
-        // Show the Feed
+        // Go back to the Feed
         [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
@@ -707,9 +939,14 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         // Change state
         layoutState = LAYOUTSTATE_A_ONLY;
         
+        // Change layout button states (changes their images)
+        [[self layoutButtonSingle] setSelected:YES];
+        [[self layoutButtonLeftRight] setSelected:NO];
+        [[self layoutButtonTopBottom] setSelected:NO];
+        
         // Set constraints
         [[self scrollViewContainer] layoutIfNeeded];
-        [UIView animateWithDuration:0.3
+        [UIView animateWithDuration:ANIM_DURATION_POST_LAYOUT_CHANGE
                               delay:0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
@@ -724,11 +961,11 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
                              
                              // Apply changes
                              [[self scrollViewContainer] layoutIfNeeded];
-                         }
-                         completion:^(BOOL completed) {
+                             
                              // Update zoom
                              [self updateMinimumZoomScaleForImage:PostLayoutImageA];
-                         }];
+                         }
+                         completion:nil];
     }
 }
 
@@ -740,9 +977,14 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         // Change state
         layoutState = LAYOUTSTATE_LEFT_RIGHT;
         
+        // Change layout button states (changes their images)
+        [[self layoutButtonSingle] setSelected:NO];
+        [[self layoutButtonLeftRight] setSelected:YES];
+        [[self layoutButtonTopBottom] setSelected:NO];
+        
         // Set constraints
         [[self scrollViewContainer] layoutIfNeeded];
-        [UIView animateWithDuration:0.3
+        [UIView animateWithDuration:ANIM_DURATION_POST_LAYOUT_CHANGE
                               delay:0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
@@ -757,12 +999,12 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
                              
                              // Apply changes
                              [[self scrollViewContainer] layoutIfNeeded];
-                         }
-                         completion:^(BOOL completed) {
+                             
                              // Update zooms
                              [self updateMinimumZoomScaleForImage:PostLayoutImageA];
                              [self updateMinimumZoomScaleForImage:PostLayoutImageB];
-                         }];
+                         }
+                         completion:nil];
     }
 }
 
@@ -774,9 +1016,14 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         // Change state
         layoutState = LAYOUTSTATE_TOP_BOTTOM;
         
+        // Change layout button states (changes their images)
+        [[self layoutButtonSingle] setSelected:NO];
+        [[self layoutButtonLeftRight] setSelected:NO];
+        [[self layoutButtonTopBottom] setSelected:YES];
+        
         // Set constraints
         [[self scrollViewContainer] layoutIfNeeded];
-        [UIView animateWithDuration:0.3
+        [UIView animateWithDuration:ANIM_DURATION_POST_LAYOUT_CHANGE
                               delay:0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
@@ -791,12 +1038,12 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
                              
                              // Apply changes
                              [[self scrollViewContainer] layoutIfNeeded];
-                         }
-                         completion:^(BOOL completed) {
+                             
                              // Update zooms
                              [self updateMinimumZoomScaleForImage:PostLayoutImageA];
                              [self updateMinimumZoomScaleForImage:PostLayoutImageB];
-                         }];
+                         }
+                         completion:nil];
     }
 }
 @end

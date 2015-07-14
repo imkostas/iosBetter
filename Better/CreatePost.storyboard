@@ -77,44 +77,70 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eSh-w6-GI4" userLabel="Layout Switcher">
                                 <rect key="frame" x="0.0" y="664" width="600" height="86"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ISg-Nz-2Ue">
-                                        <rect key="frame" x="238" y="28" width="30" height="30"/>
-                                        <state key="normal" title="A">
+                                    <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ISg-Nz-2Ue" userLabel="Single Image">
+                                        <rect key="frame" x="221" y="22" width="42" height="42"/>
+                                        <inset key="contentEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
+                                        <state key="normal" image="post_single_image_gray">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <state key="selected" image="post_single_image_white"/>
+                                        <state key="highlighted" image="post_single_image_white"/>
                                         <connections>
                                             <action selector="pressedAOnlyLayoutButton:" destination="Ue1-Lz-7Y0" eventType="touchUpInside" id="6zZ-2r-oLs"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qy5-cc-s53">
-                                        <rect key="frame" x="284" y="28" width="33" height="30"/>
-                                        <state key="normal" title="A | B">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qy5-cc-s53" userLabel="Left Right">
+                                        <rect key="frame" x="279" y="22" width="42" height="42"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="42" id="Uf8-xU-tkq"/>
+                                            <constraint firstAttribute="height" constant="42" id="dSq-ep-tWz"/>
+                                        </constraints>
+                                        <inset key="contentEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
+                                        <state key="normal" image="post_left_right_gray">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <state key="selected" image="post_left_right_white"/>
+                                        <state key="highlighted" image="post_left_right_white"/>
                                         <connections>
                                             <action selector="pressedLeftRightLayoutButton:" destination="Ue1-Lz-7Y0" eventType="touchUpInside" id="Z6g-Kx-pek"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="39l-oc-WUh">
-                                        <rect key="frame" x="333" y="28" width="35" height="30"/>
-                                        <state key="normal" title="A / B">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="39l-oc-WUh" userLabel="Top Bottom">
+                                        <rect key="frame" x="337" y="22" width="42" height="42"/>
+                                        <inset key="contentEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
+                                        <state key="normal" image="post_top_bottom_gray">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <state key="selected" image="post_top_bottom_white"/>
+                                        <state key="highlighted" image="post_top_bottom_white"/>
                                         <connections>
                                             <action selector="pressedTopBottomLayoutButton:" destination="Ue1-Lz-7Y0" eventType="touchUpInside" id="Sgl-6W-JMB"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;&lt; Hotspot directions &gt;&gt;" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OjX-V5-xLs" userLabel="Directions label" customClass="BELabel">
+                                        <rect key="frame" x="8" y="36" width="584" height="15"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.251223169191919" green="0.251223169191919" blue="0.251223169191919" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="Qy5-cc-s53" firstAttribute="height" secondItem="39l-oc-WUh" secondAttribute="height" id="15g-hI-EOa"/>
+                                    <constraint firstAttribute="centerY" secondItem="OjX-V5-xLs" secondAttribute="centerY" id="Awj-25-dhD"/>
+                                    <constraint firstItem="Qy5-cc-s53" firstAttribute="width" secondItem="39l-oc-WUh" secondAttribute="width" id="Ffp-Og-PTW"/>
                                     <constraint firstItem="39l-oc-WUh" firstAttribute="leading" secondItem="Qy5-cc-s53" secondAttribute="trailing" constant="16" id="QMF-Wo-UxJ"/>
                                     <constraint firstItem="Qy5-cc-s53" firstAttribute="centerY" secondItem="ISg-Nz-2Ue" secondAttribute="centerY" id="YJf-Yh-92d"/>
+                                    <constraint firstItem="Qy5-cc-s53" firstAttribute="height" secondItem="ISg-Nz-2Ue" secondAttribute="height" id="YvM-Eb-GW1"/>
                                     <constraint firstItem="39l-oc-WUh" firstAttribute="centerY" secondItem="Qy5-cc-s53" secondAttribute="centerY" id="gs7-Lo-uGh"/>
                                     <constraint firstAttribute="centerX" secondItem="Qy5-cc-s53" secondAttribute="centerX" id="hqO-dh-ej9"/>
                                     <constraint firstItem="Qy5-cc-s53" firstAttribute="leading" secondItem="ISg-Nz-2Ue" secondAttribute="trailing" constant="16" id="mlQ-f0-9xF"/>
+                                    <constraint firstItem="Qy5-cc-s53" firstAttribute="width" secondItem="ISg-Nz-2Ue" secondAttribute="width" id="n3y-KI-UmG"/>
+                                    <constraint firstItem="OjX-V5-xLs" firstAttribute="leading" secondItem="eSh-w6-GI4" secondAttribute="leading" constant="8" id="tBY-0A-veu"/>
+                                    <constraint firstAttribute="trailing" secondItem="OjX-V5-xLs" secondAttribute="trailing" constant="8" id="xw1-S4-Yqf"/>
                                     <constraint firstAttribute="centerY" secondItem="Qy5-cc-s53" secondAttribute="centerY" id="yZo-nH-RJK"/>
                                 </constraints>
                             </view>
@@ -159,6 +185,10 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="800"/>
                     <connections>
+                        <outlet property="hotspotDirectionsLabel" destination="OjX-V5-xLs" id="NbJ-uw-YvO"/>
+                        <outlet property="layoutButtonLeftRight" destination="Qy5-cc-s53" id="bNS-bg-eBz"/>
+                        <outlet property="layoutButtonSingle" destination="ISg-Nz-2Ue" id="mu6-JZ-MYe"/>
+                        <outlet property="layoutButtonTopBottom" destination="39l-oc-WUh" id="Ld5-h0-RBK"/>
                         <outlet property="plusIconA" destination="Hck-XJ-N5k" id="RL3-i1-Z2G"/>
                         <outlet property="plusIconB" destination="nw0-J6-sx5" id="h8U-Mx-oUU"/>
                         <outlet property="scrollViewA" destination="gTz-iC-y7X" id="axH-ac-oXQ"/>
@@ -197,5 +227,11 @@
     <resources>
         <image name="Plus" width="36" height="36"/>
         <image name="ic_arrow_back_green_24dp" width="22" height="22"/>
+        <image name="post_left_right_gray" width="36" height="36"/>
+        <image name="post_left_right_white" width="36" height="36"/>
+        <image name="post_single_image_gray" width="36" height="36"/>
+        <image name="post_single_image_white" width="36" height="36"/>
+        <image name="post_top_bottom_gray" width="36" height="36"/>
+        <image name="post_top_bottom_white" width="27" height="27"/>
     </resources>
 </document>

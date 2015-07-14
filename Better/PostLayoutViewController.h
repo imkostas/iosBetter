@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Definitions.h"
 #import "UserInfo.h"
+#import "BELabel.h"
 
 @interface PostLayoutViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate, UIScrollViewDelegate>
 
@@ -28,6 +29,14 @@
 // Outlets to the "(+)" icons
 @property (weak, nonatomic) IBOutlet UIImageView *plusIconA;
 @property (weak, nonatomic) IBOutlet UIImageView *plusIconB;
+
+// Outlets to the three layout buttons (single, left-right, top-bottom)
+@property (weak, nonatomic) IBOutlet UIButton *layoutButtonSingle;
+@property (weak, nonatomic) IBOutlet UIButton *layoutButtonLeftRight;
+@property (weak, nonatomic) IBOutlet UIButton *layoutButtonTopBottom;
+
+// Outlet to the hotspot directions label ("Drag spotlights...")
+@property (weak, nonatomic) IBOutlet BELabel *hotspotDirectionsLabel;
 
 // Called when back arrow is pressed
 - (IBAction)pressedBackArrow:(id)sender;
