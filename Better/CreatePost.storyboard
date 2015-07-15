@@ -79,7 +79,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ISg-Nz-2Ue" userLabel="Single Image">
                                         <rect key="frame" x="221" y="22" width="42" height="42"/>
-                                        <inset key="contentEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
+                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                         <state key="normal" image="post_single_image_gray">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -96,7 +96,7 @@
                                             <constraint firstAttribute="width" constant="42" id="Uf8-xU-tkq"/>
                                             <constraint firstAttribute="height" constant="42" id="dSq-ep-tWz"/>
                                         </constraints>
-                                        <inset key="contentEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
+                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                         <state key="normal" image="post_left_right_gray">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -109,7 +109,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="39l-oc-WUh" userLabel="Top Bottom">
                                         <rect key="frame" x="337" y="22" width="42" height="42"/>
-                                        <inset key="contentEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
+                                        <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                         <state key="normal" image="post_top_bottom_gray">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -126,6 +126,15 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2uq-4t-bKh">
+                                        <rect key="frame" x="4" y="52" width="50" height="30"/>
+                                        <state key="normal" title="Upload">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="uploadButtonPressed:" destination="Ue1-Lz-7Y0" eventType="touchUpInside" id="BrA-tF-R9e"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.251223169191919" green="0.251223169191919" blue="0.251223169191919" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -133,9 +142,11 @@
                                     <constraint firstAttribute="centerY" secondItem="OjX-V5-xLs" secondAttribute="centerY" id="Awj-25-dhD"/>
                                     <constraint firstItem="Qy5-cc-s53" firstAttribute="width" secondItem="39l-oc-WUh" secondAttribute="width" id="Ffp-Og-PTW"/>
                                     <constraint firstItem="39l-oc-WUh" firstAttribute="leading" secondItem="Qy5-cc-s53" secondAttribute="trailing" constant="16" id="QMF-Wo-UxJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="2uq-4t-bKh" secondAttribute="bottom" constant="4" id="Tjz-PB-Ka1"/>
                                     <constraint firstItem="Qy5-cc-s53" firstAttribute="centerY" secondItem="ISg-Nz-2Ue" secondAttribute="centerY" id="YJf-Yh-92d"/>
                                     <constraint firstItem="Qy5-cc-s53" firstAttribute="height" secondItem="ISg-Nz-2Ue" secondAttribute="height" id="YvM-Eb-GW1"/>
                                     <constraint firstItem="39l-oc-WUh" firstAttribute="centerY" secondItem="Qy5-cc-s53" secondAttribute="centerY" id="gs7-Lo-uGh"/>
+                                    <constraint firstItem="2uq-4t-bKh" firstAttribute="leading" secondItem="eSh-w6-GI4" secondAttribute="leading" constant="4" id="hiF-iD-YXp"/>
                                     <constraint firstAttribute="centerX" secondItem="Qy5-cc-s53" secondAttribute="centerX" id="hqO-dh-ej9"/>
                                     <constraint firstItem="Qy5-cc-s53" firstAttribute="leading" secondItem="ISg-Nz-2Ue" secondAttribute="trailing" constant="16" id="mlQ-f0-9xF"/>
                                     <constraint firstItem="Qy5-cc-s53" firstAttribute="width" secondItem="ISg-Nz-2Ue" secondAttribute="width" id="n3y-KI-UmG"/>

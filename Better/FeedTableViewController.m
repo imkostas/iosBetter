@@ -275,7 +275,7 @@
 												  NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]];
 												  
 												  // Update the tableview on the main thread (UI runs on main thread)
-												  dispatch_async(dispatch_get_main_queue(), ^{
+												  dispatch_sync(dispatch_get_main_queue(), ^{
 													  [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
 												  });
 											  }
@@ -294,7 +294,7 @@
 												  NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]];
 												  
 												  // Update the tableview on the main thread (UI runs on main thread)
-												  dispatch_async(dispatch_get_main_queue(), ^{
+												  dispatch_sync(dispatch_get_main_queue(), ^{
 													  [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
 												  });
 											  }
@@ -313,7 +313,7 @@
 												  NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]];
 												  
 												  // Update the tableview on the main thread (UI runs on main thread)
-												  dispatch_async(dispatch_get_main_queue(), ^{
+												  dispatch_sync(dispatch_get_main_queue(), ^{
 													  [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
 												  });
 											  }
@@ -332,7 +332,7 @@
 												   NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:0]];
 												   
 												   // Update the tableview on the main thread (UI runs on main thread)
-												   dispatch_async(dispatch_get_main_queue(), ^{
+												   dispatch_sync(dispatch_get_main_queue(), ^{
 													   [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
 												   });
 											   }
@@ -351,7 +351,7 @@
 												   NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:0]];
 												   
 												   // Update the tableview on the main thread (UI runs on main thread)
-												   dispatch_async(dispatch_get_main_queue(), ^{
+												   dispatch_sync(dispatch_get_main_queue(), ^{
 													   [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
 												   });
 											   }

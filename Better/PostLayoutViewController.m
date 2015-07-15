@@ -17,6 +17,12 @@ typedef enum {
     PostLayoutImageB
 } PostLayoutImage;
 
+// A pair of UIScrollView zoom scales to store min and max
+typedef struct MinMaxZoomPair {
+    CGFloat minZoomScale;
+    CGFloat maxZoomScale;
+} MinMaxZoomPair;
+
 @interface PostLayoutViewController ()
 {
     /**
@@ -57,12 +63,28 @@ typedef enum {
 @property (nonatomic) CGSize imageViewAOriginalSize;
 @property (nonatomic) CGSize imageViewBOriginalSize;
 
+// Two MinMaxZoomScalePair's to remember the min and max zoom scales for each of the ScrollViews -- these
+// values are used by -cropToVisible:
+// They are updated every time -updateMinimumZoomScaleForImage: is called.
+@property (nonatomic) MinMaxZoomPair zoomPairA;
+@property (nonatomic) MinMaxZoomPair zoomPairB;
+
 // Gesture recognizers and their action methods for tapping on a UIScrollView to take a new picture
 @property (strong, nonatomic) UITapGestureRecognizer *tapScrollViewARecognizer;
 - (void)tappedOnScrollViewA:(UITapGestureRecognizer *)gesture;
 
 @property (strong, nonatomic) UITapGestureRecognizer *tapScrollViewBRecognizer;
 - (void)tappedOnScrollViewB:(UITapGestureRecognizer *)gesture;
+
+// UIImageViews to serve as spotlights/hotspots and UIPanGestureRecognizers for dragging the hotspots around
+@property (strong, nonatomic) UIImageView *hotspotA;
+@property (strong, nonatomic) UIImageView *hotspotB;
+@property (nonatomic) CGPoint hotspotAStartPanOrigin; // remembers the origin of the hotspot when the pan began
+@property (nonatomic) CGPoint hotspotBStartPanOrigin; // remembers the origin of the hotspot when the pan began
+@property (strong, nonatomic) UIPanGestureRecognizer *panHotspotARecognizer;
+@property (strong, nonatomic) UIPanGestureRecognizer *panHotspotBRecognizer;
+- (void)pannedHotspotA:(UIPanGestureRecognizer *)gesture;
+- (void)pannedHotspotB:(UIPanGestureRecognizer *)gesture;
 
 // Keep a scrollview's subview centered when zooming out
 - (void)keepSubviewCenteredInScrollView:(UIScrollView *)scrollView;
@@ -79,6 +101,9 @@ typedef enum {
 
 // returns TRUE if there is a problem, FALSE if there is no problem
 - (BOOL)validateImageLayout;
+
+// Upload an image (for testing)
+- (void)uploadImageA:(UIImage *)imageA imageB:(UIImage *)imageB;
 
 @end
 
@@ -110,8 +135,35 @@ typedef enum {
     [[self scrollViewB] setBounces:NO];
     [[self scrollViewB] setMaximumZoomScale:MAX_ZOOM];
     
+    // Set up hotspots
+    [self setHotspotA:[[UIImageView alloc] initWithImage:[UIImage imageNamed:IMAGE_POSTING_HOTSPOT_UNTAGGED]]];
+    [self setHotspotB:[[UIImageView alloc] initWithImage:[UIImage imageNamed:IMAGE_POSTING_HOTSPOT_UNTAGGED]]];
+    // Set their sizes
+    [[self hotspotA] setFrame:CGRectMake(0, 0, WIDTH_HOTSPOT, HEIGHT_HOTSPOT)];
+    [[self hotspotB] setFrame:CGRectMake(0, 0, WIDTH_HOTSPOT, HEIGHT_HOTSPOT)];
+    // Set them invisible for now
+    [[self hotspotA] setAlpha:0];
+    [[self hotspotB] setAlpha:0];
+    // Make them user-interactable (required for pan gestures to work)
+    [[self hotspotA] setUserInteractionEnabled:YES];
+    [[self hotspotB] setUserInteractionEnabled:YES];
+    
+    // Set up hotspot pan gesture recognizers for dragging
+    [self setPanHotspotARecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pannedHotspotA:)]];
+    [self setPanHotspotBRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pannedHotspotB:)]];
+    
+    // Add them to the hotspots
+    [[self hotspotA] addGestureRecognizer:[self panHotspotARecognizer]];
+    [[self hotspotB] addGestureRecognizer:[self panHotspotBRecognizer]];
+    
     // Set up initial UI
     [[self plusIconB] setAlpha:0];
+    
+    // Initialize zoom scale pairs
+    MinMaxZoomPair pairA = {0, MAX_ZOOM};
+    MinMaxZoomPair pairB = {0, MAX_ZOOM};
+    [self setZoomPairA:pairA];
+    [self setZoomPairB:pairB];
     
     // Set up tap gesture recognizers
     _tapScrollViewARecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedOnScrollViewA:)];
@@ -158,14 +210,36 @@ typedef enum {
     }
     
     // Set up the hotspot directions label
+    NSString *directionsLineOne = @"Drag spotlights to desired\n";
+    NSString *directionsLineTwo = @"positions and double tap to tag.";
+    NSString *directionsCombined = [directionsLineOne stringByAppendingString:directionsLineTwo];
+    
+    // Only increase the line spacing if there's enough vertical space for the label
+    // (label's height is less than half of its superview's height)
     [[self hotspotDirectionsLabel] setNumberOfLines:2];
     [[self hotspotDirectionsLabel] setPreferredMaxLayoutWidth:CGRectGetWidth([[self hotspotDirectionsLabel] frame])];
-    [[self hotspotDirectionsLabel] setText:@"Drag spotlights to desired\npositions and double tap to tag."];
-    ///***!! --> add attribute for line spacing **/
+    [[self hotspotDirectionsLabel] setText:directionsCombined];
+    
+    if(CGRectGetHeight([[self hotspotDirectionsLabel] frame]) < 0.5 * CGRectGetHeight([[[self hotspotDirectionsLabel] superview] frame]))
+    {
+        // Create an NSRange spanning the second line
+        NSRange rangeLineTwo = {[directionsLineOne length], [directionsLineTwo length]};
+        
+        // Add a negative baseline offset to the 2nd line, which moves it downward
+        NSMutableAttributedString *directionsString = [[NSMutableAttributedString alloc] initWithString:directionsCombined];
+        [directionsString addAttribute:NSBaselineOffsetAttributeName value:[NSNumber numberWithInt:LINE_SPACING_SPOTLIGHTS_HELPTEXT] range:rangeLineTwo];
+        
+        // Apply the text
+        [[self hotspotDirectionsLabel] setAttributedText:directionsString];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    // Call super
+    [super viewDidAppear:animated];
+    
+    // Have we already opened the image picker automatically the first time
     if(!alreadyOpenedImagePickerAuto)
     {
         // Set status bar to dark color if the image picker is opening the Photo Library
@@ -220,7 +294,7 @@ typedef enum {
             [self updateMinimumZoomScaleForImage:PostLayoutImageA];
             
             // Zoom out all the way
-            [[self scrollViewA] setZoomScale:[[self scrollViewA] minimumZoomScale] animated:NO];
+            [[self scrollViewA] setZoomScale:[[self scrollViewA] minimumZoomScale] animated:YES];
             
             break;
         }
@@ -247,7 +321,7 @@ typedef enum {
             [self updateMinimumZoomScaleForImage:PostLayoutImageB];
             
             // Zoom out all the way
-            [[self scrollViewB] setZoomScale:[[self scrollViewB] minimumZoomScale] animated:NO];
+            [[self scrollViewB] setZoomScale:[[self scrollViewB] minimumZoomScale] animated:YES];
             
             break;
         }
@@ -358,7 +432,14 @@ typedef enum {
     float minZoomScaleVertical = CGRectGetHeight([scrollView frame]) / originalSize.height;
     
     // Pick the larger of the two zoom scales in order to show the image with no empty space around it
-    [scrollView setMinimumZoomScale:fmaxf(minZoomScaleHorizontal, minZoomScaleVertical)];
+    float minZoomScale = fmaxf(minZoomScaleHorizontal, minZoomScaleVertical);
+    [scrollView setMinimumZoomScale:minZoomScale];
+    
+    // save the minimum zoom scale for the correct zoom pair
+    MinMaxZoomPair zoomPair = { minZoomScale, MAX_ZOOM };
+    // Save it to the correct variable
+    if(image == PostLayoutImageA) [self setZoomPairA:zoomPair];
+    else if(image == PostLayoutImageB) [self setZoomPairB:zoomPair];
     
     NSLog(@"min zoom scale: %.2f", [scrollView minimumZoomScale]);
     [scrollView setZoomScale:[scrollView minimumZoomScale] animated:YES];
@@ -411,6 +492,7 @@ typedef enum {
     UIScrollView *scrollView = (image == PostLayoutImageA) ? [self scrollViewA] : [self scrollViewB];
     UIImageView *imageView = (image == PostLayoutImageA) ? [self imageViewA] : [self imageViewB];
     CGSize originalImageSize = (image == PostLayoutImageA) ? [self imageViewAOriginalSize] : [self imageViewBOriginalSize];
+    MinMaxZoomPair zoomPair = (image == PostLayoutImageA) ? [self zoomPairA] : [self zoomPairB];
     
     // Stop if the image doesn't exist
     if([imageView image] == nil)
@@ -425,7 +507,7 @@ typedef enum {
     // Crop out the selected portion (rectangle) of the image
     CGPoint scrollViewOffset = [scrollView contentOffset];
     CGFloat scrollViewCurrentZoom = [scrollView zoomScale];
-    CGFloat scrollViewMinimumZoom = [scrollView minimumZoomScale];
+    CGFloat scrollViewMinimumZoom = zoomPair.minZoomScale;
     CGFloat zoomRatio = (scrollViewMinimumZoom / scrollViewCurrentZoom);
     
     // Figure out the cropping region
@@ -640,7 +722,9 @@ typedef enum {
             break;
     }
     
-    NSLog(@"%@", CGRectCreateDictionaryRepresentation(cropRegion));
+    CFDictionaryRef cropRegionReadable = CGRectCreateDictionaryRepresentation(cropRegion);
+    NSLog(@"%@", cropRegionReadable);
+    CFRelease(cropRegionReadable);
     
     // Crop the image using CGImageCreateWithImageInRect
     CGImageRef croppedImageRef = CGImageCreateWithImageInRect(imageRef, cropRegion);
@@ -733,6 +817,57 @@ typedef enum {
     return problemExists;
 }
 
+- (void)uploadImageA:(UIImage *)imageA imageB:(UIImage *)imageB
+{
+    ////// A temporary way to check how the images look when they are off of the phone -- this code sends the
+    // image to a .php file with the following lines:
+    /*
+     <?php
+     
+     move_uploaded_file($_FILES["image"]["tmp_name"], "./".$_FILES["image"]["name"]);
+     move_uploaded_file($_FILES["image2"]["tmp_name"], "./".$_FILES["image2"]["name"]);
+     
+     ?>
+     */
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    [manager setRequestSerializer:[AFHTTPRequestSerializer serializer]];
+    [manager setResponseSerializer:[AFHTTPResponseSerializer serializer]];
+    
+    // Turn on network indicator
+    [[UserInfo user] setNetworkActivityIndicatorVisible:YES];
+    
+    [manager POST:@"http://10.1.0.144/imageupload.php"
+       parameters:nil
+constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    
+    [formData appendPartWithFileData:UIImageJPEGRepresentation(imageA, 0.8) // 0.8 out of 1 is the quality
+                                name:@"image"
+                            fileName:@"image.jpg"
+                            mimeType:@"image/jpeg"];
+    if(imageB != nil)
+        [formData appendPartWithFileData:UIImageJPEGRepresentation(imageB, 0.8)
+                                    name:@"image2"
+                                fileName:@"image2.jpg"
+                                mimeType:@"image/jpeg"];
+}
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              NSLog(@"Upload success!!");
+              
+              // Turn off network indicator
+              [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
+              
+              // Change state
+              postState = POSTINGSTATE_SPOTLIGHTS;
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              NSLog(@"**!!** Network error! %@", error);
+              
+              // Turn off network indicator
+              [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
+          }];
+}
+
 #pragma mark - Gesture recognizer handling
 // Scroll View A tap
 - (void)tappedOnScrollViewA:(UITapGestureRecognizer *)gesture
@@ -762,6 +897,78 @@ typedef enum {
     [self presentViewController:[self imagePickerController] animated:YES completion:nil];
 }
 
+// Panning hotspot A
+- (void)pannedHotspotA:(UIPanGestureRecognizer *)gesture
+{
+    // Get translation of the gesture within the scrollViewContainer
+    CGPoint touchPoint = [gesture translationInView:[self scrollViewContainer]];
+    
+    // Perform different actions based on the state of the gesture
+    switch([gesture state])
+    {
+        case UIGestureRecognizerStateBegan:
+        {
+            // Save the origin of the hotspot at the beginning of the gesture
+            [self setHotspotAStartPanOrigin:[[self hotspotA] frame].origin];
+            
+            break;
+        }
+        case UIGestureRecognizerStateChanged: // User is moving finger
+        {
+            // Keep the hotspot within certain bounds, based on the layoutState
+            switch(layoutState)
+            {
+                case LAYOUTSTATE_A_ONLY: // Image A only
+                {
+                    // Make sure the hotspot stays inside the scrollViewContainer and not overlapping the other
+                    // hotspot:
+                    
+                    // We always calculate the new position, but don't apply it if the hotspot shouldn't
+                    // move to this new position
+                    CGRect newFrame = [[self hotspotA] frame];
+                    newFrame.origin.x = [self hotspotAStartPanOrigin].x + touchPoint.x;
+                    newFrame.origin.y = [self hotspotAStartPanOrigin].y + touchPoint.y;
+                    
+                    // Calculate the center of this newFrame
+                    CGPoint newFrameCenter;
+                    newFrameCenter.x = newFrame.origin.x + (newFrame.size.width / 2);
+                    newFrameCenter.y = newFrame.origin.y + (newFrame.size.height / 2);
+                    
+                    // Calculate distance between the hotspots using this "candidate" frame and center
+                    CGVector hotspotToHotspot;
+                    hotspotToHotspot.dx = newFrameCenter.x - [[self hotspotB] center].x;
+                    hotspotToHotspot.dy = newFrameCenter.y - [[self hotspotB] center].y;
+                    
+                    CGFloat hotspotDistance = sqrt(pow(hotspotToHotspot.dx, 2) + pow(hotspotToHotspot.dy, 2));
+                    BOOL isNotOverlapping = hotspotDistance > WIDTH_HOTSPOT;
+                    // ^^ **Assumes the hotspots are square (width == height)
+                    
+                    // Is the hotspot within the bounds of scrollViewContainer?
+                    BOOL isInsideContainer = CGRectContainsRect([[self scrollViewContainer] frame], newFrame);
+                    
+                    // Check the conditions and set the new position if possible
+                    if(isInsideContainer && isNotOverlapping)
+                        // Apply the position change
+                        [[self hotspotA] setFrame:newFrame];
+                    
+                    break;
+                }
+            }
+            
+            break;
+        }
+            
+        default:
+            break;
+    }
+}
+
+// Panning hotspot B
+- (void)pannedHotspotB:(UIPanGestureRecognizer *)gesture
+{
+    
+}
+
 #pragma mark - Button handling
 - (IBAction)pressedBackArrow:(id)sender
 {
@@ -780,7 +987,7 @@ typedef enum {
                                                                                       message:errorMessage
                                                                                preferredStyle:UIAlertControllerStyleAlert];
                 [dismissAlert addAction:[UIAlertAction actionWithTitle:@"Cancel"
-                                                                 style:UIAlertActionStyleCancel
+                                                                 style:UIAlertActionStyleDefault
                                                                handler:nil]];
                 [dismissAlert addAction:[UIAlertAction actionWithTitle:@"Quit"
                                                                  style:UIAlertActionStyleDefault
@@ -799,8 +1006,8 @@ typedef enum {
                 UIAlertView *dismissAlert = [[UIAlertView alloc] initWithTitle:errorTitle
                                                                        message:errorMessage
                                                                       delegate:self
-                                                             cancelButtonTitle:@"Cancel"
-                                                             otherButtonTitles:@"Quit", nil];
+                                                             cancelButtonTitle:nil
+                                                             otherButtonTitles:@"Cancel", @"Quit", nil];
                 [dismissAlert show];
             }
             
@@ -808,22 +1015,29 @@ typedef enum {
         }
         case POSTINGSTATE_SPOTLIGHTS: // Going back from moving hotspots and adding hashtags to them
         {
-            // Unlock ScrollViews
-            [self unlockScrollViewForImage:PostLayoutImageA];
-            [self unlockScrollViewForImage:PostLayoutImageB];
-            
-            // Enable tap gesture recognizers
-            [[self tapScrollViewARecognizer] setEnabled:YES];
-            [[self tapScrollViewBRecognizer] setEnabled:YES];
-            
             // Show layout buttons, hide hotspot help label
             [UIView animateWithDuration:ANIM_DURATION_POST_LAYOUT_CHANGE
                              animations:^{
                                  [[self hotspotDirectionsLabel] setAlpha:0];
+                                 [[self hotspotA] setAlpha:0];
+                                 [[self hotspotB] setAlpha:0];
                                  [[self layoutButtonSingle] setAlpha:1];
                                  [[self layoutButtonLeftRight] setAlpha:1];
                                  [[self layoutButtonTopBottom] setAlpha:1];
-                             }];
+                             }
+             completion:^(BOOL finished) {
+                 // Remove hotspots from the scrollview(s)
+                 [[self hotspotA] removeFromSuperview];
+                 [[self hotspotB] removeFromSuperview];
+                 
+                 // Unlock ScrollViews
+                 [self unlockScrollViewForImage:PostLayoutImageA];
+                 [self unlockScrollViewForImage:PostLayoutImageB];
+                 
+                 // Enable tap gesture recognizers
+                 [[self tapScrollViewARecognizer] setEnabled:YES];
+                 [[self tapScrollViewBRecognizer] setEnabled:YES];
+             }];
             
             // Set state
             postState = POSTINGSTATE_PICTURES;
@@ -833,6 +1047,22 @@ typedef enum {
     }
 }
 
+// (for testing only)
+- (IBAction)uploadButtonPressed:(id)sender
+{
+    // Run the cropping in the background, since it can take a bit of time
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, kNilOptions), ^{
+        // Get the images cropped to their visible regions
+        UIImage *croppedImageA = [self cropToVisible:PostLayoutImageA];
+        UIImage *croppedImageB = [self cropToVisible:PostLayoutImageB];
+        
+        // Upload the pictures
+        if(croppedImageA != nil)
+            [self uploadImageA:croppedImageA imageB:croppedImageB];
+    });
+}
+
+
 - (IBAction)pressedNextButton:(id)sender
 {
     // Perform different actions based on which posting state we're in:
@@ -840,10 +1070,6 @@ typedef enum {
     {
         case POSTINGSTATE_PICTURES: // Selecting images and moving them around
         {
-            // Get the images cropped to their visible regions
-            UIImage *croppedImageA = [self cropToVisible:PostLayoutImageA];
-            UIImage *croppedImageB = [self cropToVisible:PostLayoutImageB];
-            
             // Error-check the image layout and display an alert dialog if there is a problem
             BOOL problemExists = [self validateImageLayout];
             
@@ -853,67 +1079,96 @@ typedef enum {
                 // Lock the ScrollViews
                 [self lockScrollViewForImage:PostLayoutImageA];
                 [self lockScrollViewForImage:PostLayoutImageB];
-            
+                
                 // Disable tap gesture recognizers
                 [[self tapScrollViewARecognizer] setEnabled:NO];
                 [[self tapScrollViewBRecognizer] setEnabled:NO];
+                
+                // Add the hotspots to scrollViewContainer.
+                // It would be nice to add the hotspots as subviews of the scrollviews themselves, but
+                // even if you disable scrolling and zooming, the hotspot's origin would be affected if
+                // the user had scrolled/panned/zoomed the scrollview at all.
+                [[self scrollViewContainer] addSubview:[self hotspotA]];
+                [[self scrollViewContainer] addSubview:[self hotspotB]];
+                
+                // Determine the hotspots' position
+                switch(layoutState)
+                {
+                    case LAYOUTSTATE_A_ONLY: // Only image A is visible
+                    case LAYOUTSTATE_LEFT_RIGHT: // Image A and B side-by-side
+                    {
+                        
+                        // Place them vertically centered and next to each other
+                        // e.g.
+                        // ---------
+                        // |   |   |
+                        // |   |   |
+                        // | O | O |<- vertical center
+                        // |   |   |
+                        // |   |   |
+                        // |   |   |
+                        // ---------
+                        //     ^ horiz. center
+                        
+                        CGSize scrollViewContainerSize = [[self scrollViewContainer] frame].size;
+                        CGRect hotspotAFrame = [[self hotspotA] frame];
+                        CGRect hotspotBFrame = [[self hotspotB] frame];
+                        
+                        hotspotAFrame.origin.x = (scrollViewContainerSize.width / 4) - (hotspotAFrame.size.width / 2);
+                        hotspotAFrame.origin.y = (scrollViewContainerSize.height / 2) - (hotspotAFrame.size.height / 2);
+                        hotspotBFrame.origin.x = (scrollViewContainerSize.width / 4 * 3) - (hotspotBFrame.size.width / 2);
+                        hotspotBFrame.origin.y = (scrollViewContainerSize.height / 2) - (hotspotBFrame.size.height / 2);
+                        
+                        // Apply these positions
+                        [[self hotspotA] setFrame:hotspotAFrame];
+                        [[self hotspotB] setFrame:hotspotBFrame];
+                        
+                        break;
+                    }
+                    case LAYOUTSTATE_TOP_BOTTOM: // Image A upper, image B lower
+                    {
+                        // ---------
+                        // |       |
+                        // |   O   |
+                        // |       |
+                        // |-------|<- vertical center
+                        // |       |
+                        // |   O   |
+                        // |       |
+                        // ---------
+                        //     ^ horiz. center
+                        
+                        // Place them centered in each scrollview
+                        CGSize scrollViewContainerSize = [[self scrollViewContainer] frame].size;
+                        CGRect hotspotAFrame = [[self hotspotA] frame];
+                        CGRect hotspotBFrame = [[self hotspotB] frame];
+                        
+                        hotspotAFrame.origin.x = (scrollViewContainerSize.width / 2) - (hotspotAFrame.size.width / 2);
+                        hotspotAFrame.origin.y = (scrollViewContainerSize.height / 4) - (hotspotAFrame.size.height / 2);
+                        hotspotBFrame.origin.x = (scrollViewContainerSize.width / 2) - (hotspotBFrame.size.width / 2);
+                        hotspotBFrame.origin.y = (scrollViewContainerSize.height / 4 * 3) - (hotspotBFrame.size.height / 2);
+                        
+                        // Apply these positions
+                        [[self hotspotA] setFrame:hotspotAFrame];
+                        [[self hotspotB] setFrame:hotspotBFrame];
+                        
+                        break;
+                    }
+                }
                 
                 // Hide layout buttons
                 [UIView animateWithDuration:ANIM_DURATION_POST_LAYOUT_CHANGE
                                  animations:^{
                                      [[self hotspotDirectionsLabel] setAlpha:1];
+                                     [[self hotspotA] setAlpha:1];
+                                     [[self hotspotB] setAlpha:1];
                                      [[self layoutButtonSingle] setAlpha:0];
                                      [[self layoutButtonLeftRight] setAlpha:0];
                                      [[self layoutButtonTopBottom] setAlpha:0];
                                  }];
                 
-                ////// A temporary way to check how the images look when they are off of the phone -- this code sends the
-                // image to a .php file with the following lines:
-                /*
-                 <?php
-                 
-                 move_uploaded_file($_FILES["image"]["tmp_name"], "./".$_FILES["image"]["name"]);
-                 move_uploaded_file($_FILES["image2"]["tmp_name"], "./".$_FILES["image2"]["name"]);
-                 
-                 ?>
-                 */
-                AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-                
-                [manager setRequestSerializer:[AFHTTPRequestSerializer serializer]];
-                [manager setResponseSerializer:[AFHTTPResponseSerializer serializer]];
-                
-                // Turn on network indicator
-                [[UserInfo user] setNetworkActivityIndicatorVisible:YES];
-                
-                [manager POST:@"http://10.1.0.144/imageupload.php"
-                   parameters:nil
-    constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        
-        [formData appendPartWithFileData:UIImageJPEGRepresentation(croppedImageA, 0.8) // 0.8 out of 1 is the quality
-                                    name:@"image"
-                                fileName:@"image.jpg"
-                                mimeType:@"image/jpeg"];
-        if(croppedImageB != nil)
-            [formData appendPartWithFileData:UIImageJPEGRepresentation(croppedImageB, 0.8)
-                                        name:@"image2"
-                                    fileName:@"image2.jpg"
-                                    mimeType:@"image/jpeg"];
-    }
-                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                          NSLog(@"Upload success!!");
-                          
-                          // Turn off network indicator
-                          [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
-                          
-                          // Change state
-                          postState = POSTINGSTATE_SPOTLIGHTS;
-                      }
-                      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                          NSLog(@"**!!** Network error! %@", error);
-                          
-                          // Turn off network indicator
-                          [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
-                      }];
+                // Change state
+                postState = POSTINGSTATE_SPOTLIGHTS;
             }
             
             break;

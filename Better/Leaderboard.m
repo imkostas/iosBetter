@@ -184,7 +184,7 @@
 	// The values are all strings.
 	
 	// Set up index (1, 2, 3, ....)
-	[[cell indexLabel] setText:[NSString stringWithFormat:@"%i", ([indexPath indexAtPosition:1] + 1)]];
+	[[cell indexLabel] setText:[NSString stringWithFormat:@"%u", ([indexPath indexAtPosition:1] + 1)]];
 	
 	// Set up profile picture (TO-DO) layer properties first
 	[[[cell profileImage] layer] setCornerRadius:(CGRectGetWidth([[cell profileImage] frame]) / 2)];

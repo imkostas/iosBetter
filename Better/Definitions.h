@@ -82,6 +82,13 @@
 #define RATIO_TEXTFIELD_ICON_TO_HEIGHT 2
 #define PADDING_TEXTFIELD_ICON 16
 
+// Line spacing
+#define LINE_SPACING_SPOTLIGHTS_HELPTEXT (-4)
+
+// Hotspot size
+#define WIDTH_HOTSPOT 100
+#define HEIGHT_HOTSPOT 100
+
 /**** Feed cells ****/
 #define MARGIN_FEEDCELL_SHADOWVIEW 8
 
@@ -156,7 +163,11 @@
 #define IMAGE_BADGE_TASTEMAKER_SILVER @"badge_silver_tastemaker"
 #define IMAGE_BADGE_TASTEMAKER_GOLD @"badge_gold_tastemaker"
 
-// Icons
+// Posting process
+#define IMAGE_POSTING_HOTSPOT_UNTAGGED @"posting_hotspot_untagged"
+#define IMAGE_POSTING_HOTSPOT_TAGGED @"posting_hotspot_tagged"
+
+/*** Icons ***/
 // Profile:
 #define ICON_ACCOUNT @"ic_account_circle_grey600_24dp"
 #define ICON_HTTPS @"ic_https_grey600_24dp"
