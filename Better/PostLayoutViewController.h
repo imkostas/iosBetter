@@ -10,6 +10,7 @@
 #import "Definitions.h"
 #import "UserInfo.h"
 #import "BELabel.h"
+#import "BETextField.h"
 
 @interface PostLayoutViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate, UIScrollViewDelegate>
 

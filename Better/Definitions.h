@@ -57,6 +57,9 @@
 #define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
 #define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
 
+// BETextField height
+#define HEIGHT_BETEXTFIELD 60
+
 // Drawer properties
 #define RATIO_DRAWER_RELEASE_THRESHOLD_TO_WIDTH 2.25
 

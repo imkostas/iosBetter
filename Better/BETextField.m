@@ -38,8 +38,8 @@
 - (CGRect)leftViewRectForBounds:(CGRect)bounds
 {
 	// Return empty rect if the view doesn't exist (probably shouldn't happen)
-	if(![super leftView])
-		return CGRectMake(0, 0, 0, 0);
+	if(![self leftImageView])
+        return [super leftViewRectForBounds:bounds];
 	
 	// Figure out where the view should go
 	CGRect leftViewBounds;
@@ -55,8 +55,8 @@
 - (CGRect)rightViewRectForBounds:(CGRect)bounds
 {
 	// Return empty rect if the view doesn't exist (probably shouldn't happen)
-	if(![super rightView])
-		return CGRectMake(0, 0, 0, 0);
+	if(![self rightImageView])
+        return [super rightViewRectForBounds:bounds];
 	
 	// Figure out where the view should go
 	CGRect rightViewBounds;

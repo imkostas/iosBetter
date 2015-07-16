@@ -23,6 +23,9 @@ typedef struct MinMaxZoomPair {
     CGFloat maxZoomScale;
 } MinMaxZoomPair;
 
+// An enumeration for which hotspot is being panned
+enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
+
 @interface PostLayoutViewController ()
 {
     /**
@@ -83,8 +86,18 @@ typedef struct MinMaxZoomPair {
 @property (nonatomic) CGPoint hotspotBStartPanOrigin; // remembers the origin of the hotspot when the pan began
 @property (strong, nonatomic) UIPanGestureRecognizer *panHotspotARecognizer;
 @property (strong, nonatomic) UIPanGestureRecognizer *panHotspotBRecognizer;
-- (void)pannedHotspotA:(UIPanGestureRecognizer *)gesture;
-- (void)pannedHotspotB:(UIPanGestureRecognizer *)gesture;
+@property (strong, nonatomic) UITapGestureRecognizer *tapHotspotARecognizer;
+@property (strong, nonatomic) UITapGestureRecognizer *tapHotspotBRecognizer;
+- (void)pannedHotspot:(UIPanGestureRecognizer *)gesture;
+- (void)tappedHotspot:(UITapGestureRecognizer *)gesture;
+- (void)moveHotspotsToDefaultPosition; // Resets the hotspots' positions by setting their frames
+
+// Respond to the keyboard showing and hiding (for animating the hashtag text field)
+- (void)keyboardWillShow:(NSNotification *)notification;
+- (void)keyboardWillHide:(NSNotification *)notification;
+- (void)keyboardWillChangeFrame:(NSNotification *)notification;
+@property (weak, nonatomic) NSLayoutConstraint *hashtagTextFieldBottomConstraint;
+// ^ keep reference to the bottom layout constraint of the hashtags text field
 
 // Keep a scrollview's subview centered when zooming out
 - (void)keepSubviewCenteredInScrollView:(UIScrollView *)scrollView;
@@ -104,6 +117,9 @@ typedef struct MinMaxZoomPair {
 
 // Upload an image (for testing)
 - (void)uploadImageA:(UIImage *)imageA imageB:(UIImage *)imageB;
+
+// A BETextField for typing hashtag labels into
+@property (strong, nonatomic) BETextField *hashtagTextField;
 
 @end
 
@@ -144,17 +160,23 @@ typedef struct MinMaxZoomPair {
     // Set them invisible for now
     [[self hotspotA] setAlpha:0];
     [[self hotspotB] setAlpha:0];
-    // Make them user-interactable (required for pan gestures to work)
+    // Make them user-interactable (required for pan/tap gestures to work)
     [[self hotspotA] setUserInteractionEnabled:YES];
     [[self hotspotB] setUserInteractionEnabled:YES];
     
-    // Set up hotspot pan gesture recognizers for dragging
-    [self setPanHotspotARecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pannedHotspotA:)]];
-    [self setPanHotspotBRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pannedHotspotB:)]];
-    
+    // Set up hotspot pan gesture recognizer for dragging
+    [self setPanHotspotARecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pannedHotspot:)]];
+    [self setPanHotspotBRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pannedHotspot:)]];
     // Add them to the hotspots
     [[self hotspotA] addGestureRecognizer:[self panHotspotARecognizer]];
     [[self hotspotB] addGestureRecognizer:[self panHotspotBRecognizer]];
+    
+    // Set up hotspot tap gesture recognizer for tagging
+    [self setTapHotspotARecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedHotspot:)]];
+    [self setTapHotspotBRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedHotspot:)]];
+    // Add them to the hotspots
+    [[self hotspotA] addGestureRecognizer:[self tapHotspotARecognizer]];
+    [[self hotspotB] addGestureRecognizer:[self tapHotspotBRecognizer]];
     
     // Set up initial UI
     [[self plusIconB] setAlpha:0];
@@ -194,6 +216,44 @@ typedef struct MinMaxZoomPair {
     [[self imagePickerController] setModalPresentationStyle:UIModalPresentationFullScreen];
     [[self imagePickerController] setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
     //    [[self imagePickerController] setAllowsEditing:YES];
+    
+    /** Set up the hashtags BETextField **/
+    [self setHashtagTextField:[[BETextField alloc] init]];
+    [[self hashtagTextField] setBackgroundColor:[UIColor whiteColor]];
+    [[self hashtagTextField] setTranslatesAutoresizingMaskIntoConstraints:NO]; // Want to use our own constraints
+    
+    // Set up the hashtags text field position
+    [[self view] addSubview:[self hashtagTextField]];
+    NSArray *leadingTrailingConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[textfield]|"
+                                                                                  options:NSLayoutFormatDirectionLeadingToTrailing
+                                                                                  metrics:nil
+                                                                                    views:@{@"textfield":[self hashtagTextField]}];
+    
+    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:[self hashtagTextField]
+                                                                        attribute:NSLayoutAttributeHeight
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:nil
+                                                                        attribute:NSLayoutAttributeNotAnAttribute
+                                                                       multiplier:1 constant:HEIGHT_BETEXTFIELD];
+    
+    NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:[self view]
+                                                                        attribute:NSLayoutAttributeBottom
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:[self hashtagTextField]
+                                                                        attribute:NSLayoutAttributeBottom
+                                                                       multiplier:1 constant:(-HEIGHT_BETEXTFIELD)];
+    // Save reference to bottom constraint
+    [self setHashtagTextFieldBottomConstraint:bottomConstraint];
+    
+    // Add constraints to this view
+    [[self view] addConstraints:leadingTrailingConstraints];
+    [[self view] addConstraint:heightConstraint];
+    [[self view] addConstraint:bottomConstraint];
+    
+    /** Listen for keyboard notifications **/
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 // After the layout has been done
@@ -211,7 +271,7 @@ typedef struct MinMaxZoomPair {
     
     // Set up the hotspot directions label
     NSString *directionsLineOne = @"Drag spotlights to desired\n";
-    NSString *directionsLineTwo = @"positions and double tap to tag.";
+    NSString *directionsLineTwo = @"positions and tap to tag.";
     NSString *directionsCombined = [directionsLineOne stringByAppendingString:directionsLineTwo];
     
     // Only increase the line spacing if there's enough vertical space for the label
@@ -897,11 +957,14 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
     [self presentViewController:[self imagePickerController] animated:YES completion:nil];
 }
 
-// Panning hotspot A
-- (void)pannedHotspotA:(UIPanGestureRecognizer *)gesture
+// Panning a hotspot
+- (void)pannedHotspot:(UIPanGestureRecognizer *)gesture
 {
     // Get translation of the gesture within the scrollViewContainer
     CGPoint touchPoint = [gesture translationInView:[self scrollViewContainer]];
+    
+    // Which hotspot is this?
+    int currentHotspot = ([gesture view] == [self hotspotA]) ? TARGETHOTSPOT_A : TARGETHOTSPOT_B;
     
     // Perform different actions based on the state of the gesture
     switch([gesture state])
@@ -909,47 +972,84 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         case UIGestureRecognizerStateBegan:
         {
             // Save the origin of the hotspot at the beginning of the gesture
-            [self setHotspotAStartPanOrigin:[[self hotspotA] frame].origin];
+            if(currentHotspot == TARGETHOTSPOT_A)
+                [self setHotspotAStartPanOrigin:[[self hotspotA] frame].origin];
+            else if(currentHotspot == TARGETHOTSPOT_B)
+                [self setHotspotBStartPanOrigin:[[self hotspotB] frame].origin];
             
             break;
         }
         case UIGestureRecognizerStateChanged: // User is moving finger
         {
+            // Select the correct hotspot
+            UIView *hotspotView = (currentHotspot == TARGETHOTSPOT_A) ? [self hotspotA] : [self hotspotB];
+            CGPoint hotspotStartPanOrigin = (currentHotspot == TARGETHOTSPOT_A) ? [self hotspotAStartPanOrigin] : [self hotspotBStartPanOrigin];
+            
+            // We always calculate the new position, but don't apply it if the hotspot shouldn't
+            // move to this new position.
+            CGRect newFrame = [hotspotView frame];
+            newFrame.origin.x = hotspotStartPanOrigin.x + touchPoint.x;
+            newFrame.origin.y = hotspotStartPanOrigin.y + touchPoint.y;
+            
+            // Find the center of this newFrame
+            CGPoint newFrameCenter;
+            newFrameCenter.x = newFrame.origin.x + (newFrame.size.width / 2);
+            newFrameCenter.y = newFrame.origin.y + (newFrame.size.height / 2);
+            
             // Keep the hotspot within certain bounds, based on the layoutState
             switch(layoutState)
             {
                 case LAYOUTSTATE_A_ONLY: // Image A only
                 {
-                    // Make sure the hotspot stays inside the scrollViewContainer and not overlapping the other
-                    // hotspot:
-                    
-                    // We always calculate the new position, but don't apply it if the hotspot shouldn't
-                    // move to this new position
-                    CGRect newFrame = [[self hotspotA] frame];
-                    newFrame.origin.x = [self hotspotAStartPanOrigin].x + touchPoint.x;
-                    newFrame.origin.y = [self hotspotAStartPanOrigin].y + touchPoint.y;
-                    
-                    // Calculate the center of this newFrame
-                    CGPoint newFrameCenter;
-                    newFrameCenter.x = newFrame.origin.x + (newFrame.size.width / 2);
-                    newFrameCenter.y = newFrame.origin.y + (newFrame.size.height / 2);
-                    
-                    // Calculate distance between the hotspots using this "candidate" frame and center
-                    CGVector hotspotToHotspot;
-                    hotspotToHotspot.dx = newFrameCenter.x - [[self hotspotB] center].x;
-                    hotspotToHotspot.dy = newFrameCenter.y - [[self hotspotB] center].y;
-                    
-                    CGFloat hotspotDistance = sqrt(pow(hotspotToHotspot.dx, 2) + pow(hotspotToHotspot.dy, 2));
-                    BOOL isNotOverlapping = hotspotDistance > WIDTH_HOTSPOT;
-                    // ^^ **Assumes the hotspots are square (width == height)
-                    
                     // Is the hotspot within the bounds of scrollViewContainer?
-                    BOOL isInsideContainer = CGRectContainsRect([[self scrollViewContainer] frame], newFrame);
+                    CGRect scrollViewFrame = [[self scrollViewContainer] frame];
+                    BOOL clearsLeft = newFrame.origin.x >= 0;
+                    BOOL clearsRight = (newFrame.origin.x + newFrame.size.width) <= scrollViewFrame.size.width;
+                    BOOL clearsTop = newFrame.origin.y >= 0;
+                    BOOL clearsBottom = (newFrame.origin.y + newFrame.size.height) <= scrollViewFrame.size.height;
                     
-                    // Check the conditions and set the new position if possible
-                    if(isInsideContainer && isNotOverlapping)
-                        // Apply the position change
-                        [[self hotspotA] setFrame:newFrame];
+                    // Check the x-axis:
+                    if(!clearsLeft)
+                        newFrame.origin.x = 0; // Lock to the left side
+                    else if(!clearsRight)
+                        newFrame.origin.x = scrollViewFrame.size.width - newFrame.size.width; // Lock to the right side
+                    
+                    // Check the y-axis:
+                    if(!clearsTop)
+                        newFrame.origin.y = 0; // Lock to the top
+                    else if(!clearsBottom)
+                        newFrame.origin.y = scrollViewFrame.size.height - newFrame.size.height; // Lock to the bottom
+                    
+                    // Set the new position
+                    [hotspotView setFrame:newFrame];
+                    
+                    break;
+                }
+                    
+                case LAYOUTSTATE_LEFT_RIGHT: // A | B
+                case LAYOUTSTATE_TOP_BOTTOM: // A / B
+                {
+                    // Is the hotspot within the bounds of its corresponding scrollview?
+                    CGRect scrollViewFrame = (currentHotspot == TARGETHOTSPOT_A) ? [[self scrollViewA] frame] : [[self scrollViewB] frame];
+                    BOOL clearsLeft = newFrame.origin.x >= scrollViewFrame.origin.x;
+                    BOOL clearsRight = (newFrame.origin.x + newFrame.size.width) <= scrollViewFrame.origin.x + scrollViewFrame.size.width;
+                    BOOL clearsTop = newFrame.origin.y >= scrollViewFrame.origin.y;
+                    BOOL clearsBottom = (newFrame.origin.y + newFrame.size.height) <= scrollViewFrame.origin.y + scrollViewFrame.size.height;
+                    
+                    // Check the x-axis:
+                    if(!clearsLeft)
+                        newFrame.origin.x = scrollViewFrame.origin.x; // Lock to the left side
+                    else if(!clearsRight)
+                        newFrame.origin.x = scrollViewFrame.origin.x + scrollViewFrame.size.width - newFrame.size.width; // Lock to the right side
+                    
+                    // Check the y-axis:
+                    if(!clearsTop)
+                        newFrame.origin.y = scrollViewFrame.origin.y; // Lock to the top
+                    else if(!clearsBottom)
+                        newFrame.origin.y = scrollViewFrame.origin.y + scrollViewFrame.size.height - newFrame.size.height; // Lock to the bottom
+                    
+                    // Set the new position
+                    [hotspotView setFrame:newFrame];
                     
                     break;
                 }
@@ -963,8 +1063,133 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
     }
 }
 
-// Panning hotspot B
-- (void)pannedHotspotB:(UIPanGestureRecognizer *)gesture
+// Tapping on hotspots
+- (void)tappedHotspot:(UITapGestureRecognizer *)gesture
+{
+    // Which hotspot is this?
+    int currentHotspot = ([gesture view] == [self hotspotA]) ? TARGETHOTSPOT_A : TARGETHOTSPOT_B;
+    
+    NSLog(@"Tapped on a hotspot");
+    
+    if(![[self hashtagTextField] isFirstResponder])
+    {
+        // Show da keyboard
+        [[self hashtagTextField] becomeFirstResponder];
+    }
+    else
+    {
+        [[self hashtagTextField] resignFirstResponder];
+    }
+}
+
+#pragma mark - Layout of UI
+// Places the hotspots in their default positions depending on the layout
+- (void)moveHotspotsToDefaultPosition
+{
+    // Determine the hotspots' position
+    switch(layoutState)
+    {
+        case LAYOUTSTATE_A_ONLY: // Only image A is visible
+        case LAYOUTSTATE_LEFT_RIGHT: // Image A and B side-by-side
+        {
+            
+            // Place them vertically centered and next to each other
+            // e.g.
+            // ---------
+            // |   |   |
+            // |   |   |
+            // | O | O |<- vertical center
+            // |   |   |
+            // |   |   |
+            // |   |   |
+            // ---------
+            //     ^ horiz. center
+            
+            CGSize scrollViewContainerSize = [[self scrollViewContainer] frame].size;
+            CGRect hotspotAFrame = [[self hotspotA] frame];
+            CGRect hotspotBFrame = [[self hotspotB] frame];
+            
+            hotspotAFrame.origin.x = (scrollViewContainerSize.width / 4) - (hotspotAFrame.size.width / 2);
+            hotspotAFrame.origin.y = (scrollViewContainerSize.height / 2) - (hotspotAFrame.size.height / 2);
+            hotspotBFrame.origin.x = (scrollViewContainerSize.width / 4 * 3) - (hotspotBFrame.size.width / 2);
+            hotspotBFrame.origin.y = (scrollViewContainerSize.height / 2) - (hotspotBFrame.size.height / 2);
+            
+            // Apply these positions
+            [[self hotspotA] setFrame:hotspotAFrame];
+            [[self hotspotB] setFrame:hotspotBFrame];
+            
+            break;
+        }
+        case LAYOUTSTATE_TOP_BOTTOM: // Image A upper, image B lower
+        {
+            // ---------
+            // |       |
+            // |   O   |
+            // |       |
+            // |-------|<- vertical center
+            // |       |
+            // |   O   |
+            // |       |
+            // ---------
+            //     ^ horiz. center
+            
+            // Place them centered in each scrollview
+            CGSize scrollViewContainerSize = [[self scrollViewContainer] frame].size;
+            CGRect hotspotAFrame = [[self hotspotA] frame];
+            CGRect hotspotBFrame = [[self hotspotB] frame];
+            
+            hotspotAFrame.origin.x = (scrollViewContainerSize.width / 2) - (hotspotAFrame.size.width / 2);
+            hotspotAFrame.origin.y = (scrollViewContainerSize.height / 4) - (hotspotAFrame.size.height / 2);
+            hotspotBFrame.origin.x = (scrollViewContainerSize.width / 2) - (hotspotBFrame.size.width / 2);
+            hotspotBFrame.origin.y = (scrollViewContainerSize.height / 4 * 3) - (hotspotBFrame.size.height / 2);
+            
+            // Apply these positions
+            [[self hotspotA] setFrame:hotspotAFrame];
+            [[self hotspotB] setFrame:hotspotBFrame];
+            
+            break;
+        }
+    }
+}
+
+//#pragma mark - Keyboard handling
+// Keyboard will show
+- (void)keyboardWillShow:(NSNotification *)notification
+{
+    // Get the ending frame of the keyboard and the animation duration
+    CGRect endingFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGFloat animDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    // Animate
+    [UIView animateWithDuration:animDuration
+                     animations:^{
+                         // Move textfield up with keyboard, and fade it in
+                         [[self hashtagTextFieldBottomConstraint] setConstant:CGRectGetHeight(endingFrame)];
+                         
+                         // Layout
+                         [[self view] layoutIfNeeded];
+                     }];
+}
+
+// Keyboard will hide
+- (void)keyboardWillHide:(NSNotification *)notification
+{
+    // Get the ending frame of the keyboard and the animation duration
+//    CGRect endingFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGFloat animDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    // Animate the change
+    [UIView animateWithDuration:animDuration
+                     animations:^{
+                         // Move textfield downward and fade it out simultaneously
+                         [[self hashtagTextFieldBottomConstraint] setConstant:-1 * CGRectGetHeight([[self hashtagTextField] bounds])];
+                         
+                         // Layout
+                         [[self view] layoutIfNeeded];
+                     }];
+}
+
+- (void)keyboardWillChangeFrame:(NSNotification *)notification
 {
     
 }
@@ -1091,70 +1316,8 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
                 [[self scrollViewContainer] addSubview:[self hotspotA]];
                 [[self scrollViewContainer] addSubview:[self hotspotB]];
                 
-                // Determine the hotspots' position
-                switch(layoutState)
-                {
-                    case LAYOUTSTATE_A_ONLY: // Only image A is visible
-                    case LAYOUTSTATE_LEFT_RIGHT: // Image A and B side-by-side
-                    {
-                        
-                        // Place them vertically centered and next to each other
-                        // e.g.
-                        // ---------
-                        // |   |   |
-                        // |   |   |
-                        // | O | O |<- vertical center
-                        // |   |   |
-                        // |   |   |
-                        // |   |   |
-                        // ---------
-                        //     ^ horiz. center
-                        
-                        CGSize scrollViewContainerSize = [[self scrollViewContainer] frame].size;
-                        CGRect hotspotAFrame = [[self hotspotA] frame];
-                        CGRect hotspotBFrame = [[self hotspotB] frame];
-                        
-                        hotspotAFrame.origin.x = (scrollViewContainerSize.width / 4) - (hotspotAFrame.size.width / 2);
-                        hotspotAFrame.origin.y = (scrollViewContainerSize.height / 2) - (hotspotAFrame.size.height / 2);
-                        hotspotBFrame.origin.x = (scrollViewContainerSize.width / 4 * 3) - (hotspotBFrame.size.width / 2);
-                        hotspotBFrame.origin.y = (scrollViewContainerSize.height / 2) - (hotspotBFrame.size.height / 2);
-                        
-                        // Apply these positions
-                        [[self hotspotA] setFrame:hotspotAFrame];
-                        [[self hotspotB] setFrame:hotspotBFrame];
-                        
-                        break;
-                    }
-                    case LAYOUTSTATE_TOP_BOTTOM: // Image A upper, image B lower
-                    {
-                        // ---------
-                        // |       |
-                        // |   O   |
-                        // |       |
-                        // |-------|<- vertical center
-                        // |       |
-                        // |   O   |
-                        // |       |
-                        // ---------
-                        //     ^ horiz. center
-                        
-                        // Place them centered in each scrollview
-                        CGSize scrollViewContainerSize = [[self scrollViewContainer] frame].size;
-                        CGRect hotspotAFrame = [[self hotspotA] frame];
-                        CGRect hotspotBFrame = [[self hotspotB] frame];
-                        
-                        hotspotAFrame.origin.x = (scrollViewContainerSize.width / 2) - (hotspotAFrame.size.width / 2);
-                        hotspotAFrame.origin.y = (scrollViewContainerSize.height / 4) - (hotspotAFrame.size.height / 2);
-                        hotspotBFrame.origin.x = (scrollViewContainerSize.width / 2) - (hotspotBFrame.size.width / 2);
-                        hotspotBFrame.origin.y = (scrollViewContainerSize.height / 4 * 3) - (hotspotBFrame.size.height / 2);
-                        
-                        // Apply these positions
-                        [[self hotspotA] setFrame:hotspotAFrame];
-                        [[self hotspotB] setFrame:hotspotBFrame];
-                        
-                        break;
-                    }
-                }
+                // Reset hotspots' position
+                [self moveHotspotsToDefaultPosition];
                 
                 // Hide layout buttons
                 [UIView animateWithDuration:ANIM_DURATION_POST_LAYOUT_CHANGE
@@ -1172,6 +1335,52 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
             }
             
             break;
+        }
+            
+        case POSTINGSTATE_SPOTLIGHTS: // Moving spotlights and tagging them
+        {
+            // Check if hotspots are overlapping (only applies to the first layout mode)
+            if(layoutState == LAYOUTSTATE_A_ONLY)
+            {
+                // Find distance between hotspots
+                CGVector hotspotToHotspot;
+                hotspotToHotspot.dx = [[self hotspotB] center].x - [[self hotspotA] center].x;
+                hotspotToHotspot.dy = [[self hotspotB] center].y - [[self hotspotA] center].y;
+                CGFloat hotspotDistance = sqrt(pow(hotspotToHotspot.dx, 2) + pow(hotspotToHotspot.dy, 2));
+                
+                // Check if distance is too small
+                if(hotspotDistance <= WIDTH_HOTSPOT) // <-- assumes hotspots are square !! (width == height)
+                {
+                    // Display an alert
+                    if([UIAlertController class]) // iOS 8+
+                    {
+                        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Overlapping Hotspots"
+                                                                                       message:@"Please make sure your hotspots do not overlap each other."
+                                                                                preferredStyle:UIAlertControllerStyleAlert];
+                        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+                        
+                        // Show alert
+                        [self presentViewController:alert animated:YES completion:nil];
+                        // Change tint color of alert
+                        [[alert view] setTintColor:COLOR_BETTER_DARK];
+                    }
+                    else // iOS 7
+                    {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Overlapping Hotspots"
+                                                                        message:@"Please make sure your hotspots do not overlap each other."
+                                                                       delegate:nil
+                                                              cancelButtonTitle:@"OK"
+                                                              otherButtonTitles:nil];
+                        [alert show];
+                    }
+                    
+                    // Move them back to the default positions
+                    [UIView animateWithDuration:ANIM_DURATION_POST_LAYOUT_CHANGE
+                                     animations:^{
+                                         [self moveHotspotsToDefaultPosition];
+                                     }];
+                }
+            }
         }
     }
 }
