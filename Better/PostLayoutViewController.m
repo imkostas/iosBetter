@@ -80,8 +80,8 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
 - (void)tappedOnScrollViewB:(UITapGestureRecognizer *)gesture;
 
 // UIImageViews to serve as spotlights/hotspots and UIPanGestureRecognizers for dragging the hotspots around
-@property (strong, nonatomic) UIImageView *hotspotA;
-@property (strong, nonatomic) UIImageView *hotspotB;
+@property (strong, nonatomic) BEPostingHotspotView *hotspotA;
+@property (strong, nonatomic) BEPostingHotspotView *hotspotB;
 @property (nonatomic) CGPoint hotspotAStartPanOrigin; // remembers the origin of the hotspot when the pan began
 @property (nonatomic) CGPoint hotspotBStartPanOrigin; // remembers the origin of the hotspot when the pan began
 @property (strong, nonatomic) UIPanGestureRecognizer *panHotspotARecognizer;
@@ -91,13 +91,6 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
 - (void)pannedHotspot:(UIPanGestureRecognizer *)gesture;
 - (void)tappedHotspot:(UITapGestureRecognizer *)gesture;
 - (void)moveHotspotsToDefaultPosition; // Resets the hotspots' positions by setting their frames
-
-// Respond to the keyboard showing and hiding (for animating the hashtag text field)
-- (void)keyboardWillShow:(NSNotification *)notification;
-- (void)keyboardWillHide:(NSNotification *)notification;
-- (void)keyboardWillChangeFrame:(NSNotification *)notification;
-@property (weak, nonatomic) NSLayoutConstraint *hashtagTextFieldBottomConstraint;
-// ^ keep reference to the bottom layout constraint of the hashtags text field
 
 // Keep a scrollview's subview centered when zooming out
 - (void)keepSubviewCenteredInScrollView:(UIScrollView *)scrollView;
@@ -117,9 +110,6 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
 
 // Upload an image (for testing)
 - (void)uploadImageA:(UIImage *)imageA imageB:(UIImage *)imageB;
-
-// A BETextField for typing hashtag labels into
-@property (strong, nonatomic) BETextField *hashtagTextField;
 
 @end
 
@@ -152,8 +142,8 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
     [[self scrollViewB] setMaximumZoomScale:MAX_ZOOM];
     
     // Set up hotspots
-    [self setHotspotA:[[UIImageView alloc] initWithImage:[UIImage imageNamed:IMAGE_POSTING_HOTSPOT_UNTAGGED]]];
-    [self setHotspotB:[[UIImageView alloc] initWithImage:[UIImage imageNamed:IMAGE_POSTING_HOTSPOT_UNTAGGED]]];
+    [self setHotspotA:[[BEPostingHotspotView alloc] initWithImage:[UIImage imageNamed:IMAGE_POSTING_HOTSPOT_UNTAGGED]]];
+    [self setHotspotB:[[BEPostingHotspotView alloc] initWithImage:[UIImage imageNamed:IMAGE_POSTING_HOTSPOT_UNTAGGED]]];
     // Set their sizes
     [[self hotspotA] setFrame:CGRectMake(0, 0, WIDTH_HOTSPOT, HEIGHT_HOTSPOT)];
     [[self hotspotB] setFrame:CGRectMake(0, 0, WIDTH_HOTSPOT, HEIGHT_HOTSPOT)];
@@ -163,6 +153,9 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
     // Make them user-interactable (required for pan/tap gestures to work)
     [[self hotspotA] setUserInteractionEnabled:YES];
     [[self hotspotB] setUserInteractionEnabled:YES];
+    // Set their delegate to this view controller
+    [[self hotspotA] setDelegate:self];
+    [[self hotspotB] setDelegate:self];
     
     // Set up hotspot pan gesture recognizer for dragging
     [self setPanHotspotARecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pannedHotspot:)]];
@@ -216,44 +209,6 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
     [[self imagePickerController] setModalPresentationStyle:UIModalPresentationFullScreen];
     [[self imagePickerController] setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
     //    [[self imagePickerController] setAllowsEditing:YES];
-    
-    /** Set up the hashtags BETextField **/
-    [self setHashtagTextField:[[BETextField alloc] init]];
-    [[self hashtagTextField] setBackgroundColor:[UIColor whiteColor]];
-    [[self hashtagTextField] setTranslatesAutoresizingMaskIntoConstraints:NO]; // Want to use our own constraints
-    
-    // Set up the hashtags text field position
-    [[self view] addSubview:[self hashtagTextField]];
-    NSArray *leadingTrailingConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[textfield]|"
-                                                                                  options:NSLayoutFormatDirectionLeadingToTrailing
-                                                                                  metrics:nil
-                                                                                    views:@{@"textfield":[self hashtagTextField]}];
-    
-    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:[self hashtagTextField]
-                                                                        attribute:NSLayoutAttributeHeight
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:nil
-                                                                        attribute:NSLayoutAttributeNotAnAttribute
-                                                                       multiplier:1 constant:HEIGHT_BETEXTFIELD];
-    
-    NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:[self view]
-                                                                        attribute:NSLayoutAttributeBottom
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:[self hashtagTextField]
-                                                                        attribute:NSLayoutAttributeBottom
-                                                                       multiplier:1 constant:(-HEIGHT_BETEXTFIELD)];
-    // Save reference to bottom constraint
-    [self setHashtagTextFieldBottomConstraint:bottomConstraint];
-    
-    // Add constraints to this view
-    [[self view] addConstraints:leadingTrailingConstraints];
-    [[self view] addConstraint:heightConstraint];
-    [[self view] addConstraint:bottomConstraint];
-    
-    /** Listen for keyboard notifications **/
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 // After the layout has been done
@@ -532,6 +487,31 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
     // Unlock the zoom -- re-set the max and min zoom
     [scrollView setMaximumZoomScale:MAX_ZOOM];
     [self updateMinimumZoomScaleForImage:image]; // Updates the minimum zoom
+}
+
+#pragma mark - BEPostingHotspotViewDelegate method
+// Called when a hashtag should be saved/applied
+- (void)postingHotspotView:(BEPostingHotspotView *)hotspotView didEndEditingHashtag:(NSString *)hashtag
+{
+    NSLog(@"ended editing the hashtag: %@", hashtag);
+    
+    // Which hotspot is this?
+    if(hotspotView == [self hotspotA])
+    {
+        // Is the hashtag empty?
+        if(hashtag == nil || [hashtag isEqualToString:@"#"])
+            [[self hotspotA] setImage:[UIImage imageNamed:IMAGE_POSTING_HOTSPOT_UNTAGGED]];
+        else // Non-empty
+            [[self hotspotA] setImage:[UIImage imageNamed:IMAGE_POSTING_HOTSPOT_TAGGED]];
+    }
+    else if(hotspotView == [self hotspotB])
+    {
+        // Is the hashtag empty?
+        if(hashtag == nil || [hashtag isEqualToString:@"#"])
+            [[self hotspotB] setImage:[UIImage imageNamed:IMAGE_POSTING_HOTSPOT_UNTAGGED]];
+        else // Non-empty
+            [[self hotspotB] setImage:[UIImage imageNamed:IMAGE_POSTING_HOTSPOT_TAGGED]];
+    }
 }
 
 #pragma mark - Navigation
@@ -916,9 +896,6 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
               
               // Turn off network indicator
               [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
-              
-              // Change state
-              postState = POSTINGSTATE_SPOTLIGHTS;
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
               NSLog(@"**!!** Network error! %@", error);
@@ -932,29 +909,69 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
 // Scroll View A tap
 - (void)tappedOnScrollViewA:(UITapGestureRecognizer *)gesture
 {
-    // Set the image that we are picking
-    targetImageState = TARGETIMAGE_A;
-    
-    // Set status bar to dark color if the image picker is opening the Photo Library
-    if([[self imagePickerController] sourceType] == UIImagePickerControllerSourceTypePhotoLibrary)
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-    
-    // Show the image picker
-    [self presentViewController:[self imagePickerController] animated:YES completion:nil];
+    // This tap has different behavior depending on the posting state--
+    // when selecting pictures, it will present the image picker. When adding
+    // hashtags, it will dismiss the hashtags keyboard
+    switch(postState)
+    {
+        case POSTINGSTATE_PICTURES:
+        {
+            // Set the image that we are picking
+            targetImageState = TARGETIMAGE_A;
+            
+            // Set status bar to dark color if the image picker is opening the Photo Library
+            if([[self imagePickerController] sourceType] == UIImagePickerControllerSourceTypePhotoLibrary)
+                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+            
+            // Show the image picker
+            [self presentViewController:[self imagePickerController] animated:YES completion:nil];
+            
+            break;
+        }
+            
+        case POSTINGSTATE_SPOTLIGHTS:
+        {
+            // Make the hotspots resign their first responder status
+            [[self hotspotA] resignFirstResponder];
+            [[self hotspotB] resignFirstResponder];
+            
+            break;
+        }
+    }
 }
 
 // Scroll View B tap
 - (void)tappedOnScrollViewB:(UITapGestureRecognizer *)gesture
 {
-    // Set the image that we are picking
-    targetImageState = TARGETIMAGE_B;
-    
-    // Set status bar to dark color if the image picker is opening the Photo Library
-    if([[self imagePickerController] sourceType] == UIImagePickerControllerSourceTypePhotoLibrary)
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-    
-    // Show the image picker
-    [self presentViewController:[self imagePickerController] animated:YES completion:nil];
+    // This tap has different behavior depending on the posting state--
+    // when selecting pictures, it will present the image picker. When adding
+    // hashtags, it will dismiss the hashtags keyboard
+    switch(postState)
+    {
+        case POSTINGSTATE_PICTURES:
+        {
+            // Set the image that we are picking
+            targetImageState = TARGETIMAGE_B;
+            
+            // Set status bar to dark color if the image picker is opening the Photo Library
+            if([[self imagePickerController] sourceType] == UIImagePickerControllerSourceTypePhotoLibrary)
+                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+            
+            // Show the image picker
+            [self presentViewController:[self imagePickerController] animated:YES completion:nil];
+            
+            break;
+        }
+            
+        case POSTINGSTATE_SPOTLIGHTS:
+        {
+            // Make the hotspots resign their first responder status
+            [[self hotspotA] resignFirstResponder];
+            [[self hotspotB] resignFirstResponder];
+            
+            break;
+        }
+    }
 }
 
 // Panning a hotspot
@@ -1069,16 +1086,23 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
     // Which hotspot is this?
     int currentHotspot = ([gesture view] == [self hotspotA]) ? TARGETHOTSPOT_A : TARGETHOTSPOT_B;
     
-    NSLog(@"Tapped on a hotspot");
+    // Dismiss keyboard
+    [[self hotspotA] resignFirstResponder];
+    [[self hotspotB] resignFirstResponder];
     
-    if(![[self hashtagTextField] isFirstResponder])
+    // Make first responder
+    switch(currentHotspot)
     {
-        // Show da keyboard
-        [[self hashtagTextField] becomeFirstResponder];
-    }
-    else
-    {
-        [[self hashtagTextField] resignFirstResponder];
+        case TARGETHOTSPOT_A:
+            [[self hotspotA] becomeFirstResponder];
+            break;
+            
+        case TARGETHOTSPOT_B:
+            [[self hotspotB] becomeFirstResponder];
+            break;
+            
+        default:
+            break;
     }
 }
 
@@ -1152,48 +1176,6 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
     }
 }
 
-//#pragma mark - Keyboard handling
-// Keyboard will show
-- (void)keyboardWillShow:(NSNotification *)notification
-{
-    // Get the ending frame of the keyboard and the animation duration
-    CGRect endingFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGFloat animDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    
-    // Animate
-    [UIView animateWithDuration:animDuration
-                     animations:^{
-                         // Move textfield up with keyboard, and fade it in
-                         [[self hashtagTextFieldBottomConstraint] setConstant:CGRectGetHeight(endingFrame)];
-                         
-                         // Layout
-                         [[self view] layoutIfNeeded];
-                     }];
-}
-
-// Keyboard will hide
-- (void)keyboardWillHide:(NSNotification *)notification
-{
-    // Get the ending frame of the keyboard and the animation duration
-//    CGRect endingFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGFloat animDuration = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    
-    // Animate the change
-    [UIView animateWithDuration:animDuration
-                     animations:^{
-                         // Move textfield downward and fade it out simultaneously
-                         [[self hashtagTextFieldBottomConstraint] setConstant:-1 * CGRectGetHeight([[self hashtagTextField] bounds])];
-                         
-                         // Layout
-                         [[self view] layoutIfNeeded];
-                     }];
-}
-
-- (void)keyboardWillChangeFrame:(NSNotification *)notification
-{
-    
-}
-
 #pragma mark - Button handling
 - (IBAction)pressedBackArrow:(id)sender
 {
@@ -1240,6 +1222,10 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         }
         case POSTINGSTATE_SPOTLIGHTS: // Going back from moving hotspots and adding hashtags to them
         {
+            // Dismiss keyboard
+            [[self hotspotA] resignFirstResponder];
+            [[self hotspotB] resignFirstResponder];
+            
             // Show layout buttons, hide hotspot help label
             [UIView animateWithDuration:ANIM_DURATION_POST_LAYOUT_CHANGE
                              animations:^{
@@ -1250,19 +1236,15 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
                                  [[self layoutButtonLeftRight] setAlpha:1];
                                  [[self layoutButtonTopBottom] setAlpha:1];
                              }
-             completion:^(BOOL finished) {
-                 // Remove hotspots from the scrollview(s)
-                 [[self hotspotA] removeFromSuperview];
-                 [[self hotspotB] removeFromSuperview];
-                 
-                 // Unlock ScrollViews
-                 [self unlockScrollViewForImage:PostLayoutImageA];
-                 [self unlockScrollViewForImage:PostLayoutImageB];
-                 
-                 // Enable tap gesture recognizers
-                 [[self tapScrollViewARecognizer] setEnabled:YES];
-                 [[self tapScrollViewBRecognizer] setEnabled:YES];
-             }];
+                             completion:^(BOOL finished) {
+                                 // Remove hotspots from the scrollview(s)
+                                 [[self hotspotA] removeFromSuperview];
+                                 [[self hotspotB] removeFromSuperview];
+                                 
+                                 // Unlock ScrollViews
+                                 [self unlockScrollViewForImage:PostLayoutImageA];
+                                 [self unlockScrollViewForImage:PostLayoutImageB];
+                             }];
             
             // Set state
             postState = POSTINGSTATE_PICTURES;
@@ -1304,10 +1286,6 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
                 // Lock the ScrollViews
                 [self lockScrollViewForImage:PostLayoutImageA];
                 [self lockScrollViewForImage:PostLayoutImageB];
-                
-                // Disable tap gesture recognizers
-                [[self tapScrollViewARecognizer] setEnabled:NO];
-                [[self tapScrollViewBRecognizer] setEnabled:NO];
                 
                 // Add the hotspots to scrollViewContainer.
                 // It would be nice to add the hotspots as subviews of the scrollviews themselves, but

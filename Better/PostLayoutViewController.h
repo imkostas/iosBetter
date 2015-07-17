@@ -10,9 +10,9 @@
 #import "Definitions.h"
 #import "UserInfo.h"
 #import "BELabel.h"
-#import "BETextField.h"
+#import "BEPostingHotspotView.h"
 
-@interface PostLayoutViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate, UIScrollViewDelegate>
+@interface PostLayoutViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate, UIScrollViewDelegate, BEPostingHotspotViewDelegate>
 
 // Outlets to the post's two potential images (here as "A" and "B"), which
 // are within UIScrollViews

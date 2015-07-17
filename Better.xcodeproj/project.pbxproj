@@ -84,6 +84,7 @@
 		D06F394D1B3305C700721FCE /* MyRanking.m in Sources */ = {isa = PBXBuildFile; fileRef = D06F394C1B3305C700721FCE /* MyRanking.m */; };
 		D06F39501B33219100721FCE /* ExtendedNavBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = D06F394F1B33219100721FCE /* ExtendedNavBarView.m */; };
 		D06F39531B3369A800721FCE /* Leaderboard.m in Sources */ = {isa = PBXBuildFile; fileRef = D06F39521B3369A800721FCE /* Leaderboard.m */; };
+		D07415621B59503900DAB004 /* BEPostingHotspotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D07415611B59503900DAB004 /* BEPostingHotspotView.m */; };
 		D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */ = {isa = PBXBuildFile; fileRef = D0835FB71B0CEDFB00D88412 /* BETextField.m */; };
 		D0835FBD1B0CF43B00D88412 /* ForgotPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = D0835FBC1B0CF43B00D88412 /* ForgotPassword.m */; };
 		D099018F1B0E35A900760CDF /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = D099018E1B0E35A900760CDF /* Profile.m */; };
@@ -228,6 +229,8 @@
 		D06F394F1B33219100721FCE /* ExtendedNavBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExtendedNavBarView.m; sourceTree = "<group>"; };
 		D06F39511B3369A800721FCE /* Leaderboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Leaderboard.h; sourceTree = "<group>"; };
 		D06F39521B3369A800721FCE /* Leaderboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Leaderboard.m; sourceTree = "<group>"; };
+		D07415601B59503900DAB004 /* BEPostingHotspotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEPostingHotspotView.h; sourceTree = "<group>"; };
+		D07415611B59503900DAB004 /* BEPostingHotspotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEPostingHotspotView.m; sourceTree = "<group>"; };
 		D0835FB61B0CEDFB00D88412 /* BETextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BETextField.h; sourceTree = "<group>"; };
 		D0835FB71B0CEDFB00D88412 /* BETextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BETextField.m; sourceTree = "<group>"; };
 		D0835FBB1B0CF43B00D88412 /* ForgotPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPassword.h; sourceTree = "<group>"; };
@@ -407,6 +410,8 @@
 				D04999E41B4D6EA600A52FD2 /* PostLayoutViewController.m */,
 				D04999E61B4D6FE700A52FD2 /* PostHashtagsViewController.h */,
 				D04999E71B4D6FE700A52FD2 /* PostHashtagsViewController.m */,
+				D07415601B59503900DAB004 /* BEPostingHotspotView.h */,
+				D07415611B59503900DAB004 /* BEPostingHotspotView.m */,
 			);
 			name = "Creating a Post";
 			sourceTree = "<group>";
@@ -1006,6 +1011,7 @@
 				D006D1651B2776C7008A48FA /* Settings.m in Sources */,
 				D05584EA1B31F1C1003FD842 /* BELabel.m in Sources */,
 				D04999E81B4D6FE700A52FD2 /* PostHashtagsViewController.m in Sources */,
+				D07415621B59503900DAB004 /* BEPostingHotspotView.m in Sources */,
 				D030579F1B20E85900F20072 /* (null) in Sources */,
 				D06629B21B4AD89900359261 /* FeedTopBottomCell.m in Sources */,
 				31C5CFD61B20E95800472161 /* Filter.m in Sources */,

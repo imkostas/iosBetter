@@ -10,4 +10,12 @@
 
 @interface PostHashtagsViewController : UIViewController
 
+// Hotspot hashtags (set by previous view controller)
+@property (strong, nonatomic) NSString *hotspotHashtagA;
+@property (strong, nonatomic) NSString *hotspotHashtagB;
+
+// Cropped images (set by previous view controller)
+@property (strong, nonatomic) UIImage *imageA;
+@property (strong, nonatomic) UIImage *imageB;
+
 @end
