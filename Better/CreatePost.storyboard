@@ -22,7 +22,7 @@
             </objects>
             <point key="canvasLocation" x="-336" y="382"/>
         </scene>
-        <!--Post-->
+        <!--New Post-->
         <scene sceneID="2h4-iY-vOR">
             <objects>
                 <viewController storyboardIdentifier="postLayoutViewController" id="Ue1-Lz-7Y0" customClass="PostLayoutViewController" sceneMemberID="viewController">
@@ -186,7 +186,7 @@
                             <constraint firstItem="XXD-K5-4Te" firstAttribute="top" secondItem="4D0-zu-gXs" secondAttribute="bottom" id="t5H-dp-rlL"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Post" id="j5N-w3-1tD">
+                    <navigationItem key="navigationItem" title="New Post" id="j5N-w3-1tD">
                         <barButtonItem key="leftBarButtonItem" image="ic_arrow_back_green_24dp" id="3rs-VV-KD8">
                             <connections>
                                 <action selector="pressedBackArrow:" destination="Ue1-Lz-7Y0" id="KvC-Vt-LFj"/>
@@ -216,7 +216,7 @@
             </objects>
             <point key="canvasLocation" x="402" y="382"/>
         </scene>
-        <!--Post Hashtags View Controller-->
+        <!--Add Tags-->
         <scene sceneID="rRY-JR-MRq">
             <objects>
                 <viewController id="TTb-Ab-ccE" customClass="PostHashtagsViewController" sceneMemberID="viewController">
@@ -227,8 +227,34 @@
                     <view key="view" contentMode="scaleToFill" id="kvU-Fd-LyS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TO GET MORE RELIABLE ADVICE, ADD TAGS FOR CONTEXT OR CREATE YOUR OWN" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="baU-p8-Uh1" customClass="BELabel">
+                                <rect key="frame" x="16" y="80" width="568" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tags are limited to 20 characters" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gCY-58-Wa9" customClass="BELabel">
+                                <rect key="frame" x="16" y="105" width="568" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="baU-p8-Uh1" secondAttribute="trailing" constant="16" id="7Je-9g-D51"/>
+                            <constraint firstItem="gCY-58-Wa9" firstAttribute="top" secondItem="baU-p8-Uh1" secondAttribute="bottom" constant="8" id="9j2-C2-ZEn"/>
+                            <constraint firstItem="gCY-58-Wa9" firstAttribute="leading" secondItem="kvU-Fd-LyS" secondAttribute="leading" constant="16" id="D8D-fN-aLy"/>
+                            <constraint firstItem="baU-p8-Uh1" firstAttribute="top" secondItem="H6s-9y-3Na" secondAttribute="bottom" constant="16" id="HWt-bJ-rTO"/>
+                            <constraint firstItem="baU-p8-Uh1" firstAttribute="leading" secondItem="kvU-Fd-LyS" secondAttribute="leading" constant="16" id="Pc7-4R-JcJ"/>
+                            <constraint firstAttribute="trailing" secondItem="gCY-58-Wa9" secondAttribute="trailing" constant="16" id="mlR-sR-a0w"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Add Tags" id="AE8-FV-VZ8"/>
+                    <connections>
+                        <outlet property="addTagsLabel" destination="baU-p8-Uh1" id="hs3-Ju-5W2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rsf-LK-Eug" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

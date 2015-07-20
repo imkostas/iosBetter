@@ -48,7 +48,6 @@
 	// Set up the navigation bar for Feed areas
 	[[self navigationBarCustom] setBarTintColor:COLOR_BETTER_DARK];
 	[[self navigationBarCustom] setTintColor:[UIColor whiteColor]];
-	[[self navigationBarCustom] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_NAVIGATION_BAR]}];
 	[[self navigationBarCustom] setTranslucent:NO];
 	
 	// Set title

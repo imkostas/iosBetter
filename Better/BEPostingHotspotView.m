@@ -105,6 +105,13 @@
     return [super resignFirstResponder];
 }
 
+// Override -isFirstResponder to be a "proxy" for isFirstResponder for the input accessory textfield
+- (BOOL)isFirstResponder
+{
+    // Is this object or the textfield input accessory view the first responder?
+    return ([super isFirstResponder] || [[self hashtagTextField] isFirstResponder]);
+}
+
 #pragma mark - Input accessory view
 // Provides an inputAccessoryView to show above the keyboard
 - (UIView *)inputAccessoryView
@@ -161,6 +168,12 @@
     // If the input accessory view textfield is not nil, apply the string to it
     if(_inputAccessoryView)
         [[self hashtagTextField] setText:[self hashtagString]];
+    
+    // Set image depending on empty/non-blank hashtag string
+    if(hashtagString == nil || [hashtagString isEqualToString:@"#"])
+        [self setImage:[UIImage imageNamed:IMAGE_POSTING_HOTSPOT_UNTAGGED]];
+    else // Non-empty
+        [self setImage:[UIImage imageNamed:IMAGE_POSTING_HOTSPOT_TAGGED]];
 }
 
 #pragma mark - UITextFieldDelegate methods
@@ -168,11 +181,13 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     // Save the hashtag in this object
-    [self setHashtagString:[[self hashtagTextField] text]];
+    [self setHashtagString:[textField text]];
     
-    // Notify the delegate that the hashtag should be applied
-    if([self delegate])
-        [[self delegate] postingHotspotView:self didEndEditingHashtag:[self hashtagString]];
+    // Set image depending on empty/non-blank hashtag string
+    if([textField text] == nil || [[textField text] isEqualToString:@"#"])
+        [self setImage:[UIImage imageNamed:IMAGE_POSTING_HOTSPOT_UNTAGGED]];
+    else // Non-empty
+        [self setImage:[UIImage imageNamed:IMAGE_POSTING_HOTSPOT_TAGGED]];
 }
 
 // Called when Return/Done button is pressed on keyboard
@@ -187,8 +202,16 @@
 // Called every time the user types or deletes a character; or pastes or deletes a selected range of text
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    // We want to keep the user from deleting the first character ("#")
-//    NSLog(@"replacing range (%i,%i) with string: %@", range.location, range.length, string);
+    // Enforce a maximum character limit
+    NSUInteger newLength = [[textField text] length] + [string length] - range.length;
+    if(newLength > MAX_LENGTH_HASHTAG)
+        return FALSE;
+    
+    // No spaces
+    if([string isEqualToString:@" "])
+        return FALSE;
+    
+    // Also, we want to keep the user from deleting the first character ("#")
     if(range.location == 0) // Starts with first char
     {
         if(range.length == 0 || range.length == 1) // User is changing only the first character (e.g. deleting it)

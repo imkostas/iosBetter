@@ -9,6 +9,15 @@
 #ifndef Better_Definitions_h
 #define Better_Definitions_h
 
+// Enums
+/**
+ An integer that keeps track of the state of the image layout in a New Post--there are three states:
+ (0) image A is fully shown, image B is hidden
+ (1) image A is on the left, image B is on the right
+ (2) image A is on the top, image B is on the bottom
+ */
+enum { LAYOUTSTATE_A_ONLY, LAYOUTSTATE_LEFT_RIGHT, LAYOUTSTATE_TOP_BOTTOM };
+
 // Storyboard filenames
 #define STORYBOARD_FILENAME_FEED @"Feed"
 #define STORYBOARD_FILENAME_SETTINGS @"Settings"
@@ -91,6 +100,9 @@
 // Hotspot size
 #define WIDTH_HOTSPOT 100
 #define HEIGHT_HOTSPOT 100
+
+// Maximum number of characters in a user-submitted hashtag
+#define MAX_LENGTH_HASHTAG 20
 
 /**** Feed cells ****/
 #define MARGIN_FEEDCELL_SHADOWVIEW 8

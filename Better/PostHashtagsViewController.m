@@ -18,6 +18,18 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    // Set background color
+    [[self view] setBackgroundColor:COLOR_LIGHT_LIGHT_GRAY];
+    
+    // Make label bold
+    [[self addTagsLabel] setEmphasized:YES];
+    
+    NSLog(@"coord A: (%.1f,%.1f)", [self hotspotACoordinate].x, [self hotspotACoordinate].y);
+    NSLog(@"coord B: (%.1f,%.1f)", [self hotspotBCoordinate].x, [self hotspotBCoordinate].y);
+    NSLog(@"hashtag A: %@", [self hotspotAHashtag]);
+    NSLog(@"hashtag B: %@", [self hotspotBHashtag]);
+    NSLog(@"layout: %i", [self imageLayout]);
 }
 
 - (void)didReceiveMemoryWarning

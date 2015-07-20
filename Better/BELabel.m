@@ -59,7 +59,7 @@
 	if(emphasized)
 	{
 		// Set font to Raleway bold, with the existing font size
-		UIFont *newFont = [UIFont fontWithName:FONT_RALEWAY_BOLD size:[[self font] pointSize]];
+		UIFont *newFont = [UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:[[self font] pointSize]];
 		[self setFont:newFont];
 		[self setAlpha:1];
 		_emphasized = TRUE;

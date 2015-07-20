@@ -28,13 +28,7 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
 
 @interface PostLayoutViewController ()
 {
-    /**
-     An integer that keeps track of the state of the image layout--there are three states:
-     (0) image A is fully shown, image B is hidden
-     (1) image A is on the left, image B is on the right
-     (2) image A is on the top, image B is on the bottom
-     */
-    enum { LAYOUTSTATE_A_ONLY, LAYOUTSTATE_LEFT_RIGHT, LAYOUTSTATE_TOP_BOTTOM };
+    // See definitions.h
     int layoutState;
     
     // An integer that keeps track of which image we are currently picking:
@@ -59,6 +53,10 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
 // Images to display within the UIScrollViews
 @property (strong, nonatomic) UIImageView *imageViewA;
 @property (strong, nonatomic) UIImageView *imageViewB;
+
+// Cropped images to pass to the next view controller
+@property (strong, nonatomic) UIImage *imageACropped;
+@property (strong, nonatomic) UIImage *imageBCropped;
 
 // CGSizes to remember what the original sizes of the UIImageViews are when taken from the image picker, because
 // when they are added to the scrollview, the scrollview changes its frame size to whatever it wants to, and
@@ -130,7 +128,6 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
     // Set up the navigation bar for Create Post area
     [[[self navigationController] navigationBar] setBarTintColor:COLOR_BETTER_DARK];
     [[[self navigationController] navigationBar] setTintColor:[UIColor whiteColor]];
-    [[[self navigationController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_NAVIGATION_BAR]}];
     [[[self navigationController] navigationBar] setTranslucent:NO];
     
     // Set up image ScrollViews
@@ -153,9 +150,6 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
     // Make them user-interactable (required for pan/tap gestures to work)
     [[self hotspotA] setUserInteractionEnabled:YES];
     [[self hotspotB] setUserInteractionEnabled:YES];
-    // Set their delegate to this view controller
-    [[self hotspotA] setDelegate:self];
-    [[self hotspotB] setDelegate:self];
     
     // Set up hotspot pan gesture recognizer for dragging
     [self setPanHotspotARecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pannedHotspot:)]];
@@ -489,40 +483,56 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
     [self updateMinimumZoomScaleForImage:image]; // Updates the minimum zoom
 }
 
-#pragma mark - BEPostingHotspotViewDelegate method
-// Called when a hashtag should be saved/applied
-- (void)postingHotspotView:(BEPostingHotspotView *)hotspotView didEndEditingHashtag:(NSString *)hashtag
+#pragma mark - Navigation
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSLog(@"ended editing the hashtag: %@", hashtag);
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
     
-    // Which hotspot is this?
-    if(hotspotView == [self hotspotA])
+    // Moving to hashtags view controller
+    if([[segue identifier] isEqualToString:STORYBOARD_ID_SEGUE_SHOW_HASHTAGS_SETUP])
     {
-        // Is the hashtag empty?
-        if(hashtag == nil || [hashtag isEqualToString:@"#"])
-            [[self hotspotA] setImage:[UIImage imageNamed:IMAGE_POSTING_HOTSPOT_UNTAGGED]];
-        else // Non-empty
-            [[self hotspotA] setImage:[UIImage imageNamed:IMAGE_POSTING_HOTSPOT_TAGGED]];
-    }
-    else if(hotspotView == [self hotspotB])
-    {
-        // Is the hashtag empty?
-        if(hashtag == nil || [hashtag isEqualToString:@"#"])
-            [[self hotspotB] setImage:[UIImage imageNamed:IMAGE_POSTING_HOTSPOT_UNTAGGED]];
-        else // Non-empty
-            [[self hotspotB] setImage:[UIImage imageNamed:IMAGE_POSTING_HOTSPOT_TAGGED]];
+        // Get destination view controller
+        PostHashtagsViewController *hashtagsVC = (PostHashtagsViewController *)[segue destinationViewController];
+        
+        // Send images to destination
+        [hashtagsVC setImageA:[self imageACropped]];
+        [hashtagsVC setImageB:[self imageBCropped]];
+        
+        // Send current layout
+        [hashtagsVC setImageLayout:layoutState];
+        
+        // Send hashtags
+        [hashtagsVC setHotspotAHashtag:[[self hotspotA] hashtagString]];
+        [hashtagsVC setHotspotBHashtag:[[self hotspotB] hashtagString]];
+        
+        // Send coordinates of hotspots
+        CGPoint hotspotALoc;
+        CGPoint hotspotBLoc;
+        
+        // The view to convert to is different depending on layoutState
+        switch(layoutState)
+        {
+            case LAYOUTSTATE_A_ONLY:
+                hotspotALoc = [[self scrollViewContainer] convertPoint:[[self hotspotA] center] toView:[self imageViewA]];
+                hotspotBLoc = [[self scrollViewContainer] convertPoint:[[self hotspotB] center] toView:[self imageViewA]];
+                break;
+                
+            case LAYOUTSTATE_LEFT_RIGHT:
+            case LAYOUTSTATE_TOP_BOTTOM:
+                hotspotALoc = [[self scrollViewContainer] convertPoint:[[self hotspotA] center] toView:[self imageViewA]];
+                hotspotBLoc = [[self scrollViewContainer] convertPoint:[[self hotspotB] center] toView:[self imageViewB]];
+                break;
+                
+            default:
+                break;
+        }
+        
+        [hashtagsVC setHotspotACoordinate:hotspotALoc];
+        [hashtagsVC setHotspotBCoordinate:hotspotBLoc];
     }
 }
-
-#pragma mark - Navigation
-/*
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 #pragma mark - Image processing
 // Crops either the A or B image to the portion that's visible
@@ -877,7 +887,7 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
     // Turn on network indicator
     [[UserInfo user] setNetworkActivityIndicatorVisible:YES];
     
-    [manager POST:@"http://10.1.0.144/imageupload.php"
+    [manager POST:@"http://192.168.0.109/imageupload.php"
        parameters:nil
 constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
     
@@ -1086,8 +1096,11 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
     // Which hotspot is this?
     int currentHotspot = ([gesture view] == [self hotspotA]) ? TARGETHOTSPOT_A : TARGETHOTSPOT_B;
     
-    // Dismiss keyboard
-    [[self hotspotA] resignFirstResponder];
+    // Dismiss keyboard if user taps on a different hotspot than the currently-selected one
+    if(currentHotspot == TARGETHOTSPOT_B && [[self hotspotA] isFirstResponder])
+        [[self hotspotA] resignFirstResponder];
+    
+    if(currentHotspot == TARGETHOTSPOT_A && [[self hotspotB] isFirstResponder])
     [[self hotspotB] resignFirstResponder];
     
     // Make first responder
@@ -1257,16 +1270,24 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
 // (for testing only)
 - (IBAction)uploadButtonPressed:(id)sender
 {
-    // Run the cropping in the background, since it can take a bit of time
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, kNilOptions), ^{
-        // Get the images cropped to their visible regions
-        UIImage *croppedImageA = [self cropToVisible:PostLayoutImageA];
-        UIImage *croppedImageB = [self cropToVisible:PostLayoutImageB];
-        
-        // Upload the pictures
-        if(croppedImageA != nil)
-            [self uploadImageA:croppedImageA imageB:croppedImageB];
-    });
+//    // Run the cropping in the background, since it can take a bit of time
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, kNilOptions), ^{
+//        // Get the images cropped to their visible regions
+//        UIImage *croppedImageA = [self cropToVisible:PostLayoutImageA];
+//        UIImage *croppedImageB = [self cropToVisible:PostLayoutImageB];
+//        
+//        // Save the cropped images
+//        [self setImageACropped:croppedImageA];
+//        [self setImageBCropped:croppedImageB];
+//        
+//        // Upload the pictures
+//        if(croppedImageA != nil)
+//            [self uploadImageA:croppedImageA imageB:croppedImageB];
+//    });
+    
+    // Upload the pictures
+    if(_imageACropped != nil)
+        [self uploadImageA:_imageACropped imageB:_imageBCropped];
 }
 
 
@@ -1283,6 +1304,17 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
             // Continue if there's no problem
             if(!problemExists)
             {
+                // Run the cropping in the background, since it can take a bit of time
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, kNilOptions), ^{
+                    // Get the images cropped to their visible regions
+                    UIImage *croppedImageA = [self cropToVisible:PostLayoutImageA];
+                    UIImage *croppedImageB = [self cropToVisible:PostLayoutImageB];
+                    
+                    // Save the cropped images
+                    [self setImageACropped:croppedImageA];
+                    [self setImageBCropped:croppedImageB];
+                });
+                
                 // Lock the ScrollViews
                 [self lockScrollViewForImage:PostLayoutImageA];
                 [self lockScrollViewForImage:PostLayoutImageB];
@@ -1358,6 +1390,11 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
                                          [self moveHotspotsToDefaultPosition];
                                      }];
                 }
+                else // Hotspots are fine
+                {
+                    // Segue to the next view controller (making hashtags)
+                    [self performSegueWithIdentifier:STORYBOARD_ID_SEGUE_SHOW_HASHTAGS_SETUP sender:self];
+                }
             }
         }
     }
@@ -1380,6 +1417,10 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
     {
         // Change state
         layoutState = LAYOUTSTATE_A_ONLY;
+        
+//        // Reset the hashtags
+//        [[self hotspotA] setHashtagString:@"#"];
+//        [[self hotspotB] setHashtagString:@"#"];
         
         // Change layout button states (changes their images)
         [[self layoutButtonSingle] setSelected:YES];
@@ -1419,6 +1460,10 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         // Change state
         layoutState = LAYOUTSTATE_LEFT_RIGHT;
         
+//        // Reset the hashtags
+//        [[self hotspotA] setHashtagString:@"#"];
+//        [[self hotspotB] setHashtagString:@"#"];
+        
         // Change layout button states (changes their images)
         [[self layoutButtonSingle] setSelected:NO];
         [[self layoutButtonLeftRight] setSelected:YES];
@@ -1457,6 +1502,10 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
     {
         // Change state
         layoutState = LAYOUTSTATE_TOP_BOTTOM;
+        
+//        // Reset the hashtags
+//        [[self hotspotA] setHashtagString:@"#"];
+//        [[self hotspotB] setHashtagString:@"#"];
         
         // Change layout button states (changes their images)
         [[self layoutButtonSingle] setSelected:NO];
