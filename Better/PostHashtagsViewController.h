@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "Definitions.h"
 #import "BELabel.h"
+#import "HashtagCellDeletable.h"
+#import "HashtagCellNoDelete.h"
 
-@interface PostHashtagsViewController : UIViewController
+@interface PostHashtagsViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, HashtagCellDeletableDelegate>
 
 // Type of layout (single, left-right, or top-bottom)
 @property (nonatomic) int imageLayout;
@@ -29,4 +31,15 @@
 
 // Outlet for the first line of 'instructions' (the only purpose of this is to be able to make it bold)
 @property (weak, nonatomic) IBOutlet BELabel *addTagsLabel;
+
+// Outlets to the upper and lower collection views
+@property (weak, nonatomic) IBOutlet UICollectionView *selectedTagsCollectionView;
+@property (weak, nonatomic) IBOutlet UICollectionView *suggestedTagsCollectionView;
+
+// Constraint for the upper collection view's height
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *selectedTagsCollectionViewHeight;
+
+// Actions for "Tap to Add Tags" button and "Post Your Question" button
+- (IBAction)pressedAddTagButton:(id)sender;
+- (IBAction)pressedPostButton:(id)sender;
 @end

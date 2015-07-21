@@ -99,6 +99,12 @@
 		D0D7CA971B0F89AB00363A39 /* IntroPageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D7CA961B0F89AB00363A39 /* IntroPageContent.m */; };
 		D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D7CA991B0F8E8E00363A39 /* IntroPage.m */; };
 		D0F347DC1B289829001950E4 /* MyAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F347DB1B289829001950E4 /* MyAccount.m */; };
+		D0FA295B1B5E8E1900F5B24C /* SuggestedTags.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0FA295A1B5E8E1900F5B24C /* SuggestedTags.plist */; };
+		D0FA29651B5E994400F5B24C /* HashtagCellDeletable.m in Sources */ = {isa = PBXBuildFile; fileRef = D0FA29631B5E994400F5B24C /* HashtagCellDeletable.m */; };
+		D0FA29661B5E994400F5B24C /* HashtagCellDeletable.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0FA29641B5E994400F5B24C /* HashtagCellDeletable.xib */; };
+		D0FA296A1B5E998E00F5B24C /* HashtagCellNoDelete.m in Sources */ = {isa = PBXBuildFile; fileRef = D0FA29681B5E998E00F5B24C /* HashtagCellNoDelete.m */; };
+		D0FA296B1B5E998E00F5B24C /* HashtagCellNoDelete.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0FA29691B5E998E00F5B24C /* HashtagCellNoDelete.xib */; };
+		D0FA29721B5EE52000F5B24C /* SelectedHashtagsFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D0FA29711B5EE52000F5B24C /* SelectedHashtagsFlowLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -260,6 +266,15 @@
 		D0D7CA991B0F8E8E00363A39 /* IntroPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroPage.m; sourceTree = "<group>"; };
 		D0F347DA1B289829001950E4 /* MyAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAccount.h; sourceTree = "<group>"; };
 		D0F347DB1B289829001950E4 /* MyAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAccount.m; sourceTree = "<group>"; };
+		D0FA295A1B5E8E1900F5B24C /* SuggestedTags.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SuggestedTags.plist; sourceTree = "<group>"; };
+		D0FA29621B5E994400F5B24C /* HashtagCellDeletable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashtagCellDeletable.h; sourceTree = "<group>"; };
+		D0FA29631B5E994400F5B24C /* HashtagCellDeletable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HashtagCellDeletable.m; sourceTree = "<group>"; };
+		D0FA29641B5E994400F5B24C /* HashtagCellDeletable.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HashtagCellDeletable.xib; sourceTree = "<group>"; };
+		D0FA29671B5E998E00F5B24C /* HashtagCellNoDelete.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashtagCellNoDelete.h; sourceTree = "<group>"; };
+		D0FA29681B5E998E00F5B24C /* HashtagCellNoDelete.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HashtagCellNoDelete.m; sourceTree = "<group>"; };
+		D0FA29691B5E998E00F5B24C /* HashtagCellNoDelete.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HashtagCellNoDelete.xib; sourceTree = "<group>"; };
+		D0FA29701B5EE52000F5B24C /* SelectedHashtagsFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedHashtagsFlowLayout.h; sourceTree = "<group>"; };
+		D0FA29711B5EE52000F5B24C /* SelectedHashtagsFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedHashtagsFlowLayout.m; sourceTree = "<group>"; };
 		EC28AD39D34D3975720338BA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -410,6 +425,8 @@
 				D04999E41B4D6EA600A52FD2 /* PostLayoutViewController.m */,
 				D04999E61B4D6FE700A52FD2 /* PostHashtagsViewController.h */,
 				D04999E71B4D6FE700A52FD2 /* PostHashtagsViewController.m */,
+				D0FA29611B5E963B00F5B24C /* Hashtag Cell */,
+				D0FA296C1B5EE45D00F5B24C /* Flow Layout subclass */,
 				D07415601B59503900DAB004 /* BEPostingHotspotView.h */,
 				D07415611B59503900DAB004 /* BEPostingHotspotView.m */,
 			);
@@ -535,6 +552,7 @@
 				D05584B31B31D119003FD842 /* Fonts */,
 				D05EF77C1B0B8E0700D01AE4 /* Definitions.h */,
 				D03DB44E1B1F4CAA00810E1E /* Countries.plist */,
+				D0FA295A1B5E8E1900F5B24C /* SuggestedTags.plist */,
 				D05EF7551B0B70EF00D01AE4 /* Info.plist */,
 				D05EF7561B0B70EF00D01AE4 /* main.m */,
 			);
@@ -807,6 +825,28 @@
 			name = MyAccount;
 			sourceTree = "<group>";
 		};
+		D0FA29611B5E963B00F5B24C /* Hashtag Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D0FA29621B5E994400F5B24C /* HashtagCellDeletable.h */,
+				D0FA29631B5E994400F5B24C /* HashtagCellDeletable.m */,
+				D0FA29641B5E994400F5B24C /* HashtagCellDeletable.xib */,
+				D0FA29671B5E998E00F5B24C /* HashtagCellNoDelete.h */,
+				D0FA29681B5E998E00F5B24C /* HashtagCellNoDelete.m */,
+				D0FA29691B5E998E00F5B24C /* HashtagCellNoDelete.xib */,
+			);
+			name = "Hashtag Cell";
+			sourceTree = "<group>";
+		};
+		D0FA296C1B5EE45D00F5B24C /* Flow Layout subclass */ = {
+			isa = PBXGroup;
+			children = (
+				D0FA29701B5EE52000F5B24C /* SelectedHashtagsFlowLayout.h */,
+				D0FA29711B5EE52000F5B24C /* SelectedHashtagsFlowLayout.m */,
+			);
+			name = "Flow Layout subclass";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -917,10 +957,13 @@
 				D05584D11B31D12A003FD842 /* Raleway-Medium.ttf in Resources */,
 				D05584EF1B320A1D003FD842 /* Settings.storyboard in Resources */,
 				D031CEE41B39E4D70039A9C1 /* LeaderboardTableViewCell.xib in Resources */,
+				D0FA29661B5E994400F5B24C /* HashtagCellDeletable.xib in Resources */,
+				D0FA296B1B5E998E00F5B24C /* HashtagCellNoDelete.xib in Resources */,
 				D05584D01B31D12A003FD842 /* Raleway-LightItalic.ttf in Resources */,
 				D05584D21B31D12A003FD842 /* Raleway-MediumItalic.ttf in Resources */,
 				D05584CA1B31D12A003FD842 /* Raleway-ExtraBold.ttf in Resources */,
 				D05584CD1B31D12A003FD842 /* Raleway-ExtraLightItalic.ttf in Resources */,
+				D0FA295B1B5E8E1900F5B24C /* SuggestedTags.plist in Resources */,
 				D00B29FA1B3898D600DB87EC /* BadgesCollectionViewCell.xib in Resources */,
 				D05584CC1B31D12A003FD842 /* Raleway-ExtraLight.ttf in Resources */,
 				D06629951B4AD7F900359261 /* FeedLeftRightCell.xib in Resources */,
@@ -993,6 +1036,7 @@
 				D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */,
 				D09901921B0E619300760CDF /* BEScrollingViewController.m in Sources */,
 				D031CEDF1B39DD900039A9C1 /* LeaderboardData.m in Sources */,
+				D0FA29721B5EE52000F5B24C /* SelectedHashtagsFlowLayout.m in Sources */,
 				D04999EF1B4D833500A52FD2 /* BEAlert.m in Sources */,
 				D066299F1B4AD84A00359261 /* BEHotspotView.m in Sources */,
 				D01CB7451B29D78D003DF616 /* Support.m in Sources */,
@@ -1017,12 +1061,14 @@
 				31C5CFD61B20E95800472161 /* Filter.m in Sources */,
 				D0F347DC1B289829001950E4 /* MyAccount.m in Sources */,
 				D0CD720B1B2B6237004A5765 /* MyRankingController.m in Sources */,
+				D0FA29651B5E994400F5B24C /* HashtagCellDeletable.m in Sources */,
 				D066299A1B4AD82200359261 /* FeedTableViewController.m in Sources */,
 				D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */,
 				D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */,
 				D06629A51B4AD86700359261 /* FeedCell.m in Sources */,
 				D06629A61B4AD86700359261 /* FeedCellHeader.m in Sources */,
 				D00B29F11B38491F00DB87EC /* BEPageViewController.m in Sources */,
+				D0FA296A1B5E998E00F5B24C /* HashtagCellNoDelete.m in Sources */,
 				D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */,
 				D04DEE851B30BE6000BF1557 /* UserCounts.m in Sources */,
 				D099018F1B0E35A900760CDF /* Profile.m in Sources */,

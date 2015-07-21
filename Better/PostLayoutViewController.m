@@ -503,9 +503,9 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
         // Send current layout
         [hashtagsVC setImageLayout:layoutState];
         
-        // Send hashtags
-        [hashtagsVC setHotspotAHashtag:[[self hotspotA] hashtagString]];
-        [hashtagsVC setHotspotBHashtag:[[self hotspotB] hashtagString]];
+        // Send hashtags (remove the "#" at the front)
+        [hashtagsVC setHotspotAHashtag:[[[self hotspotA] hashtagString] substringFromIndex:1]];
+        [hashtagsVC setHotspotBHashtag:[[[self hotspotB] hashtagString] substringFromIndex:1]];
         
         // Send coordinates of hotspots
         CGPoint hotspotALoc;
@@ -1392,9 +1392,15 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
                 }
                 else // Hotspots are fine
                 {
+                    NSLog(@"going next");
                     // Segue to the next view controller (making hashtags)
                     [self performSegueWithIdentifier:STORYBOARD_ID_SEGUE_SHOW_HASHTAGS_SETUP sender:self];
                 }
+            }
+            else // 2nd or 3rd layout
+            {
+                // Segue to the next view controller (making hashtags)
+                [self performSegueWithIdentifier:STORYBOARD_ID_SEGUE_SHOW_HASHTAGS_SETUP sender:self];
             }
         }
     }

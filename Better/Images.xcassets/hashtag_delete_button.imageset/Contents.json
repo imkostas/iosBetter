@@ -2,18 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "initial_bg.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "initial_bg@2x.png"
+      "filename" : "hashtag_delete_button@2x.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "initial_bg@3x.png"
+      "filename" : "hashtag_delete_button@3x.png"
     }
   ],
   "info" : {

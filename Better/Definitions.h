@@ -61,6 +61,12 @@ enum { LAYOUTSTATE_A_ONLY, LAYOUTSTATE_LEFT_RIGHT, LAYOUTSTATE_TOP_BOTTOM };
 #define REUSE_ID_MYINFORMATION_TABLECELL @"myInfoTableViewCell"
 #define REUSE_ID_BADGES_COLLECTION_CELL @"badgesCollectionViewCell"
 #define REUSE_ID_LEADERBOARD_TABLECELL @"leaderboardTableViewCell"
+#define REUSE_ID_HASHTAG_COLLECTION_CELL_DELETABLE @"hashtagCellDeletable"
+#define REUSE_ID_HASHTAG_COLLECTION_CELL_NO_DELETE @"hashtagCellNoDelete"
+
+// Nib filenames
+#define NIB_NAME_HASHTAG_COLLECTION_CELL_DELETABLE @"HashtagCellDeletable"
+#define NIB_NAME_HASHTAG_COLLECTION_CELL_NO_DELETE @"HashtagCellNoDelete"
 
 // Screen width and height
 #define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
@@ -128,6 +134,7 @@ enum { LAYOUTSTATE_A_ONLY, LAYOUTSTATE_LEFT_RIGHT, LAYOUTSTATE_TOP_BOTTOM };
 #define COLOR_FEED_HASHTAGS_CUSTOM [UIColor blackColor]
 
 #define COLOR_CREATEPOST_LAYOUT_SWITCHER [UIColor colorWithWhite:66/255. alpha:1.0] // 0x42
+#define COLOR_CREATEPOST_HASH_CHARACTER [UIColor colorWithWhite:0.75 alpha:1.0]
 
 // Alpha values
 #define ALPHA_FEED_OVERLAY 0.65
@@ -263,6 +270,7 @@ enum { LAYOUTSTATE_A_ONLY, LAYOUTSTATE_LEFT_RIGHT, LAYOUTSTATE_TOP_BOTTOM };
 #define FONT_RALEWAY_SEMIBOLD @"Raleway-SemiBold"
 #define FONT_SIZE_SEGMENTED_CONTROL [UIFont systemFontSize]
 #define FONT_SIZE_NAVIGATION_BAR 17
+#define FONT_SIZE_HASHTAG_ADDING_TAGS 15
 
 // From organic parking
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)

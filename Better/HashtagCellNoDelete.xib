@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="hashtagCellNoDelete" id="gTV-IL-0wX" customClass="HashtagCellNoDelete">
+            <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Au-V7-vcg" userLabel="Hashtag" customClass="BELabel">
+                        <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="6Au-V7-vcg" secondAttribute="trailing" id="9Ka-TF-khI"/>
+                <constraint firstItem="6Au-V7-vcg" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="LZn-lO-3gd"/>
+                <constraint firstItem="6Au-V7-vcg" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Vft-sh-JJR"/>
+                <constraint firstAttribute="bottom" secondItem="6Au-V7-vcg" secondAttribute="bottom" id="iXY-Rc-D07"/>
+            </constraints>
+            <connections>
+                <outlet property="hashtagLabel" destination="6Au-V7-vcg" id="Zvf-d3-rbt"/>
+            </connections>
+        </collectionViewCell>
+    </objects>
+</document>

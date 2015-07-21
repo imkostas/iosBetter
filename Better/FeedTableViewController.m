@@ -60,6 +60,9 @@
 // run auto layout on it just yet
 - (void)viewWillLayoutSubviews
 {
+    // Call super
+    [super viewWillLayoutSubviews];
+    
 	/** Initialize the dummy cell and add it to [self view], but don't tell it to run auto-layout just yet **/
 	 
 	_dummyCell = (FeedCell *)[[self tableView] dequeueReusableCellWithIdentifier:@"feedSingleImageCell"];
@@ -77,6 +80,9 @@
 // of the TableView)
 - (void)viewDidLayoutSubviews
 {
+    // Call super
+    [super viewDidLayoutSubviews];
+    
 	// 2 --> height of the hairline separator between the header of a post and the images below it
 	// 98 --> height of the header UIView with 1 line of hashtags (contains hashtags, username, etc.)
 	rowHeightEstimate = CGRectGetWidth([[self tableView] bounds]) + 2 + 98;
