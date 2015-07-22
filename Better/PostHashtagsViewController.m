@@ -21,11 +21,17 @@
     CGFloat hashtagLabelOneLineHeight;
 }
 
-// Array of suggested hashtags (NSStrings), loaded from SuggestedTags.plist
+// Array of pairs of strings and BOOLs, loaded from SuggestedTags.plist.
 @property (strong, nonatomic) NSArray *suggestedTags;
 
 // Array of currently-selected tags (NSStrings), presented by the upper collectionview (selectedTagsCollectionView)
 @property (strong, nonatomic) NSMutableArray *selectedTags;
+
+// Returns whether or not we can add another hashtag to the selectedTags array
+- (BOOL)canAddNewHashtag;
+
+// Returns whether or not we can add another hashtag to the selectedTags array
+- (BOOL)addNewSelectedHashtag:(NSString *)hashtag;
 
 @end
 
@@ -49,14 +55,30 @@
     // Set up first label (Tap to add tags...)
     [[self addTagsLabel] setEmphasized:YES];
     
+    // Set the delegate of the Add Tags button to this object
+    [[self addTagButton] setDelegate:self];
+    
     // Create a dummy BELabel (the only attribute that it needs is a font size of 15 pt)
     dummyHashtagLabel = [[BELabel alloc] init];
     [dummyHashtagLabel setFont:[UIFont fontWithName:FONT_RALEWAY_MEDIUM size:FONT_SIZE_HASHTAG_ADDING_TAGS]];
     
     // Load the suggested tags plist
     NSDictionary *suggestedTagsPlistContents = [[NSDictionary alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SuggestedTags" ofType:@"plist"]];
+    
     // Retrieve the "Tags" array from the plist
-    _suggestedTags = [suggestedTagsPlistContents objectForKey:@"Tags"];
+    NSArray *suggestedTagsArray = [suggestedTagsPlistContents objectForKey:@"Tags"];
+    
+    // Loop through the array and create SuggestedTagPair structs for each suggested tag
+    NSMutableArray *arrayToSave = [[NSMutableArray alloc] initWithCapacity:[suggestedTagsArray count]];
+    for(NSString *hashtag in suggestedTagsArray)
+    {
+        // Create a SuggestedTag and add it to the mutable array
+        SuggestedTag *hashtagPair = [[SuggestedTag alloc] initWithHashtag:hashtag selected:NO];
+        [arrayToSave addObject:hashtagPair];
+    }
+    
+    // Save this new array of SuggestedTags
+    _suggestedTags = [NSArray arrayWithArray:arrayToSave];
     
     // Add the two hashtags from the previous viewcontroller to the selectedTags array
     _selectedTags = [[NSMutableArray alloc] initWithObjects:[self hotspotAHashtag], [self hotspotBHashtag], nil];
@@ -76,6 +98,9 @@
     // Register nib file for the available tags collection view (needs the non-deletable type)
     [[self suggestedTagsCollectionView] registerNib:[UINib nibWithNibName:NIB_NAME_HASHTAG_COLLECTION_CELL_NO_DELETE bundle:[NSBundle mainBundle]]
                          forCellWithReuseIdentifier:REUSE_ID_HASHTAG_COLLECTION_CELL_NO_DELETE];
+    
+    // Layout
+    [[self selectedTagsCollectionView] setCollectionViewLayout:[[SelectedHashtagsFlowLayout alloc] init]];
     
     NSLog(@"coord A: (%.1f,%.1f)", [self hotspotACoordinate].x, [self hotspotACoordinate].y);
     NSLog(@"coord B: (%.1f,%.1f)", [self hotspotBCoordinate].x, [self hotspotBCoordinate].y);
@@ -119,10 +144,9 @@
 // Called when user presses "Tap to Add Tags" button
 - (IBAction)pressedAddTagButton:(id)sender
 {
-    [[self selectedTags] addObject:@"123"];
-    NSUInteger indexOfInsertedItem = [[self selectedTags] count] - 1;
-    
-    [[self selectedTagsCollectionView] insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:indexOfInsertedItem inSection:0]]];
+    // Show the hashtag entry textfield
+    if(![[self addTagButton] isFirstResponder])
+        [[self addTagButton] becomeFirstResponder];
 }
 
 // Called when user presses "Post Your Question"
@@ -131,10 +155,25 @@
     
 }
 
+#pragma mark - BEAddTagButtonDelegate method
+// Called when the user is done entering their custom hashtag
+- (void)addTagButton:(BEAddTagButton *)button finishedNewHashtag:(NSString *)hashtagString
+{
+    // Clear out the current text in the textfield
+    [button setHashtagString:@"#"];
+    
+    // If the hashtag is valid, add it to the tags list
+    if(![hashtagString isEqualToString:@"#"] && ![hashtagString isEqualToString:@""])
+        [self addNewSelectedHashtag:[hashtagString substringFromIndex:1]];
+}
+
 #pragma mark - UICollectionViewDataSource methods
 // Return a new cell for the collection views to use
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    // Resize to fit contents
+    [[self selectedTagsCollectionViewHeight] setConstant:[[self selectedTagsCollectionView] contentSize].height];
+    
     // Upper collection view (selected hashtags -- mix of non-deletable and deletable)
     if(collectionView == [self selectedTagsCollectionView])
     {
@@ -143,6 +182,10 @@
         {
             // Dequeue a cell and return it
             HashtagCellNoDelete *cell = (HashtagCellNoDelete *)[collectionView dequeueReusableCellWithReuseIdentifier:REUSE_ID_HASHTAG_COLLECTION_CELL_NO_DELETE forIndexPath:indexPath];
+            
+            // Call willDisplayCell for ios 7
+            if(!isIOS8OrAbove)
+                [self collectionView:collectionView willDisplayCell:cell forItemAtIndexPath:indexPath];
             
             return cell;
         }
@@ -155,6 +198,10 @@
             // on this cell)
             [cell setDelegate:self];
             
+            // Call willDisplayCell for ios 7
+            if(!isIOS8OrAbove)
+                [self collectionView:collectionView willDisplayCell:cell forItemAtIndexPath:indexPath];
+            
             return cell;
         }
     }
@@ -163,6 +210,10 @@
     {
         // Dequeue a cell and return it
         HashtagCellNoDelete *cell = (HashtagCellNoDelete *)[collectionView dequeueReusableCellWithReuseIdentifier:REUSE_ID_HASHTAG_COLLECTION_CELL_NO_DELETE forIndexPath:indexPath];
+        
+        // Call willDisplayCell for ios 7
+        if(!isIOS8OrAbove)
+            [self collectionView:collectionView willDisplayCell:cell forItemAtIndexPath:indexPath];
         
         return cell;
     }
@@ -244,18 +295,73 @@
         HashtagCellNoDelete *thisCell = (HashtagCellNoDelete *)cell;
         
         // Set the hashtag text to a suggested tag
-        NSString *hashtagString = [@"#" stringByAppendingString:[[self suggestedTags] objectAtIndex:[indexPath item]]];
+        SuggestedTag *thisTag = [[self suggestedTags] objectAtIndex:[indexPath item]];
+        NSString *hashtagString = [@"#" stringByAppendingString:[thisTag hashtag]];
         
-        // Make the "#" a light gray
+        // Make the "#" a light gray, and the hashtag a light gray also IF it has been selected
         NSMutableAttributedString *hashtagStringAttributed = [[NSMutableAttributedString alloc] initWithString:hashtagString];
         NSRange firstCharRange = {0, 1};
         [hashtagStringAttributed addAttribute:NSForegroundColorAttributeName value:COLOR_CREATEPOST_HASH_CHARACTER range:firstCharRange];
+        
+        // If the tag has been selected
+        if([thisTag isSelected])
+        {
+            // Color the whole hashtag a gray color
+            NSRange wholeRange = {0, [hashtagString length]};
+            [hashtagStringAttributed addAttribute:NSForegroundColorAttributeName value:COLOR_CREATEPOST_HASH_CHARACTER range:wholeRange];
+        }
         
         // Apply the text
         [[thisCell hashtagLabel] setAttributedText:hashtagStringAttributed];
     }
     
-    [[self selectedTagsCollectionViewHeight] setConstant:[[self selectedTagsCollectionView] contentSize].height];
+//    // Resize to fit contents
+//    [[self selectedTagsCollectionViewHeight] setConstant:[[self selectedTagsCollectionView] contentSize].height];
+//    [[self view] layoutIfNeeded];
+}
+
+// Called when the user taps on a cell in a collectionview
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Retrieve the correct SuggestedTag object
+    SuggestedTag *thisTag = [[self suggestedTags] objectAtIndex:[indexPath item]];
+    
+    // Add this tag to the selected tags array if possible
+    if([self addNewSelectedHashtag:[thisTag hashtag]])
+    {
+        [thisTag setSelected:YES]; // Mark this hashtag as 'selected' in _suggestedTags
+        [[self suggestedTagsCollectionView] reloadItemsAtIndexPaths:@[indexPath]];
+    }
+}
+
+// Called when the user taps on a cell in a collectionview, but before -didSelectItemAtIndexPath...
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Lower collection view only (suggested tags)
+    if(collectionView == [self suggestedTagsCollectionView])
+    {
+        // Retrieve the correct SuggestedTag object
+        SuggestedTag *thisTag = [[self suggestedTags] objectAtIndex:[indexPath item]];
+        
+        // Don't proceed if this hashtag has already been selected
+        if([thisTag isSelected] || ![self canAddNewHashtag])
+            return FALSE;
+        else
+            return TRUE;
+    }
+    else
+        return TRUE;
+}
+
+// Always return FALSE --> no highlighting or menus
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Same behavior as -shouldSelectItem
+    return [self collectionView:collectionView shouldSelectItemAtIndexPath:indexPath];
+}
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return FALSE;
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout methods
@@ -310,19 +416,10 @@
     UIEdgeInsets insets;
     
     if(collectionView == [self selectedTagsCollectionView])
-    {
-        insets.top = 16;
-        insets.left = 16;
-        insets.bottom = 16;
-        insets.right = 16;
-    }
+        insets = EDGEINSETS_SELECTED_TAGS_COLLECTIONVIEW;
+    
     else if(collectionView == [self suggestedTagsCollectionView])
-    {
-        insets.top = 4;
-        insets.left = 16;
-        insets.bottom = 4;
-        insets.right = 16;
-    }
+        insets = EDGEINSETS_SUGGESTED_TAGS_COLLECTIONVIEW;
     
     return insets;
 }
@@ -330,13 +427,13 @@
 // Minimum inter-item spacing
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 8;
+    return MINIMUM_INTERITEM_SPACING_SELECTED_TAGS_COLLECTIONVIEW;
 }
 
 // Minimum line spacing
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 8;
+    return MINIMUM_INTERITEM_SPACING_SELECTED_TAGS_COLLECTIONVIEW;
 }
 
 #pragma mark - HashtagCellDeletableDelegate method
@@ -351,8 +448,82 @@
     // Remove it
     [[self selectedTags] removeObjectAtIndex:indexToRemove];
     
+    // Search through the suggested tags to check if we just removed a suggested tag
+    for(unsigned int i = 0; i < [[self suggestedTags] count]; i++)
+    {
+        SuggestedTag *tag = [[self suggestedTags] objectAtIndex:i];
+        
+        // Found a match (deleted a suggested string)
+        if([hashtagString isEqualToString:[tag hashtag]])
+        {
+            // De-select the tag and reload it
+            [tag setSelected:NO];
+            [[self suggestedTagsCollectionView] reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:i inSection:0]]];
+            
+            // Stop loop
+            break;
+        }
+    }
+    
+    // Re-enable the add tags button if possible
+    if([self canAddNewHashtag])
+    {
+        [[self addTagButton] setTitle:@"TAP TO ADD TAGS" forState:UIControlStateNormal];
+        [[self addTagButton] setEnabled:YES];
+    }
+    
     // Reload the selected tags collectionview
-    [[self selectedTagsCollectionView] deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:indexToRemove inSection:0]]];
+    [[self selectedTagsCollectionView] reloadData];
+    
+    // Resize to fit contents
+    [[self selectedTagsCollectionViewHeight] setConstant:[[self selectedTagsCollectionView] contentSize].height];
+    [[self view] layoutIfNeeded];
+}
+
+#pragma mark - Hashtag management
+// Returns TRUE if there is space for another tag in the list of hashtags
+- (BOOL)canAddNewHashtag
+{
+    if([[self selectedTags] count] < MAX_NUMBER_OF_HASHTAGS)
+        return TRUE;
+    else
+        return FALSE;
+}
+
+// Returns TRUE if there is space for another tag in the list of hashtags
+- (BOOL)addNewSelectedHashtag:(NSString *)hashtag
+{
+    // Don't add if the tag is already there
+    for(NSString *tag in [self selectedTags])
+    {
+        if([tag isEqualToString:hashtag])
+            return FALSE;
+    }
+    
+    // Also check if there is enough space for another hashtag
+    if([[self selectedTags] count] < MAX_NUMBER_OF_HASHTAGS)
+    {
+        // Add new hashtag to selectedTags
+        [[self selectedTags] addObject:hashtag];
+        
+        // Disable the Add Tags button if there are enough tags already
+        if([[self selectedTags] count] >= MAX_NUMBER_OF_HASHTAGS)
+        {
+            [[self addTagButton] setTitle:@"YOU HAVE REACHED THE MAX # OF TAGS" forState:UIControlStateNormal];
+            [[self addTagButton] setEnabled:NO];
+        }
+        
+        // Reload the selected tags collectionview
+        [[self selectedTagsCollectionView] reloadData];
+        
+        // Resize to fit contents
+        [[self selectedTagsCollectionViewHeight] setConstant:[[self selectedTagsCollectionView] contentSize].height];
+        [[self view] layoutIfNeeded];
+        
+        return TRUE;
+    }
+    else
+        return FALSE;
 }
 
 @end

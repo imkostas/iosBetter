@@ -105,6 +105,7 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
 
 // returns TRUE if there is a problem, FALSE if there is no problem
 - (BOOL)validateImageLayout;
+- (BOOL)validateHashtags;
 
 // Upload an image (for testing)
 - (void)uploadImageA:(UIImage *)imageA imageB:(UIImage *)imageB;
@@ -915,6 +916,43 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
           }];
 }
 
+#pragma mark - Hashtag verify
+- (BOOL)validateHashtags
+{
+    // Check the hashtag strings
+    NSString *hashtagStringA = [[self hotspotA] hashtagString];
+    NSString *hashtagStringB = [[self hotspotB] hashtagString];
+    if([hashtagStringA isEqualToString:@"#"] || [hashtagStringA isEqualToString:@""] || [hashtagStringB isEqualToString:@"#"] || [hashtagStringB isEqualToString:@""])
+    {
+        // Display alert
+        if([UIAlertController class]) // iOS 8+
+        {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Missing Tags"
+                                                                           message:@"Please enter both tags before posting your question."
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+            
+            // Show alert
+            [self presentViewController:alert animated:YES completion:nil];
+            // Change tint color of alert
+            [[alert view] setTintColor:COLOR_BETTER_DARK];
+        }
+        else // iOS 7
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Missing Tags"
+                                                            message:@"Please enter both tags before posting your question."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+        
+        return FALSE;
+    }
+    else // Hashtags entered correctly
+        return TRUE;
+}
+
 #pragma mark - Gesture recognizer handling
 // Scroll View A tap
 - (void)tappedOnScrollViewA:(UITapGestureRecognizer *)gesture
@@ -1392,15 +1430,22 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
                 }
                 else // Hotspots are fine
                 {
-                    NSLog(@"going next");
-                    // Segue to the next view controller (making hashtags)
-                    [self performSegueWithIdentifier:STORYBOARD_ID_SEGUE_SHOW_HASHTAGS_SETUP sender:self];
+                    // Check hashtags
+                    if([self validateHashtags])
+                    {
+                        // Segue to the next view controller (making hashtags)
+                        [self performSegueWithIdentifier:STORYBOARD_ID_SEGUE_SHOW_HASHTAGS_SETUP sender:self];
+                    }
                 }
             }
             else // 2nd or 3rd layout
             {
-                // Segue to the next view controller (making hashtags)
-                [self performSegueWithIdentifier:STORYBOARD_ID_SEGUE_SHOW_HASHTAGS_SETUP sender:self];
+                // Check hashtags
+                if([self validateHashtags])
+                {
+                    // Segue to the next view controller (making hashtags)
+                    [self performSegueWithIdentifier:STORYBOARD_ID_SEGUE_SHOW_HASHTAGS_SETUP sender:self];
+                }
             }
         }
     }

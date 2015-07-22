@@ -109,6 +109,13 @@ enum { LAYOUTSTATE_A_ONLY, LAYOUTSTATE_LEFT_RIGHT, LAYOUTSTATE_TOP_BOTTOM };
 
 // Maximum number of characters in a user-submitted hashtag
 #define MAX_LENGTH_HASHTAG 20
+// Maximum number of hashtags possible to add in a post
+#define MAX_NUMBER_OF_HASHTAGS 6
+
+// UICollectionView layout constants
+#define EDGEINSETS_SELECTED_TAGS_COLLECTIONVIEW UIEdgeInsetsMake(16,16,16,16)
+#define EDGEINSETS_SUGGESTED_TAGS_COLLECTIONVIEW UIEdgeInsetsMake(4,16,4,16)
+#define MINIMUM_INTERITEM_SPACING_SELECTED_TAGS_COLLECTIONVIEW 8
 
 /**** Feed cells ****/
 #define MARGIN_FEEDCELL_SHADOWVIEW 8

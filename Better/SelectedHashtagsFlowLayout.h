@@ -22,10 +22,8 @@
 //  | .........      |
 
 #import <UIKit/UIKit.h>
+#import "Definitions.h"
 
 @interface SelectedHashtagsFlowLayout : UICollectionViewFlowLayout
-
-// Override super's implementation
-- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect;
 
 @end

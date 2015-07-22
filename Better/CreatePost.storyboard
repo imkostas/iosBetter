@@ -246,10 +246,15 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="fDi-Dn-t36"/>
                                 </constraints>
-                                <collectionViewLayout key="collectionViewLayout" id="4kY-fU-q1z" customClass="SelectedHotspotFlowLayout"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jVo-Xv-Afq">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FTm-Ut-QZG" customClass="BEButton">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FTm-Ut-QZG" customClass="BEAddTagButton">
                                 <rect key="frame" x="0.0" y="248" width="600" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -317,6 +322,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Add Tags" id="AE8-FV-VZ8"/>
                     <connections>
+                        <outlet property="addTagButton" destination="FTm-Ut-QZG" id="1Sz-sH-F8e"/>
                         <outlet property="addTagsLabel" destination="baU-p8-Uh1" id="hs3-Ju-5W2"/>
                         <outlet property="selectedTagsCollectionView" destination="DfV-Ok-lgy" id="THN-FZ-pu2"/>
                         <outlet property="selectedTagsCollectionViewHeight" destination="fDi-Dn-t36" id="PBF-xw-ahF"/>

@@ -9,10 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "Definitions.h"
 #import "BELabel.h"
+#import "BEAddTagButton.h"
 #import "HashtagCellDeletable.h"
 #import "HashtagCellNoDelete.h"
+#import "SelectedHashtagsFlowLayout.h"
+#import "SuggestedTag.h"
 
-@interface PostHashtagsViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, HashtagCellDeletableDelegate>
+@interface PostHashtagsViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, HashtagCellDeletableDelegate, BEAddTagButtonDelegate>
 
 // Type of layout (single, left-right, or top-bottom)
 @property (nonatomic) int imageLayout;
@@ -31,6 +34,9 @@
 
 // Outlet for the first line of 'instructions' (the only purpose of this is to be able to make it bold)
 @property (weak, nonatomic) IBOutlet BELabel *addTagsLabel;
+
+// Outlet to "Tap to Add Tags" button
+@property (weak, nonatomic) IBOutlet BEAddTagButton *addTagButton;
 
 // Outlets to the upper and lower collection views
 @property (weak, nonatomic) IBOutlet UICollectionView *selectedTagsCollectionView;

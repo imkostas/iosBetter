@@ -84,6 +84,8 @@
 		D06F394D1B3305C700721FCE /* MyRanking.m in Sources */ = {isa = PBXBuildFile; fileRef = D06F394C1B3305C700721FCE /* MyRanking.m */; };
 		D06F39501B33219100721FCE /* ExtendedNavBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = D06F394F1B33219100721FCE /* ExtendedNavBarView.m */; };
 		D06F39531B3369A800721FCE /* Leaderboard.m in Sources */ = {isa = PBXBuildFile; fileRef = D06F39521B3369A800721FCE /* Leaderboard.m */; };
+		D07178631B601B64003863F0 /* BEAddTagButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D07178621B601B64003863F0 /* BEAddTagButton.m */; };
+		D07178661B602E4A003863F0 /* SuggestedTag.m in Sources */ = {isa = PBXBuildFile; fileRef = D07178651B602E4A003863F0 /* SuggestedTag.m */; };
 		D07415621B59503900DAB004 /* BEPostingHotspotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D07415611B59503900DAB004 /* BEPostingHotspotView.m */; };
 		D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */ = {isa = PBXBuildFile; fileRef = D0835FB71B0CEDFB00D88412 /* BETextField.m */; };
 		D0835FBD1B0CF43B00D88412 /* ForgotPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = D0835FBC1B0CF43B00D88412 /* ForgotPassword.m */; };
@@ -235,6 +237,10 @@
 		D06F394F1B33219100721FCE /* ExtendedNavBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExtendedNavBarView.m; sourceTree = "<group>"; };
 		D06F39511B3369A800721FCE /* Leaderboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Leaderboard.h; sourceTree = "<group>"; };
 		D06F39521B3369A800721FCE /* Leaderboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Leaderboard.m; sourceTree = "<group>"; };
+		D07178611B601B64003863F0 /* BEAddTagButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEAddTagButton.h; sourceTree = "<group>"; };
+		D07178621B601B64003863F0 /* BEAddTagButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEAddTagButton.m; sourceTree = "<group>"; };
+		D07178641B602E4A003863F0 /* SuggestedTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestedTag.h; sourceTree = "<group>"; };
+		D07178651B602E4A003863F0 /* SuggestedTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestedTag.m; sourceTree = "<group>"; };
 		D07415601B59503900DAB004 /* BEPostingHotspotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEPostingHotspotView.h; sourceTree = "<group>"; };
 		D07415611B59503900DAB004 /* BEPostingHotspotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEPostingHotspotView.m; sourceTree = "<group>"; };
 		D0835FB61B0CEDFB00D88412 /* BETextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BETextField.h; sourceTree = "<group>"; };
@@ -429,6 +435,8 @@
 				D0FA296C1B5EE45D00F5B24C /* Flow Layout subclass */,
 				D07415601B59503900DAB004 /* BEPostingHotspotView.h */,
 				D07415611B59503900DAB004 /* BEPostingHotspotView.m */,
+				D07178641B602E4A003863F0 /* SuggestedTag.h */,
+				D07178651B602E4A003863F0 /* SuggestedTag.m */,
 			);
 			name = "Creating a Post";
 			sourceTree = "<group>";
@@ -487,6 +495,8 @@
 				D05584E91B31F1C1003FD842 /* BELabel.m */,
 				D05584EB1B31F2E5003FD842 /* BEButton.h */,
 				D05584EC1B31F2E5003FD842 /* BEButton.m */,
+				D07178611B601B64003863F0 /* BEAddTagButton.h */,
+				D07178621B601B64003863F0 /* BEAddTagButton.m */,
 			);
 			name = "Labels, buttons";
 			sourceTree = "<group>";
@@ -1025,6 +1035,7 @@
 				D00B29F91B3898D600DB87EC /* BadgesCollectionViewCell.m in Sources */,
 				D06629AF1B4AD89200359261 /* FeedLeftRightCell.m in Sources */,
 				D030579C1B20E84E00F20072 /* (null) in Sources */,
+				D07178661B602E4A003863F0 /* SuggestedTag.m in Sources */,
 				D06F39531B3369A800721FCE /* Leaderboard.m in Sources */,
 				D01514CB1B1F686E00EFE991 /* UserInfo.m in Sources */,
 				D05EF75A1B0B70EF00D01AE4 /* AppDelegate.m in Sources */,
@@ -1033,6 +1044,7 @@
 				D05EF7571B0B70EF00D01AE4 /* main.m in Sources */,
 				D0CD720E1B2B72D1004A5765 /* RankBarView.m in Sources */,
 				D04DEE801B30AFFC00BF1557 /* MyInfoTableViewCell.m in Sources */,
+				D07178631B601B64003863F0 /* BEAddTagButton.m in Sources */,
 				D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */,
 				D09901921B0E619300760CDF /* BEScrollingViewController.m in Sources */,
 				D031CEDF1B39DD900039A9C1 /* LeaderboardData.m in Sources */,
