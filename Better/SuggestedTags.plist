@@ -8,17 +8,16 @@
 		<string>beauty</string>
 		<string>splurge</string>
 		<string>romantic</string>
-        <string>classic</string>
-        <string>partytime</string>
-        <string>hair</string>
-        <string>trend</string>
-        <string>cute</string>
-        <string>workplace</string>
-        <string>everyday</string>
-        <string>easystyle</string>
-        <string>firstdate</string>
-        <string>hairstyles</string>
-        <string>bold</string>
+		<string>classic</string>
+		<string>partytime</string>
+		<string>hair</string>
+		<string>trend</string>
+		<string>cute</string>
+		<string>workplace</string>
+		<string>everyday</string>
+		<string>easystyle</string>
+		<string>hairstyles</string>
+		<string>bold</string>
 	</array>
 </dict>
 </plist>

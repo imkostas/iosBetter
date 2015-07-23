@@ -349,6 +349,8 @@
         else
             return TRUE;
     }
+    else if(collectionView == [self selectedTagsCollectionView]) // Upper collection view
+        return FALSE;
     else
         return TRUE;
 }

@@ -255,7 +255,7 @@
                                 <cells/>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FTm-Ut-QZG" customClass="BEAddTagButton">
-                                <rect key="frame" x="0.0" y="248" width="600" height="50"/>
+                                <rect key="frame" x="0.0" y="247" width="600" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="fcN-qc-Z0I"/>
@@ -270,7 +270,7 @@
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xOE-i0-ayW" userLabel="List of tags">
-                                <rect key="frame" x="0.0" y="314" width="600" height="420"/>
+                                <rect key="frame" x="0.0" y="313" width="600" height="421"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="g17-Y9-XCY">
                                     <size key="itemSize" width="50" height="50"/>
@@ -309,7 +309,7 @@
                             <constraint firstItem="baU-p8-Uh1" firstAttribute="leading" secondItem="kvU-Fd-LyS" secondAttribute="leading" constant="16" id="Pc7-4R-JcJ"/>
                             <constraint firstAttribute="trailing" secondItem="FTm-Ut-QZG" secondAttribute="trailing" id="PmP-5v-esc"/>
                             <constraint firstItem="x0X-gL-W6q" firstAttribute="leading" secondItem="kvU-Fd-LyS" secondAttribute="leading" id="aEJ-By-KcC"/>
-                            <constraint firstItem="FTm-Ut-QZG" firstAttribute="top" secondItem="DfV-Ok-lgy" secondAttribute="bottom" constant="2" id="bdP-V7-GGR"/>
+                            <constraint firstItem="FTm-Ut-QZG" firstAttribute="top" secondItem="DfV-Ok-lgy" secondAttribute="bottom" constant="1" id="bdP-V7-GGR"/>
                             <constraint firstAttribute="trailing" secondItem="DfV-Ok-lgy" secondAttribute="trailing" id="c8v-aN-ArV"/>
                             <constraint firstItem="DfV-Ok-lgy" firstAttribute="leading" secondItem="kvU-Fd-LyS" secondAttribute="leading" id="cZa-jY-3bJ"/>
                             <constraint firstItem="JmS-Dn-S4t" firstAttribute="top" secondItem="x0X-gL-W6q" secondAttribute="bottom" id="l29-ei-SXZ"/>

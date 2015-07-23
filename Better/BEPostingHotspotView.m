@@ -9,6 +9,9 @@
 #import "BEPostingHotspotView.h"
 
 @interface BEPostingHotspotView ()
+{
+    BOOL alreadySetUpConstraints;
+}
 
 // The input accessory view (redeclaring from UIResponder.h as read/write)
 @property (retain, nonatomic, readwrite) UIView *inputAccessoryView;
@@ -18,6 +21,9 @@
 
 // Common initialization
 - (void)commonInit;
+
+// Called when the keyboard is going to appear
+- (void)keyboardWillShow:(NSNotification *)notification;
 
 @end
 
@@ -69,6 +75,36 @@
 {
     // Initialize hashtag string
     _hashtagString = @"#";
+    
+    // Get a notification when the keyboard is going to appear
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    
+    // Initialize
+    alreadySetUpConstraints = FALSE;
+    
+    // Create a new textfield
+    _hashtagTextField = [[BETextField alloc] init];
+    [[self hashtagTextField] setTranslatesAutoresizingMaskIntoConstraints:NO]; // Use our own constraints
+    [[self hashtagTextField] setDelegate:self]; // Get UITextFieldDelegate methods
+    [[self hashtagTextField] setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.9]];
+    [[self hashtagTextField] setTintColor:COLOR_BETTER_DARK]; // Color of cursor and selections
+    
+    // Set keyboard properties
+    [[self hashtagTextField] setReturnKeyType:UIReturnKeyDone]; // "Done" button
+    [[self hashtagTextField] setSpellCheckingType:UITextSpellCheckingTypeNo]; // No spell-check
+    [[self hashtagTextField] setAutocorrectionType:UITextAutocorrectionTypeNo]; // No autocorrect
+    [[self hashtagTextField] setKeyboardType:UIKeyboardTypeASCIICapable]; // No emojis
+    
+    // Assign a height constraint
+    NSLayoutConstraint *textFieldHeight = [NSLayoutConstraint constraintWithItem:[self hashtagTextField]
+                                                                       attribute:NSLayoutAttributeHeight
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:nil
+                                                                       attribute:NSLayoutAttributeNotAnAttribute
+                                                                      multiplier:1 constant:HEIGHT_BETEXTFIELD];
+    
+    // Add the constraint (width is added later)
+    [[self hashtagTextField] addConstraint:textFieldHeight];
 }
 
 #pragma mark - UIResponder overriding
@@ -120,41 +156,7 @@
     // the method calls itself forever and crashes the app. Referring to inputAccessoryView as _inputAccessoryView,
     // however, doesn't have this problem --> so, we're going to try to avoid referring to inputAccessoryView as much
     // as possible.
-    if(![self hashtagTextField])
-    {
-        // Create a new textfield if necessary
-        _hashtagTextField = [[BETextField alloc] init];
-        [[self hashtagTextField] setTranslatesAutoresizingMaskIntoConstraints:NO]; // Use our own constraints
-        [[self hashtagTextField] setDelegate:self]; // Get UITextFieldDelegate methods
-        [[self hashtagTextField] setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.9]];
-        [[self hashtagTextField] setTintColor:COLOR_BETTER_DARK]; // Color of cursor and selections
-        
-        // Set keyboard properties
-        [[self hashtagTextField] setReturnKeyType:UIReturnKeyDone]; // "Done" button
-        [[self hashtagTextField] setSpellCheckingType:UITextSpellCheckingTypeNo]; // No spell-check
-        [[self hashtagTextField] setAutocorrectionType:UITextAutocorrectionTypeNo]; // No autocorrect
-        [[self hashtagTextField] setKeyboardType:UIKeyboardTypeASCIICapable]; // No emojis
-        
-        // Assign a height constraint
-        NSLayoutConstraint *textFieldHeight = [NSLayoutConstraint constraintWithItem:[self hashtagTextField]
-                                                                           attribute:NSLayoutAttributeHeight
-                                                                           relatedBy:NSLayoutRelationEqual
-                                                                              toItem:nil
-                                                                           attribute:NSLayoutAttributeNotAnAttribute
-                                                                          multiplier:1 constant:HEIGHT_BETEXTFIELD];
-        // Assign a width constraint
-        NSLayoutConstraint *textFieldWidth = [NSLayoutConstraint constraintWithItem:[self hashtagTextField]
-                                                                          attribute:NSLayoutAttributeWidth
-                                                                          relatedBy:NSLayoutRelationEqual
-                                                                             toItem:nil
-                                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                                         multiplier:1 constant:CGRectGetWidth([[UIScreen mainScreen] bounds])];
- 
-        // Add the constraints
-        [[self hashtagTextField] addConstraint:textFieldHeight];
-        [[self hashtagTextField] addConstraint:textFieldWidth];
-    }
-    
+
     // Return the BETextField
     return [self hashtagTextField];
 }
@@ -238,6 +240,38 @@
     
     // OK, you're fine
     return TRUE;
+}
+
+#pragma mark - Keyboard notification
+// When keyboard is going to show
+- (void)keyboardWillShow:(NSNotification *)notification
+{
+    // Configure the input textfield:
+    
+    if(!alreadySetUpConstraints)
+    {
+        // Get the ending frame
+        CGRect endingFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+        
+        // Assign a width constraint (height has been determined already)
+        NSLayoutConstraint *textFieldWidth = [NSLayoutConstraint constraintWithItem:[self hashtagTextField]
+                                                                          attribute:NSLayoutAttributeWidth
+                                                                          relatedBy:NSLayoutRelationEqual
+                                                                             toItem:nil
+                                                                          attribute:NSLayoutAttributeNotAnAttribute
+                                                                         multiplier:1 constant:CGRectGetWidth(endingFrame)];
+        [[self hashtagTextField] addConstraint:textFieldWidth];
+        
+        /// Only do this once
+        alreadySetUpConstraints = TRUE;
+    }
+}
+
+#pragma mark - Dealloc
+- (void)dealloc
+{
+    // Remove observer
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
