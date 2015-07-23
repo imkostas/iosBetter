@@ -31,6 +31,9 @@
 @property (strong, nonatomic)	UserCounts *counts;
 @property (strong, nonatomic)	LeaderboardData *leaderboardData;
 
+// State of the user
+@property (nonatomic, getter=isLoggedIn) BOOL loggedIn;
+
 //global back-end paths
 @property (nonatomic, strong) NSString *uri;
 @property (nonatomic, strong) NSString *img_uri;

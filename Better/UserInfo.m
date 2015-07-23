@@ -21,6 +21,8 @@
 @synthesize img_uri;
 @synthesize apiKey;
 
+@synthesize loggedIn;
+
 
 // Initialize and/or return the user singleton
 + (UserInfo *)user
@@ -56,6 +58,7 @@
         username = @"";
         email = @"";
         profileImage = nil;
+        loggedIn = FALSE;
     }
     
     return self;

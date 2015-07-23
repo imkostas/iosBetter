@@ -19,11 +19,23 @@
 	// boolean that is set to false only by -unwindToIntro:, and controls whether the navigation bar uses
 	// animation when being hidden (false means no animation).
 	BOOL useAnimationWhenHidingNavBar;
+    
+    // If flag is set, the method -viewWillLayoutSubviews will call layoutSlideshowPageViewController
+    BOOL alreadySetUpSlideshow;
 }
 
 //// Methods for fading a UIView in and out (setting alpha to 1 and 0)
 //- (void)fadeInView:(UIView *)view;
 //- (void)fadeOutView:(UIView *)view;
+
+// Reference to a UIPageViewController that is created on-demand if the user is not logged in - this viewcontroller's
+// view is added as a subview of this viewcontroller's view and the PageViewController as a child ViewController
+@property (strong, nonatomic) UIPageViewController *pageViewControllerSlideshow;
+
+// Called to initialize a UIPageViewController (does not add it as a subview, etc.)
+- (void)initializeSlideshowPageViewController;
+// Called to lay out the UIPageViewController and add constraints to it
+- (void)layoutSlideshowPageViewController;
 
 @end
 
@@ -37,6 +49,11 @@
     // Do any additional setup after loading the view.
 	
 	useAnimationWhenHidingNavBar = TRUE;
+    alreadySetUpSlideshow = FALSE;
+    
+    // Set alphas of logo and Get Started button to zero
+    [[self logo] setAlpha:0];
+    [[self getStartedButton] setAlpha:0];
 	
 	// Set up the navigation bar for pre-login areas of app
 	[[[self navigationController] navigationBar] setBarTintColor:COLOR_NAVIGATION_BAR];
@@ -46,6 +63,17 @@
 	// Set up the backgroundImage UIImageView
 	[[self backgroundImage] setClipsToBounds:YES]; // Make sure the image view does not display an image outside of its bounds
 	[[self backgroundImage] setContentMode:UIViewContentModeScaleAspectFill];
+    
+    // Try to log in
+    if(TRUE) // Username and password or Facebook login available in keychain (no networking yet)
+    {
+        // ** Username/password check goes here ** //
+        [[UserInfo user] setLoggedIn:YES];
+    }
+    else // No login info available right now
+    {
+        [self initializeSlideshowPageViewController];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -68,28 +96,61 @@
 {
 	[super viewDidAppear:animated];
 	
-	// Fade in the Better logo first, and other UI elements after a delay, if this hasn't already happened once
-	if(!introFadeDone)
-	{
+//	 Fade in the Better logo first, and other UI elements after a delay, if this hasn't already happened once
+//	if(!introFadeDone)
+//	{
 		[UIView animateWithDuration:ANIM_DURATION_INTRO
 						 animations:^{
 							 [[self logo] setAlpha:1];
-						 }
-						 completion:^(BOOL finished) {
-							 [UIView animateWithDuration:ANIM_DURATION_INTRO
-												   delay:ANIM_DELAY_INTRO
-												 options:UIViewAnimationOptionCurveLinear
-											  animations:^{
-												  [[self backgroundImage] setAlpha:1];
-												  [[self pageViewContainer] setAlpha:1];
-												  [[self getStartedButton] setAlpha:1];
-											  }
-											  completion:nil];
-						 }];
-		
-		// Do not perform the fade-in again
-		introFadeDone = true;
-	}
+						 } completion:^(BOOL finished) {
+                             // Fade in if the pageviewcontroller was created
+                             if([self pageViewControllerSlideshow] != nil)
+                             {
+                                 // Fade in Get Started and background image
+                                 [UIView animateWithDuration:ANIM_DURATION_INTRO
+                                                       delay:ANIM_DELAY_INTRO
+                                                     options:UIViewAnimationOptionCurveEaseOut
+                                                  animations:^{
+                                                      [[[self pageViewControllerSlideshow] view] setAlpha:1];
+                                                      [[self getStartedButton] setAlpha:1];
+                                                      [[self backgroundImage] setAlpha:1];
+                                                  }
+                                                  completion:nil];
+                             }
+                             else // Show the Feed
+                             {
+                                 // Instantiate the Feed
+                                 UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:STORYBOARD_FILENAME_FEED bundle:[NSBundle mainBundle]];
+                                 Feed *feedViewController = [feedStoryboard instantiateViewControllerWithIdentifier:STORYBOARD_ID_FEED];
+                                 
+                                 // Do a cross-fade animation when showing the feed
+                                 [feedViewController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+                                 // Present it
+                                 [self presentViewController:feedViewController animated:YES completion:nil];
+                             }
+                         }];
+//	}
+}
+
+// Before layout has happened (called when showing or when navigation happens)
+- (void)viewWillLayoutSubviews
+{
+    // Super
+    [super viewWillLayoutSubviews];
+    
+    // Lay out the UIPageViewController if necessary
+    if(!alreadySetUpSlideshow && ![[UserInfo user] isLoggedIn])
+    {
+        // Run the layout
+        [self layoutSlideshowPageViewController];
+        
+        // Only run once
+        alreadySetUpSlideshow = TRUE;
+        
+        // Set the first background image to be shown
+        IntroPage *page1 = [pages firstObject];
+        [[self backgroundImage] setImage:[page1 image]];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -224,67 +285,7 @@
 	// inside the container
 	if([[segue identifier] isEqualToString:STORYBOARD_ID_SEGUE_EMBED_INTRO])
 	{
-		// Populate the pages array with IntroPage objects (UIViewController subclass)
-		//
-		IntroPageContent *page1Content = [[IntroPageContent alloc] initWithFirstLine:@"Help each other become the"
-																		  secondLine:@"best version of yourselves,"
-																		   thirdLine:@"one day at a time."
-																	firstLineIsTitle:NO
-																			   image:nil/*[UIImage imageNamed:IMAGE_TUTORIAL_SHOES_DARK]*/];
 		
-		
-		IntroPageContent *page2Content = [[IntroPageContent alloc] initWithFirstLine:@"Cast Your Vote"
-																		  secondLine:@"Simply tap to vote for the"
-																		   thirdLine:@"better beauty choice."
-																	firstLineIsTitle:YES
-																			   image:nil/*[UIImage imageNamed:IMAGE_TUTORIAL_SHOES_SPOT]*/];
-		
-		
-		IntroPageContent *page3Content = [[IntroPageContent alloc] initWithFirstLine:@"Make Better Decisions"
-																		  secondLine:@"Post your own style questions"
-																		   thirdLine:@"and get immediate feedback."
-																	firstLineIsTitle:YES
-																			   image:nil/*[UIImage imageNamed:IMAGE_TUTORIAL_POST]*/];
-		
-		IntroPageContent *page4Content = [[IntroPageContent alloc] initWithFirstLine:@"Rise in the Ranks"
-																		  secondLine:@"Rise in the ranks to get"
-																		   thirdLine:@"crowned as a beauty icon."
-																	firstLineIsTitle:YES
-																			   image:nil/*[UIImage imageNamed:IMAGE_TUTORIAL_CROWN]*/];
-		
-		IntroPage *page1 = [self generatePageWithPageContent:page1Content];
-		IntroPage *page2 = [self generatePageWithPageContent:page2Content];
-		IntroPage *page3 = [self generatePageWithPageContent:page3Content];
-		IntroPage *page4 = [self generatePageWithPageContent:page4Content];
-		
-		pages = [[NSArray alloc] initWithObjects: page1, page2, page3, page4, nil];
-		
-		// Set the child view controller's delegate and datasource to point to this class
-		UIPageViewController *pageViewController = (UIPageViewController *)[segue destinationViewController];
-		[pageViewController setDelegate:self];
-		[pageViewController setDataSource:self];
-
-//		// Find the UIPageControl within the UIPageViewController
-//		for(UIView *subview in [[pageViewController view] subviews])
-//		{
-//			if([subview isKindOfClass:[UIPageControl class]])
-//			{
-//				[self setPageControl:(UIPageControl *)subview];
-//				break;
-//			}
-//		}
-//		
-//		// Listen for event from UIPageControl
-//		[[self pageControl] addTarget:self action:@selector(pageControlValueChanged:) forControlEvents:UIControlEvent];
-		
-		// Set the first background image to be shown
-		[[self backgroundImage] setImage:[page1Content image]];
-		
-		// Set the first view controller to be presented (first page)
-		[pageViewController setViewControllers:@[page1]
-									 direction:UIPageViewControllerNavigationDirectionForward
-									  animated:YES
-									completion:nil];
 	}
 }
 
@@ -302,11 +303,111 @@
 	// Set the flag to prevent the navigation bar from using animation when it hides (normally we want this,
 	// so the flag is reset to TRUE in -viewWillAppear:)
 	useAnimationWhenHidingNavBar = FALSE;
+    
+    // Initialize the slideshow PageViewController if necessary
+    if([self pageViewControllerSlideshow] == nil)
+    {
+        [self initializeSlideshowPageViewController]; // allocate
+        alreadySetUpSlideshow = TRUE; // To prevent duplicate constraints in -viewWillLayoutSubviews
+        [self layoutSlideshowPageViewController]; // constraints
+        
+        // Set the first background image to be shown
+        IntroPage *page1 = [pages firstObject];
+        [[self backgroundImage] setImage:[page1 image]];
+    }
 }
 
 //- (void)pageControlValueChanged:(UIPageControl *)sender
 //{
 //	NSLog(@"** value changed in page control");
 //}
+
+#pragma mark - Tutorial/slideshow initialization
+// Create a UIPageViewController if necessary
+- (void)initializeSlideshowPageViewController
+{
+    // Initialize if necessary
+    if(_pageViewControllerSlideshow == nil)
+    {
+        // Create a UIPageViewController
+        _pageViewControllerSlideshow = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+        
+        // Delegate and datasource are this object
+        [[self pageViewControllerSlideshow] setDelegate:self];
+        [[self pageViewControllerSlideshow] setDataSource:self];
+        
+        // Create pages for the PageViewController
+        // Populate the pages array with IntroPage objects (UIViewController subclass)
+        //
+        IntroPageContent *page1Content = [[IntroPageContent alloc] initWithFirstLine:@"Help each other become the"
+                                                                          secondLine:@"best version of yourselves,"
+                                                                           thirdLine:@"one day at a time."
+                                                                    firstLineIsTitle:NO
+                                                                               image:[UIImage imageNamed:IMAGE_TUTORIAL_SHOES_DARK]];
+        
+        
+        IntroPageContent *page2Content = [[IntroPageContent alloc] initWithFirstLine:@"Cast Your Vote"
+                                                                          secondLine:@"Simply tap to vote for the"
+                                                                           thirdLine:@"better beauty choice."
+                                                                    firstLineIsTitle:YES
+                                                                               image:[UIImage imageNamed:IMAGE_TUTORIAL_SHOES_SPOT]];
+        
+        
+        IntroPageContent *page3Content = [[IntroPageContent alloc] initWithFirstLine:@"Make Better Decisions"
+                                                                          secondLine:@"Post your own style questions"
+                                                                           thirdLine:@"and get immediate feedback."
+                                                                    firstLineIsTitle:YES
+                                                                               image:[UIImage imageNamed:IMAGE_TUTORIAL_POST]];
+        
+        IntroPageContent *page4Content = [[IntroPageContent alloc] initWithFirstLine:@"Rise in the Ranks"
+                                                                          secondLine:@"Rise in the ranks to get"
+                                                                           thirdLine:@"crowned as a beauty icon."
+                                                                    firstLineIsTitle:YES
+                                                                               image:[UIImage imageNamed:IMAGE_TUTORIAL_CROWN]];
+        
+        IntroPage *page1 = [self generatePageWithPageContent:page1Content];
+        IntroPage *page2 = [self generatePageWithPageContent:page2Content];
+        IntroPage *page3 = [self generatePageWithPageContent:page3Content];
+        IntroPage *page4 = [self generatePageWithPageContent:page4Content];
+        
+        pages = [[NSArray alloc] initWithObjects: page1, page2, page3, page4, nil];
+        
+        // Set the first view controller to be presented (first page)
+        [[self pageViewControllerSlideshow] setViewControllers:@[page1]
+                                                     direction:UIPageViewControllerNavigationDirectionForward
+                                                      animated:YES
+                                                    completion:nil];
+    }
+}
+
+// Lay out the UIPageViewController
+- (void)layoutSlideshowPageViewController
+{
+    // Add as subview and child view controller
+    UIPageViewController *pvc = [self pageViewControllerSlideshow];
+    [self addChildViewController:pvc];
+    [[self view] addSubview:[pvc view]];
+    [pvc didMoveToParentViewController:self];
+    
+    // UIPageViewController's view properties
+    [[pvc view] setTranslatesAutoresizingMaskIntoConstraints:NO]; // Use our own constraints
+    [[pvc view] setAlpha:0]; // Hidden at first
+    
+    // Add some layout
+    NSArray *leadingTrailingConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[pvc]-0-|"
+                                                                                  options:NSLayoutFormatDirectionLeadingToTrailing
+                                                                                  metrics:nil
+                                                                                    views:@{@"pvc":[pvc view]}];
+    
+    NSArray *topBottom = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[pvc]-0-[button]"
+                                                                 options:NSLayoutFormatDirectionLeadingToTrailing
+                                                                 metrics:nil
+                                                                   views:@{@"pvc":[pvc view],
+                                                                           @"button":[self getStartedButton]}];
+    
+    // Apply the constraints
+    [[self view] addConstraints:leadingTrailingConstraints];
+    [[self view] addConstraints:topBottom];
+}
 
 @end

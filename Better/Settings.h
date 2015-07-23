@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+
+#import "UserInfo.h"
 #import "Definitions.h"
 #import "BETappableView.h"
 #import "CustomAlert.h"

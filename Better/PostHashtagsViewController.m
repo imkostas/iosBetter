@@ -33,6 +33,9 @@
 // Returns whether or not we can add another hashtag to the selectedTags array
 - (BOOL)addNewSelectedHashtag:(NSString *)hashtag;
 
+// test
+- (void)uploadImageA:(UIImage *)imageA imageB:(UIImage *)imageB;
+
 @end
 
 @implementation PostHashtagsViewController
@@ -152,7 +155,9 @@
 // Called when user presses "Post Your Question"
 - (IBAction)pressedPostButton:(id)sender
 {
-    
+    // test upload
+    if([self imageA] != nil)
+        [self uploadImageA:_imageA imageB:_imageB];
 }
 
 #pragma mark - BEAddTagButtonDelegate method
@@ -526,6 +531,58 @@
     }
     else
         return FALSE;
+}
+
+#pragma mark - Upload test
+- (void)uploadImageA:(UIImage *)imageA imageB:(UIImage *)imageB
+{
+    ////// A temporary way to check how the images look when they are off of the phone -- this code sends the
+    // image to a .php file with the following lines:
+    /*
+     <?php
+     
+     move_uploaded_file($_FILES["image"]["tmp_name"], "./".$_FILES["image"]["name"]);
+     move_uploaded_file($_FILES["image2"]["tmp_name"], "./".$_FILES["image2"]["name"]);
+     
+     ?>
+     */
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    [manager setRequestSerializer:[AFHTTPRequestSerializer serializer]];
+    [manager setResponseSerializer:[AFHTTPResponseSerializer serializer]];
+    
+    // Turn on network indicator
+    [[UserInfo user] setNetworkActivityIndicatorVisible:YES];
+    
+    [manager POST:@"http://10.1.0.144/imageupload.php"
+       parameters:nil
+constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    
+    [formData appendPartWithFileData:UIImageJPEGRepresentation(imageA, 0.8) // 0.8 out of 1 is the quality
+                                name:@"image"
+                            fileName:@"image.jpg"
+                            mimeType:@"image/jpeg"];
+    if(imageB != nil)
+        [formData appendPartWithFileData:UIImageJPEGRepresentation(imageB, 0.8)
+                                    name:@"image2"
+                                fileName:@"image2.jpg"
+                                mimeType:@"image/jpeg"];
+}
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              NSLog(@"Upload success!!");
+              
+              // Turn off network indicator
+              [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
+              
+              // Dismiss
+              [self dismissViewControllerAnimated:YES completion:nil];
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              NSLog(@"**!!** Network error! %@", error);
+              
+              // Turn off network indicator
+              [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
+          }];
 }
 
 @end

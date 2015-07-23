@@ -80,4 +80,11 @@
 	}];
 }
 
+#pragma mark - Dealloc
+- (void)dealloc
+{
+    // Remove keyboard observer
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 @end

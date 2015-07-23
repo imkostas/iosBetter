@@ -11,7 +11,7 @@
 
 @interface BEAddTagButton ()
 {
-    BOOL alreadySetUpConstraints;
+    CGRect savedTextFieldBounds;
 }
 
 // The input accessory view (redeclaring from UIResponder.h as read/write)
@@ -67,12 +67,8 @@
     // Register to be notified when the keyboard shows itself
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     
-    // Init
-    alreadySetUpConstraints = FALSE;
-    
     // Create a new textfield if necessary
     _hashtagTextField = [[BETextField alloc] init];
-    [[self hashtagTextField] setTranslatesAutoresizingMaskIntoConstraints:NO]; // Use our own constraints
     [[self hashtagTextField] setDelegate:self]; // Get UITextFieldDelegate methods
     [[self hashtagTextField] setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
     [[self hashtagTextField] setTintColor:COLOR_BETTER_DARK]; // Color of cursor and selections
@@ -83,18 +79,9 @@
     [[self hashtagTextField] setAutocorrectionType:UITextAutocorrectionTypeNo]; // No autocorrect
     [[self hashtagTextField] setKeyboardType:UIKeyboardTypeASCIICapable]; // No emojis
     
-    // Assign a height constraint
-    NSLayoutConstraint *textFieldHeight = [NSLayoutConstraint constraintWithItem:[self hashtagTextField]
-                                                                       attribute:NSLayoutAttributeHeight
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:nil
-                                                                       attribute:NSLayoutAttributeNotAnAttribute
-                                                                      multiplier:1 constant:HEIGHT_BETEXTFIELD];
-    
-    // Add the constraint
-    [[self hashtagTextField] addConstraint:textFieldHeight];
-    
-    //* The width constraint is added later when the keyboard is about to show
+    // Set bounds of the textfield (width is set later)
+    CGRect textFieldBounds = CGRectMake(0, 0, 0, HEIGHT_BETEXTFIELD);
+    [[self hashtagTextField] setBounds:textFieldBounds];
 }
 
 #pragma mark - UIResponder overriding
@@ -229,36 +216,27 @@
 // When keyboard is going to show
 - (void)keyboardWillShow:(NSNotification *)notification
 {
-    if(!alreadySetUpConstraints)
+    // Get the ending frame
+    CGRect endingFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    
+    // Set the textfield's bounds (correct width)
+    CGRect newTextFieldBounds = [[self hashtagTextField] bounds];
+    newTextFieldBounds.size.width = CGRectGetWidth(endingFrame);
+    
+    // Apply bounds
+    [[self hashtagTextField] setBounds:newTextFieldBounds];
+    
+    // Remember the bounds so if they don't change, we don't re-apply the shadow/line
+    if(!CGRectEqualToRect(savedTextFieldBounds, newTextFieldBounds))
     {
-        // Get the ending frame
-        CGRect endingFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-        
-        // Configure the input textfield:
-        
-        // Assign a width constraint (height has been determined already)
-        NSLayoutConstraint *textFieldWidth = [NSLayoutConstraint constraintWithItem:[self hashtagTextField]
-                                                                          attribute:NSLayoutAttributeWidth
-                                                                          relatedBy:NSLayoutRelationEqual
-                                                                             toItem:nil
-                                                                          attribute:NSLayoutAttributeNotAnAttribute
-                                                                         multiplier:1 constant:CGRectGetWidth(endingFrame)];
-        [[self hashtagTextField] addConstraint:textFieldWidth];
-        
-        // Configure the shadow
-    //    CGMutablePathRef shadowPath = CGPathCreateMutable();
-    //    CGPathMoveToPoint(shadowPath, NULL, 0, 0);
-    //    CGPathAddLineToPoint(shadowPath, NULL, CGRectGetWidth(endingFrame), 0);
-    //    CGPathAddLineToPoint(shadowPath, NULL, CGRectGetWidth(endingFrame), 3);
-    //    CGPathAddLineToPoint(shadowPath, NULL, 0, 3);
-    //    CGPathCloseSubpath(shadowPath);
-    //    
-    //    CALayer *textFieldLayer = [[self hashtagTextField] layer];
-    //    [textFieldLayer setMasksToBounds:NO];
-    //    [textFieldLayer setShadowPath:shadowPath];
-    //    [textFieldLayer setShadowRadius:3];
-    //    [textFieldLayer setShadowOpacity:0.4];
-    //    [textFieldLayer setShadowOffset:CGSizeZero];
+//        // Set up shadow
+//        CGPathRef shadowPath = [[UIBezierPath bezierPathWithRect:[[self hashtagTextField] bounds]] CGPath];
+//        CALayer *textFieldLayer = [[self hashtagTextField] layer];
+//        [textFieldLayer setMasksToBounds:NO];
+//        [textFieldLayer setShadowPath:shadowPath];
+//        [textFieldLayer setShadowRadius:3];
+//        [textFieldLayer setShadowOpacity:0.4];
+//        [textFieldLayer setShadowOffset:CGSizeZero];
         
         // Draw a pixel thin border at the top of the TextField
         CGMutablePathRef topPath = CGPathCreateMutable();
@@ -273,8 +251,8 @@
         [textFieldLayer setRasterizationScale:[[UIScreen mainScreen] scale]];
         [textFieldLayer setShouldRasterize:YES];
         
-        // Only do this once
-        alreadySetUpConstraints = TRUE;
+        // Save the new bounds
+        savedTextFieldBounds = newTextFieldBounds;
     }
 }
 

@@ -79,14 +79,19 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
 	// Store the initial value of the filter drawer
 	filterWidthOriginal = [[self filterWidthConstraint] constant];
 }
 
-//- (void)viewDidAppear:(BOOL)animated
-//{
-//	[super viewDidAppear:animated];
-//}
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+    
+    // Set modal transition style back to Cover Vertical (possibly set by Intro object)
+    [self setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+}
 
 // Called after the view has laid out its subviews (thus.. we can figure out the real bounds of centerView
 // in order to draw its shadow)

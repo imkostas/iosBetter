@@ -85,7 +85,7 @@
 - (CGRect)editingRectForBounds:(CGRect)bounds
 {
 	// Retrieve what the UITextField class would normally do
-	CGRect editingTextBounds = [super textRectForBounds:bounds];
+	CGRect editingTextBounds = [super editingRectForBounds:bounds];
 	
 	// Add padding to the left and subtract twice the same amount from the width (for space on the right also)
 	editingTextBounds.origin.x += PADDING_TEXTFIELD_ICON;
@@ -93,7 +93,6 @@
 	
 	return editingTextBounds;
 }
-
 
 #pragma mark - Setting images as left/right views
 - (void)setLeftViewToImageNamed:(NSString *)leftImageName

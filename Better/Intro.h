@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AFNetworking/AFNetworking.h>
+
 #import "Definitions.h"
 #import "IntroPageContent.h"
 #import "IntroPage.h"
-//#import "AppDelegate.h"
+#import "Feed.h"
 
 // This class is the delegate and DataSource of its UIPageViewController child, which is inside a storyboard Container View
 @interface Intro : UIViewController <UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIGestureRecognizerDelegate>
@@ -18,7 +20,6 @@
 // Outlets for each of the UI elements in the introduction, so we can fade them in and out.
 @property (weak, nonatomic) IBOutlet UIImageView *logo; // The Better logo
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImage; // The image that changes as the user pages around the PageViewController
-@property (weak, nonatomic) IBOutlet UIView *pageViewContainer; // The UIView that serves as the container for the UIPageViewController
 @property (weak, nonatomic) IBOutlet UIButton *getStartedButton; // The Getting Started button
 
 // A reference to the UIPageControl embedded inside the UIPageViewController

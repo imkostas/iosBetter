@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AFNetworking/AFNetworking.h>
+
+#import "UserInfo.h"
 #import "Definitions.h"
 #import "BELabel.h"
 #import "BEAddTagButton.h"

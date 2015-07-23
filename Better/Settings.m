@@ -83,6 +83,9 @@
 			[logoutAlert addAction:[UIAlertAction actionWithTitle:@"Yes"
 															style:UIAlertActionStyleDefault
 														  handler:^(UIAlertAction *action) {
+                                                              // Set logged out state
+                                                              [[UserInfo user] setLoggedIn:NO];
+                                                              
 															  // Use unwind segue to go back to Intro
 															  [self performSegueWithIdentifier:STORYBOARD_ID_SEGUE_UNWIND_TO_INTRO sender:self];
 														  }]];

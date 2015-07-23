@@ -107,9 +107,6 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
 - (BOOL)validateImageLayout;
 - (BOOL)validateHashtags;
 
-// Upload an image (for testing)
-- (void)uploadImageA:(UIImage *)imageA imageB:(UIImage *)imageB;
-
 @end
 
 @implementation PostLayoutViewController
@@ -868,54 +865,6 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
     return problemExists;
 }
 
-- (void)uploadImageA:(UIImage *)imageA imageB:(UIImage *)imageB
-{
-    ////// A temporary way to check how the images look when they are off of the phone -- this code sends the
-    // image to a .php file with the following lines:
-    /*
-     <?php
-     
-     move_uploaded_file($_FILES["image"]["tmp_name"], "./".$_FILES["image"]["name"]);
-     move_uploaded_file($_FILES["image2"]["tmp_name"], "./".$_FILES["image2"]["name"]);
-     
-     ?>
-     */
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    
-    [manager setRequestSerializer:[AFHTTPRequestSerializer serializer]];
-    [manager setResponseSerializer:[AFHTTPResponseSerializer serializer]];
-    
-    // Turn on network indicator
-    [[UserInfo user] setNetworkActivityIndicatorVisible:YES];
-    
-    [manager POST:@"http://192.168.0.109/imageupload.php"
-       parameters:nil
-constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-    
-    [formData appendPartWithFileData:UIImageJPEGRepresentation(imageA, 0.8) // 0.8 out of 1 is the quality
-                                name:@"image"
-                            fileName:@"image.jpg"
-                            mimeType:@"image/jpeg"];
-    if(imageB != nil)
-        [formData appendPartWithFileData:UIImageJPEGRepresentation(imageB, 0.8)
-                                    name:@"image2"
-                                fileName:@"image2.jpg"
-                                mimeType:@"image/jpeg"];
-}
-          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-              NSLog(@"Upload success!!");
-              
-              // Turn off network indicator
-              [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
-          }
-          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              NSLog(@"**!!** Network error! %@", error);
-              
-              // Turn off network indicator
-              [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
-          }];
-}
-
 #pragma mark - Hashtag verify
 - (BOOL)validateHashtags
 {
@@ -1139,7 +1088,7 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [[self hotspotA] resignFirstResponder];
     
     if(currentHotspot == TARGETHOTSPOT_A && [[self hotspotB] isFirstResponder])
-    [[self hotspotB] resignFirstResponder];
+        [[self hotspotB] resignFirstResponder];
     
     // Make first responder
     switch(currentHotspot)
@@ -1304,30 +1253,6 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         }
     }
 }
-
-// (for testing only)
-- (IBAction)uploadButtonPressed:(id)sender
-{
-//    // Run the cropping in the background, since it can take a bit of time
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, kNilOptions), ^{
-//        // Get the images cropped to their visible regions
-//        UIImage *croppedImageA = [self cropToVisible:PostLayoutImageA];
-//        UIImage *croppedImageB = [self cropToVisible:PostLayoutImageB];
-//        
-//        // Save the cropped images
-//        [self setImageACropped:croppedImageA];
-//        [self setImageBCropped:croppedImageB];
-//        
-//        // Upload the pictures
-//        if(croppedImageA != nil)
-//            [self uploadImageA:croppedImageA imageB:croppedImageB];
-//    });
-    
-    // Upload the pictures
-    if(_imageACropped != nil)
-        [self uploadImageA:_imageACropped imageB:_imageBCropped];
-}
-
 
 - (IBAction)pressedNextButton:(id)sender
 {
