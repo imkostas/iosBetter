@@ -75,20 +75,20 @@
 			UIAlertController *logoutAlert = [UIAlertController alertControllerWithTitle:@"Are you sure you want to log out?"
 																				 message:nil
 																		  preferredStyle:UIAlertControllerStyleAlert];
-			[logoutAlert addAction:[UIAlertAction actionWithTitle:@"No"
-															style:UIAlertActionStyleDefault
-														  handler:^(UIAlertAction *action) {
-															  NSLog(@"Logout canceled");
-														  }]];
-			[logoutAlert addAction:[UIAlertAction actionWithTitle:@"Yes"
-															style:UIAlertActionStyleDefault
-														  handler:^(UIAlertAction *action) {
+            [logoutAlert addAction:[UIAlertAction actionWithTitle:@"Log Out"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction *action) {
                                                               // Set logged out state
                                                               [[UserInfo user] setLoggedIn:NO];
                                                               
-															  // Use unwind segue to go back to Intro
-															  [self performSegueWithIdentifier:STORYBOARD_ID_SEGUE_UNWIND_TO_INTRO sender:self];
-														  }]];
+                                                              // Use unwind segue to go back to Intro
+                                                              [self performSegueWithIdentifier:STORYBOARD_ID_SEGUE_UNWIND_TO_INTRO sender:self];
+                                                          }]];
+            [logoutAlert addAction:[UIAlertAction actionWithTitle:@"Cancel"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction *action) {
+                                                              NSLog(@"Logout canceled");
+                                                          }]];
 			// Show the alert
 			[self presentViewController:logoutAlert animated:YES completion:nil];
 			
@@ -97,11 +97,13 @@
 		}
 		else
 		{
-			UIAlertView *logoutAlert = [[UIAlertView alloc] initWithTitle:@"Are you sure you want to log out?"
-																  message:nil
-																 delegate:self
-														cancelButtonTitle:nil
-														otherButtonTitles:@"No", @"Yes", nil];
+            UIAlertView *logoutAlert = [[UIAlertView alloc] initWithTitle:@"Are you sure you want to log out?"
+                                                                  message:nil
+                                                                 delegate:self
+                                                        cancelButtonTitle:@"Log Out"
+                                                        otherButtonTitles:@"Cancel", nil];
+            
+            // Present the alert
 			[logoutAlert show];
 		}
 	}
@@ -110,7 +112,7 @@
 // For iOS 7's UIAlertView
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"])
+    if([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Log Out"])
     {
         // Use unwind segue to go back to Intro
         [self performSegueWithIdentifier:STORYBOARD_ID_SEGUE_UNWIND_TO_INTRO sender:self];

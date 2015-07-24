@@ -84,52 +84,50 @@
 				  
                   NSLog(@"JSON: %@", [responseObject description]);
                   
-                  //save user info - username, email, funds
-				  NSDictionary *userDictionary = [[responseObject valueForKey:@"response"] valueForKey:@"user"];
-				  
-				  self.user.userID = [[userDictionary valueForKey:@"id"] intValue];
-                  self.user.username = [userDictionary valueForKey:@"username"];
-                  self.user.email = [userDictionary valueForKey:@"email"];
-				  self.user.gender = [[userDictionary valueForKey:@"gender"] characterAtIndex:0]; // "gender" value is "1" or "2"
-                  self.user.birthday = [userDictionary valueForKey:@"birthday"] ;
-                  self.user.country = [userDictionary valueForKey:@"country"];
-				  
-				  // Populate rank
-				  NSDictionary *rankDict = [userDictionary valueForKey:@"rank"];
-				  UserRank *rank = [[UserRank alloc] initWithRank:[[rankDict objectForKey:@"rank"] intValue]
-													  totalPoints:[[rankDict objectForKey:@"total_points"] intValue]
-													  dailyPoints:[[rankDict objectForKey:@"daily_points"] intValue]
-													 weeklyPoints:[[rankDict objectForKey:@"weekly_points"] intValue]
-												  badgeTastemaker:[[rankDict objectForKey:@"badge_tastemaker"] intValue]
-												  badgeAdventurer:[[rankDict objectForKey:@"badge_adventurer"] intValue]
-													 badgeAdmirer:[[rankDict objectForKey:@"badge_admirer"] intValue]
-												   badgeRoleModel:[[rankDict objectForKey:@"badge_role_model"] intValue]
-												   badgeCelebrity:[[rankDict objectForKey:@"badge_celebrity"] intValue]
-														badgeIdol:[[rankDict objectForKey:@"badge_idol"] intValue]];
-				  self.user.rank = rank;
-				  
-				  // Populate notifications preferences
-				  NSDictionary *notificationsDict = [userDictionary valueForKey:@"notification"];
-				  UserNotifications *notifs = [[UserNotifications alloc] initWithVotedPostPref:[[notificationsDict objectForKey:@"voted_post"] intValue]
-																			 favoritedPostPref:[[notificationsDict objectForKey:@"favorited_post"] intValue]
-																			   newFollowerPref:[[notificationsDict objectForKey:@"new_follower"] intValue]];
-				  self.user.notification = notifs;
-				  
-				  // Show the Feed
-//				  UINavigationController *feedVCNavigation = [[self storyboard] instantiateViewControllerWithIdentifier:STORYBOARD_ID_FEED_NAVIGATION];
-				  // Get the Feed storyboard
-				  UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:STORYBOARD_FILENAME_FEED bundle:[NSBundle mainBundle]];
-				  Feed *feedVCNavigation = [feedStoryboard instantiateViewControllerWithIdentifier:STORYBOARD_ID_FEED];
-				  [self presentViewController:feedVCNavigation animated:YES completion:^{
-					  // Clear both fields
-					  [[self usernameField] setText:@""];
-					  [[self passwordField] setText:@""];
-					  // Reset login button
-					  [sender setTitle:@"LOG IN" forState:UIControlStateNormal];
-                      // Set logged in state
-                      [[self user] setLoggedIn:YES];
-				  }];
-                  
+                  // Send the data to the UserInfo object
+                  if(![[self user] populateUserInfoWithResponseObject:responseObject])
+                  {
+                      // Only occurs when the server sends unexpected data
+                      
+                      // Show an alert
+                      if([UIAlertController class]) // for iOS 8 and above
+                      {
+                          UIAlertController *invalidAlert = [UIAlertController alertControllerWithTitle:@"Unable to Log In"
+                                                                                                message:@"Try entering your information again and make sure you're connected to the internet"
+                                                                                         preferredStyle:UIAlertControllerStyleAlert];
+                          [invalidAlert addAction:[UIAlertAction actionWithTitle:@"OK"
+                                                                           style:UIAlertActionStyleDefault
+                                                                         handler:nil]];
+                          // Show the alert
+                          [self presentViewController:invalidAlert animated:YES completion:nil];
+                          // Set it's tint color (button color)
+                          [[invalidAlert view] setTintColor:COLOR_BETTER_DARK];
+                      }
+                      else // iOS 7 and below
+                      {
+                          UIAlertView *invalidAlert = [[UIAlertView alloc] initWithTitle:@"Unable to Log In"
+                                                                                 message:@"Try entering your information again and make sure you're connected to the internet"
+                                                                                delegate:nil
+                                                                       cancelButtonTitle:@"OK"
+                                                                       otherButtonTitles:nil];
+                          [invalidAlert show];
+                      }
+                  }
+				  else // No error in parsing data
+                  {
+                      // Show the Feed
+                      UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:STORYBOARD_FILENAME_FEED bundle:[NSBundle mainBundle]];
+                      Feed *feedVCNavigation = [feedStoryboard instantiateViewControllerWithIdentifier:STORYBOARD_ID_FEED];
+                      [self presentViewController:feedVCNavigation animated:YES completion:^{
+                          // Clear both fields
+                          [[self usernameField] setText:@""];
+                          [[self passwordField] setText:@""];
+                          // Reset login button
+                          [sender setTitle:@"LOG IN" forState:UIControlStateNormal];
+                          // Set logged in state
+                          [[self user] setLoggedIn:YES];
+                      }];
+                  }
               }
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 				  
@@ -141,11 +139,12 @@
 				  
                   NSLog(@"Error: %@", [error description]);
                   //[self customAlert:@"We were unable to log you in" withDone:@"Ok"];
+                  
 				  // Show an alert
 				  if([UIAlertController class]) // for iOS 8 and above
 				  {
-					  UIAlertController *invalidAlert = [UIAlertController alertControllerWithTitle:@"We were unable to log you in."
-																							message:@"Try entering your information again and make sure you're connected to the internet"
+					  UIAlertController *invalidAlert = [UIAlertController alertControllerWithTitle:@"Unable to Log In"
+																							message:@"Try entering your information again and make sure you're connected to the internet."
 																					 preferredStyle:UIAlertControllerStyleAlert];
 					  [invalidAlert addAction:[UIAlertAction actionWithTitle:@"OK"
 																	   style:UIAlertActionStyleDefault
@@ -157,8 +156,8 @@
 				  }
 				  else // iOS 7 and below
 				  {
-					  UIAlertView *invalidAlert = [[UIAlertView alloc] initWithTitle:@"We were unable to log you in."
-																			 message:@"Try entering your information again and make sure you're connected to the internet"
+					  UIAlertView *invalidAlert = [[UIAlertView alloc] initWithTitle:@"Unable to Log In"
+																			 message:@"Try entering your information again and make sure you're connected to the internet."
 																			delegate:nil
 																   cancelButtonTitle:@"OK"
 																   otherButtonTitles:nil];
@@ -177,13 +176,29 @@
 	else
 	{
 		// Non valid username and/or password
-		
-		UIAlertView *invalidAlert = [[UIAlertView alloc] initWithTitle:@"Missing username or password"
-																	 message:nil
-																	delegate:nil
-														   cancelButtonTitle:@"OK"
-														   otherButtonTitles:nil];
-		[invalidAlert show];
+        // Show an alert
+        if([UIAlertController class]) // for iOS 8 and above
+        {
+            UIAlertController *invalidAlert = [UIAlertController alertControllerWithTitle:@"Missing Username or Password"
+                                                                                  message:nil
+                                                                           preferredStyle:UIAlertControllerStyleAlert];
+            [invalidAlert addAction:[UIAlertAction actionWithTitle:@"OK"
+                                                             style:UIAlertActionStyleCancel
+                                                           handler:nil]];
+            // Show the alert
+            [self presentViewController:invalidAlert animated:YES completion:nil];
+            // Set it's tint color (button color)
+            [[invalidAlert view] setTintColor:COLOR_BETTER_DARK];
+        }
+        else // iOS 7 and below
+        {
+            UIAlertView *invalidAlert = [[UIAlertView alloc] initWithTitle:@"Missing Username or Password"
+                                                                   message:nil
+                                                                  delegate:nil
+                                                         cancelButtonTitle:@"OK"
+                                                         otherButtonTitles:nil];
+            [invalidAlert show];
+        }
 	}
 }
 

@@ -22,9 +22,12 @@
 @synthesize apiKey;
 
 @synthesize loggedIn;
+@synthesize keychainServiceName;
 
 
-// Initialize and/or return the user singleton
+/**
+ Initialize and/or return the user singleton
+ */
 + (UserInfo *)user
 {
 	static UserInfo *user = nil;
@@ -53,6 +56,8 @@
         img_uri = @"https://52.0.107.49/user_profile_images/";
         apiKey = @"better";
         
+        // Keychain service name
+        keychainServiceName = [[NSBundle mainBundle] bundleIdentifier];
         
         //initialize user profile info
         username = @"";
@@ -65,6 +70,7 @@
     
 }
 
+#pragma mark - Returning user-readable info
 - (int)getAge
 {
 	// Create NSDateFormatter to convert string into an NSDate
@@ -109,6 +115,7 @@
 	return @"";
 }
 
+#pragma mark - UI control
 // Showing/hiding network activity indicator
 - (void)setNetworkActivityIndicatorVisible:(BOOL)visible
 {
@@ -128,6 +135,68 @@
 	
 	// Set status of the indicator
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:(numTimesRequestedVisible > 0)];
+}
+
+#pragma mark - Data parsing
+// Provided a response from the server, this method populates the properties of this UserInfo object with
+// the information inside the response
+// Returns FALSE if an error occurred when parsing through the response data
+- (BOOL)populateUserInfoWithResponseObject:(id)responseObject
+{
+    // If the data returned from the server is unexpected in any way, there can be exceptions thrown by
+    // calling -intValue and -characterAtIndex: for example.
+    @try
+    {
+        //save user info - username, email, funds
+        NSDictionary *userDictionary = [[responseObject objectForKey:@"response"] objectForKey:@"user"];
+        
+        // Retrieve values from the dictionary
+        self.userID = [[userDictionary objectForKey:@"id"] intValue];
+        self.username = [userDictionary objectForKey:@"username"];
+        self.email = [userDictionary objectForKey:@"email"];
+        self.gender = [[userDictionary objectForKey:@"gender"] characterAtIndex:0]; // "gender" value is "1" or "2"
+        self.birthday = [userDictionary objectForKey:@"birthday"];
+        self.country = [userDictionary objectForKey:@"country"];
+        
+        // Populate rank
+        NSDictionary *rankDict = [userDictionary objectForKey:@"rank"];
+        UserRank *rank = [[UserRank alloc] initWithRank:[[rankDict objectForKey:@"rank"] intValue]
+                                            totalPoints:[[rankDict objectForKey:@"total_points"] intValue]
+                                            dailyPoints:[[rankDict objectForKey:@"daily_points"] intValue]
+                                           weeklyPoints:[[rankDict objectForKey:@"weekly_points"] intValue]
+                                        badgeTastemaker:[[rankDict objectForKey:@"badge_tastemaker"] intValue]
+                                        badgeAdventurer:[[rankDict objectForKey:@"badge_adventurer"] intValue]
+                                           badgeAdmirer:[[rankDict objectForKey:@"badge_admirer"] intValue]
+                                         badgeRoleModel:[[rankDict objectForKey:@"badge_role_model"] intValue]
+                                         badgeCelebrity:[[rankDict objectForKey:@"badge_celebrity"] intValue]
+                                              badgeIdol:[[rankDict objectForKey:@"badge_idol"] intValue]];
+        self.rank = rank;
+        
+        // Populate notifications preferences
+        NSDictionary *notificationsDict = [userDictionary objectForKey:@"notification"];
+        UserNotifications *notifs = [[UserNotifications alloc] initWithVotedPostPref:[[notificationsDict objectForKey:@"voted_post"] intValue]
+                                                                   favoritedPostPref:[[notificationsDict objectForKey:@"favorited_post"] intValue]
+                                                                     newFollowerPref:[[notificationsDict objectForKey:@"new_follower"] intValue]];
+        self.notification = notifs;
+        
+        // Everything's OK
+        return TRUE;
+    }
+    @catch(NSException *exception)
+    {
+        // Called a unrecognized method on an object (the response does not contain the type of data we expect)
+        if([exception isKindOfClass:[NSInvalidArgumentException class]])
+        {
+            NSLog(@"** EXCEPTION: Unexpected data received from login request! (%@)", [exception name]);
+        }
+        else
+        {
+            NSLog(@"** EXCEPTION: Unknown exception occurred! (%@)", [exception name]);
+        }
+        
+        // Error occurred
+        return FALSE;
+    }
 }
 
 @end

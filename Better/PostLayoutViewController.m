@@ -1193,15 +1193,15 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
                 UIAlertController *dismissAlert = [UIAlertController alertControllerWithTitle:errorTitle
                                                                                       message:errorMessage
                                                                                preferredStyle:UIAlertControllerStyleAlert];
-                [dismissAlert addAction:[UIAlertAction actionWithTitle:@"Cancel"
-                                                                 style:UIAlertActionStyleDefault
-                                                               handler:nil]];
-                [dismissAlert addAction:[UIAlertAction actionWithTitle:@"Quit"
+                [dismissAlert addAction:[UIAlertAction actionWithTitle:@"Discard"
                                                                  style:UIAlertActionStyleDefault
                                                                handler:^(UIAlertAction *action) {
                                                                    // Show Feed again
                                                                    [self dismissViewControllerAnimated:YES completion:nil];
                                                                }]];
+                [dismissAlert addAction:[UIAlertAction actionWithTitle:@"Cancel"
+                                                                 style:UIAlertActionStyleDefault
+                                                               handler:nil]];
                 // Show the alert
                 [self presentViewController:dismissAlert animated:YES completion:nil];
                 
@@ -1213,8 +1213,8 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
                 UIAlertView *dismissAlert = [[UIAlertView alloc] initWithTitle:errorTitle
                                                                        message:errorMessage
                                                                       delegate:self
-                                                             cancelButtonTitle:nil
-                                                             otherButtonTitles:@"Cancel", @"Quit", nil];
+                                                             cancelButtonTitle:@"Discard"
+                                                             otherButtonTitles:@"Cancel", nil];
                 [dismissAlert show];
             }
             
@@ -1379,7 +1379,7 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
 // For iOS7's UIAlertView
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Quit"])
+    if([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Discard"])
     {
         // Go back to the Feed
         [self dismissViewControllerAnimated:YES completion:nil];

@@ -54,6 +54,9 @@
     // Set alphas of logo and Get Started button to zero
     [[self logo] setAlpha:0];
     [[self getStartedButton] setAlpha:0];
+    
+    // Get UserInfo shared object
+    [self setUser:[UserInfo user]];
 	
 	// Set up the navigation bar for pre-login areas of app
 	[[[self navigationController] navigationBar] setBarTintColor:COLOR_NAVIGATION_BAR];
@@ -65,14 +68,25 @@
 	[[self backgroundImage] setContentMode:UIViewContentModeScaleAspectFill];
     
     // Try to log in
-    if(TRUE) // Username and password or Facebook login available in keychain (no networking yet)
+    [SSKeychain setPassword:@"PASSWORD" forService:[[self user] keychainServiceName] account:@"MYACCOUNTNAME"];
+    
+    // Returns all accounts (i.e. usernames) under the  service
+    NSArray *accounts = [SSKeychain accountsForService:[[self user] keychainServiceName]];
+    if([accounts count] == 0) // There is nothing saved
     {
-        // ** Username/password check goes here ** //
-        [[UserInfo user] setLoggedIn:YES];
-    }
-    else // No login info available right now
-    {
+        // The default is FALSE/NO, but just making sure
+        [[self user] setLoggedIn:NO];
+        
+        // Initialize the tutorial/slideshow
         [self initializeSlideshowPageViewController];
+    }
+    else if([accounts count] == 1) // There is one login password item
+    {
+        
+    }
+    else if([accounts count] > 1) // There's more than one login password item (??)
+    {
+        // Delete all existing accounts under 
     }
 }
 
@@ -143,9 +157,6 @@
     {
         // Run the layout
         [self layoutSlideshowPageViewController];
-        
-        // Only run once
-        alreadySetUpSlideshow = TRUE;
         
         // Set the first background image to be shown
         IntroPage *page1 = [pages firstObject];
@@ -279,15 +290,15 @@
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-	// Embed segues are called just once when the parent view controller loads the container view and sets up the view controller
-	// inside the container
-	if([[segue identifier] isEqualToString:STORYBOARD_ID_SEGUE_EMBED_INTRO])
-	{
-		
-	}
-}
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//	// Embed segues are called just once when the parent view controller loads the container view and sets up the view controller
+//	// inside the container
+//	if([[segue identifier] isEqualToString:STORYBOARD_ID_SEGUE_EMBED_INTRO])
+//	{
+//		
+//	}
+//}
 
 // Called when the user wants to 'Log Out'.
 // The method below goes within the view controller that you want to unwind TO (the destination), but in the
@@ -308,7 +319,6 @@
     if([self pageViewControllerSlideshow] == nil)
     {
         [self initializeSlideshowPageViewController]; // allocate
-        alreadySetUpSlideshow = TRUE; // To prevent duplicate constraints in -viewWillLayoutSubviews
         [self layoutSlideshowPageViewController]; // constraints
         
         // Set the first background image to be shown
@@ -393,12 +403,13 @@
     [[pvc view] setTranslatesAutoresizingMaskIntoConstraints:NO]; // Use our own constraints
     [[pvc view] setAlpha:0]; // Hidden at first
     
-    // Add some layout
+    // Add some layout (align to left and right of superview)
     NSArray *leadingTrailingConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[pvc]-0-|"
                                                                                   options:NSLayoutFormatDirectionLeadingToTrailing
                                                                                   metrics:nil
                                                                                     views:@{@"pvc":[pvc view]}];
     
+    // Align top to top of superview and bottom to top of the Get Started button
     NSArray *topBottom = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[pvc]-0-[button]"
                                                                  options:NSLayoutFormatDirectionLeadingToTrailing
                                                                  metrics:nil
@@ -408,6 +419,9 @@
     // Apply the constraints
     [[self view] addConstraints:leadingTrailingConstraints];
     [[self view] addConstraints:topBottom];
+    
+    // Only run once
+    alreadySetUpSlideshow = TRUE;
 }
 
 @end

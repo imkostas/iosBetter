@@ -39,6 +39,9 @@
 @property (nonatomic, strong) NSString *img_uri;
 @property (nonatomic, strong) NSString *apiKey;
 
+// Keychain service name
+@property (strong, nonatomic) NSString *keychainServiceName;
+
 // Initialize and/or return the user singleton
 + (UserInfo *)user;
 
@@ -48,5 +51,8 @@
 
 // Handles requests to show or hide the network activity indicator
 - (void)setNetworkActivityIndicatorVisible:(BOOL)visible;
+
+// Called by classes which perform the login -- they provide the responseObject from an AFNetworking request
+- (BOOL)populateUserInfoWithResponseObject:(id)responseObject;
 
 @end

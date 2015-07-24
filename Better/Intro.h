@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <AFNetworking/AFNetworking.h>
+#import <SSKeychain/SSKeychain.h>
 
 #import "Definitions.h"
+#import "UserInfo.h"
 #import "IntroPageContent.h"
 #import "IntroPage.h"
 #import "Feed.h"
@@ -21,6 +23,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *logo; // The Better logo
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImage; // The image that changes as the user pages around the PageViewController
 @property (weak, nonatomic) IBOutlet UIButton *getStartedButton; // The Getting Started button
+
+// Reference to the UserInfo shared object
+@property (weak, nonatomic) UserInfo *user;
 
 // A reference to the UIPageControl embedded inside the UIPageViewController
 //@property (weak, nonatomic) UIPageControl *pageControl;
