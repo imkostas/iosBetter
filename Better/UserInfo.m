@@ -22,7 +22,7 @@
 @synthesize apiKey;
 
 @synthesize loggedIn;
-@synthesize keychainServiceName;
+@synthesize keychainServiceNameLogin;
 
 
 /**
@@ -57,7 +57,7 @@
         apiKey = @"better";
         
         // Keychain service name
-        keychainServiceName = [[NSBundle mainBundle] bundleIdentifier];
+        keychainServiceNameLogin = [[[NSBundle mainBundle] bundleIdentifier] stringByAppendingString:@".login"];
         
         //initialize user profile info
         username = @"";

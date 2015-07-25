@@ -115,6 +115,11 @@
                   }
 				  else // No error in parsing data
                   {
+                      // Store the username and password in a keychain item -- the account name is the username
+                      [SSKeychain setPassword:[[self passwordField] text]
+                                   forService:[[self user] keychainServiceNameLogin]
+                                      account:[[self usernameField] text]];
+                      
                       // Show the Feed
                       UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:STORYBOARD_FILENAME_FEED bundle:[NSBundle mainBundle]];
                       Feed *feedVCNavigation = [feedStoryboard instantiateViewControllerWithIdentifier:STORYBOARD_ID_FEED];

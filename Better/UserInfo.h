@@ -40,7 +40,7 @@
 @property (nonatomic, strong) NSString *apiKey;
 
 // Keychain service name
-@property (strong, nonatomic) NSString *keychainServiceName;
+@property (strong, nonatomic) NSString *keychainServiceNameLogin;
 
 // Initialize and/or return the user singleton
 + (UserInfo *)user;

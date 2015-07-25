@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Company. All rights reserved.
 //
 
+#import <SSKeychain/SSKeychain.h>
+
 #import "Feed.h"
 #import "UserInfo.h"
 #import "BETextField.h"

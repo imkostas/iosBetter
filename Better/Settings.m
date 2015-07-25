@@ -30,6 +30,9 @@
 	[[self notificationsView] setDelegate:self];
 	[[self supportView] setDelegate:self];
 	[[self logoutView] setDelegate:self];
+    
+    // Get UserInfo shared object
+    [self setUser:[UserInfo user]];
 	
 	// Set background color of this view
 	[[self view] setBackgroundColor:COLOR_LIGHT_LIGHT_GRAY];
@@ -81,6 +84,9 @@
                                                               // Set logged out state
                                                               [[UserInfo user] setLoggedIn:NO];
                                                               
+                                                              // Delete all keychain login items
+                                                              [self removeAllKeychainLoginAccounts];
+                                                              
                                                               // Use unwind segue to go back to Intro
                                                               [self performSegueWithIdentifier:STORYBOARD_ID_SEGUE_UNWIND_TO_INTRO sender:self];
                                                           }]];
@@ -114,6 +120,9 @@
 {
     if([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Log Out"])
     {
+        // Remove keychain login information
+        [self removeAllKeychainLoginAccounts];
+        
         // Use unwind segue to go back to Intro
         [self performSegueWithIdentifier:STORYBOARD_ID_SEGUE_UNWIND_TO_INTRO sender:self];
     }
@@ -161,6 +170,18 @@
 		
 	}];
 }*/
+
+#pragma mark - Keychain maintenance
+- (void)removeAllKeychainLoginAccounts
+{
+    // Get array of all accounts
+    NSArray *accounts = [SSKeychain accountsForService:[[self user] keychainServiceNameLogin]];
+    for(NSDictionary *account in accounts)
+    {
+        // Remove this account
+        [SSKeychain deletePasswordForService:[[self user] keychainServiceNameLogin] account:[account objectForKey:@"acct"]];
+    }
+}
 
 #pragma mark - Navigation bar buttons
 // Called when back arrow is pressed

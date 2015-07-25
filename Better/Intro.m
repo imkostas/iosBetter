@@ -14,14 +14,18 @@
 	NSArray *pages;
 	
 	// boolean to make sure this view controller only does the introductory fade-in once
-	BOOL introFadeDone;
+//	BOOL introFadeDone;
 	
 	// boolean that is set to false only by -unwindToIntro:, and controls whether the navigation bar uses
 	// animation when being hidden (false means no animation).
 	BOOL useAnimationWhenHidingNavBar;
     
-    // If flag is set, the method -viewWillLayoutSubviews will call layoutSlideshowPageViewController
+    // If flag is not set, the method -viewWillLayoutSubviews will call layoutSlideshowPageViewController
     BOOL alreadySetUpSlideshow;
+    
+    // Flag is set by -viewDidAppear:, used by the login request to show the Feed only if the view has
+    // already appeared
+    BOOL viewAlreadyDidAppear;
 }
 
 //// Methods for fading a UIView in and out (setting alpha to 1 and 0)
@@ -50,6 +54,7 @@
 	
 	useAnimationWhenHidingNavBar = TRUE;
     alreadySetUpSlideshow = FALSE;
+    viewAlreadyDidAppear = FALSE;
     
     // Set alphas of logo and Get Started button to zero
     [[self logo] setAlpha:0];
@@ -67,11 +72,8 @@
 	[[self backgroundImage] setClipsToBounds:YES]; // Make sure the image view does not display an image outside of its bounds
 	[[self backgroundImage] setContentMode:UIViewContentModeScaleAspectFill];
     
-    // Try to log in
-    [SSKeychain setPassword:@"PASSWORD" forService:[[self user] keychainServiceName] account:@"MYACCOUNTNAME"];
-    
-    // Returns all accounts (i.e. usernames) under the  service
-    NSArray *accounts = [SSKeychain accountsForService:[[self user] keychainServiceName]];
+    // Returns all accounts (i.e. usernames) under the service
+    NSArray *accounts = [SSKeychain accountsForService:[[self user] keychainServiceNameLogin]];
     if([accounts count] == 0) // There is nothing saved
     {
         // The default is FALSE/NO, but just making sure
@@ -82,11 +84,97 @@
     }
     else if([accounts count] == 1) // There is one login password item
     {
+        // Set alreadySetUpSlideshow to true for now (prevents -viewWillLayoutSubviews from prematurely setting up
+        // the tutorial UIPageViewController)
+        alreadySetUpSlideshow = TRUE;
         
+        // Retrieve the account dictionary
+        NSDictionary *thisAccount = [accounts firstObject];
+        /* Looks like this:
+         {
+             accc = "<SecAccessControlRef: 0x1565d9a0>";
+             acct = MYACCOUNTNAME;
+             agrp = "7Z354MCLYK.com.thememe.Better";
+             cdat = "2015-07-24 20:54:47 +0000";
+             mdat = "2015-07-24 20:54:47 +0000";
+             pdmn = ak;
+             svce = "com.thememe.Better.login";
+             sync = 0;
+             tomb = 0;
+         }
+         */
+        
+        // Get the username from the dictionary (inside the 'acct' key)
+        NSString *username = [thisAccount objectForKey:@"acct"];
+        // Get the password from the keychain, given this username
+        NSString *password = [SSKeychain passwordForService:[[self user] keychainServiceNameLogin] account:username];
+        
+        /** Log in to the API **/
+        
+        // Turn on network indicator
+        [[self user] setNetworkActivityIndicatorVisible:YES];
+        
+        // Set up AFNetworking
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        [manager setRequestSerializer:[AFJSONRequestSerializer serializer]];
+        [manager setResponseSerializer:[AFJSONResponseSerializer serializer]];
+        
+        // Make the request
+        [manager POST:[NSString stringWithFormat:@"%@user/login", [[self user] uri]]
+           parameters:@{@"api_key": [[self user] apiKey],
+                        @"username": username,
+                        @"password": password}
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  // Turn off network indicator
+                  [[self user] setNetworkActivityIndicatorVisible:NO];
+                  
+                  // Send the data to the UserInfo object
+                  if([[self user] populateUserInfoWithResponseObject:responseObject])
+                  {
+                      // Set loggedIn to true, in case all of this happened before -viewDidAppear
+                      [[self user] setLoggedIn:YES];
+                      
+                      // Only present the Feed modally if the view has already appeared (if not, -viewWillAppear
+                      // will take care of showing the Feed)
+                      if(viewAlreadyDidAppear)
+                      {
+                          // Instantiate the Feed
+                          UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:STORYBOARD_FILENAME_FEED bundle:[NSBundle mainBundle]];
+                          Feed *feedViewController = [feedStoryboard instantiateViewControllerWithIdentifier:STORYBOARD_ID_FEED];
+                          
+                          // Do a cross-fade animation when showing the feed
+                          [feedViewController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+                          // Present it
+                          [self presentViewController:feedViewController animated:YES completion:nil];
+                      }
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  // Turn off network indicator
+                  [[self user] setNetworkActivityIndicatorVisible:NO];
+                  
+                  // Set up the tutorial/slideshow UIPageViewController
+                  [self initializeSlideshowPageViewController];
+                  [self layoutSlideshowPageViewController];
+                  
+                  // Fade in Get Started and background image
+                  [UIView animateWithDuration:ANIM_DURATION_INTRO
+                                        delay:ANIM_DELAY_INTRO
+                                      options:UIViewAnimationOptionCurveEaseOut
+                                   animations:^{
+                                       [[[self pageViewControllerSlideshow] view] setAlpha:1];
+                                       [[self getStartedButton] setAlpha:1];
+                                       [[self backgroundImage] setAlpha:1];
+                                   }
+                                   completion:nil];
+              }];
     }
     else if([accounts count] > 1) // There's more than one login password item (??)
     {
-        // Delete all existing accounts under 
+        // The default is FALSE/NO, but just making sure
+        [[self user] setLoggedIn:NO];
+        
+        // Delete all existing accounts under this service name
     }
 }
 
@@ -96,7 +184,7 @@
 	
 	// Hide the navigation bar when showing this view controller
 	if(useAnimationWhenHidingNavBar)
-		[[self navigationController] setNavigationBarHidden:YES animated:YES];
+		[[self navigationController] setNavigationBarHidden:YES animated:YES]; // The usual condition
 	else
 	{
 		// Used by -unwindToIntro: to prevent an unsightly animation when the user uses the 'Log Out' button
@@ -117,6 +205,9 @@
 						 animations:^{
 							 [[self logo] setAlpha:1];
 						 } completion:^(BOOL finished) {
+                             // Remember that the view has appeared
+                             viewAlreadyDidAppear = TRUE;
+                             
                              // Fade in if the pageviewcontroller was created
                              if([self pageViewControllerSlideshow] != nil)
                              {
@@ -131,7 +222,7 @@
                                                   }
                                                   completion:nil];
                              }
-                             else // Show the Feed
+                             else if([[self user] isLoggedIn]) // Show the Feed
                              {
                                  // Instantiate the Feed
                                  UIStoryboard *feedStoryboard = [UIStoryboard storyboardWithName:STORYBOARD_FILENAME_FEED bundle:[NSBundle mainBundle]];

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SSKeychain/SSKeychain.h>
 
 #import "UserInfo.h"
 #import "Definitions.h"
@@ -24,6 +25,9 @@
 @property (weak, nonatomic) IBOutlet BETappableView *notificationsView;
 @property (weak, nonatomic) IBOutlet BETappableView *supportView;
 @property (weak, nonatomic) IBOutlet BETappableView *logoutView;
+
+// Reference to the UserInfo shared object
+@property (weak, nonatomic) UserInfo *user;
 
 // A CustomAlert for logging out
 @property (strong, nonatomic) CustomAlert *logoutAlert;

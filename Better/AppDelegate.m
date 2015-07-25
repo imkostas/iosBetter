@@ -17,6 +17,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
+    
+    // Set default keychain accessibility mode (keychain items accessible only when the device is unlocked)
+    [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
 	
 	// Set colors
 //	[[UINavigationBar appearance] setBarTintColor:COLOR_NAVIGATION_BAR];
