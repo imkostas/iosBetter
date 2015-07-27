@@ -195,7 +195,10 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
         [[self imagePickerController] setShowsCameraControls:YES];
     }
     else // No camera
+    {
         [[self imagePickerController] setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+        [[[self imagePickerController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor], NSFontAttributeName:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_NAVIGATION_BAR]}];
+    }
     
     // More properties
     [[self imagePickerController] setModalPresentationStyle:UIModalPresentationFullScreen];

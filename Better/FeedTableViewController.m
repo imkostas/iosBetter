@@ -54,6 +54,10 @@
 	[[self tableView] registerNib:[UINib nibWithNibName:@"FeedSingleImageCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"feedSingleImageCell"];
 	[[self tableView] registerNib:[UINib nibWithNibName:@"FeedLeftRightCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"feedLeftRightCell"];
 	[[self tableView] registerNib:[UINib nibWithNibName:@"FeedTopBottomCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"feedTopBottomCell"];
+    
+    // Create a new FeedDataController to provide data from the API
+    _dataController = [[FeedDataController alloc] init];
+    [_dataController setDelegate:self];
 }
 
 // Called before auto-layout has happened--here, we create the dummy cell and add it to [self view], but don't
@@ -108,6 +112,9 @@
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
+    
+    // Load some post data
+    [[self dataController] loadPostsIncremental];
 	
 	// Get rid of dummy cell
 	[[self dummyCell] removeFromSuperview];
@@ -139,8 +146,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	NSLog(@"getting number of rows");
-	return numRows;
+//	NSLog(@"getting number of rows");
+//	return numRows;
+    
+    return [[self dataController] numberOfPosts];
 }
 
 #pragma mark - UITableView delegate methods
@@ -148,7 +157,7 @@
 {
 	CGFloat adjustmentHeight = 0;
 	NSInteger index = [indexPath row];
-	
+    
 	if(index % 3 == 0)
 		[[self dummyTagsLabel] setText:@"#hashtag #lotsapoints"];
 	else if(index % 3 == 1)
@@ -264,6 +273,19 @@
 		[thisCell.usernameLabel setText:@"UUUUUSER"];
 		[thisCell.numberOfVotesLabel setText:@"9999"];
 	}
+}
+
+#pragma mark - FeedDataControllerDelegate methods
+// Called when the FeedDataController has loaded some posts
+- (void)feedDataController:(FeedDataController *)feedDataController didReloadPostsAtIndexPaths:(NSArray *)indexPaths
+{
+    return;
+}
+
+// Called when the FeedDataController is done reloading all posts
+- (void)feedDataControllerDidReloadAllPosts:(FeedDataController *)feedDataController
+{
+    return;
 }
 
 - (IBAction)buttonPressed:(id)sender

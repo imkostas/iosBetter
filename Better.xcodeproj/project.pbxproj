@@ -87,6 +87,8 @@
 		D07178631B601B64003863F0 /* BEAddTagButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D07178621B601B64003863F0 /* BEAddTagButton.m */; };
 		D07178661B602E4A003863F0 /* SuggestedTag.m in Sources */ = {isa = PBXBuildFile; fileRef = D07178651B602E4A003863F0 /* SuggestedTag.m */; };
 		D07415621B59503900DAB004 /* BEPostingHotspotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D07415611B59503900DAB004 /* BEPostingHotspotView.m */; };
+		D07A47211B667F86009760BE /* FeedDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = D07A47201B667F86009760BE /* FeedDataController.m */; };
+		D07A47241B66D490009760BE /* PostObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D07A47231B66D490009760BE /* PostObject.m */; };
 		D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */ = {isa = PBXBuildFile; fileRef = D0835FB71B0CEDFB00D88412 /* BETextField.m */; };
 		D0835FBD1B0CF43B00D88412 /* ForgotPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = D0835FBC1B0CF43B00D88412 /* ForgotPassword.m */; };
 		D099018F1B0E35A900760CDF /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = D099018E1B0E35A900760CDF /* Profile.m */; };
@@ -243,6 +245,10 @@
 		D07178651B602E4A003863F0 /* SuggestedTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestedTag.m; sourceTree = "<group>"; };
 		D07415601B59503900DAB004 /* BEPostingHotspotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEPostingHotspotView.h; sourceTree = "<group>"; };
 		D07415611B59503900DAB004 /* BEPostingHotspotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEPostingHotspotView.m; sourceTree = "<group>"; };
+		D07A471F1B667F86009760BE /* FeedDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedDataController.h; sourceTree = "<group>"; };
+		D07A47201B667F86009760BE /* FeedDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedDataController.m; sourceTree = "<group>"; };
+		D07A47221B66937D009760BE /* PostObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostObject.h; sourceTree = "<group>"; };
+		D07A47231B66D490009760BE /* PostObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostObject.m; sourceTree = "<group>"; };
 		D0835FB61B0CEDFB00D88412 /* BETextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BETextField.h; sourceTree = "<group>"; };
 		D0835FB71B0CEDFB00D88412 /* BETextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BETextField.m; sourceTree = "<group>"; };
 		D0835FBB1B0CF43B00D88412 /* ForgotPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPassword.h; sourceTree = "<group>"; };
@@ -639,6 +645,7 @@
 				D066298F1B4AD7CD00359261 /* TableView Controller */,
 				D06629901B4AD7D400359261 /* TableView Cells */,
 				D066299C1B4AD83A00359261 /* Hotspots */,
+				D07A471E1B667F2F009760BE /* Data model */,
 			);
 			name = "Feed Table View";
 			sourceTree = "<group>";
@@ -713,6 +720,17 @@
 				D06629B11B4AD89900359261 /* FeedTopBottomCell.m */,
 			);
 			name = "Top-Bottom";
+			sourceTree = "<group>";
+		};
+		D07A471E1B667F2F009760BE /* Data model */ = {
+			isa = PBXGroup;
+			children = (
+				D07A47221B66937D009760BE /* PostObject.h */,
+				D07A47231B66D490009760BE /* PostObject.m */,
+				D07A471F1B667F86009760BE /* FeedDataController.h */,
+				D07A47201B667F86009760BE /* FeedDataController.m */,
+			);
+			name = "Data model";
 			sourceTree = "<group>";
 		};
 		D0835FB51B0CECBE00D88412 /* Custom Objects */ = {
@@ -1044,6 +1062,7 @@
 				D05EF7571B0B70EF00D01AE4 /* main.m in Sources */,
 				D0CD720E1B2B72D1004A5765 /* RankBarView.m in Sources */,
 				D04DEE801B30AFFC00BF1557 /* MyInfoTableViewCell.m in Sources */,
+				D07A47211B667F86009760BE /* FeedDataController.m in Sources */,
 				D07178631B601B64003863F0 /* BEAddTagButton.m in Sources */,
 				D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */,
 				D09901921B0E619300760CDF /* BEScrollingViewController.m in Sources */,
@@ -1058,6 +1077,7 @@
 				D031CEE31B39E4D70039A9C1 /* LeaderboardTableViewCell.m in Sources */,
 				D06629AC1B4AD88C00359261 /* FeedSingleImageCell.m in Sources */,
 				31C5CFD01B20E65900472161 /* CustomAlert.m in Sources */,
+				D07A47241B66D490009760BE /* PostObject.m in Sources */,
 				D06F394D1B3305C700721FCE /* MyRanking.m in Sources */,
 				D0CBA1C81B2239F0002DD192 /* BETappableView.m in Sources */,
 				3107407B1B1F66C400927B2D /* Following.m in Sources */,

@@ -16,7 +16,24 @@
  (1) image A is on the left, image B is on the right
  (2) image A is on the top, image B is on the bottom
  */
-enum { LAYOUTSTATE_A_ONLY, LAYOUTSTATE_LEFT_RIGHT, LAYOUTSTATE_TOP_BOTTOM };
+enum {
+    LAYOUTSTATE_A_ONLY = 0,
+    LAYOUTSTATE_LEFT_RIGHT = 1,
+    LAYOUTSTATE_TOP_BOTTOM = 2
+};
+
+/**
+ An integer that specifies the type of vote that a user has made on a particular post--there are three
+ possibilities:
+ (0) voted on hotspot A (a.k.a. hotspot one)
+ (1) voted on hotspot B (a.k.a. hotspot two)
+ (2) no vote
+ */
+enum VoteState {
+    VOTE_HOTSPOT_A = 1,
+    VOTE_HOTSPOT_B = 2,
+    VOTE_NOVOTE = 3 // these number values correspond to the values recognized by the server API
+};
 
 // Storyboard filenames
 #define STORYBOARD_FILENAME_FEED @"Feed"

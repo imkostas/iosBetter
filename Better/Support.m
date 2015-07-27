@@ -82,6 +82,10 @@
 				[emailViewController setSubject:@"Better Feedback"];
 				[emailViewController setToRecipients:@[@"support@betterapp.com"]];
 	//			[[emailViewController view] setTintColor:[UIColor whiteColor]]; // Sets color of 'Cancel' and 'Send' button
+                
+                // MFMailComposeViewController ignores all the [UINavigationBar appearance] stuff in AppDelegate.m
+                // except for the white foreground color, so you end up getting a white text on white background
+                [[emailViewController navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
 
 				// Show the email composer
 				[self presentViewController:emailViewController animated:YES completion:nil];

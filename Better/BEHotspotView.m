@@ -98,11 +98,8 @@
 	
 	// Create the attributed string
 	NSMutableAttributedString *percentageString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%%", percent]];
-	
-	[percentageString beginEditing];
 	[percentageString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:26] range:firstRange];
 	[percentageString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:secondRange];
-	[percentageString endEditing];
 	
 	// Apply it to the label
 	[[self percentageLabel] setAttributedText:percentageString];

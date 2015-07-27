@@ -586,14 +586,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send us feedback" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YCS-rk-sxX">
-                                                    <rect key="frame" x="8" y="13" width="127" height="18"/>
+                                                    <rect key="frame" x="16" y="13" width="127" height="18"/>
                                                     <fontDescription key="fontDescription" name="Raleway-Medium" family="Raleway" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="YCS-rk-sxX" firstAttribute="leading" secondItem="Qfx-hR-IoU" secondAttribute="leadingMargin" id="ChY-Jt-hyo"/>
+                                                <constraint firstItem="YCS-rk-sxX" firstAttribute="leading" secondItem="Qfx-hR-IoU" secondAttribute="leading" constant="16" id="ChY-Jt-hyo"/>
                                                 <constraint firstAttribute="centerY" secondItem="YCS-rk-sxX" secondAttribute="centerY" id="qKj-7e-01X"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -605,7 +605,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rate BETTER" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hBE-sP-kG3">
-                                                    <rect key="frame" x="8" y="13" width="93" height="18"/>
+                                                    <rect key="frame" x="16" y="13" width="93" height="18"/>
                                                     <fontDescription key="fontDescription" name="Raleway-Medium" family="Raleway" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -613,7 +613,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="centerY" secondItem="hBE-sP-kG3" secondAttribute="centerY" id="3E7-4p-dxy"/>
-                                                <constraint firstItem="hBE-sP-kG3" firstAttribute="leading" secondItem="usm-bt-WOq" secondAttribute="leadingMargin" id="glN-qn-Izm"/>
+                                                <constraint firstItem="hBE-sP-kG3" firstAttribute="leading" secondItem="usm-bt-WOq" secondAttribute="leading" constant="16" id="glN-qn-Izm"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -624,14 +624,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Privacy Policy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hJp-W5-G7n">
-                                                    <rect key="frame" x="8" y="13" width="97" height="18"/>
+                                                    <rect key="frame" x="16" y="13" width="97" height="18"/>
                                                     <fontDescription key="fontDescription" name="Raleway-Medium" family="Raleway" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="hJp-W5-G7n" firstAttribute="leading" secondItem="OqY-nN-6EO" secondAttribute="leadingMargin" id="7dv-ED-hCh"/>
+                                                <constraint firstItem="hJp-W5-G7n" firstAttribute="leading" secondItem="OqY-nN-6EO" secondAttribute="leading" constant="16" id="7dv-ED-hCh"/>
                                                 <constraint firstAttribute="centerY" secondItem="hJp-W5-G7n" secondAttribute="centerY" id="Hys-nC-uub"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -643,7 +643,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Terms of Service" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbg-ZI-Wov">
-                                                    <rect key="frame" x="8" y="13" width="117" height="18"/>
+                                                    <rect key="frame" x="16" y="13" width="117" height="18"/>
                                                     <fontDescription key="fontDescription" name="Raleway-Medium" family="Raleway" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -651,7 +651,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="centerY" secondItem="lbg-ZI-Wov" secondAttribute="centerY" id="Atd-Nt-y9s"/>
-                                                <constraint firstItem="lbg-ZI-Wov" firstAttribute="leading" secondItem="MUP-Hh-W9M" secondAttribute="leadingMargin" id="ahT-VW-SXZ"/>
+                                                <constraint firstItem="lbg-ZI-Wov" firstAttribute="leading" secondItem="MUP-Hh-W9M" secondAttribute="leading" constant="16" id="ahT-VW-SXZ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -742,7 +742,7 @@
         <!--Terms Privacy-->
         <scene sceneID="Wfn-tR-lo0">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="zDQ-hw-Wtt" customClass="TermsPrivacy" sceneMemberID="viewController">
+                <tabBarController id="zDQ-hw-Wtt" customClass="TermsPrivacy" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="v61-Em-G7g">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>

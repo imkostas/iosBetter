@@ -626,6 +626,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="250" height="580"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="9fI-0a-3zw">
+                                <rect key="frame" x="0.0" y="0.0" width="250" height="44"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                <connections>
+                                    <outlet property="delegate" destination="rvB-qx-tQA" id="2tA-D0-vgh"/>
+                                </connections>
+                            </searchBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d5b-OS-ppq" userLabel="Everything View" customClass="BETappableView">
                                 <rect key="frame" x="0.0" y="44" width="250" height="50"/>
                                 <subviews>
@@ -727,13 +734,6 @@
                                     <constraint firstAttribute="centerY" secondItem="fch-Do-fCf" secondAttribute="centerY" id="uZB-kX-IdH"/>
                                 </constraints>
                             </view>
-                            <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="9fI-0a-3zw">
-                                <rect key="frame" x="0.0" y="0.0" width="250" height="44"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                <connections>
-                                    <outlet property="delegate" destination="rvB-qx-tQA" id="2tA-D0-vgh"/>
-                                </connections>
-                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -747,11 +747,11 @@
                             <constraint firstItem="9fI-0a-3zw" firstAttribute="leading" secondItem="HGT-SZ-7ni" secondAttribute="leading" id="UXx-r3-qaf"/>
                             <constraint firstItem="Dta-Qa-GRY" firstAttribute="top" secondItem="RVY-Si-beY" secondAttribute="bottom" id="VES-m1-Xl1"/>
                             <constraint firstAttribute="trailing" secondItem="RVY-Si-beY" secondAttribute="trailing" id="X9Z-3K-tdh"/>
+                            <constraint firstItem="9fI-0a-3zw" firstAttribute="top" secondItem="e40-Uj-DnV" secondAttribute="bottom" id="dfp-Pp-1v5"/>
                             <constraint firstAttribute="trailing" secondItem="Dta-Qa-GRY" secondAttribute="trailing" id="ek7-Lp-Zwi"/>
                             <constraint firstAttribute="trailing" secondItem="LlH-aa-kwB" secondAttribute="trailing" id="ey7-Te-qg8"/>
                             <constraint firstItem="RVY-Si-beY" firstAttribute="top" secondItem="LlH-aa-kwB" secondAttribute="bottom" id="kxP-Fb-8Do"/>
                             <constraint firstItem="LlH-aa-kwB" firstAttribute="top" secondItem="d5b-OS-ppq" secondAttribute="bottom" id="qya-7b-TW1"/>
-                            <constraint firstItem="9fI-0a-3zw" firstAttribute="top" secondItem="e40-Uj-DnV" secondAttribute="bottom" id="sJh-cF-vHn"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -813,7 +813,6 @@
                                         <constraints>
                                             <constraint firstItem="JAK-mI-9eR" firstAttribute="centerX" secondItem="es9-Zz-Yg7" secondAttribute="centerX" id="4kr-Fb-84P"/>
                                             <constraint firstAttribute="bottom" secondItem="1Uf-bO-qb6" secondAttribute="bottom" constant="12" id="6n2-Fn-qCM"/>
-                                            <constraint firstItem="2Vo-h2-bNa" firstAttribute="top" secondItem="0zo-5k-377" secondAttribute="top" id="Bhh-wp-QOG"/>
                                             <constraint firstItem="JAK-mI-9eR" firstAttribute="width" secondItem="es9-Zz-Yg7" secondAttribute="width" id="FdW-G6-Xtl"/>
                                             <constraint firstItem="2Vo-h2-bNa" firstAttribute="leading" secondItem="0zo-5k-377" secondAttribute="leading" id="MT4-u2-jrC"/>
                                             <constraint firstItem="1Uf-bO-qb6" firstAttribute="leading" secondItem="0zo-5k-377" secondAttribute="leadingMargin" constant="8" id="Nla-XL-Xws"/>
@@ -900,6 +899,7 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="HyS-0N-L3a" secondAttribute="trailing" id="5wz-hO-oXh"/>
                                     <constraint firstItem="HyS-0N-L3a" firstAttribute="top" secondItem="khU-kK-Kr6" secondAttribute="top" constant="206" id="HqH-F2-p81"/>
+                                    <constraint firstItem="0zo-5k-377" firstAttribute="top" secondItem="khU-kK-Kr6" secondAttribute="top" id="Qbn-yI-NsL"/>
                                     <constraint firstItem="HyS-0N-L3a" firstAttribute="top" secondItem="0zo-5k-377" secondAttribute="bottom" constant="8" id="VC3-1T-2K4"/>
                                     <constraint firstItem="0zo-5k-377" firstAttribute="leading" secondItem="khU-kK-Kr6" secondAttribute="leading" id="WVF-qo-zKC"/>
                                     <constraint firstItem="HyS-0N-L3a" firstAttribute="leading" secondItem="khU-kK-Kr6" secondAttribute="leading" id="bXT-bu-Zfk"/>
@@ -919,12 +919,12 @@
                         <constraints>
                             <constraint firstItem="HyS-0N-L3a" firstAttribute="width" secondItem="Aq6-Bc-ExD" secondAttribute="width" id="0h1-Xw-3De"/>
                             <constraint firstItem="KHf-Jg-WLA" firstAttribute="top" secondItem="ZuA-sj-lps" secondAttribute="bottom" constant="16" id="3LI-UA-m9Y"/>
+                            <constraint firstItem="khU-kK-Kr6" firstAttribute="top" secondItem="MDB-E7-Pg8" secondAttribute="top" id="GaP-Lj-JpB"/>
+                            <constraint firstItem="2Vo-h2-bNa" firstAttribute="top" secondItem="MDB-E7-Pg8" secondAttribute="top" id="P0A-MW-CeH"/>
                             <constraint firstAttribute="trailing" secondItem="ZuA-sj-lps" secondAttribute="trailing" constant="20" id="Rke-9A-dRG"/>
                             <constraint firstItem="khU-kK-Kr6" firstAttribute="leading" secondItem="Aq6-Bc-ExD" secondAttribute="leading" id="V1O-Vb-Fr2"/>
-                            <constraint firstItem="0zo-5k-377" firstAttribute="top" secondItem="MDB-E7-Pg8" secondAttribute="top" priority="750" id="X4Y-Fq-oqo"/>
                             <constraint firstItem="KHf-Jg-WLA" firstAttribute="top" secondItem="khU-kK-Kr6" secondAttribute="bottom" id="dpi-Vf-mLc"/>
                             <constraint firstAttribute="trailing" secondItem="khU-kK-Kr6" secondAttribute="trailing" id="ovW-oe-rF8"/>
-                            <constraint firstItem="khU-kK-Kr6" firstAttribute="top" secondItem="MDB-E7-Pg8" secondAttribute="top" id="p6m-hm-NGd"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
