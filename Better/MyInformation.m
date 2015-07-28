@@ -63,23 +63,23 @@
 			break;
 		case RANK_NOOB:
 			[[self rankLabel] setText:@"Newbie"];
-			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_NEWBIE]];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_NEWBIE_WHITE]];
 			break;
 		case RANK_MAINSTREAM:
 			[[self rankLabel] setText:@"Mainstream"];
-			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_MAINSTREAM]];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_MAINSTREAM_WHITE]];
 			break;
 		case RANK_TRAILBLAZER:
 			[[self rankLabel] setText:@"Trailblazer"];
-			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRAILBLAZER]];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRAILBLAZER_WHITE]];
 			break;
 		case RANK_TRENDSETTER:
 			[[self rankLabel] setText:@"Trendsetter"];
-			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRENDSETTER]];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRENDSETTER_WHITE]];
 			break;
 		case RANK_CROWNED:
 			[[self rankLabel] setText:@"Crowned"];
-			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_CROWNED]];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_CROWNED_WHITE]];
 			break;
 	}
 	
@@ -373,23 +373,23 @@
 			break;
 		case 1:
 			[[self rankLabel] setText:@"Newbie"];
-			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_NEWBIE]];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_NEWBIE_WHITE]];
 			break;
 		case 2:
 			[[self rankLabel] setText:@"Mainstream"];
-			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_MAINSTREAM]];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_MAINSTREAM_WHITE]];
 			break;
 		case 3:
 			[[self rankLabel] setText:@"Trailblazer"];
-			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRAILBLAZER]];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRAILBLAZER_WHITE]];
 			break;
 		case 4:
 			[[self rankLabel] setText:@"Trendsetter"];
-			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRENDSETTER]];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRENDSETTER_WHITE]];
 			break;
 		case 5:
 			[[self rankLabel] setText:@"Crowned"];
-			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_CROWNED]];
+			[[self rankIcon] setImage:[UIImage imageNamed:ICON_RANK_CROWNED_WHITE]];
 			break;
 	}
 }

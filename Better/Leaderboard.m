@@ -178,13 +178,13 @@
 		return;
 	
 	// Otherwise, set up the cell for the corresponding index
-	NSDictionary *thisUser = [targetArray objectAtIndex:[indexPath indexAtPosition:1]];
+	NSDictionary *thisUser = [targetArray objectAtIndex:[indexPath row]];
 	
 	// The dictionary keys are: "rank", "total_points", "user_id", and "username".
 	// The values are all strings.
 	
 	// Set up index (1, 2, 3, ....)
-	[[cell indexLabel] setText:[NSString stringWithFormat:@"%u", ([indexPath indexAtPosition:1] + 1)]];
+	[[cell indexLabel] setText:[NSString stringWithFormat:@"%u", ([indexPath row] + 1)]];
 	
 	// Set up profile picture (TO-DO) layer properties first
 	[[[cell profileImage] layer] setCornerRadius:(CGRectGetWidth([[cell profileImage] frame]) / 2)];
@@ -203,19 +203,19 @@
 			[[cell rankIcon] setImage:nil];
 			break;
 		case RANK_NOOB:
-			[[cell rankIcon] setImage:[UIImage imageNamed:ICON_RANK_NEWBIE]];
+			[[cell rankIcon] setImage:[UIImage imageNamed:ICON_RANK_NEWBIE_GRAY]];
 			break;
 		case RANK_MAINSTREAM:
-			[[cell rankIcon] setImage:[UIImage imageNamed:ICON_RANK_MAINSTREAM]];
+			[[cell rankIcon] setImage:[UIImage imageNamed:ICON_RANK_MAINSTREAM_GRAY]];
 			break;
 		case RANK_TRAILBLAZER:
-			[[cell rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRAILBLAZER]];
+			[[cell rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRAILBLAZER_GRAY]];
 			break;
 		case RANK_NORANK:
-			[[cell rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRENDSETTER]];
+			[[cell rankIcon] setImage:[UIImage imageNamed:ICON_RANK_TRENDSETTER_GRAY]];
 			break;
 		case RANK_CROWNED:
-			[[cell rankIcon] setImage:[UIImage imageNamed:ICON_RANK_CROWNED]];
+			[[cell rankIcon] setImage:[UIImage imageNamed:ICON_RANK_CROWNED_GRAY]];
 			break;
 	}
 	

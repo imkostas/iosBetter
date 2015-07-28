@@ -175,6 +175,12 @@
         [[self user] setLoggedIn:NO];
         
         // Delete all existing accounts under this service name
+        NSArray *accounts = [SSKeychain accountsForService:[[self user] keychainServiceNameLogin]];
+        for(NSDictionary *account in accounts)
+        {
+            // Remove this account
+            [SSKeychain deletePasswordForService:[[self user] keychainServiceNameLogin] account:[account objectForKey:@"acct"]];
+        }
     }
 }
 

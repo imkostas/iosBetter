@@ -11,6 +11,10 @@
 #define POSTS_PER_DOWNLOAD 5
 
 @interface FeedDataController ()
+{
+    // Set to TRUE when the API returns an empty posts array, signaling that there are no more posts to show
+    BOOL reachedEndOfPostsIncremental;
+}
 
 /** Reference to UserInfo shared object */
 @property (weak, nonatomic) UserInfo *user;
@@ -39,16 +43,23 @@
         
         // Initialize postIDLeastRecent to zero (loads the most recent post first)
         _postIDLeastRecent = 0;
+        
+        // Initialize end-of-feed boolean value
+        reachedEndOfPostsIncremental = FALSE;
     }
     
     return self;
 }
 
-#pragma mark - Networking
+#pragma mark - Instance methods
 // Downloads `POSTS_PER_DOWNLOAD` number of posts and adds them as PostObjects to the end of `postsArray`
 - (void)loadPostsIncremental
 {
     // url is like this: 10.20.30.40/v1/post/<CurrentUserID>/<StartFromThisPostIDGoingBackwards>/<MaxNumberToDownload>
+    
+    // Stop if there are no more posts to show
+    if(reachedEndOfPostsIncremental)
+        return;
     
     // Set up AFNetworking
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -67,6 +78,15 @@
              
              // Get the `response` dictionary. Within it is an array named `feed`.
              NSArray *feedArray = [[responseObject objectForKey:@"response"] objectForKey:@"feed"];
+             
+             // Stop if there are no more posts to show
+             if(feedArray == nil || [feedArray count] == 0)
+             {
+                 // Don't send more network requests
+                 reachedEndOfPostsIncremental = TRUE;
+                 
+                 return; // Stops this success block
+             }
              
              // Date formatter for converting strings to NSDates
              NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -90,6 +110,10 @@
                  if([userID respondsToSelector:intValueSelector])
                      [post setUserID:[userID intValue]];
                  
+                 // Username string
+                 id username = [postDictionary objectForKey:@"username"];
+                 [post setUsername:username];
+                 
                  // Layout type
                  id layoutType = [postDictionary objectForKey:@"layout"];
                  if([layoutType respondsToSelector:intValueSelector])
@@ -110,7 +134,11 @@
                  // Creation date
                  id creationDate = [postDictionary objectForKey:@"created_at"];
                  if([creationDate isKindOfClass:[NSString class]])
+                 {
+                     // Set up the date formatter (string is like this: "2015-07-21 19:30:01")
+                     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
                      [post setCreationDate:[dateFormatter dateFromString:creationDate]];
+                 }
                  
                  // Number of votes (comes as an int, but gets converted to an NSNumber)
                  id numberOfVotes = [postDictionary objectForKey:@"votes"];
@@ -121,6 +149,10 @@
                  id hashtags = [postDictionary objectForKey:@"hashtags"];
                  if([hashtags respondsToSelector:@selector(componentsSeparatedByString:)])
                      [post setTags:[hashtags componentsSeparatedByString:@" "]]; // Each separated by a space
+                 
+                 // Also make an NSAttributedString out of this array of hashtags (for displaying at the top
+                 // of a FeedCell
+                 [post setTagsAttributedString:[FeedDataController attributedStringForHashtagArray:[post tags]]];
                  
                  // Vote (could be FALSE or an NSDictionary)
                  id vote = [postDictionary objectForKey:@"vote"];
@@ -167,16 +199,18 @@
                  _postIDLeastRecent = [post postID];
              }
              
-             // Notify the delegate that some cells have changed
-             if([self delegate])
-                 [[self delegate] feedDataController:self didReloadPostsAtIndexPaths:[updatedIndexPaths copy]];
+             // Updating tableviews and things like that need to happen on the main thread
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 // Notify the delegate that some cells have changed
+                 if([self delegate])
+                     [[self delegate] feedDataController:self didLoadPostsAtIndexPaths:[updatedIndexPaths copy]];
+             });
          }
          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
              NSLog(@"**!!** Error while loading post data");
          }];
 }
 
-#pragma mark - Instance methods
 // Returns the PostObject at this indexPath's -row in the `postsArray` mutable array
 - (PostObject *)postAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -191,6 +225,58 @@
 - (NSUInteger)numberOfPosts
 {
     return [[self postsArray] count];
+}
+
+// Creates an attributed string ("#hashtag #hello #blah") from an array of tags {"hashtag","hello","blah"}
++ (NSAttributedString *)attributedStringForHashtagArray:(NSArray *)hashtags
+{
+    // Place hashtag symbol (#) in front of each hashtag and place in a new string to give to the
+    // NSMutableAttributedString
+    NSMutableString *hashtagStringWithHashes = [[NSMutableString alloc] init];
+    for(NSUInteger i = 0; i < [hashtags count]; i++)
+    {
+        // Get the hashtag string at this index and append it to the mutable string
+        NSString *thisHashtag = [hashtags objectAtIndex:i];
+        [hashtagStringWithHashes appendString:[@"#" stringByAppendingString:thisHashtag]];
+        
+        // Add a space if we are not at the last index
+        if(i < [hashtags count] - 1)
+            [hashtagStringWithHashes appendString:@" "];
+    }
+    
+    // Create NSRanges which correspond to the text of the first two hashtags
+    // "#hashtag_#hello_#restofstring_#morehashtag"
+    
+    NSRange firstCharRange = { .location = 0, .length = 1 }; // "#"
+    NSRange firstHashtagRange = { // "hashtag"
+        .location = 1,
+        .length = [[hashtags firstObject] length]
+    };
+    NSRange betweenFirstSecondRange = { // "_#"
+        .location = firstHashtagRange.location + firstHashtagRange.length,
+        .length = 2
+    };
+    NSRange secondHashtagRange = { // "hello"
+        .location = betweenFirstSecondRange.location + betweenFirstSecondRange.length,
+        .length = [[hashtags objectAtIndex:1] length]
+    };
+    NSRange restOfStringRange = { // "_#restofstring_#morehashtag....."
+        .location = secondHashtagRange.location + secondHashtagRange.length,
+        .length = [hashtagStringWithHashes length] - secondHashtagRange.length - betweenFirstSecondRange.length - firstHashtagRange.length - firstCharRange.length
+    };
+    
+    // Now create the attributed string
+    NSMutableAttributedString *hashtagStringAttr = [[NSMutableAttributedString alloc] initWithString:hashtagStringWithHashes];
+    [hashtagStringAttr beginEditing];
+    [hashtagStringAttr addAttribute:NSForegroundColorAttributeName value:COLOR_FEED_HASHTAGS_STOCK range:firstCharRange];
+    [hashtagStringAttr addAttribute:NSForegroundColorAttributeName value:COLOR_FEED_HASHTAGS_CUSTOM range:firstHashtagRange];
+    [hashtagStringAttr addAttribute:NSForegroundColorAttributeName value:COLOR_FEED_HASHTAGS_STOCK range:betweenFirstSecondRange];
+    [hashtagStringAttr addAttribute:NSForegroundColorAttributeName value:COLOR_FEED_HASHTAGS_CUSTOM range:secondHashtagRange];
+    [hashtagStringAttr addAttribute:NSForegroundColorAttributeName value:COLOR_FEED_HASHTAGS_STOCK range:restOfStringRange];
+    [hashtagStringAttr endEditing];
+    
+    // Return it
+    return [hashtagStringAttr copy];
 }
 
 @end

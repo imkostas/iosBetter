@@ -20,24 +20,12 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0L8-yc-g16">
-                    <rect key="frame" x="8" y="554" width="62" height="38"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                    <state key="normal" title="Button">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="buttonPressed:" destination="-1" eventType="touchUpInside" id="DUE-as-ovn"/>
-                    </connections>
-                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="QlF-yO-77d" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="3yO-i4-DVd"/>
-                <constraint firstItem="0L8-yc-g16" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="65B-ce-L5B"/>
                 <constraint firstItem="QlF-yO-77d" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Hle-Fd-PgL"/>
                 <constraint firstAttribute="trailing" secondItem="QlF-yO-77d" secondAttribute="trailing" id="UiA-3t-2XT"/>
                 <constraint firstAttribute="bottom" secondItem="QlF-yO-77d" secondAttribute="bottom" id="aUY-kq-XNA"/>
-                <constraint firstAttribute="bottom" secondItem="0L8-yc-g16" secondAttribute="bottom" constant="8" id="ghn-Y2-qf4"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>

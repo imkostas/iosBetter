@@ -232,11 +232,16 @@ enum VoteState {
 #define ICON_CROWN_FILLED @"ic_crown_solid_30dp"
 
 // Rank:
-#define ICON_RANK_NEWBIE @"ic_rank_newbie_grey_24dp"
-#define ICON_RANK_MAINSTREAM @"ic_rank_mainstream_grey_24dp"
-#define ICON_RANK_TRAILBLAZER @"ic_rank_trailblazer_grey_24dp"
-#define ICON_RANK_TRENDSETTER @"ic_rank_trendsetter_grey_24dp"
-#define ICON_RANK_CROWNED @"ic_rank_crowned_grey_24dp"
+#define ICON_RANK_NEWBIE_WHITE @"ic_rank_newbie_white"
+#define ICON_RANK_NEWBIE_GRAY @"ic_rank_newbie_gray"
+#define ICON_RANK_MAINSTREAM_WHITE @"ic_rank_mainstream_white"
+#define ICON_RANK_MAINSTREAM_GRAY @"ic_rank_mainstream_gray"
+#define ICON_RANK_TRAILBLAZER_WHITE @"ic_rank_trailblazer_white"
+#define ICON_RANK_TRAILBLAZER_GRAY @"ic_rank_trailblazer_gray"
+#define ICON_RANK_TRENDSETTER_WHITE @"ic_rank_trendsetter_white"
+#define ICON_RANK_TRENDSETTER_GRAY @"ic_rank_trendsetter_gray"
+#define ICON_RANK_CROWNED_WHITE @"ic_rank_crowned_white"
+#define ICON_RANK_CROWNED_GRAY @"ic_rank_crowned_gray"
 
 // Rank table view:
 #define ICON_CHECKMARK @"ic_check_grey600_18dp"

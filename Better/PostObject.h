@@ -62,6 +62,10 @@
 /** Array of NSStrings, each representing a hashtag (without the hash symbol) */
 @property (strong, nonatomic)   NSArray *tags; // Array of NSStrings
 
+/** An NSAttributedString that is a concatenation of the hashtag strings stored in the array `tags`.
+ The string is colored gray except for the text of the 1st and 2nd hashtag. */
+@property (strong, nonatomic)   NSAttributedString *tagsAttributedString;
+
 /** How many total votes on the post (both hotspots combined) */
 @property (nonatomic)           int numberOfVotes;
 

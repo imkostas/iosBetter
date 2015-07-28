@@ -51,9 +51,9 @@
 	tagsLabelHeightOneLine = 0;
 	
 	// Register nibs for each type of cell (single, double image horizontal, and double image vertical)
-	[[self tableView] registerNib:[UINib nibWithNibName:@"FeedSingleImageCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"feedSingleImageCell"];
-	[[self tableView] registerNib:[UINib nibWithNibName:@"FeedLeftRightCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"feedLeftRightCell"];
-	[[self tableView] registerNib:[UINib nibWithNibName:@"FeedTopBottomCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"feedTopBottomCell"];
+	[[self tableView] registerNib:[UINib nibWithNibName:@"FeedCellSingleImage" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"feedCellSingleImage"];
+	[[self tableView] registerNib:[UINib nibWithNibName:@"FeedCellLeftRight" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"feedCellLeftRight"];
+	[[self tableView] registerNib:[UINib nibWithNibName:@"FeedCellTopBottom" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"feedCellTopBottom"];
     
     // Create a new FeedDataController to provide data from the API
     _dataController = [[FeedDataController alloc] init];
@@ -69,7 +69,7 @@
     
 	/** Initialize the dummy cell and add it to [self view], but don't tell it to run auto-layout just yet **/
 	 
-	_dummyCell = (FeedCell *)[[self tableView] dequeueReusableCellWithIdentifier:@"feedSingleImageCell"];
+	_dummyCell = (FeedCell *)[[self tableView] dequeueReusableCellWithIdentifier:@"feedCellSingleImage"];
 	[[self dummyCell] setHidden:YES];
 	[[self view] addSubview:[self dummyCell]];
 	
@@ -106,15 +106,21 @@
 //	_dummyTagsLabel = [[UILabel alloc] initWithFrame:_dummyCell.headerView.tagsLabel.frame];
 	_dummyTagsLabel = [[UILabel alloc] initWithFrame:_dummyCell.tagsLabel.frame];
 	[[self dummyTagsLabel] setNumberOfLines:3];
+    [[self dummyTagsLabel] setFont:[[_dummyCell tagsLabel] font]];
 	[[self dummyTagsLabel] setPreferredMaxLayoutWidth:CGRectGetWidth([[self dummyTagsLabel] frame])];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    // Load some post data
+    [[self dataController] loadPostsIncremental];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
-    
-    // Load some post data
-    [[self dataController] loadPostsIncremental];
 	
 	// Get rid of dummy cell
 	[[self dummyCell] removeFromSuperview];
@@ -130,23 +136,32 @@
 #pragma mark - UITableView datasource methods
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	UITableViewCell *cell = nil;
-	NSInteger index = [indexPath row];
-	
-	// Generate different cells based on the type of the post
-	if(index % 3 == 0)
-		cell = (FeedSingleImageCell *)[tableView dequeueReusableCellWithIdentifier:@"feedSingleImageCell" forIndexPath:indexPath];
-	else if(index % 3 == 1)
-		cell = (FeedLeftRightCell *)[tableView dequeueReusableCellWithIdentifier:@"feedLeftRightCell" forIndexPath:indexPath];
-	else if(index % 3 == 2)
-		cell = (FeedTopBottomCell *)[tableView dequeueReusableCellWithIdentifier:@"feedTopBottomCell" forIndexPath:indexPath];
-	
+    // Get the post corresponding to the given indexPath
+    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+    
+    // Generate different cells based on the type of the post
+    UITableViewCell *cell = nil;
+    switch([thisPost layoutType])
+    {
+        case LAYOUTSTATE_A_ONLY: // One image only
+            cell = (FeedCellSingleImage *)[tableView dequeueReusableCellWithIdentifier:@"feedCellSingleImage" forIndexPath:indexPath];
+            break;
+    
+        case LAYOUTSTATE_LEFT_RIGHT: // Two images, side by side
+            cell = (FeedCellLeftRight *)[tableView dequeueReusableCellWithIdentifier:@"feedCellLeftRight" forIndexPath:indexPath];
+            break;
+    
+        case LAYOUTSTATE_TOP_BOTTOM: // Two images, top and bottom
+            cell = (FeedCellTopBottom *)[tableView dequeueReusableCellWithIdentifier:@"feedCellTopBottom" forIndexPath:indexPath];
+            break;
+    }
+    
 	return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//	NSLog(@"getting number of rows");
+	NSLog(@"getting number of rows");
 //	return numRows;
     
     return [[self dataController] numberOfPosts];
@@ -156,14 +171,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	CGFloat adjustmentHeight = 0;
-	NSInteger index = [indexPath row];
     
-	if(index % 3 == 0)
-		[[self dummyTagsLabel] setText:@"#hashtag #lotsapoints"];
-	else if(index % 3 == 1)
-		[[self dummyTagsLabel] setText:@"#charger #donkey #firstdate #romantic #hair #workplace #beauty #classic #splurge #partytime"];
-	else if(index % 3 == 2)
-		[[self dummyTagsLabel] setText:@"#hey #hashtags #twitter #fb #meme"];
+    // Get the PostObject for this indexPath and set the text of the dummy label to the hashtags text
+    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+    [[self dummyTagsLabel] setText:[[thisPost tagsAttributedString] string]];
 	
 	int multiple = roundf([self dummyTagsLabel].intrinsicContentSize.height / tagsLabelHeightOneLine);
 	if(multiple == 3) // 3 lines of text
@@ -174,23 +185,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//	return rowHeightEstimate;
-	
-	CGFloat adjustmentHeight = 0;
-	NSInteger index = [indexPath row];
-	
-	if(index % 3 == 0)
-		[[self dummyTagsLabel] setText:@"#hello"];
-	else if(index % 3 == 1)
-		[[self dummyTagsLabel] setText:@"#charger #donkey #firstdate #romantic #hair #workplace #beauty #classic #splurge #partytime"];
-	else if(index % 3 == 2)
-		[[self dummyTagsLabel] setText:@"#hey #hashtags #twitter #fb #meme"];
-	
-	int multiple = roundf([self dummyTagsLabel].intrinsicContentSize.height / tagsLabelHeightOneLine);
-	if(multiple == 3) // 3 lines of text
-		adjustmentHeight = tagsLabelHeightOneLine; // Add one line of vertical space
-	
-	return CGRectGetWidth([[self tableView] frame]) + 2 + 98 + adjustmentHeight;
+    return CGRectGetWidth([[self tableView] frame]) + 2 + 98;
 }
 
 #define COLOR1 [UIColor colorWithRed:81/255. green:207/255. blue:224/255. alpha:1]
@@ -199,97 +194,43 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(FeedCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	// Set prof pic
-	if([indexPath row] % 2 == 0)
-//		[cell.headerView.profileImageView setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_FEMALE]];
-		[cell.profileImageView setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_FEMALE]];
-	else
-//		[cell.headerView.profileImageView setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_MALE]];
-		[cell.profileImageView setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_MALE]];
-	
-//	[[[cell headerView] profileImageView] setBackgroundColor:[UIColor greenColor]];
-	
-	if([indexPath row] % 3 == 0)
-	{
-		FeedSingleImageCell *thisCell = (FeedSingleImageCell *)cell;
-		
-		if(background)
-			[[thisCell mainImageView] setImage:background];
-		else
-			[[thisCell mainImageView] setBackgroundColor:COLOR3];
-		
-		[thisCell.hotspot1 setPercentageValue:0.2];
-		[thisCell.hotspot2 setPercentageValue:0.8];
-//		[thisCell.headerView.tagsLabel setText:@"#hashtag #lotsapoints"];
-//		[thisCell.headerView.usernameLabel setText:@"DONKEY"];
-//		[thisCell.headerView.numberOfVotesLabel setText:@"5000"];
-		[thisCell.tagsLabel setText:@"#hashtag #lotsapoints"];
-		[thisCell.usernameLabel setText:@"DONKEY"];
-		[thisCell.numberOfVotesLabel setText:@"5000"];
-	}
-	else if([indexPath row] % 3 == 1)
-	{
-		FeedLeftRightCell *thisCell = (FeedLeftRightCell *)cell;
-		
-		if(image2)
-			[[thisCell leftImageView] setImage:image2];
-		else
-			[[thisCell leftImageView] setBackgroundColor:COLOR1];
-		
-		if(image3)
-			[[thisCell rightImageView] setImage:image3];
-		else
-			[[thisCell rightImageView] setBackgroundColor:COLOR2];
-		
-		[thisCell.hotspot1 setPercentageValue:0.55];
-		[thisCell.hotspot2 setPercentageValue:0.45];
-//		[thisCell.headerView.tagsLabel setText:@"#charger #donkey #firstdate #romantic #hair #workplace #beauty #classic #splurge #partytime"];
-//		[thisCell.headerView.usernameLabel setText:@"GOAT"];
-//		[thisCell.headerView.numberOfVotesLabel setText:@"6"];
-		[thisCell.tagsLabel setText:@"#charger #donkey #firstdate #romantic #hair #workplace #beauty #classic #splurge #partytime"];
-		[thisCell.usernameLabel setText:@"GOAT"];
-		[thisCell.numberOfVotesLabel setText:@"6"];
-	}
-	else if([indexPath row] % 3 == 2)
-	{
-		FeedTopBottomCell *thisCell = (FeedTopBottomCell *)cell;
-		
-		if(image4)
-			[[thisCell topImageView] setImage:image4];
-		else
-			[[thisCell topImageView] setBackgroundColor:COLOR1];
-		
-		if(image5)
-			[[thisCell bottomImageView] setImage:image5];
-		else
-			[[thisCell bottomImageView] setBackgroundColor:COLOR2];
-		
-		[thisCell.hotspot1 setPercentageValue:0.01];
-		[thisCell.hotspot2 setPercentageValue:0.99];
-//		[thisCell.headerView.tagsLabel setText:@"#hey #hashtags #twitter #fb #meme"];
-//		[thisCell.headerView.usernameLabel setText:@"UUUUUSER"];
-//		[thisCell.headerView.numberOfVotesLabel setText:@"9999"];
-		[thisCell.tagsLabel setText:@"#hey #hashtags #twitter #fb #meme"];
-		[thisCell.usernameLabel setText:@"UUUUUSER"];
-		[thisCell.numberOfVotesLabel setText:@"9999"];
-	}
+    // Get the post for this indexPath
+    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+    
+    // Populate the cell's UI elements
+    [[cell tagsLabel] setAttributedText:[thisPost tagsAttributedString]];
+//    [[cell tagsLabel] setText:[[thisPost tagsAttributedString] string]];
+    [[cell usernameLabel] setText:[thisPost username]];
+    [[cell numberOfVotesLabel] setText:[NSString stringWithFormat:@"%i", [thisPost numberOfVotes]]];
+    [[cell profileImageView] setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_FEMALE]];
+    
+    switch([thisPost layoutType])
+    {
+        case LAYOUTSTATE_A_ONLY:
+        {
+            FeedCellSingleImage *thisCell = (FeedCellSingleImage *)cell;
+        }
+    }
 }
 
 #pragma mark - FeedDataControllerDelegate methods
 // Called when the FeedDataController has loaded some posts
-- (void)feedDataController:(FeedDataController *)feedDataController didReloadPostsAtIndexPaths:(NSArray *)indexPaths
+- (void)feedDataController:(FeedDataController *)feedDataController didLoadPostsAtIndexPaths:(NSArray *)indexPaths
 {
-    return;
+    // Insert only the given index paths
+    [[self tableView] insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
 }
 
 // Called when the FeedDataController is done reloading all posts
 - (void)feedDataControllerDidReloadAllPosts:(FeedDataController *)feedDataController
 {
-    return;
+    // Reload everything
+    [[self tableView] reloadData];
 }
 
-- (IBAction)buttonPressed:(id)sender
-{
+//- (IBAction)buttonPressed:(id)sender
+//{
+    /*
 	NSURLSession *urlSession = [NSURLSession sharedSession];
 	NSURLSessionTask *urlTask = [urlSession dataTaskWithURL:[NSURL URLWithString:@"http://dummyimage.com/600x600/333/0cc.png"]
 										  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -385,7 +326,8 @@
 											   }
 										   }];
 	[urlTask5 resume];
-}
+     */
+//}
 
 /*
 #pragma mark - Navigation

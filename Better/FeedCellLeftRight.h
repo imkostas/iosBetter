@@ -10,7 +10,7 @@
 #import "Definitions.h"
 #import "FeedCell.h"
 
-@interface FeedLeftRightCell : FeedCell
+@interface FeedCellLeftRight : FeedCell
 
 // Left and right images
 @property (weak, nonatomic) IBOutlet UIImageView *leftImageView;

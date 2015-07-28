@@ -10,7 +10,7 @@
 #import "Definitions.h"
 #import "FeedCell.h"
 
-@interface FeedTopBottomCell : FeedCell
+@interface FeedCellTopBottom : FeedCell
 
 // Top and bottom images of the post
 @property (weak, nonatomic) IBOutlet UIImageView *topImageView;

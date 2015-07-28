@@ -82,6 +82,7 @@
                 <constraint firstItem="KFK-RS-Ewe" firstAttribute="centerY" secondItem="twg-r3-CiW" secondAttribute="centerY" id="sgO-1g-tSJ"/>
                 <constraint firstItem="pYm-SY-Lf8" firstAttribute="top" relation="greaterThanOrEqual" secondItem="STg-Cs-2oI" secondAttribute="bottom" constant="8" id="uy3-rJ-pBj"/>
             </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>

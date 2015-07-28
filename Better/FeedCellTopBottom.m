@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 BetterCompany. All rights reserved.
 //
 
-#import "FeedTopBottomCell.h"
+#import "FeedCellTopBottom.h"
 
-@implementation FeedTopBottomCell
+@implementation FeedCellTopBottom
 
 #pragma mark - Initialization
 - (void)awakeFromNib

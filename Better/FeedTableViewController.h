@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "Definitions.h"
-#import "FeedSingleImageCell.h"
-#import "FeedLeftRightCell.h"
-#import "FeedTopBottomCell.h"
+#import "FeedCellSingleImage.h"
+#import "FeedCellLeftRight.h"
+#import "FeedCellTopBottom.h"
 #import "FeedDataController.h"
 
 @interface FeedTableViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, FeedDataControllerDelegate>

@@ -70,17 +70,17 @@
 		D05EF7711B0B70EF00D01AE4 /* BetterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7701B0B70EF00D01AE4 /* BetterTests.m */; };
 		D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7831B0B945F00D01AE4 /* Signup.m */; };
 		D05EF7881B0B9F0800D01AE4 /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = D05EF7871B0B9F0800D01AE4 /* Login.m */; };
-		D06629941B4AD7F900359261 /* FeedSingleImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D06629911B4AD7F900359261 /* FeedSingleImageCell.xib */; };
-		D06629951B4AD7F900359261 /* FeedLeftRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D06629921B4AD7F900359261 /* FeedLeftRightCell.xib */; };
-		D06629961B4AD7F900359261 /* FeedTopBottomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D06629931B4AD7F900359261 /* FeedTopBottomCell.xib */; };
+		D06629941B4AD7F900359261 /* FeedCellSingleImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = D06629911B4AD7F900359261 /* FeedCellSingleImage.xib */; };
+		D06629951B4AD7F900359261 /* FeedCellLeftRight.xib in Resources */ = {isa = PBXBuildFile; fileRef = D06629921B4AD7F900359261 /* FeedCellLeftRight.xib */; };
+		D06629961B4AD7F900359261 /* FeedCellTopBottom.xib in Resources */ = {isa = PBXBuildFile; fileRef = D06629931B4AD7F900359261 /* FeedCellTopBottom.xib */; };
 		D066299A1B4AD82200359261 /* FeedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D06629981B4AD82200359261 /* FeedTableViewController.m */; };
 		D066299B1B4AD82200359261 /* FeedTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D06629991B4AD82200359261 /* FeedTableViewController.xib */; };
 		D066299F1B4AD84A00359261 /* BEHotspotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D066299E1B4AD84A00359261 /* BEHotspotView.m */; };
 		D06629A51B4AD86700359261 /* FeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D06629A21B4AD86700359261 /* FeedCell.m */; };
 		D06629A61B4AD86700359261 /* FeedCellHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = D06629A41B4AD86700359261 /* FeedCellHeader.m */; };
-		D06629AC1B4AD88C00359261 /* FeedSingleImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D06629AB1B4AD88C00359261 /* FeedSingleImageCell.m */; };
-		D06629AF1B4AD89200359261 /* FeedLeftRightCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D06629AE1B4AD89200359261 /* FeedLeftRightCell.m */; };
-		D06629B21B4AD89900359261 /* FeedTopBottomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D06629B11B4AD89900359261 /* FeedTopBottomCell.m */; };
+		D06629AC1B4AD88C00359261 /* FeedCellSingleImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D06629AB1B4AD88C00359261 /* FeedCellSingleImage.m */; };
+		D06629AF1B4AD89200359261 /* FeedCellLeftRight.m in Sources */ = {isa = PBXBuildFile; fileRef = D06629AE1B4AD89200359261 /* FeedCellLeftRight.m */; };
+		D06629B21B4AD89900359261 /* FeedCellTopBottom.m in Sources */ = {isa = PBXBuildFile; fileRef = D06629B11B4AD89900359261 /* FeedCellTopBottom.m */; };
 		D06F394D1B3305C700721FCE /* MyRanking.m in Sources */ = {isa = PBXBuildFile; fileRef = D06F394C1B3305C700721FCE /* MyRanking.m */; };
 		D06F39501B33219100721FCE /* ExtendedNavBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = D06F394F1B33219100721FCE /* ExtendedNavBarView.m */; };
 		D06F39531B3369A800721FCE /* Leaderboard.m in Sources */ = {isa = PBXBuildFile; fileRef = D06F39521B3369A800721FCE /* Leaderboard.m */; };
@@ -215,9 +215,9 @@
 		D05EF7831B0B945F00D01AE4 /* Signup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Signup.m; sourceTree = "<group>"; };
 		D05EF7861B0B9F0800D01AE4 /* Login.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login.h; sourceTree = "<group>"; };
 		D05EF7871B0B9F0800D01AE4 /* Login.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Login.m; sourceTree = "<group>"; };
-		D06629911B4AD7F900359261 /* FeedSingleImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedSingleImageCell.xib; sourceTree = "<group>"; };
-		D06629921B4AD7F900359261 /* FeedLeftRightCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedLeftRightCell.xib; sourceTree = "<group>"; };
-		D06629931B4AD7F900359261 /* FeedTopBottomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedTopBottomCell.xib; sourceTree = "<group>"; };
+		D06629911B4AD7F900359261 /* FeedCellSingleImage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedCellSingleImage.xib; sourceTree = "<group>"; };
+		D06629921B4AD7F900359261 /* FeedCellLeftRight.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedCellLeftRight.xib; sourceTree = "<group>"; };
+		D06629931B4AD7F900359261 /* FeedCellTopBottom.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedCellTopBottom.xib; sourceTree = "<group>"; };
 		D06629971B4AD82200359261 /* FeedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedTableViewController.h; sourceTree = "<group>"; };
 		D06629981B4AD82200359261 /* FeedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewController.m; sourceTree = "<group>"; };
 		D06629991B4AD82200359261 /* FeedTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedTableViewController.xib; sourceTree = "<group>"; };
@@ -227,12 +227,12 @@
 		D06629A21B4AD86700359261 /* FeedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedCell.m; sourceTree = "<group>"; };
 		D06629A31B4AD86700359261 /* FeedCellHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedCellHeader.h; sourceTree = "<group>"; };
 		D06629A41B4AD86700359261 /* FeedCellHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedCellHeader.m; sourceTree = "<group>"; };
-		D06629AA1B4AD88C00359261 /* FeedSingleImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedSingleImageCell.h; sourceTree = "<group>"; };
-		D06629AB1B4AD88C00359261 /* FeedSingleImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedSingleImageCell.m; sourceTree = "<group>"; };
-		D06629AD1B4AD89200359261 /* FeedLeftRightCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedLeftRightCell.h; sourceTree = "<group>"; };
-		D06629AE1B4AD89200359261 /* FeedLeftRightCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedLeftRightCell.m; sourceTree = "<group>"; };
-		D06629B01B4AD89900359261 /* FeedTopBottomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedTopBottomCell.h; sourceTree = "<group>"; };
-		D06629B11B4AD89900359261 /* FeedTopBottomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedTopBottomCell.m; sourceTree = "<group>"; };
+		D06629AA1B4AD88C00359261 /* FeedCellSingleImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedCellSingleImage.h; sourceTree = "<group>"; };
+		D06629AB1B4AD88C00359261 /* FeedCellSingleImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedCellSingleImage.m; sourceTree = "<group>"; };
+		D06629AD1B4AD89200359261 /* FeedCellLeftRight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedCellLeftRight.h; sourceTree = "<group>"; };
+		D06629AE1B4AD89200359261 /* FeedCellLeftRight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedCellLeftRight.m; sourceTree = "<group>"; };
+		D06629B01B4AD89900359261 /* FeedCellTopBottom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedCellTopBottom.h; sourceTree = "<group>"; };
+		D06629B11B4AD89900359261 /* FeedCellTopBottom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedCellTopBottom.m; sourceTree = "<group>"; };
 		D06F394B1B3305C700721FCE /* MyRanking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRanking.h; sourceTree = "<group>"; };
 		D06F394C1B3305C700721FCE /* MyRanking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyRanking.m; sourceTree = "<group>"; };
 		D06F394E1B33219100721FCE /* ExtendedNavBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtendedNavBarView.h; sourceTree = "<group>"; };
@@ -644,7 +644,7 @@
 			children = (
 				D066298F1B4AD7CD00359261 /* TableView Controller */,
 				D06629901B4AD7D400359261 /* TableView Cells */,
-				D066299C1B4AD83A00359261 /* Hotspots */,
+				D066299C1B4AD83A00359261 /* UI Objects */,
 				D07A471E1B667F2F009760BE /* Data model */,
 			);
 			name = "Feed Table View";
@@ -668,20 +668,20 @@
 				D06629A91B4AD87B00359261 /* Top-Bottom */,
 				D06629A01B4AD85B00359261 /* Superclass */,
 				D054D8A31B4C38A600E72132 /* FeedCellHeader.xib */,
-				D06629911B4AD7F900359261 /* FeedSingleImageCell.xib */,
-				D06629921B4AD7F900359261 /* FeedLeftRightCell.xib */,
-				D06629931B4AD7F900359261 /* FeedTopBottomCell.xib */,
+				D06629911B4AD7F900359261 /* FeedCellSingleImage.xib */,
+				D06629921B4AD7F900359261 /* FeedCellLeftRight.xib */,
+				D06629931B4AD7F900359261 /* FeedCellTopBottom.xib */,
 			);
 			name = "TableView Cells";
 			sourceTree = "<group>";
 		};
-		D066299C1B4AD83A00359261 /* Hotspots */ = {
+		D066299C1B4AD83A00359261 /* UI Objects */ = {
 			isa = PBXGroup;
 			children = (
 				D066299D1B4AD84A00359261 /* BEHotspotView.h */,
 				D066299E1B4AD84A00359261 /* BEHotspotView.m */,
 			);
-			name = Hotspots;
+			name = "UI Objects";
 			sourceTree = "<group>";
 		};
 		D06629A01B4AD85B00359261 /* Superclass */ = {
@@ -698,8 +698,8 @@
 		D06629A71B4AD86F00359261 /* Single image */ = {
 			isa = PBXGroup;
 			children = (
-				D06629AA1B4AD88C00359261 /* FeedSingleImageCell.h */,
-				D06629AB1B4AD88C00359261 /* FeedSingleImageCell.m */,
+				D06629AA1B4AD88C00359261 /* FeedCellSingleImage.h */,
+				D06629AB1B4AD88C00359261 /* FeedCellSingleImage.m */,
 			);
 			name = "Single image";
 			sourceTree = "<group>";
@@ -707,8 +707,8 @@
 		D06629A81B4AD87700359261 /* Left-Right */ = {
 			isa = PBXGroup;
 			children = (
-				D06629AD1B4AD89200359261 /* FeedLeftRightCell.h */,
-				D06629AE1B4AD89200359261 /* FeedLeftRightCell.m */,
+				D06629AD1B4AD89200359261 /* FeedCellLeftRight.h */,
+				D06629AE1B4AD89200359261 /* FeedCellLeftRight.m */,
 			);
 			name = "Left-Right";
 			sourceTree = "<group>";
@@ -716,8 +716,8 @@
 		D06629A91B4AD87B00359261 /* Top-Bottom */ = {
 			isa = PBXGroup;
 			children = (
-				D06629B01B4AD89900359261 /* FeedTopBottomCell.h */,
-				D06629B11B4AD89900359261 /* FeedTopBottomCell.m */,
+				D06629B01B4AD89900359261 /* FeedCellTopBottom.h */,
+				D06629B11B4AD89900359261 /* FeedCellTopBottom.m */,
 			);
 			name = "Top-Bottom";
 			sourceTree = "<group>";
@@ -971,8 +971,8 @@
 				D05584D51B31D12A003FD842 /* Raleway-SemiBoldItalic.ttf in Resources */,
 				D05584D71B31D12A003FD842 /* Raleway-ThinItalic.ttf in Resources */,
 				D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */,
-				D06629961B4AD7F900359261 /* FeedTopBottomCell.xib in Resources */,
-				D06629941B4AD7F900359261 /* FeedSingleImageCell.xib in Resources */,
+				D06629961B4AD7F900359261 /* FeedCellTopBottom.xib in Resources */,
+				D06629941B4AD7F900359261 /* FeedCellSingleImage.xib in Resources */,
 				D05584D41B31D12A003FD842 /* Raleway-SemiBold.ttf in Resources */,
 				D054D8A41B4C38A600E72132 /* FeedCellHeader.xib in Resources */,
 				D05584CF1B31D12A003FD842 /* Raleway-Light.ttf in Resources */,
@@ -994,7 +994,7 @@
 				D0FA295B1B5E8E1900F5B24C /* SuggestedTags.plist in Resources */,
 				D00B29FA1B3898D600DB87EC /* BadgesCollectionViewCell.xib in Resources */,
 				D05584CC1B31D12A003FD842 /* Raleway-ExtraLight.ttf in Resources */,
-				D06629951B4AD7F900359261 /* FeedLeftRightCell.xib in Resources */,
+				D06629951B4AD7F900359261 /* FeedCellLeftRight.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1051,7 +1051,7 @@
 				D05EF75D1B0B70EF00D01AE4 /* Feed.m in Sources */,
 				D04999E51B4D6EA600A52FD2 /* PostLayoutViewController.m in Sources */,
 				D00B29F91B3898D600DB87EC /* BadgesCollectionViewCell.m in Sources */,
-				D06629AF1B4AD89200359261 /* FeedLeftRightCell.m in Sources */,
+				D06629AF1B4AD89200359261 /* FeedCellLeftRight.m in Sources */,
 				D030579C1B20E84E00F20072 /* (null) in Sources */,
 				D07178661B602E4A003863F0 /* SuggestedTag.m in Sources */,
 				D06F39531B3369A800721FCE /* Leaderboard.m in Sources */,
@@ -1075,7 +1075,7 @@
 				D05EF7881B0B9F0800D01AE4 /* Login.m in Sources */,
 				D02DE0E01B2F74A000FE6A6A /* UserRank.m in Sources */,
 				D031CEE31B39E4D70039A9C1 /* LeaderboardTableViewCell.m in Sources */,
-				D06629AC1B4AD88C00359261 /* FeedSingleImageCell.m in Sources */,
+				D06629AC1B4AD88C00359261 /* FeedCellSingleImage.m in Sources */,
 				31C5CFD01B20E65900472161 /* CustomAlert.m in Sources */,
 				D07A47241B66D490009760BE /* PostObject.m in Sources */,
 				D06F394D1B3305C700721FCE /* MyRanking.m in Sources */,
@@ -1089,7 +1089,7 @@
 				D04999E81B4D6FE700A52FD2 /* PostHashtagsViewController.m in Sources */,
 				D07415621B59503900DAB004 /* BEPostingHotspotView.m in Sources */,
 				D030579F1B20E85900F20072 /* (null) in Sources */,
-				D06629B21B4AD89900359261 /* FeedTopBottomCell.m in Sources */,
+				D06629B21B4AD89900359261 /* FeedCellTopBottom.m in Sources */,
 				31C5CFD61B20E95800472161 /* Filter.m in Sources */,
 				D0F347DC1B289829001950E4 /* MyAccount.m in Sources */,
 				D0CD720B1B2B6237004A5765 /* MyRankingController.m in Sources */,

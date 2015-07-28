@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 BetterCompany. All rights reserved.
 //
 
-#import "FeedSingleImageCell.h"
+#import "FeedCellSingleImage.h"
 
-@implementation FeedSingleImageCell
+@implementation FeedCellSingleImage
 
 #pragma mark - Initialization
 - (void)awakeFromNib

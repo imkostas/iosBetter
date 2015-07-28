@@ -11,7 +11,7 @@
 #import "FeedCell.h"
 #import "BEHotspotView.h"
 
-@interface FeedSingleImageCell : FeedCell
+@interface FeedCellSingleImage : FeedCell
 
 // The main image (one of them for this cell)
 @property (weak, nonatomic) IBOutlet UIImageView *mainImageView;

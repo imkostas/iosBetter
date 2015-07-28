@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 BetterCompany. All rights reserved.
 //
 
-#import "FeedLeftRightCell.h"
+#import "FeedCellLeftRight.h"
 
-@implementation FeedLeftRightCell
+@implementation FeedCellLeftRight
 
 #pragma mark - Initialization
 - (void)awakeFromNib
