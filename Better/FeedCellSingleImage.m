@@ -21,8 +21,8 @@
 //	[[[self mainImageView] layer] setShouldRasterize:YES];
 	
 	// Add hotspots as subviews of the ImageView
-	[[self mainImageView] addSubview:[super hotspot1]];
-	[[self mainImageView] addSubview:[super hotspot2]];
+	[[self mainImageView] addSubview:[super hotspotA]];
+	[[self mainImageView] addSubview:[super hotspotB]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -36,8 +36,8 @@
 - (void)layoutSubviews
 {
 	// Set frames of the hotspots
-	[[super hotspot1] setFrame:CGRectMake(10, 10, 100, 100)];
-	[[super hotspot2] setFrame:CGRectMake(136, 70, 100, 100)];
+	[[super hotspotA] setFrame:CGRectMake(10, 10, 100, 100)];
+	[[super hotspotB] setFrame:CGRectMake(136, 70, 100, 100)];
 	
 	// Call super
 	[super layoutSubviews];

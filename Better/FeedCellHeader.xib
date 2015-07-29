@@ -17,7 +17,6 @@
                 <outlet property="numberOfVotesLabel" destination="twg-r3-CiW" id="qV8-bd-57T"/>
                 <outlet property="profileImageView" destination="o6B-ZA-qUD" id="YmK-YU-zUx"/>
                 <outlet property="tagsLabel" destination="STg-Cs-2oI" id="vHE-ks-Yme"/>
-                <outlet property="threeDotMenuButton" destination="5zs-mx-1j5" id="Gdc-0t-l8w"/>
                 <outlet property="usernameLabel" destination="pYm-SY-Lf8" id="OsV-b6-55v"/>
             </connections>
         </placeholder>
@@ -34,7 +33,7 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="STg-Cs-2oI" userLabel="Hashtags">
-                    <rect key="frame" x="80" y="21" width="342" height="18"/>
+                    <rect key="frame" x="80" y="21" width="340" height="18"/>
                     <fontDescription key="fontDescription" name="Raleway-SemiBold" family="Raleway" pointSize="15"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
@@ -45,10 +44,11 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ThreeDots" translatesAutoresizingMaskIntoConstraints="NO" id="5zs-mx-1j5">
-                    <rect key="frame" x="438" y="21" width="4" height="24"/>
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ThreeDots" translatesAutoresizingMaskIntoConstraints="NO" id="hP4-zY-yLv">
+                    <rect key="frame" x="436" y="21" width="6" height="24"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="4" id="YMr-zk-LWP"/>
+                        <constraint firstAttribute="height" constant="24" id="820-nA-XTh"/>
+                        <constraint firstAttribute="width" constant="6" id="Elb-Pe-m49"/>
                     </constraints>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Checkmark" translatesAutoresizingMaskIntoConstraints="NO" id="KFK-RS-Ewe" userLabel="Checkmark">
@@ -64,20 +64,33 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y1T-ZQ-7IO" userLabel="ThreeDots button">
+                    <rect key="frame" x="386" y="0.0" width="64" height="98"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="pressedThreeDotButton:" destination="-1" eventType="touchUpInside" id="VPd-ui-ad9"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="Y1T-ZQ-7IO" firstAttribute="leading" secondItem="KFK-RS-Ewe" secondAttribute="leading" id="053-ZM-R8T"/>
                 <constraint firstAttribute="trailing" secondItem="twg-r3-CiW" secondAttribute="trailing" constant="8" id="406-pH-6Fn"/>
                 <constraint firstItem="STg-Cs-2oI" firstAttribute="top" secondItem="o6B-ZA-qUD" secondAttribute="top" id="9i2-ng-imJ"/>
                 <constraint firstItem="o6B-ZA-qUD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="HpB-Df-lM3"/>
-                <constraint firstAttribute="trailing" secondItem="5zs-mx-1j5" secondAttribute="trailing" constant="8" id="NCL-y9-MmE"/>
+                <constraint firstAttribute="trailing" secondItem="Y1T-ZQ-7IO" secondAttribute="trailing" id="LZ8-Jb-D0a"/>
+                <constraint firstItem="STg-Cs-2oI" firstAttribute="top" secondItem="hP4-zY-yLv" secondAttribute="top" id="MYM-ZR-xmh"/>
                 <constraint firstItem="pYm-SY-Lf8" firstAttribute="leading" secondItem="o6B-ZA-qUD" secondAttribute="trailing" constant="16" id="Qvk-xw-yix"/>
+                <constraint firstItem="Y1T-ZQ-7IO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="TJ2-c5-v9O"/>
                 <constraint firstItem="STg-Cs-2oI" firstAttribute="leading" secondItem="o6B-ZA-qUD" secondAttribute="trailing" constant="16" id="ciA-Eh-HyV"/>
                 <constraint firstItem="o6B-ZA-qUD" firstAttribute="bottom" secondItem="pYm-SY-Lf8" secondAttribute="bottom" priority="250" id="d77-Aa-i0t"/>
-                <constraint firstItem="5zs-mx-1j5" firstAttribute="leading" secondItem="STg-Cs-2oI" secondAttribute="trailing" constant="16" id="gdm-NO-vOV"/>
+                <constraint firstAttribute="bottom" secondItem="Y1T-ZQ-7IO" secondAttribute="bottom" id="f2J-ZF-8FA"/>
+                <constraint firstItem="hP4-zY-yLv" firstAttribute="leading" secondItem="STg-Cs-2oI" secondAttribute="trailing" constant="16" id="hQP-9G-dra"/>
+                <constraint firstAttribute="trailing" secondItem="hP4-zY-yLv" secondAttribute="trailing" constant="8" id="i3x-fR-vE6"/>
                 <constraint firstItem="twg-r3-CiW" firstAttribute="leading" secondItem="KFK-RS-Ewe" secondAttribute="trailing" constant="2" id="kzP-qY-k0J"/>
                 <constraint firstItem="o6B-ZA-qUD" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="21" id="m5Q-wM-FuD"/>
-                <constraint firstItem="STg-Cs-2oI" firstAttribute="top" secondItem="5zs-mx-1j5" secondAttribute="top" id="ogU-Fr-IJ0"/>
                 <constraint firstItem="twg-r3-CiW" firstAttribute="centerY" secondItem="pYm-SY-Lf8" secondAttribute="centerY" id="qXc-tY-xVF"/>
                 <constraint firstItem="KFK-RS-Ewe" firstAttribute="centerY" secondItem="twg-r3-CiW" secondAttribute="centerY" id="sgO-1g-tSJ"/>
                 <constraint firstItem="pYm-SY-Lf8" firstAttribute="top" relation="greaterThanOrEqual" secondItem="STg-Cs-2oI" secondAttribute="bottom" constant="8" id="uy3-rJ-pBj"/>

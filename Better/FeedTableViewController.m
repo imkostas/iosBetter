@@ -21,6 +21,10 @@
 	 This is the height of a hashtags label that has one line of text
 	 **/
 	CGFloat tagsLabelHeightOneLine;
+    
+    /** A flag to ensure that the FeedDataController only loads posts by itself once, the first time -viewWillAppear:
+     is called */
+    BOOL hasLoadedInitialPosts;
 	
 	UIImage *background;
 	UIImage *image2;
@@ -47,8 +51,10 @@
 	[[self tableView] setDelegate:self];
 	[[self tableView] setBackgroundColor:COLOR_GRAY];
 	
-	numRows = 10;
+    // Initialize
+//	numRows = 10;
 	tagsLabelHeightOneLine = 0;
+    hasLoadedInitialPosts = FALSE;
 	
 	// Register nibs for each type of cell (single, double image horizontal, and double image vertical)
 	[[self tableView] registerNib:[UINib nibWithNibName:@"FeedCellSingleImage" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"feedCellSingleImage"];
@@ -114,8 +120,12 @@
 {
     [super viewWillAppear:animated];
     
-    // Load some post data
-    [[self dataController] loadPostsIncremental];
+    // Load some post data automatically (if it hasn't been done once already)
+    if(!hasLoadedInitialPosts)
+    {
+        [[self dataController] loadPostsIncremental];
+        hasLoadedInitialPosts = TRUE; // You only load once (YOLO)
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -209,8 +219,34 @@
         case LAYOUTSTATE_A_ONLY:
         {
             FeedCellSingleImage *thisCell = (FeedCellSingleImage *)cell;
+            [[thisCell mainImageView] setBackgroundColor:COLOR1];
+            [[thisCell hotspotA] setPercentageValue:0.9];
+            [[thisCell hotspotB] setPercentageValue:0.1];
+            break;
+        }
+        case LAYOUTSTATE_LEFT_RIGHT:
+        {
+            FeedCellLeftRight *thisCell = (FeedCellLeftRight *)cell;
+            [[thisCell leftImageView] setBackgroundColor:COLOR1];
+            [[thisCell rightImageView] setBackgroundColor:COLOR3];
+            [[thisCell hotspotA] setPercentageValue:0.51];
+            [[thisCell hotspotB] setPercentageValue:0.49];
+            break;
+        }
+        case LAYOUTSTATE_TOP_BOTTOM:
+        {
+            FeedCellTopBottom *thisCell = (FeedCellTopBottom *)cell;
+            [[thisCell topImageView] setBackgroundColor:COLOR3];
+            [[thisCell bottomImageView] setBackgroundColor:COLOR1];
+            [[thisCell hotspotA] setPercentageValue:0.6];
+            [[thisCell hotspotB] setPercentageValue:0.4];
+            break;
         }
     }
+    
+    // If the last cell of the TableView is going to be displayed, load some more data
+    if([indexPath row] == [[self dataController] numberOfPosts] - 1)
+        [[self dataController] loadPostsIncremental];
 }
 
 #pragma mark - FeedDataControllerDelegate methods
@@ -218,7 +254,7 @@
 - (void)feedDataController:(FeedDataController *)feedDataController didLoadPostsAtIndexPaths:(NSArray *)indexPaths
 {
     // Insert only the given index paths
-    [[self tableView] insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+    [[self tableView] insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
 }
 
 // Called when the FeedDataController is done reloading all posts

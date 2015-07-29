@@ -84,7 +84,6 @@
              {
                  // Don't send more network requests
                  reachedEndOfPostsIncremental = TRUE;
-                 
                  return; // Stops this success block
              }
              

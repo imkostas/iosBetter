@@ -26,8 +26,8 @@
 	// Add hotspots as subviews of the top and bottom ImageViews---
 	// hotspot1 --> top image
 	// hotspot2 --> bottom image
-	[[self topImageView] addSubview:[super hotspot1]];
-	[[self bottomImageView] addSubview:[super hotspot2]];
+	[[self topImageView] addSubview:[super hotspotA]];
+	[[self bottomImageView] addSubview:[super hotspotB]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -41,8 +41,8 @@
 - (void)layoutSubviews
 {
 	// Put the hotspots in the right place
-	[[super hotspot1] setFrame:CGRectMake(80, 10, 100, 100)];
-	[[super hotspot2] setFrame:CGRectMake(140, 10, 100, 100)];
+	[[super hotspotA] setFrame:CGRectMake(80, 10, 100, 100)];
+	[[super hotspotB] setFrame:CGRectMake(140, 10, 100, 100)];
 	
 	// Call super
 	[super layoutSubviews];

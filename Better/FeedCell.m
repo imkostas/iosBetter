@@ -15,8 +15,8 @@
 @property (nonatomic) BOOL alreadyLaidOutSubviews;
 
 // Gesture recognizer handlers for hotspots
-- (void)pressedHotspot1:(UITapGestureRecognizer *)gesture;
-- (void)pressedHotspot2:(UITapGestureRecognizer *)gesture;
+- (void)pressedHotspotA:(UITapGestureRecognizer *)gesture;
+- (void)pressedHotspotB:(UITapGestureRecognizer *)gesture;
 
 @end
 
@@ -36,12 +36,12 @@
 	
 	// Create hotspots;
 	// ** Subclasses are responsible for setting their frames and adding them as subviews
-	[self setHotspot1:[[BEHotspotView alloc] init]];
-	[self setHotspot2:[[BEHotspotView alloc] init]];
+	[self setHotspotA:[[BEHotspotView alloc] init]];
+	[self setHotspotB:[[BEHotspotView alloc] init]];
 	
 	// Add tap gesture recognizers to the hotspots
-	[[self hotspot1] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pressedHotspot1:)]];
-	[[self hotspot2] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pressedHotspot2:)]];
+	[[self hotspotA] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pressedHotspotA:)]];
+	[[self hotspotB] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pressedHotspotB:)]];
 	
 	// Set up divider
 	[[self dividerView] setBackgroundColor:COLOR_POST_DIVIDER];
@@ -146,14 +146,21 @@
 //}
 
 #pragma mark - Gesture handling
-- (void)pressedHotspot1:(UITapGestureRecognizer *)gesture
+- (void)pressedHotspotA:(UITapGestureRecognizer *)gesture
 {
-	NSLog(@"You pressed on hotspot 1, %@", self);
+	NSLog(@"You pressed on hotspot A, %@", self);
 }
 
-- (void)pressedHotspot2:(UITapGestureRecognizer *)gesture
+- (void)pressedHotspotB:(UITapGestureRecognizer *)gesture
 {
-	NSLog(@"You pressed on hotspot 2, %@", self);
+	NSLog(@"You pressed on hotspot B, %@", self);
 }
+
+#pragma mark - Button handling
+- (IBAction)pressedThreeDotButton:(id)sender
+{
+    NSLog(@"pressed on 3-dot button");
+}
+
 
 @end

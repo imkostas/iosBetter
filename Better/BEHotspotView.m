@@ -8,6 +8,8 @@
 
 #import "BEHotspotView.h"
 
+#define RATIO_CIRCULAR_STRIPE_THICKNESS_TO_HOTSPOT_DIAMETER 0.1 // This is 26/288 rounded (generously)
+
 @interface BEHotspotView ()
 
 // The background image for this view (the transparent, unfilled hotspot image)
@@ -15,6 +17,9 @@
 
 // UILabel for showing the percentage text
 @property (strong, nonatomic) UILabel *percentageLabel;
+
+/** A CAShapeLayer for the green-colored ring that visually represents the percentage value of the hotspot */
+@property (strong, nonatomic) CAShapeLayer *ringLayer;
 
 @end
 
@@ -34,6 +39,7 @@
 		[self setBackgroundColor:[UIColor clearColor]];
 		[self setBackgroundImageView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Hotspot"]]];
 		[self setPercentageLabel:[[UILabel alloc] init]];
+        [self setRingLayer:[CAShapeLayer layer]];
 		
 		// Configure properties
 //		[[self percentageLabel] setBackgroundColor:[UIColor blueColor]];
@@ -42,10 +48,14 @@
 		
 		[[[self backgroundImageView] layer] setRasterizationScale:[[UIScreen mainScreen] scale]];
 		[[[self backgroundImageView] layer] setShouldRasterize:YES];
+        
+        [[self ringLayer] setStrokeColor:[COLOR_BETTER CGColor]];
+        [[self ringLayer] setFillColor:nil];
 		
 		// Add all subviews
 		[self addSubview:[self backgroundImageView]];
 		[self addSubview:[self percentageLabel]];
+        [[self layer] addSublayer:[self ringLayer]];
 	}
 	
 	return self;
@@ -58,6 +68,25 @@
 	
 	// Background image
 	[[self backgroundImageView] setFrame:[self bounds]];
+    
+    /** Set up the ring layer **/
+    
+    // Create a circle that fits within the bounds of this view (if line thickness is larger than 1, the
+    // system draws the line/stroke so that the center of the stroke is traced by the middle of the path i.e.
+    // the stroke sticks out to the left and to the right of the path -- hence the "0.5" and "2" multipliers
+    // below to get a correct rectangle that doesn't cause the stroke to go outside the hotspot
+    CGFloat translateXandY = 0.5 * CGRectGetWidth([self bounds]) * RATIO_CIRCULAR_STRIPE_THICKNESS_TO_HOTSPOT_DIAMETER;
+    CGFloat sizeXandY = CGRectGetWidth([self bounds]) - 2 * translateXandY;
+    CGRect ringRect = {};
+    ringRect.origin = CGPointMake(translateXandY, translateXandY);
+    ringRect.size = CGSizeMake(sizeXandY, sizeXandY);
+    
+    // Path -> circle that fits inside the above rectangle
+    CGPathRef ringLayerPath = CGPathCreateWithEllipseInRect(ringRect, NULL);
+    
+    // Set the path and some other properties
+    [[self ringLayer] setPath:ringLayerPath];
+    [[self ringLayer] setLineWidth:CGRectGetWidth([self bounds]) * RATIO_CIRCULAR_STRIPE_THICKNESS_TO_HOTSPOT_DIAMETER];
 	
 	// Percentage label
 	CGRect labelFrame;
@@ -98,11 +127,32 @@
 	
 	// Create the attributed string
 	NSMutableAttributedString *percentageString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%%", percent]];
+    [percentageString beginEditing];
 	[percentageString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:26] range:firstRange];
 	[percentageString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:secondRange];
+    [percentageString endEditing];
 	
 	// Apply it to the label
 	[[self percentageLabel] setAttributedText:percentageString];
+    
+    // Update ring layer with an animation
+//    CABasicAnimation *ringAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+//    [ringAnimation setFromValue:[NSNumber numberWithInt:0]];
+//    [ringAnimation setToValue:[NSNumber numberWithFloat:percentageValue]];
+//    [ringAnimation setDuration:(2 * percentageValue)]; // Proportional time to the percentage
+    
+    // Update ring layer's percentage-filled with an ease-out function
+    CAKeyframeAnimation *ringAnimation = [CAKeyframeAnimation animationWithKeyPath:@"strokeEnd"];
+    CAMediaTimingFunction *ringAnimationFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
+    
+        // Start at zero and end at the percentage value
+    [ringAnimation setValues:@[[NSNumber numberWithInt:0], [NSNumber numberWithFloat:percentageValue]]];
+    [ringAnimation setTimingFunction:ringAnimationFunction];
+    [ringAnimation setDuration:(1.75 * sqrt(percentageValue))];
+    
+    // Run the animation and actually apply the end value
+    [[self ringLayer] addAnimation:ringAnimation forKey:@"strokeEnd"];
+    [[self ringLayer] setStrokeEnd:percentageValue]; // If not present, the ring flashes back to nothing
 	
 	// Finally record the new value
 	_percentageValue = percentageValue;

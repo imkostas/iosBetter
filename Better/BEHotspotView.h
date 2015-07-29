@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "Definitions.h"
+
 @interface BEHotspotView : UIView
 
 // Holds the percentage value of this hotspot (this is a number between 0 and 1, and is also used to update

@@ -138,18 +138,18 @@ enum VoteState {
 #define MARGIN_FEEDCELL_SHADOWVIEW 8
 
 // Colors
-#define COLOR_NAVIGATION_TINT ([UIColor colorWithWhite:0.8 alpha:1.0])
-#define COLOR_NAVIGATION_BAR ([UIColor colorWithWhite:0 alpha:0.1])
-#define COLOR_BETTER ([UIColor colorWithRed:29/255.0 green:233/255.0 blue:182/255.0 alpha:1.0])
-#define COLOR_BETTER_DARK ([UIColor colorWithRed:0 green:150/255.0 blue:136/255.0 alpha:1.0])
-#define COLOR_BETTER_DARKER ([UIColor colorWithRed:0 green:0.3 blue:0.25 alpha:1.0])
-#define COLOR_PICKER_BACKGROUND ([UIColor colorWithWhite:0.85 alpha:1.0])
-#define COLOR_PICKER_TOPBAR ([UIColor colorWithWhite:0.97 alpha:1.0])
-#define COLOR_PICKER_TRANSPARENCY ([UIColor colorWithWhite:0.2 alpha:0.5])
-#define COLOR_LIGHT_LIGHT_GRAY ([UIColor colorWithWhite:0.96 alpha:1.0])
-#define COLOR_LIGHTER_GRAY ([UIColor colorWithWhite:0.98 alpha:1.0])
-#define COLOR_LIGHT_GRAY ([UIColor colorWithWhite:0.62 alpha:1.0])
-#define COLOR_GRAY_FEED ([UIColor colorWithRed:0.82 green:0.82 blue:0.83 alpha:1.0])
+#define COLOR_NAVIGATION_TINT [UIColor colorWithWhite:0.8 alpha:1.0]
+#define COLOR_NAVIGATION_BAR [UIColor colorWithWhite:0 alpha:0.1]
+#define COLOR_BETTER [UIColor colorWithRed:29/255.0 green:233/255.0 blue:182/255.0 alpha:1.0]
+#define COLOR_BETTER_DARK [UIColor colorWithRed:0 green:150/255.0 blue:136/255.0 alpha:1.0]
+#define COLOR_BETTER_DARKER [UIColor colorWithRed:0 green:0.3 blue:0.25 alpha:1.0]
+#define COLOR_PICKER_BACKGROUND [UIColor colorWithWhite:0.85 alpha:1.0]
+#define COLOR_PICKER_TOPBAR [UIColor colorWithWhite:0.97 alpha:1.0]
+#define COLOR_PICKER_TRANSPARENCY [UIColor colorWithWhite:0.2 alpha:0.5]
+#define COLOR_LIGHT_LIGHT_GRAY [UIColor colorWithWhite:0.96 alpha:1.0]
+#define COLOR_LIGHTER_GRAY [UIColor colorWithWhite:0.98 alpha:1.0]
+#define COLOR_LIGHT_GRAY [UIColor colorWithWhite:0.62 alpha:1.0]
+#define COLOR_GRAY_FEED [UIColor colorWithRed:0.82 green:0.82 blue:0.83 alpha:1.0]
 
 #define COLOR_GRAY [UIColor colorWithWhite:0.85 alpha:1.0]
 #define COLOR_POST_DIVIDER [UIColor colorWithWhite:0.62 alpha:1.0]
