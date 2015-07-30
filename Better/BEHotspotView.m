@@ -82,7 +82,18 @@
     ringRect.size = CGSizeMake(sizeXandY, sizeXandY);
     
     // Path -> circle that fits inside the above rectangle
-    CGPathRef ringLayerPath = CGPathCreateWithEllipseInRect(ringRect, NULL);
+//    CGPathRef ringLayerPath = CGPathCreateWithEllipseInRect(ringRect, NULL);
+    
+    CGMutablePathRef ringLayerPathMutable = CGPathCreateMutable();
+//    CGPathMoveToPoint(ringLayerPathMutable, NULL, CGRectGetWidth(ringRect) / 2, 0); // Start at 12 o'clock position
+    CGPoint centerPoint = {};
+    centerPoint.x = CGRectGetWidth(ringRect) / 2 + ringRect.origin.x;
+    centerPoint.y = CGRectGetHeight(ringRect) / 2 + ringRect.origin.y;
+    CGPathAddArc(ringLayerPathMutable, NULL, centerPoint.x, centerPoint.y, CGRectGetWidth(ringRect) / 2, -M_PI_2, 3*M_PI_2, FALSE);
+    // ^^  TRUE => clockwise from -pi/2 to (3/2)pi
+    
+    // Create non-mutable copy
+    CGPathRef ringLayerPath = CGPathCreateCopy(ringLayerPathMutable);
     
     // Set the path and some other properties
     [[self ringLayer] setPath:ringLayerPath];
@@ -141,7 +152,7 @@
 //    [ringAnimation setToValue:[NSNumber numberWithFloat:percentageValue]];
 //    [ringAnimation setDuration:(2 * percentageValue)]; // Proportional time to the percentage
     
-    // Update ring layer's percentage-filled with an ease-out function
+    // Update ring layer's percentage-filled with the system's default function for animating ui elements
     CAKeyframeAnimation *ringAnimation = [CAKeyframeAnimation animationWithKeyPath:@"strokeEnd"];
     CAMediaTimingFunction *ringAnimationFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
     

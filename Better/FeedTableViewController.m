@@ -195,12 +195,22 @@
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGRectGetWidth([[self tableView] frame]) + 2 + 98;
+    CGFloat adjustmentHeight = 0;
+    
+    // Get the PostObject for this indexPath and set the text of the dummy label to the hashtags text
+    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+    [[self dummyTagsLabel] setText:[[thisPost tagsAttributedString] string]];
+    
+    int multiple = roundf([self dummyTagsLabel].intrinsicContentSize.height / tagsLabelHeightOneLine);
+    if(multiple == 3) // 3 lines of text
+        adjustmentHeight = tagsLabelHeightOneLine; // Add one line of vertical space
+    
+    return CGRectGetWidth([[self tableView] frame]) + 2 + 98 + adjustmentHeight;
 }
 
-#define COLOR1 [UIColor colorWithRed:81/255. green:207/255. blue:224/255. alpha:1]
+#define COLOR1 [UIColor colorWithRed:50/255. green:50/255. blue:50/255. alpha:1]
 #define COLOR2 [UIColor colorWithRed:196/255. green:81/255. blue:225/255. alpha:1]
-#define COLOR3 [UIColor colorWithRed:127/255. green:209/255. blue:113/255. alpha:1]
+#define COLOR3 [UIColor colorWithRed:54/255. green:202/255. blue:37/255. alpha:1]
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(FeedCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {

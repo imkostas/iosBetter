@@ -96,8 +96,16 @@
 		/** Set up the label's # of lines and preferred max width (this seems to be better than hard-coding
 		 a value in the .xib -- thank you Stack overflow) **/
 //		NSLog(@"preferred width: %.1f", [self.headerView.tagsLabel preferredMaxLayoutWidth]);
-		[self.tagsLabel setPreferredMaxLayoutWidth:CGRectGetWidth([self.tagsLabel bounds])];
-		[self.tagsLabel setNumberOfLines:3];
+		[[self tagsLabel] setPreferredMaxLayoutWidth:CGRectGetWidth([self.tagsLabel bounds])];
+		[[self tagsLabel] setNumberOfLines:3];
+        
+        // Set up shadow for the first time
+        CALayer *layer = [[self shadowView] layer];
+        CGPathRef boundsPath = [[UIBezierPath bezierPathWithRect:[[self shadowView] bounds]] CGPath];
+        [layer setShadowPath:boundsPath];
+        [layer setShadowOffset:CGSizeMake(0, 1)];
+        [layer setShadowRadius:2];
+        [layer setShadowOpacity:0.3];
         
         // Set up profile picture layer properties
         CALayer *profileLayer = [self.profileImageView layer];
@@ -108,42 +116,20 @@
 		
 		_alreadyLaidOutSubviews = TRUE;
 	}
-    
-    // Set up the cell's shadow (this is outside the run-once layout if() above because the UITableView
-    // that this cell is a part of may change the height of this cell (e.g. in response to a large hashtag string)
-    // so, the shadow may need to be updated more than once
-    CALayer *layer = [[self shadowView] layer];
-    CGPathRef boundsPath = [[UIBezierPath bezierPathWithRect:[[self shadowView] bounds]] CGPath];
-    [layer setShadowPath:boundsPath];
-    [layer setShadowOffset:CGSizeMake(0, 1)];
-    [layer setShadowRadius:2];
-    [layer setShadowOpacity:0.3];
-//	[layer setRasterizationScale:[[UIScreen mainScreen] scale]];
-//	[layer setShouldRasterize:YES];
+    else // Already laid everything out the first time
+    {
+        /** Run auto-layout on this cell before we start applying the CALayer effects **/
+        [[self contentView] setNeedsLayout];
+        [[self contentView] layoutIfNeeded];
+        
+        // Set up the cell's shadow again (this is outside the run-once layout if() above because the UITableView
+        // that this cell is a part of may change the height of this cell (e.g. in response to a large hashtag string)
+        // so, the shadow may need to be updated more than once
+        CALayer *layer = [[self shadowView] layer];
+        CGPathRef boundsPath = [[UIBezierPath bezierPathWithRect:[[self shadowView] bounds]] CGPath];
+        [layer setShadowPath:boundsPath];
+    }
 }
-
-// Called whenever another object wants to change this cell's size (e.g. the TableView may call this)
-//- (void)setBounds:(CGRect)bounds
-//{
-//    // Compare old bounds to new bounds
-//    CGRect oldBounds = [self bounds];
-//    
-//    // Apply new bounds
-//    [super setBounds:bounds];
-//    
-//    // Has the bounds of this cell changed?
-//    if(!CGRectEqualToRect([self bounds], oldBounds))
-//    {
-//        // Re-apply the cell's shadow (this applies to cells that are re-sized by the UITableView in response
-//        // to a hashtag string that spans multiple lines and requires the cell to become taller)
-//        CALayer *layer = [[self shadowView] layer];
-//        CGPathRef boundsPath = [[UIBezierPath bezierPathWithRect:[[self shadowView] bounds]] CGPath];
-//        [layer setShadowPath:boundsPath];
-//        [layer setShadowOffset:CGSizeMake(0, 1)];
-//        [layer setShadowRadius:2];
-//        [layer setShadowOpacity:0.3];
-//    }
-//}
 
 #pragma mark - Gesture handling
 - (void)pressedHotspotA:(UITapGestureRecognizer *)gesture
@@ -161,6 +147,5 @@
 {
     NSLog(@"pressed on 3-dot button");
 }
-
 
 @end

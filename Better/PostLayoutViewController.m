@@ -45,6 +45,10 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
     
     // Boolean to remember if we have already shown the image picker once automatically
     BOOL alreadyOpenedImagePickerAuto;
+    
+    // Two booleans for storing the available image picker source types for the user's device
+    BOOL cameraAvailable;
+    BOOL photoLibraryAvailable;
 }
 
 // Reference to a UIImagePickerController
@@ -72,10 +76,9 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
 
 // Gesture recognizers and their action methods for tapping on a UIScrollView to take a new picture
 @property (strong, nonatomic) UITapGestureRecognizer *tapScrollViewARecognizer;
-- (void)tappedOnScrollViewA:(UITapGestureRecognizer *)gesture;
-
 @property (strong, nonatomic) UITapGestureRecognizer *tapScrollViewBRecognizer;
-- (void)tappedOnScrollViewB:(UITapGestureRecognizer *)gesture;
+- (void)tappedOnScrollView:(UITapGestureRecognizer *)gesture;
+//- (void)tappedOnScrollViewB:(UITapGestureRecognizer *)gesture;
 
 // UIImageViews to serve as spotlights/hotspots and UIPanGestureRecognizers for dragging the hotspots around
 @property (strong, nonatomic) BEPostingHotspotView *hotspotA;
@@ -106,6 +109,9 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
 // returns TRUE if there is a problem, FALSE if there is no problem
 - (BOOL)validateImageLayout;
 - (BOOL)validateHashtags;
+
+// Method to be called by action sheets to show the UIImagePickerController
+- (void)presentImagePickerWithSourceType:(UIImagePickerControllerSourceType)sourceType;
 
 @end
 
@@ -173,8 +179,8 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
     [self setZoomPairB:pairB];
     
     // Set up tap gesture recognizers
-    _tapScrollViewARecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedOnScrollViewA:)];
-    _tapScrollViewBRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedOnScrollViewB:)];
+    _tapScrollViewARecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedOnScrollView:)];
+    _tapScrollViewBRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedOnScrollView:)];
     // Add them to the ScrollViews
     [[self scrollViewA] addGestureRecognizer:[self tapScrollViewARecognizer]];
     [[self scrollViewB] addGestureRecognizer:[self tapScrollViewBRecognizer]];
@@ -189,14 +195,20 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
     [[self imagePickerController] setDelegate:self];
     
     // If camera is available, use it; otherwise, open up the saved photos list
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    cameraAvailable = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
+    photoLibraryAvailable = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary];
+    if(cameraAvailable && photoLibraryAvailable)
     {
+        // Camera source
         [[self imagePickerController] setSourceType:UIImagePickerControllerSourceTypeCamera];
         [[self imagePickerController] setShowsCameraControls:YES];
     }
-    else // No camera
+    else if(!cameraAvailable && photoLibraryAvailable) // No camera but can access photos
     {
+        // Set Photo Library source
         [[self imagePickerController] setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+        
+        // Make the photo library's nav bar title color black (it would be white without this line)
         [[[self imagePickerController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor], NSFontAttributeName:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_NAVIGATION_BAR]}];
     }
     
@@ -906,8 +918,8 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
 }
 
 #pragma mark - Gesture recognizer handling
-// Scroll View A tap
-- (void)tappedOnScrollViewA:(UITapGestureRecognizer *)gesture
+// Scroll View A,B tap
+- (void)tappedOnScrollView:(UITapGestureRecognizer *)gesture
 {
     // This tap has different behavior depending on the posting state--
     // when selecting pictures, it will present the image picker. When adding
@@ -917,14 +929,69 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
         case POSTINGSTATE_PICTURES:
         {
             // Set the image that we are picking
-            targetImageState = TARGETIMAGE_A;
+            if([gesture view] == [self scrollViewA])
+                targetImageState = TARGETIMAGE_A;
+            else if([gesture view] == [self scrollViewB])
+                targetImageState = TARGETIMAGE_B;
             
-            // Set status bar to dark color if the image picker is opening the Photo Library
-            if([[self imagePickerController] sourceType] == UIImagePickerControllerSourceTypePhotoLibrary)
-                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-            
-            // Show the image picker
-            [self presentViewController:[self imagePickerController] animated:YES completion:nil];
+            // Show the Take Photo / Choose Photo chooser if the user has both options, otherwise just present
+            // the image picker (the source type has been chosen already in -viewDidLoad)
+            if(cameraAvailable && photoLibraryAvailable)
+            {
+                // Ask the user if they want to take a picture or select one from the photo library
+                if([UIAlertController class]) // iOS 8+
+                {
+                    // Create an action sheet with two buttons ("Take Photo" or "Choose Photo")
+                    UIAlertController *imageAlertSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+                    
+                    // Take Photo
+                    [imageAlertSheet addAction:[UIAlertAction actionWithTitle:@"Take Photo"
+                                                                        style:UIAlertActionStyleDefault
+                                                                      handler:^(UIAlertAction *action) {
+                                                                          // Present image picker
+                                                                          [self presentImagePickerWithSourceType:UIImagePickerControllerSourceTypeCamera];
+                                                                      }]];
+                    
+                    // Choose Photo
+                    [imageAlertSheet addAction:[UIAlertAction actionWithTitle:@"Choose Photo"
+                                                                        style:UIAlertActionStyleDefault
+                                                                      handler:^(UIAlertAction *action) {
+                                                                          // Present image picker
+                                                                          [self presentImagePickerWithSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+                                                                      }]];
+                    
+                    // Cancel
+                    [imageAlertSheet addAction:[UIAlertAction actionWithTitle:@"Cancel"
+                                                                        style:UIAlertActionStyleCancel
+                                                                      handler:nil]];
+                    
+                    // Show the action sheet
+                    [self presentViewController:imageAlertSheet animated:YES completion:nil];
+                    
+                    // Set tint color to Better color
+                    [[imageAlertSheet view] setTintColor:COLOR_BETTER_DARK];
+                }
+                else // iOS 7
+                {
+                    // Create UIActionSheet with Take Photo, Choose Photo, and Cancel buttons
+                    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                                             delegate:self
+                                                                    cancelButtonTitle:@"Cancel"
+                                                               destructiveButtonTitle:nil
+                                                                    otherButtonTitles:@"Take Photo", @"Choose Photo", nil];
+                    // Show the action sheet
+                    [actionSheet showInView:[self view]];
+                }
+            }
+            else // Device only has one image source-- just show the image picker
+            {
+                // Set status bar to dark color if the image picker is opening the Photo Library
+                if([[self imagePickerController] sourceType] == UIImagePickerControllerSourceTypePhotoLibrary)
+                    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+                
+                // Show the image picker
+                [self presentViewController:[self imagePickerController] animated:YES completion:nil];
+            }
             
             break;
         }
@@ -941,38 +1008,38 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
 }
 
 // Scroll View B tap
-- (void)tappedOnScrollViewB:(UITapGestureRecognizer *)gesture
-{
-    // This tap has different behavior depending on the posting state--
-    // when selecting pictures, it will present the image picker. When adding
-    // hashtags, it will dismiss the hashtags keyboard
-    switch(postState)
-    {
-        case POSTINGSTATE_PICTURES:
-        {
-            // Set the image that we are picking
-            targetImageState = TARGETIMAGE_B;
-            
-            // Set status bar to dark color if the image picker is opening the Photo Library
-            if([[self imagePickerController] sourceType] == UIImagePickerControllerSourceTypePhotoLibrary)
-                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-            
-            // Show the image picker
-            [self presentViewController:[self imagePickerController] animated:YES completion:nil];
-            
-            break;
-        }
-            
-        case POSTINGSTATE_SPOTLIGHTS:
-        {
-            // Make the hotspots resign their first responder status
-            [[self hotspotA] resignFirstResponder];
-            [[self hotspotB] resignFirstResponder];
-            
-            break;
-        }
-    }
-}
+//- (void)tappedOnScrollViewB:(UITapGestureRecognizer *)gesture
+//{
+//    // This tap has different behavior depending on the posting state--
+//    // when selecting pictures, it will present the image picker. When adding
+//    // hashtags, it will dismiss the hashtags keyboard
+//    switch(postState)
+//    {
+//        case POSTINGSTATE_PICTURES:
+//        {
+//            // Set the image that we are picking
+//            targetImageState = TARGETIMAGE_B;
+//            
+//            // Set status bar to dark color if the image picker is opening the Photo Library
+//            if([[self imagePickerController] sourceType] == UIImagePickerControllerSourceTypePhotoLibrary)
+//                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+//            
+//            // Show the image picker
+//            [self presentViewController:[self imagePickerController] animated:YES completion:nil];
+//            
+//            break;
+//        }
+//            
+//        case POSTINGSTATE_SPOTLIGHTS:
+//        {
+//            // Make the hotspots resign their first responder status
+//            [[self hotspotA] resignFirstResponder];
+//            [[self hotspotB] resignFirstResponder];
+//            
+//            break;
+//        }
+//    }
+//}
 
 // Panning a hotspot
 - (void)pannedHotspot:(UIPanGestureRecognizer *)gesture
@@ -1379,16 +1446,6 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
     }
 }
 
-// For iOS7's UIAlertView
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Discard"])
-    {
-        // Go back to the Feed
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
-}
-
 - (IBAction)pressedAOnlyLayoutButton:(id)sender
 {
     // Change the layout
@@ -1516,4 +1573,70 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
                          completion:nil];
     }
 }
+
+#pragma mark - iOS 7 alert delegate methods
+// For iOS7's UIAlertView
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Discard"])
+    {
+        // Go back to the Feed
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+// For UIActionSheet (Take Photo / Choose Photo / Cancel)
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    // User pressed Take Photo button
+    if([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Take Photo"])
+    {
+        // Present image picker
+        [self presentImagePickerWithSourceType:UIImagePickerControllerSourceTypeCamera];
+    }
+    // User pressed Choose Photo button
+    else if([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Choose Photo"])
+    {
+        // Present image picker
+        [self presentImagePickerWithSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+    }
+}
+
+// Method to be called by action sheets to show the UIImagePickerController
+- (void)presentImagePickerWithSourceType:(UIImagePickerControllerSourceType)sourceType
+{
+    switch(sourceType)
+    {
+        case UIImagePickerControllerSourceTypeCamera:
+        {
+            // Set up the UIImagePickerController for camera mode
+            [[self imagePickerController] setSourceType:UIImagePickerControllerSourceTypeCamera];
+            [[self imagePickerController] setShowsCameraControls:YES];
+            
+            // Show the image picker
+            [self presentViewController:[self imagePickerController] animated:YES completion:nil];
+            
+            break;
+        }
+        case UIImagePickerControllerSourceTypePhotoLibrary:
+        {
+            // Set up the UIImagePickerController for library mode
+            [[self imagePickerController] setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+            [[[self imagePickerController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]/*, NSFontAttributeName:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_NAVIGATION_BAR]*/}];
+            
+            // Set status bar to dark color if the image picker is opening the Photo Library
+            if([[self imagePickerController] sourceType] == UIImagePickerControllerSourceTypePhotoLibrary)
+                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+            
+            // Show the image picker
+            [self presentViewController:[self imagePickerController] animated:YES completion:nil];
+            
+            break;
+        }
+        case UIImagePickerControllerSourceTypeSavedPhotosAlbum:
+        default:
+            break;
+    }
+}
+
 @end

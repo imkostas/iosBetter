@@ -25,7 +25,7 @@
 //	[[UINavigationBar appearance] setBarTintColor:COLOR_NAVIGATION_BAR];
 //	[[UINavigationBar appearance] setTintColor:COLOR_NAVIGATION_TINT];
 	[[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_NAVIGATION_BAR]}];
-    [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:FONT_RALEWAY_MEDIUM size:FONT_SIZE_NAVIGATION_BAR]} forState:UIControlStateNormal];
+//    [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:FONT_RALEWAY_MEDIUM size:FONT_SIZE_NAVIGATION_BAR]} forState:UIControlStateNormal];
 	[[UIPageControl appearance] setCurrentPageIndicatorTintColor:COLOR_BETTER];
 	
 	return YES;

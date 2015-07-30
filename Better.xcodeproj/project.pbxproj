@@ -95,6 +95,7 @@
 		D09901921B0E619300760CDF /* BEScrollingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D09901911B0E619300760CDF /* BEScrollingViewController.m */; };
 		D0A250E51B1758AA003E7D0B /* BELine.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A250E41B1758AA003E7D0B /* BELine.m */; };
 		D0A2C2691B0F6ECE00C44A7B /* Intro.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A2C2681B0F6ECE00C44A7B /* Intro.m */; };
+		D0A978001B6AAF1A00895B6B /* BELabelFast.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A977FF1B6AAF1A00895B6B /* BELabelFast.m */; };
 		D0B282DA1B1E0545006FD580 /* BEDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B282D91B1E0545006FD580 /* BEDatePickerView.m */; };
 		D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B282E81B1E5081006FD580 /* BEPickerView.m */; };
 		D0CBA1C81B2239F0002DD192 /* BETappableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CBA1C71B2239F0002DD192 /* BETappableView.m */; };
@@ -261,6 +262,8 @@
 		D0A250E41B1758AA003E7D0B /* BELine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BELine.m; sourceTree = "<group>"; };
 		D0A2C2671B0F6ECE00C44A7B /* Intro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Intro.h; sourceTree = "<group>"; };
 		D0A2C2681B0F6ECE00C44A7B /* Intro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Intro.m; sourceTree = "<group>"; };
+		D0A977FE1B6AAF1A00895B6B /* BELabelFast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BELabelFast.h; sourceTree = "<group>"; };
+		D0A977FF1B6AAF1A00895B6B /* BELabelFast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BELabelFast.m; sourceTree = "<group>"; };
 		D0B282D81B1E0545006FD580 /* BEDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEDatePickerView.h; sourceTree = "<group>"; };
 		D0B282D91B1E0545006FD580 /* BEDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEDatePickerView.m; sourceTree = "<group>"; };
 		D0B282E71B1E5081006FD580 /* BEPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEPickerView.h; sourceTree = "<group>"; };
@@ -680,6 +683,8 @@
 			children = (
 				D066299D1B4AD84A00359261 /* BEHotspotView.h */,
 				D066299E1B4AD84A00359261 /* BEHotspotView.m */,
+				D0A977FE1B6AAF1A00895B6B /* BELabelFast.h */,
+				D0A977FF1B6AAF1A00895B6B /* BELabelFast.m */,
 			);
 			name = "UI Objects";
 			sourceTree = "<group>";
@@ -1099,6 +1104,7 @@
 				D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */,
 				D06629A51B4AD86700359261 /* FeedCell.m in Sources */,
 				D06629A61B4AD86700359261 /* FeedCellHeader.m in Sources */,
+				D0A978001B6AAF1A00895B6B /* BELabelFast.m in Sources */,
 				D00B29F11B38491F00DB87EC /* BEPageViewController.m in Sources */,
 				D0FA296A1B5E998E00F5B24C /* HashtagCellNoDelete.m in Sources */,
 				D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */,

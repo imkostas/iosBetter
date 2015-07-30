@@ -13,7 +13,7 @@
 #import "BEPostingHotspotView.h"
 #import "PostHashtagsViewController.h"
 
-@interface PostLayoutViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate, UIScrollViewDelegate>
+@interface PostLayoutViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate, UIActionSheetDelegate, UIScrollViewDelegate>
 
 // Outlets to the post's two potential images (here as "A" and "B"), which
 // are within UIScrollViews

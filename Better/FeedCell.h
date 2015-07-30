@@ -11,6 +11,7 @@
 #import "Definitions.h"
 //#import "FeedCellHeader.h"
 #import "BEHotspotView.h"
+#import "BELabelFast.h"
 
 @interface FeedCell : UITableViewCell
 
@@ -19,7 +20,7 @@
 
 @property (strong, nonatomic) IBOutlet UIView *headerView; // View which contains all header UI elements
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView; // The profile picture
-@property (weak, nonatomic) IBOutlet UILabel *tagsLabel; // The tags UILabel
+@property (weak, nonatomic) IBOutlet BELabelFast *tagsLabel; // The tags UILabel
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel; // The username
 @property (weak, nonatomic) IBOutlet UILabel	*numberOfVotesLabel; // The number of votes label
 //@property (weak, nonatomic) IBOutlet UIImageView *threeDotMenuButton; // The 3-dot menu button
