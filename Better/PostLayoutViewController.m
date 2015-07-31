@@ -209,7 +209,7 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
         [[self imagePickerController] setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
         
         // Make the photo library's nav bar title color black (it would be white without this line)
-        [[[self imagePickerController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor], NSFontAttributeName:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_NAVIGATION_BAR]}];
+        [[[self imagePickerController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
     }
     
     // More properties
@@ -985,12 +985,8 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
             }
             else // Device only has one image source-- just show the image picker
             {
-                // Set status bar to dark color if the image picker is opening the Photo Library
-                if([[self imagePickerController] sourceType] == UIImagePickerControllerSourceTypePhotoLibrary)
-                    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-                
                 // Show the image picker
-                [self presentViewController:[self imagePickerController] animated:YES completion:nil];
+                [self presentImagePickerWithSourceType:[[self imagePickerController] sourceType]];
             }
             
             break;
@@ -1285,6 +1281,7 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
                                                                       delegate:self
                                                              cancelButtonTitle:@"Discard"
                                                              otherButtonTitles:@"Cancel", nil];
+                
                 [dismissAlert show];
             }
             
@@ -1622,11 +1619,10 @@ enum { TARGETHOTSPOT_A, TARGETHOTSPOT_B };
         {
             // Set up the UIImagePickerController for library mode
             [[self imagePickerController] setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-            [[[self imagePickerController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]/*, NSFontAttributeName:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_NAVIGATION_BAR]*/}];
+            [[[self imagePickerController] navigationBar] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
             
             // Set status bar to dark color if the image picker is opening the Photo Library
-            if([[self imagePickerController] sourceType] == UIImagePickerControllerSourceTypePhotoLibrary)
-                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
             
             // Show the image picker
             [self presentViewController:[self imagePickerController] animated:YES completion:nil];

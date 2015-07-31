@@ -30,10 +30,13 @@
 // Method for responding to taps on the center view
 - (void)tappedOnCenterView:(UITapGestureRecognizer *)gesture;
 
+// A reference to a FeedTableViewController object, which is embedded as a child view controller inside this object
+// and displays the actual list of posts
+@property (weak, nonatomic) FeedTableViewController *feedTableViewController;
 
 // A reference to a storyboard-instantiated UINavigationController, to which we pass the image that the
 // UIImagePickerController returns (this image picker is different from the one within PostLayoutViewController)
-@property (strong, nonatomic) UINavigationController *postNavigationController;
+//@property (strong, nonatomic) UINavigationController *postNavigationController;
 
 @end
 
@@ -124,6 +127,11 @@
 		FilterViewController *filterVC = (FilterViewController *)[segue destinationViewController];
 		[filterVC setDelegate:self];
 	}
+    else if([[segue identifier] isEqualToString:STORYBOARD_ID_SEGUE_EMBED_FEED_MAIN]) // Container for the Feed
+    {
+        // Save the reference to the embedded FeedTableViewController
+        _feedTableViewController = (FeedTableViewController *)[segue destinationViewController];
+    }
 }
 
 #pragma mark - Responding to bar button item presses
@@ -155,6 +163,19 @@
 // Called by FilterViewcontroller when the filter is changed
 - (void)filterChanged:(NSString *)filterString
 {
+    // Update the Feed's posts with the new filter
+    if([filterString isEqualToString:@"Everything"])
+        [[[self feedTableViewController] dataController] setFilterString:FEED_FILTER_EVERYTHING];
+    
+    else if([filterString isEqualToString:@"Favorite Tags"])
+        [[[self feedTableViewController] dataController] setFilterString:FEED_FILTER_FAVORITETAGS];
+    
+    else if([filterString isEqualToString:@"Following"])
+        [[[self feedTableViewController] dataController] setFilterString:FEED_FILTER_FOLLOWING];
+    
+    else if([filterString isEqualToString:@"Trending"])
+        [[[self feedTableViewController] dataController] setFilterString:FEED_FILTER_TRENDING];
+    
 	// Hide the drawer, overlay
 	[self moveCenterViewToCenterAnimated:YES easeIn:YES];
 	

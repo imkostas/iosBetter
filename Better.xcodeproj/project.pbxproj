@@ -22,6 +22,7 @@
 		D01CB7451B29D78D003DF616 /* Support.m in Sources */ = {isa = PBXBuildFile; fileRef = D01CB7441B29D78D003DF616 /* Support.m */; };
 		D01CB7471B2A126D003DF616 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D01CB7461B2A126D003DF616 /* MessageUI.framework */; };
 		D01CB74D1B2A2711003DF616 /* TermsPrivacy.m in Sources */ = {isa = PBXBuildFile; fileRef = D01CB74C1B2A2711003DF616 /* TermsPrivacy.m */; };
+		D027306D1B6C14930059CBE7 /* BEFadingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D027306C1B6C14930059CBE7 /* BEFadingImageView.m */; };
 		D02DE0DD1B2F651F00FE6A6A /* MyInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = D02DE0DC1B2F651F00FE6A6A /* MyInformation.m */; };
 		D02DE0E01B2F74A000FE6A6A /* UserRank.m in Sources */ = {isa = PBXBuildFile; fileRef = D02DE0DF1B2F74A000FE6A6A /* UserRank.m */; };
 		D030579C1B20E84E00F20072 /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -150,6 +151,8 @@
 		D01CB7461B2A126D003DF616 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		D01CB74B1B2A2711003DF616 /* TermsPrivacy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TermsPrivacy.h; sourceTree = "<group>"; };
 		D01CB74C1B2A2711003DF616 /* TermsPrivacy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TermsPrivacy.m; sourceTree = "<group>"; };
+		D027306B1B6C14930059CBE7 /* BEFadingImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEFadingImageView.h; sourceTree = "<group>"; };
+		D027306C1B6C14930059CBE7 /* BEFadingImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEFadingImageView.m; sourceTree = "<group>"; };
 		D02DE0DB1B2F651F00FE6A6A /* MyInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyInformation.h; sourceTree = "<group>"; };
 		D02DE0DC1B2F651F00FE6A6A /* MyInformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyInformation.m; sourceTree = "<group>"; };
 		D02DE0DE1B2F74A000FE6A6A /* UserRank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserRank.h; sourceTree = "<group>"; };
@@ -685,6 +688,8 @@
 				D066299E1B4AD84A00359261 /* BEHotspotView.m */,
 				D0A977FE1B6AAF1A00895B6B /* BELabelFast.h */,
 				D0A977FF1B6AAF1A00895B6B /* BELabelFast.m */,
+				D027306B1B6C14930059CBE7 /* BEFadingImageView.h */,
+				D027306C1B6C14930059CBE7 /* BEFadingImageView.m */,
 			);
 			name = "UI Objects";
 			sourceTree = "<group>";
@@ -1110,6 +1115,7 @@
 				D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */,
 				D04DEE851B30BE6000BF1557 /* UserCounts.m in Sources */,
 				D099018F1B0E35A900760CDF /* Profile.m in Sources */,
+				D027306D1B6C14930059CBE7 /* BEFadingImageView.m in Sources */,
 				D0B282DA1B1E0545006FD580 /* BEDatePickerView.m in Sources */,
 				D0D7CA971B0F89AB00363A39 /* IntroPageContent.m in Sources */,
 				D0835FBD1B0CF43B00D88412 /* ForgotPassword.m in Sources */,

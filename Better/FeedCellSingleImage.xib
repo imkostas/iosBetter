@@ -25,7 +25,7 @@
                                     <constraint firstAttribute="height" constant="2" id="HRM-c9-xx1"/>
                                 </constraints>
                             </view>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n6s-5h-vkG" userLabel="Main Image">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n6s-5h-vkG" userLabel="Main Image" customClass="BEFadingImageView">
                                 <rect key="frame" x="0.0" y="100" width="434" height="434"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="n6s-5h-vkG" secondAttribute="height" multiplier="1:1" id="ZmU-ys-76o"/>

@@ -2,6 +2,7 @@
 #import "Definitions.h"
 #import "Menu.h"
 #import "Filter.h"
+#import "FeedTableViewController.h"
 
 @interface Feed : UIViewController <UIGestureRecognizerDelegate, FilterDelegate, UINavigationBarDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 

@@ -49,7 +49,7 @@
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1Y-ba-mvz" userLabel="Feed Container">
                                         <rect key="frame" x="0.0" y="44" width="600" height="536"/>
                                         <connections>
-                                            <segue destination="t2g-GN-JuO" kind="embed" id="rJm-r0-E16"/>
+                                            <segue destination="t2g-GN-JuO" kind="embed" identifier="embedFeedTableViewController" id="rJm-r0-E16"/>
                                         </connections>
                                     </containerView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HL4-aL-Ixx" userLabel="Create Post Button">

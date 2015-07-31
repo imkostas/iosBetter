@@ -24,9 +24,26 @@
 	// Set colors
 //	[[UINavigationBar appearance] setBarTintColor:COLOR_NAVIGATION_BAR];
 //	[[UINavigationBar appearance] setTintColor:COLOR_NAVIGATION_TINT];
-	[[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_NAVIGATION_BAR]}];
-//    [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:FONT_RALEWAY_MEDIUM size:FONT_SIZE_NAVIGATION_BAR]} forState:UIControlStateNormal];
+    
+    // Get some Raleway fonts
+    UIFont *ralewaySemiboldNavBar = [UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_NAVIGATION_BAR];
+    UIFont *ralewayMediumNavBar = [UIFont fontWithName:FONT_RALEWAY_MEDIUM size:FONT_SIZE_NAVIGATION_BAR];
+    UIFont *ralewayTabBarItem = [UIFont fontWithName:FONT_RALEWAY_MEDIUM size:([UIFont smallSystemFontSize] - 1)];
+    
+    // Navigation bar title font (the title in the center)
+	[[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:ralewaySemiboldNavBar}];
+    
+    // Navigation bar button items fonts (i.e. back button, Done button, other buttons)
+    [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName:ralewayMediumNavBar} forState:UIControlStateNormal];
+    
+    // Set ImagePicker navigation bar items back to normal
+    [[UIBarButtonItem appearanceWhenContainedIn:[UIImagePickerController class], nil] setTitleTextAttributes:nil forState:UIControlStateNormal];
+    
+    // Color of the dots at the bottom of a UIPageViewController
 	[[UIPageControl appearance] setCurrentPageIndicatorTintColor:COLOR_BETTER];
+    
+    // Font of UITabBarItems in a UITabBarController (e.g. in the Terms of Service / Privacy Policy tab controller)
+    [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName:ralewayTabBarItem} forState:UIControlStateNormal];
 	
 	return YES;
 }

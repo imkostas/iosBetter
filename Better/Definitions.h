@@ -35,6 +35,12 @@ enum VoteState {
     VOTE_NOVOTE = 3 // these number values correspond to the values recognized by the server API
 };
 
+/** Specifies a certain kind of filter for the feed */
+#define FEED_FILTER_EVERYTHING @""
+#define FEED_FILTER_FAVORITETAGS @"favoritehashtag/"
+#define FEED_FILTER_FOLLOWING @"following/"
+#define FEED_FILTER_TRENDING @"trending/"
+
 // Storyboard filenames
 #define STORYBOARD_FILENAME_FEED @"Feed"
 #define STORYBOARD_FILENAME_SETTINGS @"Settings"
@@ -44,6 +50,7 @@ enum VoteState {
 #define STORYBOARD_ID_SEGUE_EMBED_INTRO @"embedPageViewController"
 #define STORYBOARD_ID_SEGUE_EMBED_MENU @"embedMenu"
 #define STORYBOARD_ID_SEGUE_EMBED_FILTER @"embedFilter"
+#define STORYBOARD_ID_SEGUE_EMBED_FEED_MAIN @"embedFeedTableViewController"
 
 #define STORYBOARD_ID_INTROPAGE_TITLE @"introPageTitle"
 #define STORYBOARD_ID_INTROPAGE_NOTITLE @"introPageNoTitle"
@@ -271,6 +278,7 @@ enum VoteState {
 #define ANIM_DURATION_ALERT_HIDE (250/1000.0)
 #define ANIM_DURATION_SEGMENTED_CONTROL_SWITCH (150/1000.0)
 #define ANIM_DURATION_POST_LAYOUT_CHANGE (300/1000.0)
+#define ANIM_DURATION_POST_FADE_IMAGE (300/1000.0)
 
 // Date picker tags (for each ui element needing it)
 #define TAG_DATEPICKER_DOB 1
@@ -300,6 +308,7 @@ enum VoteState {
 #define FONT_SIZE_SEGMENTED_CONTROL [UIFont systemFontSize]
 #define FONT_SIZE_NAVIGATION_BAR 17
 #define FONT_SIZE_HASHTAG_ADDING_TAGS 15
+#define FONT_SIZE_FEEDCELL_HASHTAG_LABEL 15
 
 // From organic parking
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)

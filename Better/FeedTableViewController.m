@@ -112,7 +112,7 @@
 //	_dummyTagsLabel = [[UILabel alloc] initWithFrame:_dummyCell.headerView.tagsLabel.frame];
 	_dummyTagsLabel = [[UILabel alloc] initWithFrame:_dummyCell.tagsLabel.frame];
 	[[self dummyTagsLabel] setNumberOfLines:3];
-    [[self dummyTagsLabel] setFont:[[_dummyCell tagsLabel] font]];
+    [[self dummyTagsLabel] setFont:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_FEEDCELL_HASHTAG_LABEL]];
 	[[self dummyTagsLabel] setPreferredMaxLayoutWidth:CGRectGetWidth([[self dummyTagsLabel] frame])];
 }
 
@@ -230,6 +230,7 @@
         {
             FeedCellSingleImage *thisCell = (FeedCellSingleImage *)cell;
             [[thisCell mainImageView] setBackgroundColor:COLOR1];
+            [[thisCell mainImageView] setImage:[UIImage imageNamed:@"goat"]];
             [[thisCell hotspotA] setPercentageValue:0.9];
             [[thisCell hotspotB] setPercentageValue:0.1];
             break;
@@ -261,10 +262,13 @@
 
 #pragma mark - FeedDataControllerDelegate methods
 // Called when the FeedDataController has loaded some posts
-- (void)feedDataController:(FeedDataController *)feedDataController didLoadPostsAtIndexPaths:(NSArray *)indexPaths
+- (void)feedDataController:(FeedDataController *)feedDataController didLoadPostsAtIndexPaths:(NSArray *)loadedPaths removePostsAtIndexPaths:(NSArray *)removedPaths
 {
     // Insert only the given index paths
-    [[self tableView] insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+    [[self tableView] beginUpdates];
+    [[self tableView] deleteRowsAtIndexPaths:removedPaths withRowAnimation:UITableViewRowAnimationBottom];
+    [[self tableView] insertRowsAtIndexPaths:loadedPaths withRowAnimation:UITableViewRowAnimationTop];
+    [[self tableView] endUpdates];
 }
 
 // Called when the FeedDataController is done reloading all posts
@@ -273,6 +277,13 @@
     // Reload everything
     [[self tableView] reloadData];
 }
+
+// Called when the FeedDataController has removed some posts
+//- (void)feedDataController:(FeedDataController *)feedDataController didRemovePostsAtIndexPaths:(NSArray *)indexPaths
+//{
+//    // Remove the given index paths
+//    [[self tableView] deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom];
+//}
 
 //- (IBAction)buttonPressed:(id)sender
 //{

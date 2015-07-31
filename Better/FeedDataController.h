@@ -19,9 +19,14 @@
 /** Tells the delegate that the FeedDataController has finished reloading all post data */
 - (void)feedDataControllerDidReloadAllPosts:(FeedDataController *)feedDataController;
 
-/** Tells the delegate that the FeedDataController has finished reloading a post at particular indexes/rows. The
- delegate should update the outwardly-visible UI corresponding to these posts in response to this method. */
-- (void)feedDataController:(FeedDataController *)feedDataController didLoadPostsAtIndexPaths:(NSArray *)indexPaths;
+/** Tells the delegate that the FeedDataController has finished loading a post at particular indexes/rows. The
+ delegate should update the outwardly-visible UI corresponding to these posts in response to this method. i.e.
+ using -insertRowAtIndexPath: ... */
+- (void)feedDataController:(FeedDataController *)feedDataController didLoadPostsAtIndexPaths:(NSArray *)loadedPaths removePostsAtIndexPaths:(NSArray *)removedPaths;
+
+/** Tells the delegate that the FeedDataController has deleted posts at particular index paths. The delegate should
+ remove the UI elements corresponding to these posts. */
+//- (void)feedDataController:(FeedDataController *)feedDataController didRemovePostsAtIndexPaths:(NSArray *)indexPaths;
 
 @end
 
@@ -30,6 +35,13 @@
 /** The delegate to notify of events */
 @property (weak, nonatomic) id<FeedDataControllerDelegate> delegate;
 
+/** The current filter for loading posts (Everything / Following / etc.) */
+@property (strong, nonatomic) NSString *filterString;
+
+#pragma mark - Initialization
+/** Returns a FeedDataController with a certain feed filter string */
+- (instancetype)initWithFeedFilter:(NSString *)newFilterString;
+
 #pragma mark - Instance methods
 /** Returns the total number of post objects held by this FeedDataController */
 - (NSUInteger)numberOfPosts;
@@ -37,8 +49,11 @@
 /** Returns the PostObject corresponding to the given indexPath's row property */
 - (PostObject *)postAtIndexPath:(NSIndexPath *)indexPath;
 
-/** Load the next set of posts from the server */
+/** Load the next set of posts from the server with the specified filter */
 - (void)loadPostsIncremental;
+
+/** Deletes all posts data from this FeedDataController */
+//- (void)removeAllPosts;
 
 #pragma mark - Class methods
 /** Returns an NSAttributedString given an array of NSStrings (each represents a hashtag). This method
