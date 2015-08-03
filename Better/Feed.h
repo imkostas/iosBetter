@@ -4,7 +4,7 @@
 #import "Filter.h"
 #import "FeedTableViewController.h"
 
-@interface Feed : UIViewController <UIGestureRecognizerDelegate, FilterDelegate, UINavigationBarDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface Feed : UIViewController <UIGestureRecognizerDelegate, FilterDelegate, UINavigationBarDelegate, UIImagePickerControllerDelegate>
 
 // Left and right container views (for left/right menus)
 - (IBAction)menuButtonPressed:(id)sender;

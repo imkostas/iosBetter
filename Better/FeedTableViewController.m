@@ -25,6 +25,12 @@
     /** A flag to ensure that the FeedDataController only loads posts by itself once, the first time -viewWillAppear:
      is called */
     BOOL hasLoadedInitialPosts;
+    
+    /** A flag to ensure that this FeedTableViewController only sets up the dummy cell and dummy label once,
+     since -viewWillLayoutSubviews and -viewDidLayoutSubviews seem to be called every time the UITableView
+     is scrolled (this behavior only started when the UITableView was moved to within UITableViewController)
+     (8/3/15) */
+    BOOL hasInitializedDummyObjects;
 	
 	UIImage *background;
 	UIImage *image2;
@@ -33,8 +39,12 @@
 	UIImage *image5;
 }
 
+// Dummy objects for sizing real cells
 @property (strong, nonatomic) FeedCell *dummyCell;
 @property (strong, nonatomic) UILabel *dummyTagsLabel;
+
+// Called when this class's UIRefreshControl sends the UIControlEventValueChanged event
+- (void)refreshControlValueChanged:(UIRefreshControl *)refreshControl;
 
 @end
 
@@ -46,15 +56,20 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 	
-	// Set up tableview
-	[[self tableView] setDataSource:self];
-	[[self tableView] setDelegate:self];
+	// Set up UITableView
 	[[self tableView] setBackgroundColor:COLOR_GRAY];
+    [[self tableView] setShowsHorizontalScrollIndicator:NO];
+    [[self tableView] setShowsVerticalScrollIndicator:NO];
+    [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone]; // No horizontal separators
+    
+    // Set up this UITableViewController and register to receive the UIRefreshControl's value changed event
+    [[self refreshControl] addTarget:self action:@selector(refreshControlValueChanged:) forControlEvents:UIControlEventValueChanged];
+    [[self refreshControl] setTintColor:COLOR_BETTER_DARK];
 	
     // Initialize
-//	numRows = 10;
 	tagsLabelHeightOneLine = 0;
     hasLoadedInitialPosts = FALSE;
+    hasInitializedDummyObjects = FALSE;
 	
 	// Register nibs for each type of cell (single, double image horizontal, and double image vertical)
 	[[self tableView] registerNib:[UINib nibWithNibName:@"FeedCellSingleImage" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"feedCellSingleImage"];
@@ -74,16 +89,16 @@
     [super viewWillLayoutSubviews];
     
 	/** Initialize the dummy cell and add it to [self view], but don't tell it to run auto-layout just yet **/
-	 
-	_dummyCell = (FeedCell *)[[self tableView] dequeueReusableCellWithIdentifier:@"feedCellSingleImage"];
-	[[self dummyCell] setHidden:YES];
-	[[self view] addSubview:[self dummyCell]];
-	
-	// Set the tagsLabel to have 1 line, and non-empty usernamelabel
-//	[[self dummyCell].headerView.tagsLabel setText:@"#"];
-//	[[self dummyCell].headerView.usernameLabel setText:@"username"];
-	[[self dummyCell].tagsLabel setText:@"#"];
-	[[self dummyCell].usernameLabel setText:@"username"];
+    if(!hasInitializedDummyObjects)
+    {
+        _dummyCell = (FeedCell *)[[self tableView] dequeueReusableCellWithIdentifier:@"feedCellSingleImage"];
+        [[self dummyCell] setHidden:YES];
+        [[self view] addSubview:[self dummyCell]];
+        
+        // Set the tagsLabel to have 1 line, and non-empty usernamelabel
+        [[self dummyCell].tagsLabel setText:@"#"];
+        [[self dummyCell].usernameLabel setText:@"username"];
+    }
 }
 
 // Called after auto-layout is finished(?), so we can calculate the estimated row height (need to know the width
@@ -93,27 +108,32 @@
     // Call super
     [super viewDidLayoutSubviews];
     
-	// 2 --> height of the hairline separator between the header of a post and the images below it
-	// 98 --> height of the header UIView with 1 line of hashtags (contains hashtags, username, etc.)
-	rowHeightEstimate = CGRectGetWidth([[self tableView] bounds]) + 2 + 98;
-	
-	// Set frame of dummy cell
-	[[self dummyCell] setFrame:CGRectMake(0, 0, CGRectGetWidth([[self tableView] bounds]), rowHeightEstimate)];
-	
-	// Run auto-layout on dummy cell initialized in -viewWillLayoutSubviews
-	[[self dummyCell] setNeedsLayout];
-	[[self dummyCell] layoutIfNeeded];
-	
-	// Record the 1-line height
-//	tagsLabelHeightOneLine = CGRectGetHeight([_dummyCell.headerView.tagsLabel bounds]);
-	tagsLabelHeightOneLine = CGRectGetHeight([_dummyCell.tagsLabel bounds]);
-	
-	/** Set up the dummy UILabel to mimic the properties of the one in the dummy cell **/
-//	_dummyTagsLabel = [[UILabel alloc] initWithFrame:_dummyCell.headerView.tagsLabel.frame];
-	_dummyTagsLabel = [[UILabel alloc] initWithFrame:_dummyCell.tagsLabel.frame];
-	[[self dummyTagsLabel] setNumberOfLines:3];
-    [[self dummyTagsLabel] setFont:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_FEEDCELL_HASHTAG_LABEL]];
-	[[self dummyTagsLabel] setPreferredMaxLayoutWidth:CGRectGetWidth([[self dummyTagsLabel] frame])];
+    // Only run this setup if we haven't done it already once
+    if(!hasInitializedDummyObjects)
+    {
+        // 2 --> height of the hairline separator between the header of a post and the images below it
+        // 98 --> height of the header UIView with 1 line of hashtags (contains hashtags, username, etc.)
+        rowHeightEstimate = CGRectGetWidth([[self tableView] bounds]) + 2 + 98;
+        
+        // Set frame of dummy cell
+        [[self dummyCell] setFrame:CGRectMake(0, 0, CGRectGetWidth([[self tableView] bounds]), rowHeightEstimate)];
+        
+        // Run auto-layout on dummy cell initialized in -viewWillLayoutSubviews
+        [[self dummyCell] setNeedsLayout];
+        [[self dummyCell] layoutIfNeeded];
+        
+        // Record the 1-line height
+        tagsLabelHeightOneLine = CGRectGetHeight([_dummyCell.tagsLabel bounds]);
+        
+        /** Set up the dummy UILabel to mimic the properties of the one in the dummy cell **/
+        _dummyTagsLabel = [[UILabel alloc] initWithFrame:_dummyCell.tagsLabel.frame];
+        [[self dummyTagsLabel] setNumberOfLines:3];
+        [[self dummyTagsLabel] setFont:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_FEEDCELL_HASHTAG_LABEL]];
+        [[self dummyTagsLabel] setPreferredMaxLayoutWidth:CGRectGetWidth([[self dummyTagsLabel] frame])];
+        
+        // Only run once
+        hasInitializedDummyObjects = TRUE;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -150,7 +170,7 @@
     PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
     
     // Generate different cells based on the type of the post
-    UITableViewCell *cell = nil;
+    FeedCell *cell = nil;
     switch([thisPost layoutType])
     {
         case LAYOUTSTATE_A_ONLY: // One image only
@@ -166,13 +186,15 @@
             break;
     }
     
+    // Set the cell's delegate to this object, to be notified of hotspot and 3-dot button taps
+    [cell setDelegate:self];
+    
 	return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	NSLog(@"getting number of rows");
-//	return numRows;
     
     return [[self dataController] numberOfPosts];
 }
@@ -208,6 +230,24 @@
     return CGRectGetWidth([[self tableView] frame]) + 2 + 98 + adjustmentHeight;
 }
 
+// No highlighting
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return NO;
+}
+
+// No editing
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return NO;
+}
+
+// No moving
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return NO;
+}
+
 #define COLOR1 [UIColor colorWithRed:50/255. green:50/255. blue:50/255. alpha:1]
 #define COLOR2 [UIColor colorWithRed:196/255. green:81/255. blue:225/255. alpha:1]
 #define COLOR3 [UIColor colorWithRed:54/255. green:202/255. blue:37/255. alpha:1]
@@ -230,7 +270,7 @@
         {
             FeedCellSingleImage *thisCell = (FeedCellSingleImage *)cell;
             [[thisCell mainImageView] setBackgroundColor:COLOR1];
-            [[thisCell mainImageView] setImage:[UIImage imageNamed:@"goat"]];
+//            [[thisCell mainImageView] setImage:[UIImage imageNamed:@"goat"]];
             [[thisCell hotspotA] setPercentageValue:0.9];
             [[thisCell hotspotB] setPercentageValue:0.1];
             break;
@@ -255,8 +295,8 @@
         }
     }
     
-    // If the last cell of the TableView is going to be displayed, load some more data
-    if([indexPath row] == [[self dataController] numberOfPosts] - 1)
+    // If the second-to-last cell of the TableView is going to be displayed, load some more data
+    if([indexPath row] == [[self dataController] numberOfPosts] - 2)
         [[self dataController] loadPostsIncremental];
 }
 
@@ -266,16 +306,78 @@
 {
     // Insert only the given index paths
     [[self tableView] beginUpdates];
-    [[self tableView] deleteRowsAtIndexPaths:removedPaths withRowAnimation:UITableViewRowAnimationBottom];
-    [[self tableView] insertRowsAtIndexPaths:loadedPaths withRowAnimation:UITableViewRowAnimationTop];
+    [[self tableView] deleteRowsAtIndexPaths:removedPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self tableView] insertRowsAtIndexPaths:loadedPaths withRowAnimation:UITableViewRowAnimationAutomatic];
     [[self tableView] endUpdates];
+    
+    // Stop the UIRefreshControl
+    if([[self refreshControl] isRefreshing])
+        [[self refreshControl] endRefreshing];
 }
 
 // Called when the FeedDataController is done reloading all posts
 - (void)feedDataControllerDidReloadAllPosts:(FeedDataController *)feedDataController
 {
-    // Reload everything
-    [[self tableView] reloadData];
+//    // Reload everything
+//    [[self tableView] reloadData];
+//    
+//    // Stop the UIRefreshControl
+//    [[self refreshControl] endRefreshing];
+}
+
+#pragma mark - FeedCellDelegate methods
+// Called when a cell's 3-dot button is pressed
+- (void)threeDotButtonWasTappedForFeedCell:(FeedCell *)cell
+{
+    // Create an instance of the 3-dot view controller
+    ThreeDotViewController *threeDot = [[ThreeDotViewController alloc] init];
+    
+    // Set up modal presentation properties
+    [threeDot setModalPresentationStyle:UIModalPresentationCustom];
+    [threeDot setTransitioningDelegate:self];
+    
+    // Present the Three Dot view controller
+    [[self parentViewController] presentViewController:threeDot animated:YES completion:nil];
+}
+
+#pragma mark - Custom modal animation for 3-dot
+// Presenting the Three Dot drawer
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+{
+    // Only return an animator if the ThreeDotViewController is asking to be presented
+    if([presented isKindOfClass:[ThreeDotViewController class]])
+    {
+        ThreeDotTransitionAnimator *animator = [[ThreeDotTransitionAnimator alloc] init];
+        [animator setPresenting:YES];
+        
+        return animator;
+    }
+    else
+        return nil;
+}
+
+// Dismissing the Three Dot drawer
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+    // Only return an animator if the ThreeDotViewController is asking to be dismissed
+    if([dismissed isKindOfClass:[ThreeDotViewController class]])
+    {
+        ThreeDotTransitionAnimator *animator = [[ThreeDotTransitionAnimator alloc] init];
+        [animator setPresenting:NO];
+        
+        return animator;
+    }
+    else
+        return nil;
+}
+
+#pragma mark - Handling of UIRefreshControl
+// Called whenever the UIRefreshControl starts or stops refreshing
+- (void)refreshControlValueChanged:(UIRefreshControl *)refreshControl
+{
+    // Start the reload process if the refresh control is refreshing
+    if([refreshControl isRefreshing])
+        [[self dataController] reloadAllPosts];
 }
 
 // Called when the FeedDataController has removed some posts

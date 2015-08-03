@@ -29,10 +29,11 @@
 	
 	// Load header nib
 	// Tried to do something like this previously, couldn't figure it out, then saw the solution in Apple
-	// sample code for using the camera (the "PhotoPicker" sample code). The method -loadNibNamed: returns an
+	// sample code for using the camera (the "PhotoPicker" sample code). The method -instantiateWithOwner: returns an
 	// NSArray of the objects in the nib file, but in this case we don't need to save them because all the
 	// connections to the ui elements are created (due to specifying "self" for File's Owner) within loadNibNamed
-	[[NSBundle mainBundle] loadNibNamed:@"FeedCellHeader" owner:self options:nil];
+    UINib *headerNib = [UINib nibWithNibName:@"FeedCellHeader" bundle:nil];
+    [headerNib instantiateWithOwner:self options:nil];
 	
 	// Create hotspots;
 	// ** Subclasses are responsible for setting their frames and adding them as subviews
@@ -111,8 +112,8 @@
         CALayer *profileLayer = [self.profileImageView layer];
         [profileLayer setMasksToBounds:YES];
         [profileLayer setCornerRadius:CGRectGetWidth([self.profileImageView bounds]) / 2];
-        //		[profileLayer setRasterizationScale:[[UIScreen mainScreen] scale]];
-        //		[profileLayer setShouldRasterize:YES];
+//		[profileLayer setRasterizationScale:[[UIScreen mainScreen] scale]];
+//		[profileLayer setShouldRasterize:YES];
 		
 		_alreadyLaidOutSubviews = TRUE;
 	}
@@ -146,6 +147,10 @@
 - (IBAction)pressedThreeDotButton:(id)sender
 {
     NSLog(@"pressed on 3-dot button");
+    
+    // Tell the delegate that the 3-dot button was pressed
+    if([self delegate])
+        [[self delegate] threeDotButtonWasTappedForFeedCell:self];
 }
 
 @end

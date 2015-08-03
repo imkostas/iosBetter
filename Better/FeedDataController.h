@@ -52,8 +52,8 @@
 /** Load the next set of posts from the server with the specified filter */
 - (void)loadPostsIncremental;
 
-/** Deletes all posts data from this FeedDataController */
-//- (void)removeAllPosts;
+/** Discards all data and reloads from the beginning (most recent) */
+- (void)reloadAllPosts;
 
 #pragma mark - Class methods
 /** Returns an NSAttributedString given an array of NSStrings (each represents a hashtag). This method

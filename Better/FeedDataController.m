@@ -8,12 +8,10 @@
 
 #import "FeedDataController.h"
 
-#define POSTS_PER_DOWNLOAD 5
+#define POSTS_PER_DOWNLOAD 6
 
 @interface FeedDataController ()
-{
-    // Set to TRUE when the API returns an empty posts array, signaling that there are no more posts to show
-    
+{    
 }
 
 /** Reference to UserInfo shared object */
@@ -29,7 +27,7 @@
 @property BOOL reachedEndOfPostsIncremental;
 
 /** Set to TRUE when the user has just changed the filter for the feed and we are deleting all previous posts */
-@property BOOL inProcessOfChangingFilter;
+@property BOOL inProcessOfDeletingAllPosts;
 /** Set to an array of NSIndexPaths to delete upon completing the change of filter (within -didLoadPostsAtIndexPaths:) */
 @property (strong, nonatomic) NSArray *indexPathsToRemove;
 
@@ -58,7 +56,7 @@
         _postsArray = [[NSMutableArray alloc] initWithCapacity:POSTS_PER_DOWNLOAD];
         _postIDLeastRecent = 0; // Initialize postIDLeastRecent to zero (loads the most recent post first)
         _reachedEndOfPostsIncremental = FALSE;
-        _inProcessOfChangingFilter = FALSE;
+        _inProcessOfDeletingAllPosts = FALSE;
         _filterString = @"";
     }
     
@@ -77,7 +75,7 @@
         _postsArray = [[NSMutableArray alloc] initWithCapacity:POSTS_PER_DOWNLOAD];
         _postIDLeastRecent = 0; // Initialize postIDLeastRecent to zero (loads the most recent post first)
         _reachedEndOfPostsIncremental = FALSE;
-        _inProcessOfChangingFilter = FALSE;
+        _inProcessOfDeletingAllPosts = FALSE;
         _filterString = filterString;
     }
     
@@ -115,6 +113,9 @@
              // Stop if there are no more posts to show
              if(feedArray == nil || [feedArray count] == 0)
              {
+                 // Tell the delegate there was nothing loaded
+                 [self didLoadPostsAtIndexPaths:nil];
+                 
                  // Don't send more network requests
                  _reachedEndOfPostsIncremental = TRUE;
                  return; // Stops this success block
@@ -164,6 +165,33 @@
          }];
 }
 
+// Deletes all data from `postsArray` and starts from the beginning
+- (void)reloadAllPosts
+{
+    // Create an array of indexpaths that encompasses all of the current posts, in order to rememeber
+    // which indexPaths to delete later
+    NSMutableArray *removedPaths = [[NSMutableArray alloc] initWithCapacity:[[self postsArray] count]];
+    for(int i = 0; i < [[self postsArray] count]; i++)
+        [removedPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+    // Save the array
+    [self setIndexPathsToRemove:removedPaths];
+    
+    // Empty `postsArray`
+    [[self postsArray] removeAllObjects];
+    
+    // Reset the "end of feed" flag
+    _reachedEndOfPostsIncremental = FALSE;
+    
+    // Reset the least recent post ID
+    _postIDLeastRecent = 0;
+    
+    // Perform actions that only happen when changing the filter string
+    _inProcessOfDeletingAllPosts = TRUE;
+    
+    // Start the post loading process
+    [self loadPostsIncremental];
+}
+
 // Returns the PostObject at this indexPath's -row in the `postsArray` mutable array
 - (PostObject *)postAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -180,25 +208,6 @@
     return [[self postsArray] count];
 }
 
-// Deletes all objects in `postsArray`
-//- (void)removeAllPosts
-//{
-//    // Create an array of indexpaths that encompasses all of the posts
-//    NSMutableArray *indexPaths = [[NSMutableArray alloc] initWithCapacity:[[self postsArray] count]];
-//    for(int i = 0; i < [[self postsArray] count]; i++)
-//        [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-//    
-//    // Tell the delegate that these posts have been deleted
-////    if([self delegate])
-////        [[self delegate] feedDataController:self didRemovePostsAtIndexPaths:indexPaths];
-//    
-//    // Get rid of the elements
-//    [[self postsArray] removeAllObjects];
-//    
-//    // Reset the "end of feed" flag
-//    reachedEndOfPostsIncremental = FALSE;
-//}
-
 // Custom setter for filterString
 - (void)setFilterString:(NSString *)newFilterString
 {
@@ -210,30 +219,7 @@
     
     // Only reload everything if the filter has changed
     if(![previousFilterString isEqualToString:newFilterString])
-    {
-        // Create an array of indexpaths that encompasses all of the current posts, in order to rememeber
-        // which indexPaths to delete later
-        NSMutableArray *removedPaths = [[NSMutableArray alloc] initWithCapacity:[[self postsArray] count]];
-        for(int i = 0; i < [[self postsArray] count]; i++)
-            [removedPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-        // Save the array
-        [self setIndexPathsToRemove:removedPaths];
-        
-        // Empty `postsArray`
-        [[self postsArray] removeAllObjects];
-        
-        // Reset the "end of feed" flag
-        _reachedEndOfPostsIncremental = FALSE;
-        
-        // Reset the least recent post ID
-        _postIDLeastRecent = 0;
-        
-        // Perform actions that only happen when changing the filter string
-        _inProcessOfChangingFilter = TRUE;
-        
-        // Start the post loading process
-        [self loadPostsIncremental];
-    }
+        [self reloadAllPosts];
 }
 
 #pragma mark - Private instance methods
@@ -348,10 +334,10 @@
     if([self delegate])
     {
         // Are we changing the filter string right now?
-        if(_inProcessOfChangingFilter)
+        if(_inProcessOfDeletingAllPosts)
         {
             // Reset the flag
-            _inProcessOfChangingFilter = FALSE;
+            _inProcessOfDeletingAllPosts = FALSE;
             
             // Tell the delegate to update
             if([[self indexPathsToRemove] count] == 0)

@@ -13,11 +13,9 @@
 #import "FeedCellLeftRight.h"
 #import "FeedCellTopBottom.h"
 #import "FeedDataController.h"
+#import "ThreeDotViewController.h"
 
-@interface FeedTableViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, FeedDataControllerDelegate>
-
-// The main tableview
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@interface FeedTableViewController : UITableViewController <FeedDataControllerDelegate, FeedCellDelegate, UIViewControllerTransitioningDelegate>
 
 // The source of post data for this class
 @property (strong, nonatomic) FeedDataController *dataController;

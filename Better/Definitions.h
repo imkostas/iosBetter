@@ -87,6 +87,7 @@ enum VoteState {
 #define REUSE_ID_LEADERBOARD_TABLECELL @"leaderboardTableViewCell"
 #define REUSE_ID_HASHTAG_COLLECTION_CELL_DELETABLE @"hashtagCellDeletable"
 #define REUSE_ID_HASHTAG_COLLECTION_CELL_NO_DELETE @"hashtagCellNoDelete"
+#define REUSE_ID_THREE_DOT_TABLEVIEW_CELL @"threeDotTableViewCell"
 
 // Nib filenames
 #define NIB_NAME_HASHTAG_COLLECTION_CELL_DELETABLE @"HashtagCellDeletable"

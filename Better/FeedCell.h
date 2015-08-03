@@ -11,9 +11,21 @@
 #import "Definitions.h"
 //#import "FeedCellHeader.h"
 #import "BEHotspotView.h"
-#import "BELabelFast.h"
+//#import "BELabelFast.h"
+
+@class FeedCell;
+@protocol FeedCellDelegate <NSObject>
+
+@required
+/** Tells the delegate that this FeedCell's 3-dot drawer button was tapped */
+- (void)threeDotButtonWasTappedForFeedCell:(FeedCell *)cell;
+
+@end
 
 @interface FeedCell : UITableViewCell
+
+/** Delegate to notify of events */
+@property (weak, nonatomic) id<FeedCellDelegate> delegate;
 
 // The shadow/wrapper view which draws a shadow around itself
 @property (weak, nonatomic) IBOutlet UIView *shadowView;

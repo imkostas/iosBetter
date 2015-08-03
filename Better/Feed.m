@@ -246,12 +246,12 @@
 #pragma mark - Creating a post, UIImagePickerController delegate
 - (IBAction)pressedCreatePost:(id)sender
 {
-    // Loads the Create Post navigation controller
-    UIStoryboard *createPostStoryboard = [UIStoryboard storyboardWithName:STORYBOARD_FILENAME_CREATEPOST bundle:[NSBundle mainBundle]];
-    UINavigationController *postNavigation = [createPostStoryboard instantiateViewControllerWithIdentifier:STORYBOARD_ID_CREATEPOST_NAVIGATION];
-    
-    // Present the nav controller
-    [self presentViewController:postNavigation animated:YES completion:nil];
+//    // Loads the Create Post navigation controller
+//    UIStoryboard *createPostStoryboard = [UIStoryboard storyboardWithName:STORYBOARD_FILENAME_CREATEPOST bundle:[NSBundle mainBundle]];
+//    UINavigationController *postNavigation = [createPostStoryboard instantiateViewControllerWithIdentifier:STORYBOARD_ID_CREATEPOST_NAVIGATION];
+//    
+//    // Present the nav controller
+//    [self presentViewController:postNavigation animated:YES completion:nil];
 
 //    // Create a one-off instance of a UIImagePickerController just for selecting the first image for a post,
 //    // because we want it to show up first (and not the post creation view controller)
