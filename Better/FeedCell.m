@@ -34,6 +34,10 @@
 	// connections to the ui elements are created (due to specifying "self" for File's Owner) within loadNibNamed
     UINib *headerNib = [UINib nibWithNibName:@"FeedCellHeader" bundle:nil];
     [headerNib instantiateWithOwner:self options:nil];
+    
+    // Turn off automatic constraints and add the header as a subview
+    [[self headerView] setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [[self shadowView] addSubview:[self headerView]];
 	
 	// Create hotspots;
 	// ** Subclasses are responsible for setting their frames and adding them as subviews
@@ -69,19 +73,15 @@
 	
 	if(!_alreadyLaidOutSubviews)
 	{
-		/** Turn off automatic constraints and add the header as a subview **/
-		[[self headerView] setTranslatesAutoresizingMaskIntoConstraints:NO];
-		[[self shadowView] addSubview:[self headerView]];
-
 		/** Generate constraints to place the header in the area above the divider.
 		 We want it to hug the left, right, and top of the shadowView, and be aligned with the top of
 		 the divider **/
-		NSArray *headerHorizontal = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(0)-[header]-(0)-|"
+		NSArray *headerHorizontal = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[header]-0-|"
 																			options:NSLayoutFormatDirectionLeadingToTrailing
 																			metrics:nil
 																			  views:@{@"header":[self headerView]}];
 		
-		NSArray *headerVertical = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[header]-(0)-[divider]"
+		NSArray *headerVertical = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[header]-0-[divider]"
 																		  options:NSLayoutFormatDirectionLeadingToTrailing
 																		  metrics:nil
 																			views:@{@"header":[self headerView],
@@ -146,7 +146,7 @@
 #pragma mark - Button handling
 - (IBAction)pressedThreeDotButton:(id)sender
 {
-    NSLog(@"pressed on 3-dot button");
+    NSLog(@"pressed on 3-dot button for post ID %i", [self postID]);
     
     // Tell the delegate that the 3-dot button was pressed
     if([self delegate])

@@ -8,14 +8,13 @@
 
 #import "ThreeDotTransitionAnimator.h"
 
-#define ANIM_DURATION 0.5f
-
 @implementation ThreeDotTransitionAnimator
 
 // Duration of the animation in seconds
 - (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext
 {
-    return ANIM_DURATION;
+//    return ANIM_DURATION_SHOW_3DOT_MENU;
+    return 0;
 }
 
 // Perform the animation itself
@@ -25,13 +24,12 @@
     UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
-    // Disable user interaction for now
-    [[toVC view] setUserInteractionEnabled:NO];
-    [[fromVC view] setUserInteractionEnabled:NO];
-    
     // Perform different animation if we are presenting vs. dismissing
     if([self presenting])
     {
+        // Disable user interaction on the fromVC when we are presenting
+        [[fromVC view] setUserInteractionEnabled:NO];
+        
         // Add the destination VC's view as a subview of the transition's containerView
         [[transitionContext containerView] addSubview:[toVC view]];
         
@@ -40,28 +38,28 @@
     }
     else // Dismissing
     {
-        // Nothing necessary here
+        // Nothing
     }
     
     // Animate (iOS style spring damping)
-    [UIView animateWithDuration:ANIM_DURATION
+    [UIView animateWithDuration:ANIM_DURATION_SHOW_3DOT_MENU
                           delay:0
          usingSpringWithDamping:1
           initialSpringVelocity:0
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
                          if([self presenting])
-                             [[toVC view] setAlpha:1];
+                             [[toVC view] setAlpha:1.0f];
                          else
-                             [[fromVC view] setAlpha:0];
+                             [[fromVC view] setAlpha:0.0f];
                      }
                      completion:^(BOOL finished) {
-                         // Reenable user interaction
-                         [[toVC view] setUserInteractionEnabled:YES];
-                         [[fromVC view] setUserInteractionEnabled:YES];
+                         // Reenable user interaction on the toVC when dismissing
+                         if(![self presenting])
+                             [[toVC view] setUserInteractionEnabled:YES];
                          
                          // Complete the transition
-                         [transitionContext completeTransition:finished];
+                         [transitionContext completeTransition:YES];
                      }];
 }
 

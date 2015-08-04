@@ -61,6 +61,10 @@
     [[self tableView] setShowsHorizontalScrollIndicator:NO];
     [[self tableView] setShowsVerticalScrollIndicator:NO];
     [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone]; // No horizontal separators
+    [[self tableView] setAllowsSelection:NO];
+    [[self tableView] setAllowsSelectionDuringEditing:NO];
+    [[self tableView] setAllowsMultipleSelection:NO];
+    [[self tableView] setAllowsMultipleSelectionDuringEditing:NO];
     
     // Set up this UITableViewController and register to receive the UIRefreshControl's value changed event
     [[self refreshControl] addTarget:self action:@selector(refreshControlValueChanged:) forControlEvents:UIControlEventValueChanged];
@@ -208,7 +212,8 @@
     PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
     [[self dummyTagsLabel] setText:[[thisPost tagsAttributedString] string]];
 	
-	int multiple = roundf([self dummyTagsLabel].intrinsicContentSize.height / tagsLabelHeightOneLine);
+    float intrinsicHeight = [self dummyTagsLabel].intrinsicContentSize.height;
+	int multiple = roundf(intrinsicHeight / tagsLabelHeightOneLine);
 	if(multiple == 3) // 3 lines of text
 		adjustmentHeight = tagsLabelHeightOneLine; // Add one line of vertical space
 	
@@ -223,29 +228,12 @@
     PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
     [[self dummyTagsLabel] setText:[[thisPost tagsAttributedString] string]];
     
-    int multiple = roundf([self dummyTagsLabel].intrinsicContentSize.height / tagsLabelHeightOneLine);
+    float intrinsicHeight = [self dummyTagsLabel].intrinsicContentSize.height;
+    int multiple = roundf(intrinsicHeight / tagsLabelHeightOneLine);
     if(multiple == 3) // 3 lines of text
         adjustmentHeight = tagsLabelHeightOneLine; // Add one line of vertical space
     
     return CGRectGetWidth([[self tableView] frame]) + 2 + 98 + adjustmentHeight;
-}
-
-// No highlighting
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return NO;
-}
-
-// No editing
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return NO;
-}
-
-// No moving
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return NO;
 }
 
 #define COLOR1 [UIColor colorWithRed:50/255. green:50/255. blue:50/255. alpha:1]
@@ -256,6 +244,9 @@
 {
     // Get the post for this indexPath
     PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+    
+    // Tell the cell which post ID it is representing right now
+    [cell setPostID:[thisPost postID]];
     
     // Populate the cell's UI elements
     [[cell tagsLabel] setAttributedText:[thisPost tagsAttributedString]];
@@ -306,8 +297,8 @@
 {
     // Insert only the given index paths
     [[self tableView] beginUpdates];
-    [[self tableView] deleteRowsAtIndexPaths:removedPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-    [[self tableView] insertRowsAtIndexPaths:loadedPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self tableView] deleteRowsAtIndexPaths:removedPaths withRowAnimation:UITableViewRowAnimationRight];
+    [[self tableView] insertRowsAtIndexPaths:loadedPaths withRowAnimation:UITableViewRowAnimationLeft];
     [[self tableView] endUpdates];
     
     // Stop the UIRefreshControl

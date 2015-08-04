@@ -280,6 +280,7 @@ enum VoteState {
 #define ANIM_DURATION_SEGMENTED_CONTROL_SWITCH (150/1000.0)
 #define ANIM_DURATION_POST_LAYOUT_CHANGE (300/1000.0)
 #define ANIM_DURATION_POST_FADE_IMAGE (300/1000.0)
+#define ANIM_DURATION_SHOW_3DOT_MENU 0.45f
 
 // Date picker tags (for each ui element needing it)
 #define TAG_DATEPICKER_DOB 1

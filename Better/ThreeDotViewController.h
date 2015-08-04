@@ -10,6 +10,6 @@
 
 #import "ThreeDotTransitionAnimator.h"
 
-@interface ThreeDotViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface ThreeDotViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
 @end
