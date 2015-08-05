@@ -146,7 +146,7 @@
 #pragma mark - Button handling
 - (IBAction)pressedThreeDotButton:(id)sender
 {
-    NSLog(@"pressed on 3-dot button for post ID %i", [self postID]);
+    NSLog(@"pressed on 3-dot button for post ID %i", [[self postObject] postID]);
     
     // Tell the delegate that the 3-dot button was pressed
     if([self delegate])

@@ -30,6 +30,7 @@
 		D031CEDF1B39DD900039A9C1 /* LeaderboardData.m in Sources */ = {isa = PBXBuildFile; fileRef = D031CEDE1B39DD900039A9C1 /* LeaderboardData.m */; };
 		D031CEE31B39E4D70039A9C1 /* LeaderboardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D031CEE11B39E4D70039A9C1 /* LeaderboardTableViewCell.m */; };
 		D031CEE41B39E4D70039A9C1 /* LeaderboardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D031CEE21B39E4D70039A9C1 /* LeaderboardTableViewCell.xib */; };
+		D03CC7CE1B7299680038455B /* ThreeDotDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D03CC7CD1B7299680038455B /* ThreeDotDataObject.m */; };
 		D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */ = {isa = PBXBuildFile; fileRef = D03DB44E1B1F4CAA00810E1E /* Countries.plist */; };
 		D04999E51B4D6EA600A52FD2 /* PostLayoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D04999E41B4D6EA600A52FD2 /* PostLayoutViewController.m */; };
 		D04999E81B4D6FE700A52FD2 /* PostHashtagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D04999E71B4D6FE700A52FD2 /* PostHashtagsViewController.m */; };
@@ -113,6 +114,7 @@
 		D0FA296A1B5E998E00F5B24C /* HashtagCellNoDelete.m in Sources */ = {isa = PBXBuildFile; fileRef = D0FA29681B5E998E00F5B24C /* HashtagCellNoDelete.m */; };
 		D0FA296B1B5E998E00F5B24C /* HashtagCellNoDelete.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0FA29691B5E998E00F5B24C /* HashtagCellNoDelete.xib */; };
 		D0FA29721B5EE52000F5B24C /* SelectedHashtagsFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D0FA29711B5EE52000F5B24C /* SelectedHashtagsFlowLayout.m */; };
+		D0FB5CA41B725774000E7F27 /* ThreeDotTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0FB5CA31B725774000E7F27 /* ThreeDotTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -164,6 +166,8 @@
 		D031CEE01B39E4D70039A9C1 /* LeaderboardTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaderboardTableViewCell.h; sourceTree = "<group>"; };
 		D031CEE11B39E4D70039A9C1 /* LeaderboardTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaderboardTableViewCell.m; sourceTree = "<group>"; };
 		D031CEE21B39E4D70039A9C1 /* LeaderboardTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeaderboardTableViewCell.xib; sourceTree = "<group>"; };
+		D03CC7CC1B7299680038455B /* ThreeDotDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeDotDataObject.h; sourceTree = "<group>"; };
+		D03CC7CD1B7299680038455B /* ThreeDotDataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeDotDataObject.m; sourceTree = "<group>"; };
 		D03DB44E1B1F4CAA00810E1E /* Countries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countries.plist; sourceTree = "<group>"; };
 		D04999E31B4D6EA600A52FD2 /* PostLayoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostLayoutViewController.h; sourceTree = "<group>"; };
 		D04999E41B4D6EA600A52FD2 /* PostLayoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostLayoutViewController.m; sourceTree = "<group>"; };
@@ -300,6 +304,8 @@
 		D0FA29691B5E998E00F5B24C /* HashtagCellNoDelete.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HashtagCellNoDelete.xib; sourceTree = "<group>"; };
 		D0FA29701B5EE52000F5B24C /* SelectedHashtagsFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedHashtagsFlowLayout.h; sourceTree = "<group>"; };
 		D0FA29711B5EE52000F5B24C /* SelectedHashtagsFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedHashtagsFlowLayout.m; sourceTree = "<group>"; };
+		D0FB5CA21B725774000E7F27 /* ThreeDotTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeDotTableViewCell.h; sourceTree = "<group>"; };
+		D0FB5CA31B725774000E7F27 /* ThreeDotTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeDotTableViewCell.m; sourceTree = "<group>"; };
 		EC28AD39D34D3975720338BA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -748,6 +754,8 @@
 				D0679BBE1B6FF371003111AD /* ThreeDotViewController.m */,
 				D0679BC01B700193003111AD /* ThreeDotTransitionAnimator.h */,
 				D0679BC11B700193003111AD /* ThreeDotTransitionAnimator.m */,
+				D0FB5CA21B725774000E7F27 /* ThreeDotTableViewCell.h */,
+				D0FB5CA31B725774000E7F27 /* ThreeDotTableViewCell.m */,
 			);
 			name = "Three-dot drawer";
 			sourceTree = "<group>";
@@ -759,6 +767,8 @@
 				D07A47231B66D490009760BE /* PostObject.m */,
 				D07A471F1B667F86009760BE /* FeedDataController.h */,
 				D07A47201B667F86009760BE /* FeedDataController.m */,
+				D03CC7CC1B7299680038455B /* ThreeDotDataObject.h */,
+				D03CC7CD1B7299680038455B /* ThreeDotDataObject.m */,
 			);
 			name = "Data model";
 			sourceTree = "<group>";
@@ -1098,6 +1108,7 @@
 				D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */,
 				D09901921B0E619300760CDF /* BEScrollingViewController.m in Sources */,
 				D031CEDF1B39DD900039A9C1 /* LeaderboardData.m in Sources */,
+				D03CC7CE1B7299680038455B /* ThreeDotDataObject.m in Sources */,
 				D0FA29721B5EE52000F5B24C /* SelectedHashtagsFlowLayout.m in Sources */,
 				D04999EF1B4D833500A52FD2 /* BEAlert.m in Sources */,
 				D066299F1B4AD84A00359261 /* BEHotspotView.m in Sources */,
@@ -1130,6 +1141,7 @@
 				D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */,
 				D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */,
 				D06629A51B4AD86700359261 /* FeedCell.m in Sources */,
+				D0FB5CA41B725774000E7F27 /* ThreeDotTableViewCell.m in Sources */,
 				D06629A61B4AD86700359261 /* FeedCellHeader.m in Sources */,
 				D0A978001B6AAF1A00895B6B /* BELabelFast.m in Sources */,
 				D00B29F11B38491F00DB87EC /* BEPageViewController.m in Sources */,

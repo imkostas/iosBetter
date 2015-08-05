@@ -9,27 +9,58 @@
 #import "ThreeDotViewController.h"
 
 @interface ThreeDotViewController ()
+{
+    // Only add constraints once
+    BOOL hasAlreadyLaidOutSubviews;
+}
+
+/** An array to hold labels for each row of the UITableView */
+@property (strong, nonatomic) NSArray *rowLabels;
 
 // Gesture recognizer for dismissing this view controller by tapping on its background
 @property (strong, nonatomic) UITapGestureRecognizer *tapOnViewRecognizer;
 - (void)tappedOnBackgroundView:(UITapGestureRecognizer *)gesture;
 
-/*
 // UITableViewController for displaying details of this post (it is added as a child view controller)
 @property (strong, nonatomic) UITableViewController *tableViewController;
 
-// A UIView to embed the UITableViewController's view inside
-@property (strong, nonatomic) UIView *tableViewContainerView;
- */
-
-@property (strong, nonatomic) UITableView *tableView;
-
-// Constraint controlling the vertical position of the UITableView's container
-@property (strong, nonatomic) NSLayoutConstraint *tableViewBottomConstraint;
+// Constraints controlling the vertical position of the UITableView and its height
+@property (weak, nonatomic) NSLayoutConstraint *tableViewBottomConstraint;
+@property (weak, nonatomic) NSLayoutConstraint *tableViewHeightConstraint;
 
 @end
 
 @implementation ThreeDotViewController
+
+#pragma mark - Initialization
+- (instancetype)initWithThreeDotDataObject:(ThreeDotDataObject *)object
+{
+    self = [super init];
+    if(self)
+    {
+        // Set up with the data object
+        NSMutableArray *labels = [[NSMutableArray alloc] init];
+        if([object hasVotes])
+            [labels addObject:@"Voters"];
+        
+        if(![object isOwnPost])
+        {
+            [labels addObject:@"Favorite Post"];
+            [labels addObject:[object username]];
+        }
+        
+        for(NSString *tag in [object tags])
+            [labels addObject:[@"#" stringByAppendingString:tag]];
+        
+        if(![object isOwnPost])
+            [labels addObject:@"Report Misuse"];
+        
+        // Store
+        [self setRowLabels:labels];
+    }
+    
+    return self;
+}
 
 #pragma mark - ViewController management
 // Create this thing's view programmatically
@@ -37,7 +68,7 @@
 {
     // Initialize a view
     UIView *view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [view setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.6]];
+    [view setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.4]];
     
     // Set it as the viewcontroller's view property
     self.view = view;
@@ -47,72 +78,90 @@
 {
     [super viewDidLoad];
     
+    // Initialize variables
+    hasAlreadyLaidOutSubviews = FALSE;
+    
     // Set up the tap gesture recognizer and add it to the view [self view]
     _tapOnViewRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedOnBackgroundView:)];
     [[self tapOnViewRecognizer] setDelegate:self];
     [[self view] addGestureRecognizer:[self tapOnViewRecognizer]];
     
-    // Set up the UITableViewController's container view
-//    _tableViewContainerView = [[UIView alloc] init];
-//    [[self tableViewContainerView] setTranslatesAutoresizingMaskIntoConstraints:NO];
-//    [[self view] addSubview:[self tableViewContainerView]];
-//    
-//    // Set up the UITableViewController child
-//    _tableViewController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
-//    [self addChildViewController:[self tableViewController]];
-//    [[self tableViewController] didMoveToParentViewController:self];
-//    [[self tableViewContainerView] addSubview:[[self tableViewController] view]];
-//    
-//    // Set up the UITableView of the above viewcontroller
-//    [[[self tableViewController] tableView] setDataSource:self];
-//    [[[self tableViewController] tableView] setDelegate:self];
-//    [[[self tableViewController] tableView] setTranslatesAutoresizingMaskIntoConstraints:NO];
+    // Set up the UITableViewController
+    _tableViewController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-    [[self tableView] setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [[self tableView] setDataSource:self];
-    [[self tableView] setDelegate:self];
-    [[self view] addSubview:[self tableView]];
+    // UIRefreshControl
+    UIRefreshControl *rfControl = [[UIRefreshControl alloc] init];
+    [[self tableViewController] setRefreshControl:rfControl];
+    
+    // Add the UITableViewController as a child
+    [self addChildViewController:[self tableViewController]];
+    [[self tableViewController] didMoveToParentViewController:self];
+    [[self view] addSubview:[[self tableViewController] view]];
+    
+    // Set up the UITableView of the above viewcontroller
+    [[[self tableViewController] tableView] setDataSource:self];
+    [[[self tableViewController] tableView] setDelegate:self];
+    [[[self tableViewController] tableView] setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [[[self tableViewController] tableView] setRowHeight:HEIGHT_3DOT_MENU_ROW];
     
     // Set up the reusable tableview cell
-    [[self tableView] registerClass:[UITableViewCell class] forCellReuseIdentifier:@"my_reuse_id"];
+    [[[self tableViewController] tableView] registerClass:[ThreeDotTableViewCell class] forCellReuseIdentifier:REUSE_ID_THREE_DOT_TABLEVIEW_CELL];
 }
 
-- (void)viewDidLayoutSubviews
+- (void)viewWillLayoutSubviews
 {
-    [super viewDidLayoutSubviews];
+    [super viewWillLayoutSubviews];
     
-    // Layout constraints for the UITableView:
-    //   Align it to the left and right sides of its superview
-    NSArray *horizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[tbl]-0-|"
-                                                                                  options:NSLayoutFormatDirectionLeadingToTrailing
-                                                                                  metrics:nil
-                                                                                    views:@{@"tbl":[self tableView]}];
-    
-    NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:[self tableView]
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:[self view]
-                                                              attribute:NSLayoutAttributeBottom
-                                                             multiplier:1 constant:300];
-    self.tableViewBottomConstraint = bottom;
-    
-    NSLayoutConstraint *height = [NSLayoutConstraint constraintWithItem:[self tableView]
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:nil
-                                                              attribute:NSLayoutAttributeNotAnAttribute
-                                                             multiplier:1 constant:300];
-    [[self view] addConstraint:bottom];
-    [[self view] addConstraints:horizontalConstraints];
-    [[self tableView] addConstraint:height];
+    if(!hasAlreadyLaidOutSubviews)
+    {
+        // Height of UIRefreshControl
+        CGFloat refreshControlHeight = CGRectGetHeight([[[self tableViewController] refreshControl] bounds]);
+        
+        // Layout constraints for the UITableView:
+        //   Align it to the left and right sides of its superview
+        NSArray *horizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[tbl]-0-|"
+                                                                                      options:NSLayoutFormatDirectionLeadingToTrailing
+                                                                                      metrics:nil
+                                                                                        views:@{@"tbl":[[self tableViewController] view]}];
+        //   Set the UITableView's height for now to the height of the UIRefreshControl
+        NSLayoutConstraint *height = [NSLayoutConstraint constraintWithItem:[[self tableViewController] view]
+                                                                  attribute:NSLayoutAttributeHeight
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:nil
+                                                                  attribute:NSLayoutAttributeNotAnAttribute
+                                                                 multiplier:1
+                                                                   constant:refreshControlHeight];
+        [self setTableViewHeightConstraint:height]; // Save reference
+        
+        // Set the bottom of the UITableView to the bottom of its superview, plus its own height (to hide it)
+        NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:[[self tableViewController] view]
+                                                                  attribute:NSLayoutAttributeBottom
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:[self view]
+                                                                  attribute:NSLayoutAttributeBottom
+                                                                 multiplier:1
+                                                                   constant:refreshControlHeight];
+        [self setTableViewBottomConstraint:bottom]; // Save reference
+        
+        [[self view] addConstraint:bottom];
+        [[self view] addConstraints:horizontalConstraints];
+        [[[self tableViewController] view] addConstraint:height];
+
+        // Only run once
+        hasAlreadyLaidOutSubviews = TRUE;
+    }
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
+    // Start the refresh animation
+    [[[self tableViewController] refreshControl] beginRefreshing];
+
     // Animate the tableview
     [[self view] layoutIfNeeded];
-    [UIView animateWithDuration:ANIM_DURATION_SHOW_3DOT_MENU
+    [UIView animateWithDuration:ANIM_DURATION_3DOT_MENU_TABLEVIEW
                           delay:0
          usingSpringWithDamping:1
           initialSpringVelocity:0
@@ -121,7 +170,54 @@
                          [[self tableViewBottomConstraint] setConstant:0];
                          [[self view] layoutIfNeeded];
                      }
-                     completion:nil];
+                     completion:^(BOOL completed){
+                         // start network process here
+                     }];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    // Simulate loading some data
+    
+    // Reload TableView rows
+    [[[self tableViewController] tableView] reloadData];
+    
+    // Animate the UITableView's height
+    [[[self tableViewController] tableView] setShowsVerticalScrollIndicator:NO];
+    [[self view] layoutIfNeeded];
+    [UIView animateWithDuration:ANIM_DURATION_3DOT_MENU_TABLEVIEW
+                          delay:0
+         usingSpringWithDamping:1
+          initialSpringVelocity:0
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         // Scroll the UITableView up to hide the UIRefreshControl, as opposed to calling
+                         // -endRefreshing and setting it to nil, which causes animation stutters
+                         [[[self tableViewController] tableView] setContentOffset:CGPointZero];
+                         
+                         // Resize the TableView's height to the height of its contentSize, but limit it to
+                         // a certain portion of the screen height
+                         CGFloat tableViewContentHeight = [[[self tableViewController] tableView] contentSize].height;
+                         CGFloat heightLimit = SCREEN_HEIGHT * 0.65;
+                         if(tableViewContentHeight > heightLimit)
+                             tableViewContentHeight = heightLimit;
+                         
+                         // Apply the new height and run the layout
+                         [[self tableViewHeightConstraint] setConstant:tableViewContentHeight];
+                         [[self view] layoutIfNeeded];
+                     }
+                     completion:^(BOOL completion){
+                         // Delete the UIRefreshControl (up to this point, it is just hidden beneath
+                         // the contents of the UITableView)
+                         [[[self tableViewController] refreshControl] endRefreshing];
+                         [[self tableViewController] setRefreshControl:nil];
+                         
+                         // Re-enable the scroll indicators
+                         [[[self tableViewController] tableView] setShowsVerticalScrollIndicator:YES];
+                         [[[self tableViewController] tableView] flashScrollIndicators];
+                     }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -132,6 +228,23 @@
 #pragma mark - Gesture recognizer handlers
 - (void)tappedOnBackgroundView:(UITapGestureRecognizer *)gesture
 {
+    // Stop refreshing if it is visible
+    if([[[self tableViewController] refreshControl] isRefreshing])
+        [[[self tableViewController] refreshControl] endRefreshing];
+    
+    // Animate away the UITableView
+//    [[self view] layoutIfNeeded];
+//    [UIView animateWithDuration:ANIM_DURATION_3DOT_MENU
+//                          delay:0
+//         usingSpringWithDamping:1
+//          initialSpringVelocity:0
+//                        options:UIViewAnimationOptionCurveLinear
+//                     animations:^{
+//                         [[self tableViewBottomConstraint] setConstant:[[self tableViewHeightConstraint] constant]];
+//                         [[self view] layoutIfNeeded];
+//                     }
+//                     completion:nil];
+    
     // Dismiss this view controller
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -143,7 +256,7 @@
     {
         // Do not dismiss the view controller if the user pressed inside the UITableView
         CGPoint touchPoint = [touch locationInView:[self view]];
-        return !CGRectContainsPoint([[self tableView] frame], touchPoint);
+        return !CGRectContainsPoint([[[self tableViewController] view] frame], touchPoint);
     }
     else
         return YES;
@@ -161,19 +274,39 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 5;
+    return [[self rowLabels] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"my_reuse_id" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:REUSE_ID_THREE_DOT_TABLEVIEW_CELL forIndexPath:indexPath];
     
     return cell;
 }
 
+#pragma mark - UITableViewDelegate methods
+// Set up the cell before it's displayed
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [[cell textLabel] setText:@"Text here"];
+    // Different labels depending on flags inside ThreeDotDataObject
+    
+    // Retrieve the corresponding row label from `rowLabel`
+    NSString *rowLabel = [[self rowLabels] objectAtIndex:[indexPath row]];
+    [[cell textLabel] setText:rowLabel];
+    
+    // Set selected style if this is the "Voters" label, otherwise, set selected style to none
+    if([rowLabel isEqualToString:@"Voters"])
+        [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
+    else
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    
+    // Set the picture correctly
+    // ...
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"3-dot selected row at row: %i", [indexPath row]);
 }
 
 /*

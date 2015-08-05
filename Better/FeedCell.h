@@ -9,6 +9,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Definitions.h"
+#import "PostObject.h"
 //#import "FeedCellHeader.h"
 #import "BEHotspotView.h"
 //#import "BELabelFast.h"
@@ -27,11 +28,11 @@
 /** Delegate to notify of events */
 @property (weak, nonatomic) id<FeedCellDelegate> delegate;
 
-/** The post ID that corresponds to this FeedCell.
+/** Reference to the PostObject that corresponds to this FeedCell.
  Though there are only about 3 or so FeedCell instances created for a feed with many more actual posts,
- every time -tableView:willDisplayCell: is called, this variable will be updated with the post id that is
+ every time -tableView:willDisplayCell: is called, this variable will be updated with the PostObject that is
  being displayed at the moment) */
-@property (nonatomic) int postID;
+@property (weak, nonatomic) PostObject *postObject;
 
 // The shadow/wrapper view which draws a shadow around itself
 @property (weak, nonatomic) IBOutlet UIView *shadowView;

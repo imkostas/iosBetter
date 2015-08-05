@@ -13,8 +13,7 @@
 // Duration of the animation in seconds
 - (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext
 {
-//    return ANIM_DURATION_SHOW_3DOT_MENU;
-    return 0;
+    return ANIM_DURATION_3DOT_MENU_PRESENT;
 }
 
 // Perform the animation itself
@@ -42,7 +41,7 @@
     }
     
     // Animate (iOS style spring damping)
-    [UIView animateWithDuration:ANIM_DURATION_SHOW_3DOT_MENU
+    [UIView animateWithDuration:ANIM_DURATION_3DOT_MENU_PRESENT
                           delay:0
          usingSpringWithDamping:1
           initialSpringVelocity:0

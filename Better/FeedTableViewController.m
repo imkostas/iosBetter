@@ -245,8 +245,8 @@
     // Get the post for this indexPath
     PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
     
-    // Tell the cell which post ID it is representing right now
-    [cell setPostID:[thisPost postID]];
+    // Tell the cell which PostObject it is representing right now
+    [cell setPostObject:thisPost];
     
     // Populate the cell's UI elements
     [[cell tagsLabel] setAttributedText:[thisPost tagsAttributedString]];
@@ -320,8 +320,22 @@
 // Called when a cell's 3-dot button is pressed
 - (void)threeDotButtonWasTappedForFeedCell:(FeedCell *)cell
 {
+    // Get this post's hashtags (-indexPathForCell returns nil if the cell is not visible, but the cell
+    // has to be visible for the 3-dot button to be tapped, so it works in this case)
+    PostObject *thisPost = [[self dataController] postAtIndexPath:[[self tableView] indexPathForCell:cell]];
+    
+    // Create a ThreeDotDataObject to give to the ThreeDotViewController
+    BOOL postHasVotes = ([thisPost numberOfVotes] > 0) ? TRUE : FALSE;
+    BOOL isOwnPost = ([thisPost userID] == [[UserInfo user] userID]) ? TRUE : FALSE;
+
+    ThreeDotDataObject *data = [[ThreeDotDataObject alloc] init];
+    [data setOwnPost:isOwnPost];
+    [data setHasVotes:postHasVotes];
+    [data setTags:[thisPost tags]];
+    [data setUsername:[thisPost username]];
+    
     // Create an instance of the 3-dot view controller
-    ThreeDotViewController *threeDot = [[ThreeDotViewController alloc] init];
+    ThreeDotViewController *threeDot = [[ThreeDotViewController alloc] initWithThreeDotDataObject:data];
     
     // Set up modal presentation properties
     [threeDot setModalPresentationStyle:UIModalPresentationCustom];
@@ -333,7 +347,9 @@
 
 #pragma mark - Custom modal animation for 3-dot
 // Presenting the Three Dot drawer
-- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source
 {
     // Only return an animator if the ThreeDotViewController is asking to be presented
     if([presented isKindOfClass:[ThreeDotViewController class]])
