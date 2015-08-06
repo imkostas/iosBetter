@@ -10,22 +10,22 @@
 
 @implementation ThreeDotTableViewCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if(self)
-    {
-        // Programmatic initialization code
-        [[self textLabel] setFont:[UIFont fontWithName:FONT_RALEWAY_MEDIUM size:15.0]];
-    }
-    
-    return self;
-}
+//- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+//{
+//    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+//    if(self)
+//    {
+//        // Programmatic initialization code
+//        [[self textLabel] setFont:[UIFont fontWithName:FONT_RALEWAY_MEDIUM size:15.0]];
+//    }
+//    
+//    return self;
+//}
 
 - (void)awakeFromNib
 {
     // Initialization code (only for nib loading) -- doesn't get called when you use -registerClass:...
-    [[self textLabel] setFont:[UIFont fontWithName:FONT_RALEWAY_MEDIUM size:15.0]];
+//    [[self textLabel] setFont:[UIFont fontWithName:FONT_RALEWAY_MEDIUM size:15.0]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

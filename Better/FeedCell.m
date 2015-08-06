@@ -120,8 +120,8 @@
     else // Already laid everything out the first time
     {
         /** Run auto-layout on this cell before we start applying the CALayer effects **/
-        [[self contentView] setNeedsLayout];
-        [[self contentView] layoutIfNeeded];
+//        [[self contentView] setNeedsLayout];
+//        [[self contentView] layoutIfNeeded];
         
         // Set up the cell's shadow again (this is outside the run-once layout if() above because the UITableView
         // that this cell is a part of may change the height of this cell (e.g. in response to a large hashtag string)

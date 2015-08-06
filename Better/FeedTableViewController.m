@@ -336,13 +336,23 @@
     
     // Create an instance of the 3-dot view controller
     ThreeDotViewController *threeDot = [[ThreeDotViewController alloc] initWithThreeDotDataObject:data];
+
+    // Create a UINavigationController to allow the ThreeDotViewController to navigate to the 'Voters'
+    // viewcontroller
+    UINavigationController *threeDotNav = [[UINavigationController alloc] initWithRootViewController:threeDot];
     
-    // Set up modal presentation properties
-    [threeDot setModalPresentationStyle:UIModalPresentationCustom];
-    [threeDot setTransitioningDelegate:self];
+    // Set up modal presentation properties and delegate
+    [threeDotNav setModalPresentationStyle:UIModalPresentationCustom];
+    [threeDotNav setTransitioningDelegate:self];
+    [threeDotNav setDelegate:threeDot];
     
-    // Present the Three Dot view controller
-    [[self parentViewController] presentViewController:threeDot animated:YES completion:nil];
+    // Set color and tint color of navigation bar (shown in the 'Voters' area)
+    [[threeDotNav navigationBar] setBarTintColor:COLOR_BETTER_DARK];
+    [[threeDotNav navigationBar] setTintColor:[UIColor whiteColor]];
+    [[threeDotNav navigationBar] setTranslucent:NO];
+    
+    // Present the Three Dot view controller's navigation controller
+    [[self parentViewController] presentViewController:threeDotNav animated:YES completion:nil];
 }
 
 #pragma mark - Custom modal animation for 3-dot
@@ -352,30 +362,30 @@
                                                                       sourceController:(UIViewController *)source
 {
     // Only return an animator if the ThreeDotViewController is asking to be presented
-    if([presented isKindOfClass:[ThreeDotViewController class]])
-    {
+//    if([presented isKindOfClass:[ThreeDotViewController class]])
+//    {
         ThreeDotTransitionAnimator *animator = [[ThreeDotTransitionAnimator alloc] init];
         [animator setPresenting:YES];
         
         return animator;
-    }
-    else
-        return nil;
+//    }
+//    else
+//        return nil;
 }
 
 // Dismissing the Three Dot drawer
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
 {
     // Only return an animator if the ThreeDotViewController is asking to be dismissed
-    if([dismissed isKindOfClass:[ThreeDotViewController class]])
-    {
+//    if([dismissed isKindOfClass:[ThreeDotViewController class]])
+//    {
         ThreeDotTransitionAnimator *animator = [[ThreeDotTransitionAnimator alloc] init];
         [animator setPresenting:NO];
         
         return animator;
-    }
-    else
-        return nil;
+//    }
+//    else
+//        return nil;
 }
 
 #pragma mark - Handling of UIRefreshControl

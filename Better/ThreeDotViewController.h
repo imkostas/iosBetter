@@ -12,7 +12,7 @@
 #import "ThreeDotTableViewCell.h"
 #import "ThreeDotDataObject.h"
 
-@interface ThreeDotViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
+@interface ThreeDotViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, UINavigationControllerDelegate>
 
 /** Custom initializer for passing a ThreeDotDataObject to this viewcontroller */
 - (instancetype)initWithThreeDotDataObject:(ThreeDotDataObject *)object;

@@ -165,7 +165,7 @@ enum VoteState {
 #define COLOR_GRAY [UIColor colorWithWhite:0.85 alpha:1.0]
 #define COLOR_POST_DIVIDER [UIColor colorWithWhite:0.62 alpha:1.0]
 #define COLOR_FEED_HEADERTEXT [UIColor colorWithWhite:0.46 alpha:1.0]
-#define COLOR_FEED_HASHTAGS_STOCK [UIColor colorWithWhite:0.4 alpha:1.0]
+#define COLOR_FEED_HASHTAGS_STOCK [UIColor colorWithWhite:0.5 alpha:1.0]
 #define COLOR_FEED_HASHTAGS_CUSTOM [UIColor blackColor]
 
 #define COLOR_CREATEPOST_LAYOUT_SWITCHER [UIColor colorWithWhite:66/255. alpha:1.0] // 0x42
@@ -270,6 +270,8 @@ enum VoteState {
 #define ICON_POSTLAYOUT_LEFTRIGHT_LIGHT @"post_left_right_white"
 #define ICON_POSTLAYOUT_TOPBOTTOM_DARK @"post_top_bottom_gray"
 #define ICON_POSTLAYOUT_TOPBOTTOM_LIGHT @"post_top_bottom_white"
+
+#define ICON_WARNING @"icon_warning"
 
 // Animation properties
 #define ANIM_DURATION_INTRO (500/1000.0) // converts to seconds

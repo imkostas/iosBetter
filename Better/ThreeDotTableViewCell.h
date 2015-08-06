@@ -11,4 +11,8 @@
 
 @interface ThreeDotTableViewCell : UITableViewCell
 
+// UI elements
+@property (weak, nonatomic) IBOutlet UILabel *label;
+@property (weak, nonatomic) IBOutlet UIImageView *icon;
+
 @end

@@ -12,6 +12,7 @@
 		31C5CFD31B20E93E00472161 /* Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C5CFD21B20E93E00472161 /* Menu.m */; };
 		31C5CFD61B20E95800472161 /* Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C5CFD51B20E95800472161 /* Filter.m */; };
 		C7E587D3A4E84C486D8DF64F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC28AD39D34D3975720338BA /* libPods.a */; };
+		D00270061B73FAED00B4DFF3 /* ThreeDotTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D00270051B73FAED00B4DFF3 /* ThreeDotTableViewCell.xib */; };
 		D006D1651B2776C7008A48FA /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = D006D1641B2776C7008A48FA /* Settings.m */; };
 		D00B29F11B38491F00DB87EC /* BEPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D00B29EF1B38491F00DB87EC /* BEPageViewController.m */; };
 		D00B29F21B38491F00DB87EC /* BEPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D00B29F01B38491F00DB87EC /* BEPageViewController.xib */; };
@@ -138,6 +139,7 @@
 		31C5CFD51B20E95800472161 /* Filter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Filter.m; sourceTree = "<group>"; };
 		8ACB9E8F432E58E61684C492 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		B0BFE93A98894EBBC42AA3B0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		D00270051B73FAED00B4DFF3 /* ThreeDotTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThreeDotTableViewCell.xib; sourceTree = "<group>"; };
 		D006D1631B2776C7008A48FA /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		D006D1641B2776C7008A48FA /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		D00B29EE1B38491F00DB87EC /* BEPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEPageViewController.h; sourceTree = "<group>"; };
@@ -756,6 +758,7 @@
 				D0679BC11B700193003111AD /* ThreeDotTransitionAnimator.m */,
 				D0FB5CA21B725774000E7F27 /* ThreeDotTableViewCell.h */,
 				D0FB5CA31B725774000E7F27 /* ThreeDotTableViewCell.m */,
+				D00270051B73FAED00B4DFF3 /* ThreeDotTableViewCell.xib */,
 			);
 			name = "Three-dot drawer";
 			sourceTree = "<group>";
@@ -1010,6 +1013,7 @@
 				D05584D51B31D12A003FD842 /* Raleway-SemiBoldItalic.ttf in Resources */,
 				D05584D71B31D12A003FD842 /* Raleway-ThinItalic.ttf in Resources */,
 				D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */,
+				D00270061B73FAED00B4DFF3 /* ThreeDotTableViewCell.xib in Resources */,
 				D06629961B4AD7F900359261 /* FeedCellTopBottom.xib in Resources */,
 				D06629941B4AD7F900359261 /* FeedCellSingleImage.xib in Resources */,
 				D05584D41B31D12A003FD842 /* Raleway-SemiBold.ttf in Resources */,

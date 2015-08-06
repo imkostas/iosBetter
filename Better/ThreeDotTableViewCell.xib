@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Raleway-Medium.ttf">
+            <string>Raleway-Medium</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="cvX-NS-DHM" customClass="ThreeDotTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cvX-NS-DHM" id="p07-be-jgW">
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2tM-23-6cr">
+                        <rect key="frame" x="16" y="16" width="40" height="18"/>
+                        <fontDescription key="fontDescription" name="Raleway-Medium" family="Raleway" pointSize="15"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ia8-UD-uqY" userLabel="Icon">
+                        <rect key="frame" x="279" y="12" width="25" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="6jG-JE-wc1"/>
+                            <constraint firstAttribute="width" constant="25" id="lxF-h0-GtQ"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="centerY" secondItem="Ia8-UD-uqY" secondAttribute="centerY" id="9Px-gV-gdB"/>
+                    <constraint firstAttribute="trailing" secondItem="Ia8-UD-uqY" secondAttribute="trailing" constant="16" id="f2D-jp-eGd"/>
+                    <constraint firstAttribute="centerY" secondItem="2tM-23-6cr" secondAttribute="centerY" id="sJI-KA-M2L"/>
+                    <constraint firstItem="2tM-23-6cr" firstAttribute="leading" secondItem="p07-be-jgW" secondAttribute="leading" constant="16" id="yXC-Rk-iag"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="icon" destination="Ia8-UD-uqY" id="QTv-dQ-50c"/>
+                <outlet property="label" destination="2tM-23-6cr" id="gZJ-ST-i3B"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>
