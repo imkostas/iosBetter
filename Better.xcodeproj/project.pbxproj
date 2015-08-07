@@ -12,7 +12,6 @@
 		31C5CFD31B20E93E00472161 /* Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C5CFD21B20E93E00472161 /* Menu.m */; };
 		31C5CFD61B20E95800472161 /* Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C5CFD51B20E95800472161 /* Filter.m */; };
 		C7E587D3A4E84C486D8DF64F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC28AD39D34D3975720338BA /* libPods.a */; };
-		D00270061B73FAED00B4DFF3 /* ThreeDotTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D00270051B73FAED00B4DFF3 /* ThreeDotTableViewCell.xib */; };
 		D006D1651B2776C7008A48FA /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = D006D1641B2776C7008A48FA /* Settings.m */; };
 		D00B29F11B38491F00DB87EC /* BEPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D00B29EF1B38491F00DB87EC /* BEPageViewController.m */; };
 		D00B29F21B38491F00DB87EC /* BEPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D00B29F01B38491F00DB87EC /* BEPageViewController.xib */; };
@@ -23,6 +22,9 @@
 		D01CB7451B29D78D003DF616 /* Support.m in Sources */ = {isa = PBXBuildFile; fileRef = D01CB7441B29D78D003DF616 /* Support.m */; };
 		D01CB7471B2A126D003DF616 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D01CB7461B2A126D003DF616 /* MessageUI.framework */; };
 		D01CB74D1B2A2711003DF616 /* TermsPrivacy.m in Sources */ = {isa = PBXBuildFile; fileRef = D01CB74C1B2A2711003DF616 /* TermsPrivacy.m */; };
+		D02006921B75185B00C3A02B /* ThreeDotDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = D02006911B75185B00C3A02B /* ThreeDotDataController.m */; };
+		D02006951B75189F00C3A02B /* ThreeDotObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D02006941B75189F00C3A02B /* ThreeDotObject.m */; };
+		D02006971B754DBB00C3A02B /* ThreeDotTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D02006961B754DBB00C3A02B /* ThreeDotTableViewCell.xib */; };
 		D027306D1B6C14930059CBE7 /* BEFadingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D027306C1B6C14930059CBE7 /* BEFadingImageView.m */; };
 		D02DE0DD1B2F651F00FE6A6A /* MyInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = D02DE0DC1B2F651F00FE6A6A /* MyInformation.m */; };
 		D02DE0E01B2F74A000FE6A6A /* UserRank.m in Sources */ = {isa = PBXBuildFile; fileRef = D02DE0DF1B2F74A000FE6A6A /* UserRank.m */; };
@@ -31,7 +33,6 @@
 		D031CEDF1B39DD900039A9C1 /* LeaderboardData.m in Sources */ = {isa = PBXBuildFile; fileRef = D031CEDE1B39DD900039A9C1 /* LeaderboardData.m */; };
 		D031CEE31B39E4D70039A9C1 /* LeaderboardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D031CEE11B39E4D70039A9C1 /* LeaderboardTableViewCell.m */; };
 		D031CEE41B39E4D70039A9C1 /* LeaderboardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D031CEE21B39E4D70039A9C1 /* LeaderboardTableViewCell.xib */; };
-		D03CC7CE1B7299680038455B /* ThreeDotDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D03CC7CD1B7299680038455B /* ThreeDotDataObject.m */; };
 		D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */ = {isa = PBXBuildFile; fileRef = D03DB44E1B1F4CAA00810E1E /* Countries.plist */; };
 		D04999E51B4D6EA600A52FD2 /* PostLayoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D04999E41B4D6EA600A52FD2 /* PostLayoutViewController.m */; };
 		D04999E81B4D6FE700A52FD2 /* PostHashtagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D04999E71B4D6FE700A52FD2 /* PostHashtagsViewController.m */; };
@@ -139,7 +140,6 @@
 		31C5CFD51B20E95800472161 /* Filter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Filter.m; sourceTree = "<group>"; };
 		8ACB9E8F432E58E61684C492 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		B0BFE93A98894EBBC42AA3B0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		D00270051B73FAED00B4DFF3 /* ThreeDotTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThreeDotTableViewCell.xib; sourceTree = "<group>"; };
 		D006D1631B2776C7008A48FA /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		D006D1641B2776C7008A48FA /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		D00B29EE1B38491F00DB87EC /* BEPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEPageViewController.h; sourceTree = "<group>"; };
@@ -157,6 +157,11 @@
 		D01CB7461B2A126D003DF616 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		D01CB74B1B2A2711003DF616 /* TermsPrivacy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TermsPrivacy.h; sourceTree = "<group>"; };
 		D01CB74C1B2A2711003DF616 /* TermsPrivacy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TermsPrivacy.m; sourceTree = "<group>"; };
+		D02006901B75185B00C3A02B /* ThreeDotDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeDotDataController.h; sourceTree = "<group>"; };
+		D02006911B75185B00C3A02B /* ThreeDotDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeDotDataController.m; sourceTree = "<group>"; };
+		D02006931B75189F00C3A02B /* ThreeDotObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeDotObject.h; sourceTree = "<group>"; };
+		D02006941B75189F00C3A02B /* ThreeDotObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeDotObject.m; sourceTree = "<group>"; };
+		D02006961B754DBB00C3A02B /* ThreeDotTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThreeDotTableViewCell.xib; sourceTree = "<group>"; };
 		D027306B1B6C14930059CBE7 /* BEFadingImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEFadingImageView.h; sourceTree = "<group>"; };
 		D027306C1B6C14930059CBE7 /* BEFadingImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEFadingImageView.m; sourceTree = "<group>"; };
 		D02DE0DB1B2F651F00FE6A6A /* MyInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyInformation.h; sourceTree = "<group>"; };
@@ -168,8 +173,6 @@
 		D031CEE01B39E4D70039A9C1 /* LeaderboardTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaderboardTableViewCell.h; sourceTree = "<group>"; };
 		D031CEE11B39E4D70039A9C1 /* LeaderboardTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaderboardTableViewCell.m; sourceTree = "<group>"; };
 		D031CEE21B39E4D70039A9C1 /* LeaderboardTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeaderboardTableViewCell.xib; sourceTree = "<group>"; };
-		D03CC7CC1B7299680038455B /* ThreeDotDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeDotDataObject.h; sourceTree = "<group>"; };
-		D03CC7CD1B7299680038455B /* ThreeDotDataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeDotDataObject.m; sourceTree = "<group>"; };
 		D03DB44E1B1F4CAA00810E1E /* Countries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Countries.plist; sourceTree = "<group>"; };
 		D04999E31B4D6EA600A52FD2 /* PostLayoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostLayoutViewController.h; sourceTree = "<group>"; };
 		D04999E41B4D6EA600A52FD2 /* PostLayoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostLayoutViewController.m; sourceTree = "<group>"; };
@@ -758,7 +761,11 @@
 				D0679BC11B700193003111AD /* ThreeDotTransitionAnimator.m */,
 				D0FB5CA21B725774000E7F27 /* ThreeDotTableViewCell.h */,
 				D0FB5CA31B725774000E7F27 /* ThreeDotTableViewCell.m */,
-				D00270051B73FAED00B4DFF3 /* ThreeDotTableViewCell.xib */,
+				D02006961B754DBB00C3A02B /* ThreeDotTableViewCell.xib */,
+				D02006901B75185B00C3A02B /* ThreeDotDataController.h */,
+				D02006911B75185B00C3A02B /* ThreeDotDataController.m */,
+				D02006931B75189F00C3A02B /* ThreeDotObject.h */,
+				D02006941B75189F00C3A02B /* ThreeDotObject.m */,
 			);
 			name = "Three-dot drawer";
 			sourceTree = "<group>";
@@ -770,8 +777,6 @@
 				D07A47231B66D490009760BE /* PostObject.m */,
 				D07A471F1B667F86009760BE /* FeedDataController.h */,
 				D07A47201B667F86009760BE /* FeedDataController.m */,
-				D03CC7CC1B7299680038455B /* ThreeDotDataObject.h */,
-				D03CC7CD1B7299680038455B /* ThreeDotDataObject.m */,
 			);
 			name = "Data model";
 			sourceTree = "<group>";
@@ -1013,7 +1018,7 @@
 				D05584D51B31D12A003FD842 /* Raleway-SemiBoldItalic.ttf in Resources */,
 				D05584D71B31D12A003FD842 /* Raleway-ThinItalic.ttf in Resources */,
 				D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */,
-				D00270061B73FAED00B4DFF3 /* ThreeDotTableViewCell.xib in Resources */,
+				D02006971B754DBB00C3A02B /* ThreeDotTableViewCell.xib in Resources */,
 				D06629961B4AD7F900359261 /* FeedCellTopBottom.xib in Resources */,
 				D06629941B4AD7F900359261 /* FeedCellSingleImage.xib in Resources */,
 				D05584D41B31D12A003FD842 /* Raleway-SemiBold.ttf in Resources */,
@@ -1112,7 +1117,6 @@
 				D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */,
 				D09901921B0E619300760CDF /* BEScrollingViewController.m in Sources */,
 				D031CEDF1B39DD900039A9C1 /* LeaderboardData.m in Sources */,
-				D03CC7CE1B7299680038455B /* ThreeDotDataObject.m in Sources */,
 				D0FA29721B5EE52000F5B24C /* SelectedHashtagsFlowLayout.m in Sources */,
 				D04999EF1B4D833500A52FD2 /* BEAlert.m in Sources */,
 				D066299F1B4AD84A00359261 /* BEHotspotView.m in Sources */,
@@ -1146,10 +1150,12 @@
 				D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */,
 				D06629A51B4AD86700359261 /* FeedCell.m in Sources */,
 				D0FB5CA41B725774000E7F27 /* ThreeDotTableViewCell.m in Sources */,
+				D02006951B75189F00C3A02B /* ThreeDotObject.m in Sources */,
 				D06629A61B4AD86700359261 /* FeedCellHeader.m in Sources */,
 				D0A978001B6AAF1A00895B6B /* BELabelFast.m in Sources */,
 				D00B29F11B38491F00DB87EC /* BEPageViewController.m in Sources */,
 				D0FA296A1B5E998E00F5B24C /* HashtagCellNoDelete.m in Sources */,
+				D02006921B75185B00C3A02B /* ThreeDotDataController.m in Sources */,
 				D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */,
 				D04DEE851B30BE6000BF1557 /* UserCounts.m in Sources */,
 				D099018F1B0E35A900760CDF /* Profile.m in Sources */,

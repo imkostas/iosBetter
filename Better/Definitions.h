@@ -35,6 +35,11 @@ enum VoteState {
     VOTE_NOVOTE = 3 // these number values correspond to the values recognized by the server API
 };
 
+/** Some strings */
+#define STRING_VOTERS @"Voters"
+#define STRING_FAVORITE_POST @"Favorite Post"
+#define STRING_REPORT_MISUSE @"Report Misuse"
+
 /** Specifies a certain kind of filter for the feed */
 #define FEED_FILTER_EVERYTHING @""
 #define FEED_FILTER_FAVORITETAGS @"favoritehashtag/"
@@ -258,7 +263,10 @@ enum VoteState {
 #define ICON_CHECKMARK @"ic_check_grey600_18dp"
 #define ICON_PORTRAIT @"ic_portrait_grey600_24dp"
 #define ICON_FAVORITE_OUTLINE @"ic_favorite_outline_grey600_24dp"
+#define ICON_FAVORITE_OUTLINE_LIGHT @"ic_favorite_light"
+#define ICON_FAVORITED @"ic_favorite_filled"
 #define ICON_PERSON_ADD @"ic_person_add_grey_24dp"
+#define ICON_PERSON_ADDED @"icon_person_added"
 
 // General icons
 #define ICON_PLUS @"Plus"

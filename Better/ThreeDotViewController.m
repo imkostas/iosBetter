@@ -8,25 +8,6 @@
 
 #import "ThreeDotViewController.h"
 
-#define STRING_VOTERS @"Voters"
-#define STRING_FAVORITE_POST @"Favorite Post"
-#define STRING_REPORT_MISUSE @"Report Misuse"
-
-/** An enumeration used in the `tag` property of a UITableViewCell to identify the cell's purpose. Values start
- at one rather than zero because a UIView's default tag number is zero. */
-typedef NS_ENUM(NSUInteger, ThreeDotTableViewCellType) {
-    /** A cell representing the "Voters" row of the UITableView */
-    ThreeDotTableViewCellTypeVoters = 1,
-    /** A cell representing the "Favorite Post" row of the UITableView */
-    ThreeDotTableViewCellTypeFavoritePost = 2,
-    /** A cell representing the <USERNAME HERE> row of the UITableView */
-    ThreeDotTableViewCellTypeUsername = 3,
-    /** A cell representing a hashtag row of the UITableView */
-    ThreeDotTableViewCellTypeHashtag = 4,
-    /** A cell representing the "Report Misuse" row of the UITableView */
-    ThreeDotTableViewCellTypeReportMisuse = 5
-};
-
 @interface ThreeDotViewController ()
 {
     // Only add constraints once
@@ -42,8 +23,11 @@ typedef NS_ENUM(NSUInteger, ThreeDotTableViewCellType) {
 /** An array to hold labels for each row of the UITableView (either NSStrings or NSAttributedString) */
 @property (strong, nonatomic) NSArray *rowLabels;
 
-/** Holds the username of the post-er, passed by the given ThreeDotDataObject */
+/** Holds the username of the poster, passed by the given ThreeDotDataObject */
 @property (strong, nonatomic) NSString *username;
+
+/** Holds the PostObject associated with this object */
+@property (weak, nonatomic) PostObject *postObject;
 
 // Gesture recognizer for dismissing this view controller by tapping on its background
 @property (strong, nonatomic) UITapGestureRecognizer *tapOnViewRecognizer;
@@ -69,37 +53,56 @@ typedef NS_ENUM(NSUInteger, ThreeDotTableViewCellType) {
 @implementation ThreeDotViewController
 
 #pragma mark - Initialization
-- (instancetype)initWithThreeDotDataObject:(ThreeDotDataObject *)object
+- (instancetype)initWithPostObject:(PostObject *)post
 {
     self = [super init];
     if(self)
     {
-        // Initialize variables
+        // Initialize //
+        
+        // Flags
         alreadyLaidOutSubviews = FALSE;
         alreadyPresentedTableViewController = FALSE;
         alreadyResizedTableViewController = FALSE;
         
-        // Set up with the data object
+        // Other variables
+        _postObject = post;
+        _dataController = [[ThreeDotDataController alloc] init];
+        [_dataController setDelegate:self];
+        
+        // Load icon images
+        _iconAddPersonUnfilled = [UIImage imageNamed:ICON_PERSON_ADD];
+        _iconAddPersonFilled = [UIImage imageNamed:ICON_PERSON_ADDED];
+        _iconFavoriteUnfilled = [UIImage imageNamed:ICON_FAVORITE_OUTLINE_LIGHT];
+        _iconFavoriteFilled = [UIImage imageNamed:ICON_FAVORITED];
+        _iconReportMisuse = [UIImage imageNamed:ICON_WARNING];
+        
+        /*
+        // Determine the additional rows to add
+        BOOL postHasVotes = ([post numberOfVotes] > 0) ? TRUE : FALSE;
+        BOOL isOwnPost = ([post userID] == [[UserInfo user] userID]) ? TRUE : FALSE;
+        
+        // Set up the `username` and `rowLabels` variables
         NSMutableArray *labels = [[NSMutableArray alloc] init];
         
-        if([object hasVotes])
+        if(postHasVotes)
             [labels addObject:STRING_VOTERS];
         
         // Add "Favorite Post" and the username rows if this post is not the user's own post
-        if(![object isOwnPost])
+        if(!isOwnPost)
         {
             [labels addObject:STRING_FAVORITE_POST];
-            [labels addObject:[object username]];
+            [labels addObject:[post username]];
         }
         
         // Add the hashtags in as NSAttributedStrings
-        for(NSString *tag in [object tags])
+        for(NSString *tag in [post tags])
         {
             NSString *tagWithHash = [@"#" stringByAppendingString:tag];
             
             // Color the "#" a lighter gray
-            NSMutableAttributedString *hashtagString = [[NSMutableAttributedString alloc] initWithString:tagWithHash];
             NSRange firstCharRange = { .location = 0, .length = 1 };
+            NSMutableAttributedString *hashtagString = [[NSMutableAttributedString alloc] initWithString:tagWithHash];
             [hashtagString beginEditing];
             [hashtagString addAttribute:NSForegroundColorAttributeName value:COLOR_FEED_HASHTAGS_STOCK range:firstCharRange];
             [hashtagString endEditing];
@@ -109,19 +112,20 @@ typedef NS_ENUM(NSUInteger, ThreeDotTableViewCellType) {
         }
         
         // Add the Report Misuse row if this post is not the user's own post
-        if(![object isOwnPost])
+        if(!isOwnPost)
             [labels addObject:STRING_REPORT_MISUSE];
         
-        // Save data
+        // Save them
         [self setRowLabels:labels];
-        [self setUsername:[object username]];
+        [self setUsername:[post username]];
         
         // Load icon images
         _iconAddPersonUnfilled = [UIImage imageNamed:ICON_PERSON_ADD];
-//        _iconAddPersonFilled = ...
-        _iconFavoriteUnfilled = [UIImage imageNamed:ICON_FAVORITE_OUTLINE];
-//        _iconFavoriteFilled = ...
+        _iconAddPersonFilled = [UIImage imageNamed:ICON_PERSON_ADDED];
+        _iconFavoriteUnfilled = [UIImage imageNamed:ICON_FAVORITE_OUTLINE_LIGHT];
+        _iconFavoriteFilled = [UIImage imageNamed:ICON_FAVORITED];
         _iconReportMisuse = [UIImage imageNamed:ICON_WARNING];
+         */
     }
     
     return self;
@@ -236,6 +240,9 @@ typedef NS_ENUM(NSUInteger, ThreeDotTableViewCellType) {
     {
         // Start the refresh animation
         [[[self tableViewController] refreshControl] beginRefreshing];
+        
+        // Start the download process
+        [[self dataController] reloadDataWithPostObject:[self postObject]];
 
         // Animate the tableview
         [[self view] layoutIfNeeded];
@@ -251,8 +258,6 @@ typedef NS_ENUM(NSUInteger, ThreeDotTableViewCellType) {
                          completion:^(BOOL completed){
                              // Only bring up from bottom once
                              alreadyPresentedTableViewController = TRUE;
-                             
-                             // start network process here
                          }];
     }
 }
@@ -261,55 +266,7 @@ typedef NS_ENUM(NSUInteger, ThreeDotTableViewCellType) {
 {
     [super viewDidAppear:animated];
     
-    // Simulate loading some data
-    
     NSLog(@"view did appear");
-    
-    if(!alreadyResizedTableViewController)
-    {
-        // Reload TableView rows
-        [[[self tableViewController] tableView] reloadData];
-        
-        // Animate the UITableView's height
-        [[[self tableViewController] tableView] setShowsVerticalScrollIndicator:NO];
-        [[self view] layoutIfNeeded];
-        [UIView animateWithDuration:ANIM_DURATION_3DOT_MENU_TABLEVIEW
-                              delay:0
-             usingSpringWithDamping:1
-              initialSpringVelocity:0
-                            options:UIViewAnimationOptionCurveLinear
-                         animations:^{
-                             // Scroll the UITableView up to hide the UIRefreshControl, as opposed to calling
-                             // -endRefreshing and setting it to nil, which causes animation stutters
-                             [[[self tableViewController] tableView] setContentOffset:CGPointZero];
-                             
-                             // Resize the TableView's height to the height of its contentSize, but limit it to
-                             // a certain portion of the screen height
-                             CGFloat tableViewContentHeight = [[[self tableViewController] tableView] contentSize].height;
-                             CGFloat heightLimit = SCREEN_HEIGHT * 0.65;
-                             if(tableViewContentHeight > heightLimit)
-                                 tableViewContentHeight = heightLimit;
-                             
-                             // Apply the new height and run the layout
-                             [[self tableViewHeightConstraint] setConstant:tableViewContentHeight];
-                             [[self view] layoutIfNeeded];
-                         }
-                         completion:^(BOOL completion){
-                             // Do not animate again
-                             alreadyResizedTableViewController = TRUE;
-                             
-                             // Delete the UIRefreshControl (up to this point, it is just hidden beneath
-                             // the contents of the UITableView)
-                             [[[self tableViewController] refreshControl] endRefreshing];
-                             [[self tableViewController] setRefreshControl:nil];
-                             
-                             // Re-enable the scroll indicators
-                             [[[self tableViewController] tableView] setShowsVerticalScrollIndicator:YES];
-                             [[[self tableViewController] tableView] flashScrollIndicators];
-                         }];
-    }
-    else // Just flash the scroll indicators
-        [[[self tableViewController] tableView] flashScrollIndicators];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -365,93 +322,81 @@ typedef NS_ENUM(NSUInteger, ThreeDotTableViewCellType) {
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    NSLog(@"number of rows: %i", [[self rowLabels] count]);
-    return [[self rowLabels] count];
+//    NSLog(@"number of rows: %i", (int)[[self dataController] numberOfItems]);
+    return [[self dataController] numberOfItems];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Dequeue a cell
     ThreeDotTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:REUSE_ID_THREE_DOT_TABLEVIEW_CELL forIndexPath:indexPath];
-    
-    //// Set its tag now to identify it later ////
-    
-    // Retrieve either an NSString or an NSAttributedString
-    NSObject *rowLabel = [[self rowLabels] objectAtIndex:[indexPath row]];
-    if([rowLabel isKindOfClass:[NSString class]])
-    {
-        // We know it's not a hashtag cell
-        NSString *rowLabelString = (NSString *)rowLabel;
-        
-        if([rowLabelString isEqualToString:STRING_VOTERS])
-            // This is the Voters row, set tag accordingly
-            [cell setTag:ThreeDotTableViewCellTypeVoters];
-        
-        else if([rowLabelString isEqualToString:STRING_FAVORITE_POST])
-            // This is the Favorite Post row
-            [cell setTag:ThreeDotTableViewCellTypeFavoritePost];
-        
-        else if([rowLabelString isEqualToString:STRING_REPORT_MISUSE])
-            // This is the Report Misuse row
-            [cell setTag:ThreeDotTableViewCellTypeReportMisuse];
-        
-        else if([rowLabelString isEqualToString:[self username]])
-            // This is the <username> row
-            [cell setTag:ThreeDotTableViewCellTypeUsername];
-    }
-    else if([rowLabel isKindOfClass:[NSAttributedString class]])
-        // We know it's a hashtag cell
-        [cell setTag:ThreeDotTableViewCellTypeHashtag];
-    
+
     return cell;
 }
 
 #pragma mark - UITableViewDelegate methods
 // Set up the cell before it's displayed
 - (void)tableView:(UITableView *)tableView willDisplayCell:(ThreeDotTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Different labels depending on the cell's tag
-    switch([cell tag])
+{   
+    // Retrieve the correct object for this indexPath
+    ThreeDotObject *threeDotObject = [[self dataController] itemAtIndexPath:indexPath];
+    
+    // Configure the cell based on its ThreeDotObject
+    switch([threeDotObject type])
     {
-        case ThreeDotTableViewCellTypeVoters:
+        case ThreeDotObjectTypeVoters:
         {
-            [cell setSelectionStyle:UITableViewCellSelectionStyleDefault]; // Able to be highlighted
             [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
             [[cell icon] setImage:nil];
-            [[cell label] setText:STRING_VOTERS];
+            [[cell label] setText:[threeDotObject title]];
             
             break;
         }
-        case ThreeDotTableViewCellTypeFavoritePost:
+        case ThreeDotObjectTypeFavoritePost:
         {
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone]; // No highlighting
             [cell setAccessoryType:UITableViewCellAccessoryNone];
-            [[cell icon] setImage:[self iconAddPersonUnfilled]];
-            [[cell label] setText:STRING_FAVORITE_POST];
+            
+            // Favorite or un-favorited
+            if([threeDotObject isActive])
+                [[cell icon] setImage:[self iconFavoriteFilled]];
+            else
+                [[cell icon] setImage:[self iconFavoriteUnfilled]];
+            
+            [[cell label] setText:[threeDotObject title]];
             
             break;
         }
-        case ThreeDotTableViewCellTypeUsername:
+        case ThreeDotObjectTypeUsername:
         {
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone]; // No highlighting
             [cell setAccessoryType:UITableViewCellAccessoryNone];
-            [[cell icon] setImage:[self iconFavoriteUnfilled]];
-            [[cell label] setText:[self username]];
+            
+            // Added or not added (following)
+            if([threeDotObject isActive])
+                [[cell icon] setImage:[self iconAddPersonFilled]];
+            else
+                [[cell icon] setImage:[self iconAddPersonFilled]];
+            
+            [[cell label] setText:[threeDotObject title]];
             
             break;
         }
-        case ThreeDotTableViewCellTypeHashtag:
+        case ThreeDotObjectTypeHashtag:
         {
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone]; // No highlighting
             [cell setAccessoryType:UITableViewCellAccessoryNone];
-            [[cell icon] setImage:[self iconFavoriteUnfilled]];
-            [[cell label] setAttributedText:[[self rowLabels] objectAtIndex:[indexPath row]]];
+            
+            // Favorite or un-favorited
+            if([threeDotObject isActive])
+                [[cell icon] setImage:[self iconFavoriteFilled]];
+            else
+                [[cell icon] setImage:[self iconFavoriteUnfilled]];
+            
+            [[cell label] setAttributedText:[threeDotObject attributedTitle]];
+//            [[cell label] setText:[[threeDotObject attributedTitle] string]];
             
             break;
         }
-        case ThreeDotTableViewCellTypeReportMisuse:
+        case ThreeDotObjectTypeReportMisuse:
         {
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone]; // No highlighting
             [cell setAccessoryType:UITableViewCellAccessoryNone];
             [[cell icon] setImage:[self iconReportMisuse]];
             [[cell label] setText:STRING_REPORT_MISUSE];
@@ -466,33 +411,55 @@ typedef NS_ENUM(NSUInteger, ThreeDotTableViewCellType) {
 // Called whenever a cell is tapped
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"3-dot selected row at row: %i", [indexPath row]);
+    NSLog(@"3-dot selected row at row: %i", (int)[indexPath row]);
     
+    // Retrieve the correct object for this indexPath
+    ThreeDotObject *thisObject = [[self dataController] itemAtIndexPath:indexPath];
+    
+    switch([thisObject type])
+    {
+        case ThreeDotObjectTypeVoters:
+        {
+            UIViewController *hey = [[UIViewController alloc] init];
+            [hey setView:[[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]]];
+            [[hey view] setBackgroundColor:[UIColor whiteColor]];
+            [[self navigationController] pushViewController:hey animated:YES];
+            
+            break;
+        }
+        case ThreeDotObjectTypeFavoritePost:
+        case ThreeDotObjectTypeUsername:
+        case ThreeDotObjectTypeHashtag:
+        case ThreeDotObjectTypeReportMisuse:
+        default:
+            [[[self tableViewController] tableView] deselectRowAtIndexPath:indexPath animated:YES];
+            break;
+    }
+    
+    /*
     // Retrieve the cell corresponding to this indexPath
     UITableViewCell *cell = [[[self tableViewController] tableView] cellForRowAtIndexPath:indexPath];
     
-    if([cell tag] == ThreeDotTableViewCellTypeVoters)
+    switch([cell tag])
     {
-        UIViewController *hey = [[UIViewController alloc] init];
-        [hey setView:[[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]]];
-        [[hey view] setBackgroundColor:[UIColor whiteColor]];
-
-        [[self navigationController] pushViewController:hey animated:YES];
-    }
-}
-
-- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"Tapped accessory view for index path: %i", [indexPath row]);
+        case ThreeDotTableViewCellTypeVoters:
+        {
+            UIViewController *hey = [[UIViewController alloc] init];
+            [hey setView:[[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]]];
+            [[hey view] setBackgroundColor:[UIColor whiteColor]];
+            [[self navigationController] pushViewController:hey animated:YES];
+            
+            break;
+        }
+        default:
+            [[[self tableViewController] tableView] deselectRowAtIndexPath:indexPath animated:YES];
+            break;
+    }*/
 }
 
 #pragma mark - UINavigationControllerDelegate methods
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-//    NSLog(@"showing view controller: %@", viewController);
-//    NSLog(@"I am %@", self);
-//    NSLog(@"   the presenting vc is: %@", [viewController presentingViewController]);
-    
     // Show the nav bar if we are showing a view controller other than this ThreeDotViewController
     if(viewController == self)
         [navigationController setNavigationBarHidden:YES animated:animated]; // Hide only when this ThreeDotVC is being shown
@@ -500,14 +467,49 @@ typedef NS_ENUM(NSUInteger, ThreeDotTableViewCellType) {
         [navigationController setNavigationBarHidden:NO animated:animated]; // e.g. the Voters view controller
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - ThreeDotDataControllerDelegate methods
+- (void)threeDotDataController:(ThreeDotDataController *)threeDotDataController didLoadItemsAtIndexPaths:(NSArray *)indexPaths
+{
+    // Reload the UITableView at the given index paths
+    [[[self tableViewController] tableView] reloadData];
+    
+    // Animate the UITableView's height
+    [[[self tableViewController] tableView] setShowsVerticalScrollIndicator:NO];
+    [[self view] layoutIfNeeded];
+    [UIView animateWithDuration:ANIM_DURATION_3DOT_MENU_TABLEVIEW
+                          delay:0
+         usingSpringWithDamping:1
+          initialSpringVelocity:0
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         // Scroll the UITableView up to hide the UIRefreshControl, as opposed to calling
+                         // -endRefreshing and setting it to nil, which causes animation stutters
+                         [[[self tableViewController] tableView] setContentOffset:CGPointZero];
+                         
+                         // Resize the TableView's height to the height of its contentSize, but limit it to
+                         // a certain portion of the screen height
+                         CGFloat tableViewContentHeight = [[[self tableViewController] tableView] contentSize].height;
+                         CGFloat heightLimit = SCREEN_HEIGHT * 0.65;
+                         if(tableViewContentHeight > heightLimit)
+                             tableViewContentHeight = heightLimit;
+                         
+                         // Apply the new height and run the layout
+                         [[self tableViewHeightConstraint] setConstant:tableViewContentHeight];
+                         [[self view] layoutIfNeeded];
+                     }
+                     completion:^(BOOL completion){
+                         // Do not animate again
+                         alreadyResizedTableViewController = TRUE;
+                         
+                         // Delete the UIRefreshControl (up to this point, it is just hidden beneath
+                         // the contents of the UITableView)
+                         [[[self tableViewController] refreshControl] endRefreshing];
+                         [[self tableViewController] setRefreshControl:nil];
+                         
+                         // Re-enable the scroll indicators
+                         [[[self tableViewController] tableView] setShowsVerticalScrollIndicator:YES];
+                         [[[self tableViewController] tableView] flashScrollIndicators];
+                     }];
 }
-*/
 
 @end

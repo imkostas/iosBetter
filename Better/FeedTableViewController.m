@@ -324,18 +324,8 @@
     // has to be visible for the 3-dot button to be tapped, so it works in this case)
     PostObject *thisPost = [[self dataController] postAtIndexPath:[[self tableView] indexPathForCell:cell]];
     
-    // Create a ThreeDotDataObject to give to the ThreeDotViewController
-    BOOL postHasVotes = ([thisPost numberOfVotes] > 0) ? TRUE : FALSE;
-    BOOL isOwnPost = ([thisPost userID] == [[UserInfo user] userID]) ? TRUE : FALSE;
-
-    ThreeDotDataObject *data = [[ThreeDotDataObject alloc] init];
-    [data setOwnPost:isOwnPost];
-    [data setHasVotes:postHasVotes];
-    [data setTags:[thisPost tags]];
-    [data setUsername:[thisPost username]];
-    
     // Create an instance of the 3-dot view controller
-    ThreeDotViewController *threeDot = [[ThreeDotViewController alloc] initWithThreeDotDataObject:data];
+    ThreeDotViewController *threeDot = [[ThreeDotViewController alloc] initWithPostObject:thisPost];
 
     // Create a UINavigationController to allow the ThreeDotViewController to navigate to the 'Voters'
     // viewcontroller
