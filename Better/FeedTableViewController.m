@@ -198,8 +198,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	NSLog(@"getting number of rows");
-    
     return [[self dataController] numberOfPosts];
 }
 
@@ -247,21 +245,28 @@
     
     // Tell the cell which PostObject it is representing right now
     [cell setPostObject:thisPost];
-    
+
     // Populate the cell's UI elements
-    [[cell tagsLabel] setAttributedText:[thisPost tagsAttributedString]];
+    [[cell tagsLabel] setAttributedText:[thisPost tagsAttributedString]]; // on iPhone 4S causes small stutters when scrolling
 //    [[cell tagsLabel] setText:[[thisPost tagsAttributedString] string]];
     [[cell usernameLabel] setText:[thisPost username]];
     [[cell numberOfVotesLabel] setText:[NSString stringWithFormat:@"%i", [thisPost numberOfVotes]]];
     [[cell profileImageView] setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_FEMALE]];
+    
+    // Construct URLs for each image
+    NSString *urlStringA = [[[UserInfo user] s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_1.png", [thisPost postID]]];
+    NSString *urlStringB = [[[UserInfo user] s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_2.png", [thisPost postID]]];
     
     switch([thisPost layoutType])
     {
         case LAYOUTSTATE_A_ONLY:
         {
             FeedCellSingleImage *thisCell = (FeedCellSingleImage *)cell;
-            [[thisCell mainImageView] setBackgroundColor:COLOR1];
-//            [[thisCell mainImageView] setImage:[UIImage imageNamed:@"goat"]];
+            NSURL *url = [NSURL URLWithString:urlStringA];
+            
+            [[thisCell mainImageView] setImage:nil];
+            [[thisCell mainImageView] setImageWithURL:url]; // from AFNetworking
+            
             [[thisCell hotspotA] setPercentageValue:0.9];
             [[thisCell hotspotB] setPercentageValue:0.1];
             break;
@@ -269,8 +274,16 @@
         case LAYOUTSTATE_LEFT_RIGHT:
         {
             FeedCellLeftRight *thisCell = (FeedCellLeftRight *)cell;
-            [[thisCell leftImageView] setBackgroundColor:COLOR1];
-            [[thisCell rightImageView] setBackgroundColor:COLOR3];
+            NSURL *urlA = [NSURL URLWithString:urlStringA];
+            NSURL *urlB = [NSURL URLWithString:urlStringB];
+            
+            // Get left image
+            [[thisCell leftImageView] setImage:nil];
+            [[thisCell leftImageView] setImageWithURL:urlA];
+            
+            [[thisCell rightImageView] setImage:nil];
+            [[thisCell rightImageView] setImageWithURL:urlB];
+            
             [[thisCell hotspotA] setPercentageValue:0.51];
             [[thisCell hotspotB] setPercentageValue:0.49];
             break;
@@ -278,8 +291,15 @@
         case LAYOUTSTATE_TOP_BOTTOM:
         {
             FeedCellTopBottom *thisCell = (FeedCellTopBottom *)cell;
-            [[thisCell topImageView] setBackgroundColor:COLOR3];
-            [[thisCell bottomImageView] setBackgroundColor:COLOR1];
+            NSURL *urlA = [NSURL URLWithString:urlStringA];
+            NSURL *urlB = [NSURL URLWithString:urlStringB];
+            
+            [[thisCell topImageView] setImage:nil];
+            [[thisCell topImageView] setImageWithURL:urlA];
+            
+            [[thisCell bottomImageView] setImage:nil];
+            [[thisCell bottomImageView] setImageWithURL:urlB];
+            
             [[thisCell hotspotA] setPercentageValue:0.6];
             [[thisCell hotspotB] setPercentageValue:0.4];
             break;
@@ -314,6 +334,15 @@
 //    
 //    // Stop the UIRefreshControl
 //    [[self refreshControl] endRefreshing];
+}
+
+// Called to tell this object to scroll back to the beginning of all the posts
+- (void)feedDataControllerDelegateShouldScrollToTopAnimated:(BOOL)animated
+{
+    // Set content offset to zero
+    CGPoint contentOffset = [[self tableView] contentOffset];
+    if(contentOffset.y != 0)
+        [[self tableView] setContentOffset:CGPointZero animated:animated];
 }
 
 #pragma mark - FeedCellDelegate methods
@@ -392,107 +421,6 @@
 //{
 //    // Remove the given index paths
 //    [[self tableView] deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom];
-//}
-
-//- (IBAction)buttonPressed:(id)sender
-//{
-    /*
-	NSURLSession *urlSession = [NSURLSession sharedSession];
-	NSURLSessionTask *urlTask = [urlSession dataTaskWithURL:[NSURL URLWithString:@"http://dummyimage.com/600x600/333/0cc.png"]
-										  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-											  
-											  background = [UIImage imageWithData:data];
-											  if(!background)
-												  NSLog(@"Downloaded image is nil");
-											  
-											  if(background)
-											  {
-												  NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]];
-												  
-												  // Update the tableview on the main thread (UI runs on main thread)
-												  dispatch_sync(dispatch_get_main_queue(), ^{
-													  [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-												  });
-											  }
-										  }];
-	[urlTask resume];
-	
-	NSURLSessionTask *urlTask2 = [urlSession dataTaskWithURL:[NSURL URLWithString:@"http://dummyimage.com/300x600/f04/333.png"]
-										  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-											  
-											  image2 = [UIImage imageWithData:data];
-											  if(!image2)
-												  NSLog(@"Downloaded image is nil");
-											  
-											  if(image2)
-											  {
-												  NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]];
-												  
-												  // Update the tableview on the main thread (UI runs on main thread)
-												  dispatch_sync(dispatch_get_main_queue(), ^{
-													  [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-												  });
-											  }
-										  }];
-	[urlTask2 resume];
-	
-	NSURLSessionTask *urlTask3 = [urlSession dataTaskWithURL:[NSURL URLWithString:@"http://dummyimage.com/300x600/eee/c0c.png"]
-										  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-											  
-											  image3 = [UIImage imageWithData:data];
-											  if(!image3)
-												  NSLog(@"Downloaded image is nil");
-											  
-											  if(image3)
-											  {
-												  NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]];
-												  
-												  // Update the tableview on the main thread (UI runs on main thread)
-												  dispatch_sync(dispatch_get_main_queue(), ^{
-													  [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-												  });
-											  }
-										  }];
-	[urlTask3 resume];
-	
-	NSURLSessionTask *urlTask4 = [urlSession dataTaskWithURL:[NSURL URLWithString:@"http://dummyimage.com/600x300/bbb/f03.png"]
-										   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-											   
-											   image4 = [UIImage imageWithData:data];
-											   if(!image4)
-												   NSLog(@"Downloaded image is nil");
-											   
-											   if(image4)
-											   {
-												   NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:0]];
-												   
-												   // Update the tableview on the main thread (UI runs on main thread)
-												   dispatch_sync(dispatch_get_main_queue(), ^{
-													   [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-												   });
-											   }
-										   }];
-	[urlTask4 resume];
-	
-	NSURLSessionTask *urlTask5 = [urlSession dataTaskWithURL:[NSURL URLWithString:@"http://dummyimage.com/600x300/123/456.png"]
-										   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-											   
-											   image5 = [UIImage imageWithData:data];
-											   if(!image5)
-												   NSLog(@"Downloaded image is nil");
-											   
-											   if(image5)
-											   {
-												   NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:0]];
-												   
-												   // Update the tableview on the main thread (UI runs on main thread)
-												   dispatch_sync(dispatch_get_main_queue(), ^{
-													   [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-												   });
-											   }
-										   }];
-	[urlTask5 resume];
-     */
 //}
 
 /*

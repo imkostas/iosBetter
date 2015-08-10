@@ -25,13 +25,13 @@
                                     <constraint firstAttribute="height" constant="2" id="Aoj-nv-XRF"/>
                                 </constraints>
                             </view>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bBH-dv-Lz9" userLabel="Top Image">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bBH-dv-Lz9" userLabel="Top Image" customClass="BEFadingImageView">
                                 <rect key="frame" x="0.0" y="99" width="434" height="217"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="bBH-dv-Lz9" secondAttribute="height" multiplier="2:1" id="YGc-xF-QUs"/>
                                 </constraints>
                             </imageView>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6Iy-Mi-rUx" userLabel="Bottom Image">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6Iy-Mi-rUx" userLabel="Bottom Image" customClass="BEFadingImageView">
                                 <rect key="frame" x="0.0" y="316" width="434" height="217"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="6Iy-Mi-rUx" secondAttribute="height" multiplier="2:1" id="mg0-6z-VzP"/>

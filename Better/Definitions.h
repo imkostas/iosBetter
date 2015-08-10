@@ -11,14 +11,14 @@
 
 // Enums
 /**
- An integer that keeps track of the state of the image layout in a New Post--there are three states:
- (0) image A is fully shown, image B is hidden
- (1) image A is on the left, image B is on the right
- (2) image A is on the top, image B is on the bottom
+ An integer that keeps track of the state of the image layout in a New Post
  */
-enum {
+typedef NS_ENUM(NSUInteger, LayoutState) {
+    /** image A is fully shown, image B is hidden */
     LAYOUTSTATE_A_ONLY = 0,
+    /** image A is on the left, image B is on the right */
     LAYOUTSTATE_LEFT_RIGHT = 1,
+    /** image A is on the top, image B is on the bottom */
     LAYOUTSTATE_TOP_BOTTOM = 2
 };
 

@@ -63,7 +63,7 @@
         // Flags
         alreadyLaidOutSubviews = FALSE;
         alreadyPresentedTableViewController = FALSE;
-        alreadyResizedTableViewController = FALSE;
+        alreadyResizedTableViewController = FALSE; // not used anymore
         
         // Other variables
         _postObject = post;
@@ -76,56 +76,6 @@
         _iconFavoriteUnfilled = [UIImage imageNamed:ICON_FAVORITE_OUTLINE_LIGHT];
         _iconFavoriteFilled = [UIImage imageNamed:ICON_FAVORITED];
         _iconReportMisuse = [UIImage imageNamed:ICON_WARNING];
-        
-        /*
-        // Determine the additional rows to add
-        BOOL postHasVotes = ([post numberOfVotes] > 0) ? TRUE : FALSE;
-        BOOL isOwnPost = ([post userID] == [[UserInfo user] userID]) ? TRUE : FALSE;
-        
-        // Set up the `username` and `rowLabels` variables
-        NSMutableArray *labels = [[NSMutableArray alloc] init];
-        
-        if(postHasVotes)
-            [labels addObject:STRING_VOTERS];
-        
-        // Add "Favorite Post" and the username rows if this post is not the user's own post
-        if(!isOwnPost)
-        {
-            [labels addObject:STRING_FAVORITE_POST];
-            [labels addObject:[post username]];
-        }
-        
-        // Add the hashtags in as NSAttributedStrings
-        for(NSString *tag in [post tags])
-        {
-            NSString *tagWithHash = [@"#" stringByAppendingString:tag];
-            
-            // Color the "#" a lighter gray
-            NSRange firstCharRange = { .location = 0, .length = 1 };
-            NSMutableAttributedString *hashtagString = [[NSMutableAttributedString alloc] initWithString:tagWithHash];
-            [hashtagString beginEditing];
-            [hashtagString addAttribute:NSForegroundColorAttributeName value:COLOR_FEED_HASHTAGS_STOCK range:firstCharRange];
-            [hashtagString endEditing];
-            
-            // Add this attributed string to the array
-            [labels addObject:hashtagString];
-        }
-        
-        // Add the Report Misuse row if this post is not the user's own post
-        if(!isOwnPost)
-            [labels addObject:STRING_REPORT_MISUSE];
-        
-        // Save them
-        [self setRowLabels:labels];
-        [self setUsername:[post username]];
-        
-        // Load icon images
-        _iconAddPersonUnfilled = [UIImage imageNamed:ICON_PERSON_ADD];
-        _iconAddPersonFilled = [UIImage imageNamed:ICON_PERSON_ADDED];
-        _iconFavoriteUnfilled = [UIImage imageNamed:ICON_FAVORITE_OUTLINE_LIGHT];
-        _iconFavoriteFilled = [UIImage imageNamed:ICON_FAVORITED];
-        _iconReportMisuse = [UIImage imageNamed:ICON_WARNING];
-         */
     }
     
     return self;

@@ -24,6 +24,10 @@
  using -insertRowAtIndexPath: ... */
 - (void)feedDataController:(FeedDataController *)feedDataController didLoadPostsAtIndexPaths:(NSArray *)loadedPaths removePostsAtIndexPaths:(NSArray *)removedPaths;
 
+/** Tells the delegate to scroll to the beginning of its content. This is usually called when changing the
+ filter */
+- (void)feedDataControllerDelegateShouldScrollToTopAnimated:(BOOL)animated;
+
 /** Tells the delegate that the FeedDataController has deleted posts at particular index paths. The delegate should
  remove the UI elements corresponding to these posts. */
 //- (void)feedDataController:(FeedDataController *)feedDataController didRemovePostsAtIndexPaths:(NSArray *)indexPaths;
@@ -54,6 +58,9 @@
 
 /** Discards all data and reloads from the beginning (most recent) */
 - (void)reloadAllPosts;
+
+/** Downloads the necessary images for a particular index path */
+//- (void)downloadImagesForIndexPath:(NSIndexPath *)indexPath;
 
 #pragma mark - Class methods
 /** Returns an NSAttributedString given an array of NSStrings (each represents a hashtag). This method

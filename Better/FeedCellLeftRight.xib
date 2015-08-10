@@ -25,13 +25,13 @@
                                     <constraint firstAttribute="height" constant="2" id="h1E-tf-71k"/>
                                 </constraints>
                             </view>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eME-71-ZSu" userLabel="Left Image">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eME-71-ZSu" userLabel="Left Image" customClass="BEFadingImageView">
                                 <rect key="frame" x="0.0" y="100" width="217" height="433"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="eME-71-ZSu" secondAttribute="height" multiplier="1:2" id="qvB-q5-POe"/>
                                 </constraints>
                             </imageView>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RJG-gf-JaV" userLabel="Right Image">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RJG-gf-JaV" userLabel="Right Image" customClass="BEFadingImageView">
                                 <rect key="frame" x="217" y="100" width="217" height="433"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="RJG-gf-JaV" secondAttribute="height" multiplier="1:2" id="FvU-GU-xk4"/>

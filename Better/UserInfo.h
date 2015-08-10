@@ -38,6 +38,7 @@
 @property (nonatomic, strong) NSString *uri;
 @property (nonatomic, strong) NSString *img_uri;
 @property (nonatomic, strong) NSString *apiKey;
+@property (nonatomic, strong) NSString *s3_url;
 
 // Keychain service name
 @property (strong, nonatomic) NSString *keychainServiceNameLogin;

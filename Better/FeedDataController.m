@@ -228,6 +228,9 @@
 {
     PostObject *post = [[PostObject alloc] init];
     
+    // Set initial flag value
+//    [post setAlreadyDownloadedImages:NO];
+    
     // Date formatter for converting strings to NSDates
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     
@@ -352,6 +355,9 @@
                            didLoadPostsAtIndexPaths:loadedPaths
                             removePostsAtIndexPaths:[self indexPathsToRemove]];
             }
+            
+            // Now scroll to the top
+            [[self delegate] feedDataControllerDelegateShouldScrollToTopAnimated:YES];
         }
         else
         {

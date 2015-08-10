@@ -20,6 +20,7 @@
 @synthesize uri;
 @synthesize img_uri;
 @synthesize apiKey;
+@synthesize s3_url;
 
 @synthesize loggedIn;
 @synthesize keychainServiceNameLogin;
@@ -55,6 +56,7 @@
         uri = @"http://52.0.107.49/v1/";
         img_uri = @"https://52.0.107.49/user_profile_images/";
         apiKey = @"better";
+        s3_url = @"https://s3.amazonaws.com/better.thememedesign.com/";
         
         // Keychain service name
         keychainServiceNameLogin = [[[NSBundle mainBundle] bundleIdentifier] stringByAppendingString:@".login"];
@@ -134,7 +136,10 @@
 		NSLog(@"Network activity indicator index below zero: %i", numTimesRequestedVisible);
 	
 	// Set status of the indicator
-	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:(numTimesRequestedVisible > 0)];
+    if(numTimesRequestedVisible > 0 && [[UIApplication sharedApplication] isNetworkActivityIndicatorVisible] == NO)
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    else if(numTimesRequestedVisible == 0)
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
 #pragma mark - Data parsing
