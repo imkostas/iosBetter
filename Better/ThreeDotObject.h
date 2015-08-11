@@ -27,7 +27,8 @@ typedef NS_ENUM(NSUInteger, ThreeDotObjectType) {
 /** The type of this ThreeDotObject */
 @property (nonatomic) ThreeDotObjectType type;
 
-/** An identification number for this ThreeDotObject, typically set to a hashtag ID number */
+/** An identification number for this ThreeDotObject, typically set to a hashtag ID number, post ID number, or
+ user ID number */
 @property (nonatomic) int objectID;
 
 /** The title of the ThreeDotObject */
@@ -39,6 +40,8 @@ typedef NS_ENUM(NSUInteger, ThreeDotObjectType) {
 /** A flag determining if this ThreeDotObject is active (if applicable). Defaults to FALSE */
 @property (nonatomic, getter=isActive) BOOL active;
 
+/** Set to TRUE when this ThreeDotObject is in the process of changing its active state, and FALSE otherwise */
+@property (nonatomic, getter=isChangingActiveState) BOOL changingActiveState;
 
 /** Custom initalizer */
 - (instancetype)initWithType:(ThreeDotObjectType)type;

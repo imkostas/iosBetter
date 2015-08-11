@@ -551,9 +551,6 @@
     [manager setRequestSerializer:[AFHTTPRequestSerializer serializer]];
     [manager setResponseSerializer:[AFHTTPResponseSerializer serializer]];
     
-    // Turn on network indicator
-    [[UserInfo user] setNetworkActivityIndicatorVisible:YES];
-    
     [manager POST:@"http://10.1.0.144/imageupload.php"
        parameters:nil
 constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
@@ -571,17 +568,11 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSLog(@"Upload success!!");
               
-              // Turn off network indicator
-              [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
-              
               // Dismiss
               [self dismissViewControllerAnimated:YES completion:nil];
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
               NSLog(@"**!!** Network error! %@", error);
-              
-              // Turn off network indicator
-              [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
           }];
 }
 

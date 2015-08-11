@@ -22,6 +22,10 @@
 //	[bottomLayer setRasterizationScale:[[UIScreen mainScreen] scale]];
 //	[topLayer setShouldRasterize:YES];
 //	[bottomLayer setShouldRasterize:YES];
+    
+    // Background color for imageviews
+    [[self topImageView] setBackgroundColor:[UIColor grayColor]];
+    [[self bottomImageView] setBackgroundColor:[UIColor grayColor]];
 	
 	// Add hotspots as subviews of the top and bottom ImageViews---
 	// hotspot1 --> top image

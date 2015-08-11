@@ -581,9 +581,14 @@ static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
     size_t height = CGImageGetHeight(imageRef);
     size_t bitsPerComponent = CGImageGetBitsPerComponent(imageRef);
 
-    if (width * height > 1024 * 1024 || bitsPerComponent > 8) {
+    // (8/11/15): This maxmimum size requirement is a bit too small for our uses right now--it causes the downloaded
+    // image to not be inflated and causes a lot of lag when scrolling through the UITableView. SDWebImage doesn't
+    // even have this maximum size check so I thought it would be OK to increase the maxmimum size a bit
+//    if (width * height > 1024 * 1024 || bitsPerComponent > 8) {
+//    NSLog(@"** AFNetworking ** Decompressing with size: %lu x %lu", width, height);
+    if (width * height > 1536 * 1536 || bitsPerComponent > 8) {
         CGImageRelease(imageRef);
-
+        NSLog(@"** AFNetworking ** Did NOT decompress image with size: %lu x %lu", width, height);
         return image;
     }
 

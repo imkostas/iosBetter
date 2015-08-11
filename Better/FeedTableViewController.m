@@ -173,32 +173,130 @@
     // Get the post corresponding to the given indexPath
     PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
     
+    // Get UserInfo object
+    UserInfo *user = [UserInfo user];
+    
     // Generate different cells based on the type of the post
     FeedCell *cell = nil;
     switch([thisPost layoutType])
     {
         case LAYOUTSTATE_A_ONLY: // One image only
-            cell = (FeedCellSingleImage *)[tableView dequeueReusableCellWithIdentifier:@"feedCellSingleImage" forIndexPath:indexPath];
+        {
+            FeedCellSingleImage *thisCell = [tableView dequeueReusableCellWithIdentifier:@"feedCellSingleImage" forIndexPath:indexPath];
+            cell = thisCell;
+            
+            // Clear images in case one is still visible from a previously used cell
+            [[thisCell mainImageView] setImage:nil];
+            
+            // Set up images
+            NSString *urlString = [[[UserInfo user] s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_1.png", [thisPost postID]]];
+            NSURL *url = [NSURL URLWithString:urlString];
+            NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
+            [urlRequest addValue:@"image/*" forHTTPHeaderField:@"Accept"];
+            
+            [[thisCell mainImageView] setImageWithURLRequest:urlRequest
+                                            placeholderImage:nil
+                                                     success:nil
+                                                     failure:nil];
+            
+//            [[thisCell mainImageView] setImageWithURL:url placeholderImage:nil options:kNilOptions];
+            
+            // Set up hotspots
+            [[thisCell hotspotA] setPercentageValue:0.9];
+            [[thisCell hotspotB] setPercentageValue:0.1];
+            
             break;
-    
+        }
         case LAYOUTSTATE_LEFT_RIGHT: // Two images, side by side
-            cell = (FeedCellLeftRight *)[tableView dequeueReusableCellWithIdentifier:@"feedCellLeftRight" forIndexPath:indexPath];
+        {
+            FeedCellLeftRight *thisCell = [tableView dequeueReusableCellWithIdentifier:@"feedCellLeftRight" forIndexPath:indexPath];
+            cell = thisCell;
+            
+            // Clear images in case one is still visible from a previously used cell
+            [[thisCell leftImageView] setImage:nil];
+            [[thisCell rightImageView] setImage:nil];
+            
+            // Set up images
+            NSString *urlStringA = [[[UserInfo user] s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_1.png", [thisPost postID]]];
+            NSString *urlStringB = [[[UserInfo user] s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_2.png", [thisPost postID]]];
+            NSURL *urlA = [NSURL URLWithString:urlStringA];
+            NSURL *urlB = [NSURL URLWithString:urlStringB];
+            [[thisCell leftImageView] setImageWithURL:urlA];
+            [[thisCell rightImageView] setImageWithURL:urlB];
+            
+//            [[thisCell leftImageView] setImageWithURL:urlA placeholderImage:nil options:kNilOptions];
+//            [[thisCell rightImageView] setImageWithURL:urlB placeholderImage:nil options:kNilOptions];
+            
+            // Set up hotspots
+            [[thisCell hotspotA] setPercentageValue:0.51];
+            [[thisCell hotspotB] setPercentageValue:0.49];
+            
             break;
-    
+        }
         case LAYOUTSTATE_TOP_BOTTOM: // Two images, top and bottom
-            cell = (FeedCellTopBottom *)[tableView dequeueReusableCellWithIdentifier:@"feedCellTopBottom" forIndexPath:indexPath];
+        {
+            FeedCellTopBottom *thisCell = [tableView dequeueReusableCellWithIdentifier:@"feedCellTopBottom" forIndexPath:indexPath];
+            cell = thisCell;
+            
+            // Clear images in case one is still visible from a previously used cell
+            [[thisCell topImageView] setImage:nil];
+            [[thisCell bottomImageView] setImage:nil];
+            
+            // Set up images
+            NSString *urlStringA = [[[UserInfo user] s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_1.png", [thisPost postID]]];
+            NSString *urlStringB = [[[UserInfo user] s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_2.png", [thisPost postID]]];
+            NSURL *urlA = [NSURL URLWithString:urlStringA];
+            NSURL *urlB = [NSURL URLWithString:urlStringB];
+            [[thisCell topImageView] setImageWithURL:urlA];
+            [[thisCell bottomImageView] setImageWithURL:urlB];
+            
+//            [[thisCell topImageView] setImageWithURL:urlA placeholderImage:nil options:kNilOptions];
+//            [[thisCell bottomImageView] setImageWithURL:urlB placeholderImage:nil options:kNilOptions];
+            
+            // Set up hotspots
+            [[thisCell hotspotA] setPercentageValue:0.4];
+            [[thisCell hotspotB] setPercentageValue:0.6];
+            
             break;
+        }
+        default:
+            return nil;
     }
     
+    // Load the profile image placeholder first
+    UIImage *profPicPlaceholder = nil;
+    
+    if([user gender] == GENDER_FEMALE)
+        profPicPlaceholder = [UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_FEMALE];
+    else if([user gender] == GENDER_MALE)
+        profPicPlaceholder = [UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_MALE];
+    else
+        profPicPlaceholder = [UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_FEMALE];
+    
+    // Now load the profile picture
+    NSString *profPicString = [[user s3_url] stringByAppendingString:[NSString stringWithFormat:@"user/%i_small.png", [thisPost userID]]];
+    NSURL *profPicURL = [NSURL URLWithString:profPicString];
+    [[cell profileImageView] setImageWithURL:profPicURL placeholderImage:profPicPlaceholder];
+    
+    // Populate the cell's UI elements
+    [[cell tagsLabel] setAttributedText:[thisPost tagsAttributedString]];
+    [[cell usernameLabel] setText:[thisPost username]];
+    [[cell numberOfVotesLabel] setText:[NSString stringWithFormat:@"%i", [thisPost numberOfVotes]]];
+    
     // Set the cell's delegate to this object, to be notified of hotspot and 3-dot button taps
+    // Also tell the cell which PostObject it is associated to
     [cell setDelegate:self];
+    [cell setPostObject:thisPost];
     
 	return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[self dataController] numberOfPosts];
+    if(section == 0)
+        return [[self dataController] numberOfPosts];
+    else
+        return 0;
 }
 
 #pragma mark - UITableView delegate methods
@@ -240,72 +338,6 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(FeedCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Get the post for this indexPath
-    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
-    
-    // Tell the cell which PostObject it is representing right now
-    [cell setPostObject:thisPost];
-
-    // Populate the cell's UI elements
-    [[cell tagsLabel] setAttributedText:[thisPost tagsAttributedString]]; // on iPhone 4S causes small stutters when scrolling
-//    [[cell tagsLabel] setText:[[thisPost tagsAttributedString] string]];
-    [[cell usernameLabel] setText:[thisPost username]];
-    [[cell numberOfVotesLabel] setText:[NSString stringWithFormat:@"%i", [thisPost numberOfVotes]]];
-    [[cell profileImageView] setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_FEMALE]];
-    
-    // Construct URLs for each image
-    NSString *urlStringA = [[[UserInfo user] s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_1.png", [thisPost postID]]];
-    NSString *urlStringB = [[[UserInfo user] s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_2.png", [thisPost postID]]];
-    
-    switch([thisPost layoutType])
-    {
-        case LAYOUTSTATE_A_ONLY:
-        {
-            FeedCellSingleImage *thisCell = (FeedCellSingleImage *)cell;
-            NSURL *url = [NSURL URLWithString:urlStringA];
-            
-            [[thisCell mainImageView] setImage:nil];
-            [[thisCell mainImageView] setImageWithURL:url]; // from AFNetworking
-            
-            [[thisCell hotspotA] setPercentageValue:0.9];
-            [[thisCell hotspotB] setPercentageValue:0.1];
-            break;
-        }
-        case LAYOUTSTATE_LEFT_RIGHT:
-        {
-            FeedCellLeftRight *thisCell = (FeedCellLeftRight *)cell;
-            NSURL *urlA = [NSURL URLWithString:urlStringA];
-            NSURL *urlB = [NSURL URLWithString:urlStringB];
-            
-            // Get left image
-            [[thisCell leftImageView] setImage:nil];
-            [[thisCell leftImageView] setImageWithURL:urlA];
-            
-            [[thisCell rightImageView] setImage:nil];
-            [[thisCell rightImageView] setImageWithURL:urlB];
-            
-            [[thisCell hotspotA] setPercentageValue:0.51];
-            [[thisCell hotspotB] setPercentageValue:0.49];
-            break;
-        }
-        case LAYOUTSTATE_TOP_BOTTOM:
-        {
-            FeedCellTopBottom *thisCell = (FeedCellTopBottom *)cell;
-            NSURL *urlA = [NSURL URLWithString:urlStringA];
-            NSURL *urlB = [NSURL URLWithString:urlStringB];
-            
-            [[thisCell topImageView] setImage:nil];
-            [[thisCell topImageView] setImageWithURL:urlA];
-            
-            [[thisCell bottomImageView] setImage:nil];
-            [[thisCell bottomImageView] setImageWithURL:urlB];
-            
-            [[thisCell hotspotA] setPercentageValue:0.6];
-            [[thisCell hotspotB] setPercentageValue:0.4];
-            break;
-        }
-    }
-    
     // If the second-to-last cell of the TableView is going to be displayed, load some more data
     if([indexPath row] == [[self dataController] numberOfPosts] - 2)
         [[self dataController] loadPostsIncremental];
@@ -351,7 +383,11 @@
 {
     // Get this post's hashtags (-indexPathForCell returns nil if the cell is not visible, but the cell
     // has to be visible for the 3-dot button to be tapped, so it works in this case)
-    PostObject *thisPost = [[self dataController] postAtIndexPath:[[self tableView] indexPathForCell:cell]];
+    NSIndexPath *indexPath = [[self tableView] indexPathForCell:cell];
+    if(indexPath == nil)
+        return; // Cell somehow not visible
+    
+    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
     
     // Create an instance of the 3-dot view controller
     ThreeDotViewController *threeDot = [[ThreeDotViewController alloc] initWithPostObject:thisPost];
@@ -371,7 +407,7 @@
     [[threeDotNav navigationBar] setTranslucent:NO];
     
     // Present the Three Dot view controller's navigation controller
-    [[self parentViewController] presentViewController:threeDotNav animated:YES completion:nil];
+    [self presentViewController:threeDotNav animated:YES completion:nil];
 }
 
 #pragma mark - Custom modal animation for 3-dot

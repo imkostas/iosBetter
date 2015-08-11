@@ -244,6 +244,9 @@
 //                     }
 //                     completion:nil];
     
+    // Stop any network actions
+    [[self dataController] cancelDownloads];
+    
     // Dismiss this view controller
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -341,7 +344,6 @@
                 [[cell icon] setImage:[self iconFavoriteUnfilled]];
             
             [[cell label] setAttributedText:[threeDotObject attributedTitle]];
-//            [[cell label] setText:[[threeDotObject attributedTitle] string]];
             
             break;
         }
@@ -380,31 +382,28 @@
         case ThreeDotObjectTypeFavoritePost:
         case ThreeDotObjectTypeUsername:
         case ThreeDotObjectTypeHashtag:
+        {
+            [[self dataController] toggleActiveStateForThreeDotObject:thisObject atIndexPath:indexPath];
+            [[[self tableViewController] tableView] deselectRowAtIndexPath:indexPath animated:YES];
+            break;
+        }
         case ThreeDotObjectTypeReportMisuse:
         default:
             [[[self tableViewController] tableView] deselectRowAtIndexPath:indexPath animated:YES];
             break;
     }
-    
-    /*
-    // Retrieve the cell corresponding to this indexPath
-    UITableViewCell *cell = [[[self tableViewController] tableView] cellForRowAtIndexPath:indexPath];
-    
-    switch([cell tag])
-    {
-        case ThreeDotTableViewCellTypeVoters:
-        {
-            UIViewController *hey = [[UIViewController alloc] init];
-            [hey setView:[[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]]];
-            [[hey view] setBackgroundColor:[UIColor whiteColor]];
-            [[self navigationController] pushViewController:hey animated:YES];
-            
-            break;
-        }
-        default:
-            [[[self tableViewController] tableView] deselectRowAtIndexPath:indexPath animated:YES];
-            break;
-    }*/
+}
+
+// return YES except if the ThreeDotObject associated with this row is in the process of changing its state
+// (e.g. following/unfollowing) and should not be activated
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Get ThreeDotObject for this indexPath
+    ThreeDotObject *thisObject = [[self dataController] itemAtIndexPath:indexPath];
+    if([thisObject isChangingActiveState])
+        return NO;
+    else
+        return YES;
 }
 
 #pragma mark - UINavigationControllerDelegate methods
@@ -460,6 +459,13 @@
                          [[[self tableViewController] tableView] setShowsVerticalScrollIndicator:YES];
                          [[[self tableViewController] tableView] flashScrollIndicators];
                      }];
+}
+
+// Called when a row has new data
+- (void)threeDotDataController:(ThreeDotDataController *)threeDotDataController didReloadItemsAtIndexPaths:(NSArray *)indexPaths
+{
+    // Refresh these particular rows
+    [[[self tableViewController] tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 @end

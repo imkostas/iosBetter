@@ -60,9 +60,6 @@
 	// Validate the given information
 	if([self validateUsername:[[self usernameField] text] password:[[self passwordField] text]])
 	{
-		// Turn on network indicator
-		[[self user] setNetworkActivityIndicatorVisible:YES];
-		
 		// Set Log In button's text to Logging in...
 		[sender setTitle:@"LOGGING IN..." forState:UIControlStateNormal];
 		
@@ -78,9 +75,6 @@
                                   @"password":  [[self passwordField] text]}
 
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-				  
-				  // Turn off network indicator
-				  [[self user] setNetworkActivityIndicatorVisible:NO];
 				  
                   NSLog(@"JSON: %@", [responseObject description]);
                   
@@ -135,9 +129,6 @@
                   }
               }
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-				  
-				  // Turn off network indicator
-				  [[self user] setNetworkActivityIndicatorVisible:NO];
 				  
 				  // Reset login button
 				  [sender setTitle:@"LOG IN" forState:UIControlStateNormal];

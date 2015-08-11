@@ -162,6 +162,7 @@
 		D02006931B75189F00C3A02B /* ThreeDotObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeDotObject.h; sourceTree = "<group>"; };
 		D02006941B75189F00C3A02B /* ThreeDotObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeDotObject.m; sourceTree = "<group>"; };
 		D02006961B754DBB00C3A02B /* ThreeDotTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThreeDotTableViewCell.xib; sourceTree = "<group>"; };
+		D024C48B1B7A607700274B87 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		D027306B1B6C14930059CBE7 /* BEFadingImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEFadingImageView.h; sourceTree = "<group>"; };
 		D027306C1B6C14930059CBE7 /* BEFadingImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEFadingImageView.m; sourceTree = "<group>"; };
 		D02DE0DB1B2F651F00FE6A6A /* MyInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyInformation.h; sourceTree = "<group>"; };
@@ -356,6 +357,7 @@
 		4698A8C7D3B45484E4B553AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D024C48B1B7A607700274B87 /* ImageIO.framework */,
 				D01CB7461B2A126D003DF616 /* MessageUI.framework */,
 				EC28AD39D34D3975720338BA /* libPods.a */,
 			);
@@ -425,6 +427,13 @@
 				D01CB74C1B2A2711003DF616 /* TermsPrivacy.m */,
 			);
 			name = Support;
+			sourceTree = "<group>";
+		};
+		D024C4851B7A40FF00274B87 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		D02DE0DA1B2F64E800FE6A6A /* My Information */ = {
@@ -577,6 +586,7 @@
 				D099018C1B0E359000760CDF /* Profile */,
 				D0835FBA1B0CF41100D88412 /* ForgotPassword */,
 				D0835FB51B0CECBE00D88412 /* Custom Objects */,
+				D024C4851B7A40FF00274B87 /* Categories */,
 				D05EF75E1B0B70EF00D01AE4 /* Main.storyboard */,
 				D0C082901B2F0A49009341B0 /* Feed.storyboard */,
 				D054D8A11B4C247A00E72132 /* CreatePost.storyboard */,
@@ -1291,6 +1301,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Better",
+				);
 				INFOPLIST_FILE = Better/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1306,6 +1320,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Better",
+				);
 				INFOPLIST_FILE = Better/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

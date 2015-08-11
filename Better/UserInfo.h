@@ -51,7 +51,7 @@
 - (NSString *)getCountry;
 
 // Handles requests to show or hide the network activity indicator
-- (void)setNetworkActivityIndicatorVisible:(BOOL)visible;
+//- (void)setNetworkActivityIndicatorVisible:(BOOL)visible;
 
 // Called by classes which perform the login -- they provide the responseObject from an AFNetworking request
 - (BOOL)populateUserInfoWithResponseObject:(id)responseObject;

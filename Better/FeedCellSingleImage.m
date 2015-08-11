@@ -19,6 +19,9 @@
 	
 //	[[[self mainImageView] layer] setRasterizationScale:[[UIScreen mainScreen] scale]];
 //	[[[self mainImageView] layer] setShouldRasterize:YES];
+    
+    // Grayish background for imageview
+    [[self mainImageView] setBackgroundColor:[UIColor grayColor]];
 	
 	// Add hotspots as subviews of the ImageView
 	[[self mainImageView] addSubview:[super hotspotA]];

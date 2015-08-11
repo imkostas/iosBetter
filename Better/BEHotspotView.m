@@ -64,6 +64,8 @@
 #pragma mark - View's layout
 - (void)layoutSubviews
 {
+    [super layoutSubviews];
+    
 	/** Set up the background image, etc. **/
 	
 	// Background image
@@ -85,18 +87,14 @@
 //    CGPathRef ringLayerPath = CGPathCreateWithEllipseInRect(ringRect, NULL);
     
     CGMutablePathRef ringLayerPathMutable = CGPathCreateMutable();
-//    CGPathMoveToPoint(ringLayerPathMutable, NULL, CGRectGetWidth(ringRect) / 2, 0); // Start at 12 o'clock position
     CGPoint centerPoint = {};
     centerPoint.x = CGRectGetWidth(ringRect) / 2 + ringRect.origin.x;
     centerPoint.y = CGRectGetHeight(ringRect) / 2 + ringRect.origin.y;
     CGPathAddArc(ringLayerPathMutable, NULL, centerPoint.x, centerPoint.y, CGRectGetWidth(ringRect) / 2, -M_PI_2, 3*M_PI_2, FALSE);
     // ^^  TRUE => clockwise from -pi/2 to (3/2)pi
     
-    // Create non-mutable copy
-    CGPathRef ringLayerPath = CGPathCreateCopy(ringLayerPathMutable);
-    
     // Set the path and some other properties
-    [[self ringLayer] setPath:ringLayerPath];
+    [[self ringLayer] setPath:ringLayerPathMutable];
     [[self ringLayer] setLineWidth:CGRectGetWidth([self bounds]) * RATIO_CIRCULAR_STRIPE_THICKNESS_TO_HOTSPOT_DIAMETER];
 	
 	// Percentage label
@@ -106,9 +104,8 @@
 	labelFrame.origin.x = 0;
 	labelFrame.origin.y = (CGRectGetHeight([self bounds]) / 2) - (labelFrame.size.height / 2);
 	[[self percentageLabel] setFrame:labelFrame];
-	
-	// Call super
-	[super layoutSubviews];
+    
+    CFRelease(ringLayerPathMutable);
 }
 
 #pragma mark - Setting properties

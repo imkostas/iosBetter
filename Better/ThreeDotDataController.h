@@ -16,9 +16,11 @@
 @protocol ThreeDotDataControllerDelegate <NSObject>
 
 @required
-/** Tells the delegate that the ThreeDotDataController has finished loading particular rows and can reload its
- data at these rows. */
+/** Tells the delegate that the ThreeDotDataController has finished loading particular rows and can insert these rows. */
 - (void)threeDotDataController:(ThreeDotDataController *)threeDotDataController didLoadItemsAtIndexPaths:(NSArray *)indexPaths;
+
+/** Tells the delegate that the ThreeDotDataController has new data for existing rows */
+- (void)threeDotDataController:(ThreeDotDataController *)threeDotDataController didReloadItemsAtIndexPaths:(NSArray *)indexPaths;
 
 @end
 
@@ -37,7 +39,11 @@
  previous data. */
 - (void)reloadDataWithPostObject:(PostObject *)post;
 
-/** Instructs this ThreeDotDataController to cancel the current network request if one is in progress. */
-- (void)cancelDownload;
+/** Instructs this ThreeDotDataController to cancel the current network request(s) if one is in progress. */
+- (void)cancelDownloads;
+
+/** Toggles the active state of the given ThreeDotObject if it is not already in the process of toggling,
+ and notifies the delegate when the process has completed. */
+- (void)toggleActiveStateForThreeDotObject:(ThreeDotObject *)threeDotObject atIndexPath:(NSIndexPath *)indexPath;
 
 @end

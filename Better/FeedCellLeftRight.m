@@ -23,6 +23,10 @@
 //	[rightLayer setRasterizationScale:[[UIScreen mainScreen] scale]];
 //	[leftLayer setShouldRasterize:YES];
 //	[rightLayer setShouldRasterize:YES];
+    
+    // Background color for imageviews
+    [[self leftImageView] setBackgroundColor:[UIColor grayColor]];
+    [[self rightImageView] setBackgroundColor:[UIColor grayColor]];
 	
 	// Add hotspots as subviews of the left and right ImageViews---
 	// hotspot1 --> left image

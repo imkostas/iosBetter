@@ -16,23 +16,23 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lYw-8U-op3" userLabel="Shadow View">
-                        <rect key="frame" x="8" y="8" width="434" height="533"/>
+                        <rect key="frame" x="6" y="8" width="438" height="533"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4np-HP-fLW" userLabel="Divider">
-                                <rect key="frame" x="0.0" y="97" width="434" height="2"/>
+                                <rect key="frame" x="0.0" y="93" width="438" height="2"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="Aoj-nv-XRF"/>
                                 </constraints>
                             </view>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bBH-dv-Lz9" userLabel="Top Image" customClass="BEFadingImageView">
-                                <rect key="frame" x="0.0" y="99" width="434" height="217"/>
+                            <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bBH-dv-Lz9" userLabel="Top Image" customClass="BEFadingImageView">
+                                <rect key="frame" x="0.0" y="95" width="438" height="219"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="bBH-dv-Lz9" secondAttribute="height" multiplier="2:1" id="YGc-xF-QUs"/>
                                 </constraints>
                             </imageView>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6Iy-Mi-rUx" userLabel="Bottom Image" customClass="BEFadingImageView">
-                                <rect key="frame" x="0.0" y="316" width="434" height="217"/>
+                            <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6Iy-Mi-rUx" userLabel="Bottom Image" customClass="BEFadingImageView">
+                                <rect key="frame" x="0.0" y="314" width="438" height="219"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="6Iy-Mi-rUx" secondAttribute="height" multiplier="2:1" id="mg0-6z-VzP"/>
                                 </constraints>
@@ -55,9 +55,9 @@
                 <color key="backgroundColor" red="0.84477588380000002" green="0.84477588380000002" blue="0.84477588380000002" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="lYw-8U-op3" secondAttribute="bottom" constant="8" id="Dja-jk-hKG"/>
-                    <constraint firstAttribute="trailing" secondItem="lYw-8U-op3" secondAttribute="trailing" constant="8" id="HVr-fY-WCh"/>
+                    <constraint firstAttribute="trailing" secondItem="lYw-8U-op3" secondAttribute="trailing" constant="6" id="HVr-fY-WCh"/>
                     <constraint firstItem="lYw-8U-op3" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="IXT-FY-nkZ"/>
-                    <constraint firstItem="lYw-8U-op3" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="L8e-JC-70n"/>
+                    <constraint firstItem="lYw-8U-op3" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="6" id="L8e-JC-70n"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

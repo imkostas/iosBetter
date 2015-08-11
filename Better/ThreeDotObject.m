@@ -22,6 +22,7 @@
         _title = nil;
         _attributedTitle = nil;
         _active = FALSE;
+        _changingActiveState = FALSE;
     }
     
     return self;

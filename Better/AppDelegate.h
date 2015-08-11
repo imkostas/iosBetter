@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <SSKeychain/SSKeychain.h>
+#import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 #import "Definitions.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>

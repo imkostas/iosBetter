@@ -19,6 +19,9 @@
 // Called to download the user's count values from the API
 - (void)getCounts;
 
+/** Saves the default uitableview edge insets */
+@property (nonatomic) UIEdgeInsets defaultTableViewSeparatorInsets;
+
 @end
 
 @implementation MyInformationTableViewController
@@ -35,6 +38,10 @@
     
     // Register the correct type of UITableViewCell for the UITableView
     [[self tableView] registerNib:[UINib nibWithNibName:@"MyInfoTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:REUSE_ID_MYINFORMATION_TABLECELL];
+    
+    // Make all separators invisible (some are set to visible later) and remember the default value
+    _defaultTableViewSeparatorInsets = [[self tableView] separatorInset];
+    [[self tableView] setSeparatorInset:UIEdgeInsetsMake(0, CGRectGetWidth([[self view] bounds]), 0, 0)];
     
     // Set up a UIRefreshControl
     [[self refreshControl] setTintColor:COLOR_BETTER_DARK];
@@ -75,7 +82,10 @@
 // How many rows in a section (there is only one section)
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 6;
+    if(section == 0)
+        return 6;
+    else
+        return 0;
 }
 
 // Return a reusable cell
@@ -107,38 +117,37 @@
             [[cell label] setText:@"My Votes"];
             [[cell count] setText:[[counts myVotes] stringValue]];
             [[cell icon] setImage:[UIImage imageNamed:ICON_CHECKMARK]];
+            // Reveal the separator
+            [cell setSeparatorInset:[self defaultTableViewSeparatorInsets]];
             break;
         case 1:
             [[cell label] setText:@"My Posts"];
             [[cell count] setText:[[counts myPosts] stringValue]];
             [[cell icon] setImage:[UIImage imageNamed:ICON_PORTRAIT]];
+            // Reveal the separator
+            [cell setSeparatorInset:[self defaultTableViewSeparatorInsets]];
             break;
         case 2:
             [[cell label] setText:@"Favorite Posts"];
             [[cell count] setText:[[counts favoritePosts] stringValue]];
             [[cell icon] setImage:[UIImage imageNamed:ICON_FAVORITE_OUTLINE]];
-            // Remove the separator from below this cell
-            // --> UIEdgeInsetsMake(top, left, bottom, right)
-            [cell setSeparatorInset:UIEdgeInsetsMake(0, CGRectGetWidth([cell bounds]), 0, 0)];
             break;
         case 3:
             [[cell label] setText:@"Favorite Tags"];
             [[cell count] setText:[[counts favoriteTags] stringValue]];
             [[cell icon] setImage:nil];
+            // Reveal the separator
+            [cell setSeparatorInset:[self defaultTableViewSeparatorInsets]];
             break;
         case 4:
             [[cell label] setText:@"Following"];
             [[cell count] setText:[[counts following] stringValue]];
             [[cell icon] setImage:[UIImage imageNamed:ICON_PERSON_ADD]];
-            // Remove the separator from below this cell
-            [cell setSeparatorInset:UIEdgeInsetsMake(0, CGRectGetWidth([cell bounds]), 0, 0)];
             break;
         case 5:
             [[cell label] setText:@"Followers"];
             [[cell count] setText:[[counts followers] stringValue]];
             [[cell icon] setImage:nil];
-            // Remove the separator from below this cell
-            [cell setSeparatorInset:UIEdgeInsetsMake(0, CGRectGetWidth([cell bounds]), 0, 0)];
             break;
         default:
             break;
@@ -168,9 +177,6 @@
     if([[self user] counts] != nil)
         [[self tableView] reloadData];
     
-    // Turn on network indicator
-    [[UserInfo user] setNetworkActivityIndicatorVisible:YES];
-    
     // Set up request
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager setRequestSerializer:[AFJSONRequestSerializer serializer]];
@@ -180,9 +186,6 @@
     [manager GET:[NSString stringWithFormat:@"%@user/count/%i", [[self user] uri], [[self user] userID]]
       parameters:nil
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             
-             // Turn off network indicator
-             [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
              
              // Turn off the refreshing control
              [[self refreshControl] endRefreshing];
@@ -216,9 +219,6 @@
              [[self tableView] reloadData];
          }
          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             
-             // Turn off network indicator
-             [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
              
              // Turn off the refreshing control
              [[self refreshControl] endRefreshing];

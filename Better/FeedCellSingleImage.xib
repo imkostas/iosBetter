@@ -16,17 +16,17 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cjn-Eg-Pgf" userLabel="Shadow View">
-                        <rect key="frame" x="8" y="8" width="434" height="534"/>
+                        <rect key="frame" x="6" y="8" width="438" height="534"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xyC-n0-h7S" userLabel="Divider">
-                                <rect key="frame" x="0.0" y="98" width="434" height="2"/>
+                                <rect key="frame" x="0.0" y="94" width="438" height="2"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="HRM-c9-xx1"/>
                                 </constraints>
                             </view>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n6s-5h-vkG" userLabel="Main Image" customClass="BEFadingImageView">
-                                <rect key="frame" x="0.0" y="100" width="434" height="434"/>
+                            <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n6s-5h-vkG" userLabel="Main Image" customClass="BEFadingImageView">
+                                <rect key="frame" x="0.0" y="96" width="438" height="438"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="n6s-5h-vkG" secondAttribute="height" multiplier="1:1" id="ZmU-ys-76o"/>
                                 </constraints>
@@ -45,10 +45,10 @@
                 </subviews>
                 <color key="backgroundColor" red="0.84477588383838387" green="0.84477588383838387" blue="0.84477588383838387" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="Cjn-Eg-Pgf" secondAttribute="trailing" constant="8" id="8Xq-zQ-Cx1"/>
+                    <constraint firstAttribute="trailing" secondItem="Cjn-Eg-Pgf" secondAttribute="trailing" constant="6" id="8Xq-zQ-Cx1"/>
                     <constraint firstAttribute="bottom" secondItem="Cjn-Eg-Pgf" secondAttribute="bottom" constant="8" id="E0M-Wv-7hK"/>
                     <constraint firstItem="Cjn-Eg-Pgf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="JLf-EI-cbJ"/>
-                    <constraint firstItem="Cjn-Eg-Pgf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="Ktl-Ie-fOs"/>
+                    <constraint firstItem="Cjn-Eg-Pgf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="6" id="Ktl-Ie-fOs"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

@@ -97,16 +97,10 @@
     [manager setRequestSerializer:[AFJSONRequestSerializer serializer]];
     [manager setResponseSerializer:[AFJSONResponseSerializer serializer]];
     
-    // Turn on the network indicator
-    [[self user] setNetworkActivityIndicatorVisible:YES];
-    
     // Send the GET request
     [manager GET:[NSString stringWithFormat:@"%@post/%@%i/%i/%i", [[self user] uri], _filterString, [[self user] userID], [self postIDLeastRecent], POSTS_PER_DOWNLOAD]
       parameters:nil
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             // Turn off the network indicator
-             [[self user] setNetworkActivityIndicatorVisible:NO];
-             
              // Get the `response` dictionary. Within it is an array named `feed`.
              NSArray *feedArray = [[responseObject objectForKey:@"response"] objectForKey:@"feed"];
              
@@ -147,9 +141,6 @@
              });
          }
          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             // Turn off the network indicator
-             [[self user] setNetworkActivityIndicatorVisible:NO];
-             
              // Updating tableviews and things like that need to happen on the main thread
              dispatch_async(dispatch_get_main_queue(), ^{
                  
