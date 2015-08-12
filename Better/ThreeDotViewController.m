@@ -327,7 +327,7 @@
             if([threeDotObject isActive])
                 [[cell icon] setImage:[self iconAddPersonFilled]];
             else
-                [[cell icon] setImage:[self iconAddPersonFilled]];
+                [[cell icon] setImage:[self iconAddPersonUnfilled]];
             
             [[cell label] setText:[threeDotObject title]];
             
@@ -383,6 +383,7 @@
         case ThreeDotObjectTypeUsername:
         case ThreeDotObjectTypeHashtag:
         {
+            // Send a network request and deselect the row
             [[self dataController] toggleActiveStateForThreeDotObject:thisObject atIndexPath:indexPath];
             [[[self tableViewController] tableView] deselectRowAtIndexPath:indexPath animated:YES];
             break;

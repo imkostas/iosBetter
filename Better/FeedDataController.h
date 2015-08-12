@@ -62,6 +62,10 @@
 /** Downloads the necessary images for a particular index path */
 //- (void)downloadImagesForIndexPath:(NSIndexPath *)indexPath;
 
+/** Submits a vote request to the API, updates the local data with the API's result, and notifies
+ the delegate about the change */
+- (void)voteWithChoice:(VoteChoice)choice atIndexPath:(NSIndexPath *)indexPath;
+
 #pragma mark - Class methods
 /** Returns an NSAttributedString given an array of NSStrings (each represents a hashtag). This method
  assumes that the individual strings do not start with a '#'. It creates a string whose text color is gray

@@ -67,7 +67,13 @@
 @property (strong, nonatomic)   NSAttributedString *tagsAttributedString;
 
 /** How many total votes on the post (both hotspots combined) */
-@property (nonatomic)           int numberOfVotes;
+@property (nonatomic)           int numberOfVotesTotal;
+
+/** How many votes on hotspot A */
+@property (nonatomic)           int numberOfVotesForA;
+
+/** How many votes on hotspot B */
+@property (nonatomic)           int numberOfVotesForB;
 
 /** This user's vote for this specific post (nil if the user has not voted on this post) */
 @property (strong, nonatomic)   MyVote *myVote;

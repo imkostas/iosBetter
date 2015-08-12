@@ -191,19 +191,7 @@
             // Set up images
             NSString *urlString = [[[UserInfo user] s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_1.png", [thisPost postID]]];
             NSURL *url = [NSURL URLWithString:urlString];
-            NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
-            [urlRequest addValue:@"image/*" forHTTPHeaderField:@"Accept"];
-            
-            [[thisCell mainImageView] setImageWithURLRequest:urlRequest
-                                            placeholderImage:nil
-                                                     success:nil
-                                                     failure:nil];
-            
-//            [[thisCell mainImageView] setImageWithURL:url placeholderImage:nil options:kNilOptions];
-            
-            // Set up hotspots
-            [[thisCell hotspotA] setPercentageValue:0.9];
-            [[thisCell hotspotB] setPercentageValue:0.1];
+            [[thisCell mainImageView] setImageWithURL:url];
             
             break;
         }
@@ -224,13 +212,6 @@
             [[thisCell leftImageView] setImageWithURL:urlA];
             [[thisCell rightImageView] setImageWithURL:urlB];
             
-//            [[thisCell leftImageView] setImageWithURL:urlA placeholderImage:nil options:kNilOptions];
-//            [[thisCell rightImageView] setImageWithURL:urlB placeholderImage:nil options:kNilOptions];
-            
-            // Set up hotspots
-            [[thisCell hotspotA] setPercentageValue:0.51];
-            [[thisCell hotspotB] setPercentageValue:0.49];
-            
             break;
         }
         case LAYOUTSTATE_TOP_BOTTOM: // Two images, top and bottom
@@ -249,13 +230,6 @@
             NSURL *urlB = [NSURL URLWithString:urlStringB];
             [[thisCell topImageView] setImageWithURL:urlA];
             [[thisCell bottomImageView] setImageWithURL:urlB];
-            
-//            [[thisCell topImageView] setImageWithURL:urlA placeholderImage:nil options:kNilOptions];
-//            [[thisCell bottomImageView] setImageWithURL:urlB placeholderImage:nil options:kNilOptions];
-            
-            // Set up hotspots
-            [[thisCell hotspotA] setPercentageValue:0.4];
-            [[thisCell hotspotB] setPercentageValue:0.6];
             
             break;
         }
@@ -281,7 +255,43 @@
     // Populate the cell's UI elements
     [[cell tagsLabel] setAttributedText:[thisPost tagsAttributedString]];
     [[cell usernameLabel] setText:[thisPost username]];
-    [[cell numberOfVotesLabel] setText:[NSString stringWithFormat:@"%i", [thisPost numberOfVotes]]];
+    [[cell numberOfVotesLabel] setText:[NSString stringWithFormat:@"%i", [thisPost numberOfVotesTotal]]];
+    
+    // Set up hotspots
+    if([thisPost myVote] == nil) // No vote by this user
+    {
+        // Hide other peoples' votes
+        [[cell hotspotA] setShowsPercentageValue:NO];
+        [[cell hotspotB] setShowsPercentageValue:NO];
+    }
+    else // There is a vote by this user
+    {
+        [[cell hotspotA] setShowsPercentageValue:YES];
+        [[cell hotspotB] setShowsPercentageValue:YES];
+        
+        // Set highlighted or not highlighted
+        if([thisPost numberOfVotesForA] == [thisPost numberOfVotesForB]) // A == B
+        {
+            [[cell hotspotA] setHighlighted:YES];
+            [[cell hotspotB] setHighlighted:YES];
+        }
+        else if([thisPost numberOfVotesForA] < [thisPost numberOfVotesForB]) // A < B
+        {
+            [[cell hotspotA] setHighlighted:NO];
+            [[cell hotspotB] setHighlighted:YES];
+        }
+        else // A > B
+        {
+            [[cell hotspotA] setHighlighted:YES];
+            [[cell hotspotB] setHighlighted:NO];
+        }
+            
+        // Calculate portions and apply them
+        float percentA = (float)[thisPost numberOfVotesForA] / (float)[thisPost numberOfVotesTotal];
+        float percentB = (float)[thisPost numberOfVotesForB] / (float)[thisPost numberOfVotesTotal];
+        [[cell hotspotA] setPercentageValue:percentA];
+        [[cell hotspotB] setPercentageValue:percentB];
+    }
     
     // Set the cell's delegate to this object, to be notified of hotspot and 3-dot button taps
     // Also tell the cell which PostObject it is associated to

@@ -8,7 +8,39 @@
 
 #import "BEFadingImageView.h"
 
+@interface BEFadingImageView ()
+
+@property (strong, nonatomic) BEImageResponseSerializer *scalingImageResponseSerializer;
+
+@end
+
 @implementation BEFadingImageView
+
+- (void)commonInit
+{
+    _scalingImageResponseSerializer = [[BEImageResponseSerializer alloc] init];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if(self)
+    {
+        [self commonInit];
+    }
+    
+    return self;
+}
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if(self)
+    {
+        [self commonInit];
+    }
+    
+    return self;
+}
 
 // Override the normal -setImage: method
 //- (void)setImage:(UIImage *)image
@@ -38,5 +70,14 @@
 //    // Apply the final value (prevents flashing back to hidden)
 //    [layer setOpacity:1.0];
 //}
+
+// Gives our custom image serializer to AFNetworking (comment out this method to cancel out all of the custom
+// code, if it's causing problems)
+- (id<AFURLResponseSerialization>)imageResponseSerializer
+{
+    [[self scalingImageResponseSerializer] setDestinationSize:[self bounds].size];
+    
+    return _scalingImageResponseSerializer;
+}
 
 @end

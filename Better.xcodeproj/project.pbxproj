@@ -104,6 +104,7 @@
 		D0A978001B6AAF1A00895B6B /* BELabelFast.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A977FF1B6AAF1A00895B6B /* BELabelFast.m */; };
 		D0B282DA1B1E0545006FD580 /* BEDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B282D91B1E0545006FD580 /* BEDatePickerView.m */; };
 		D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B282E81B1E5081006FD580 /* BEPickerView.m */; };
+		D0B2906D1B7B8A82006BF621 /* BEImageResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B2906C1B7B8A82006BF621 /* BEImageResponseSerializer.m */; };
 		D0CBA1C81B2239F0002DD192 /* BETappableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CBA1C71B2239F0002DD192 /* BETappableView.m */; };
 		D0CD720B1B2B6237004A5765 /* MyRankingController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CD720A1B2B6237004A5765 /* MyRankingController.m */; };
 		D0CD720E1B2B72D1004A5765 /* RankBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CD720D1B2B72D1004A5765 /* RankBarView.m */; };
@@ -288,6 +289,8 @@
 		D0B282D91B1E0545006FD580 /* BEDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEDatePickerView.m; sourceTree = "<group>"; };
 		D0B282E71B1E5081006FD580 /* BEPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEPickerView.h; sourceTree = "<group>"; };
 		D0B282E81B1E5081006FD580 /* BEPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEPickerView.m; sourceTree = "<group>"; };
+		D0B2906B1B7B8A82006BF621 /* BEImageResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEImageResponseSerializer.h; sourceTree = "<group>"; };
+		D0B2906C1B7B8A82006BF621 /* BEImageResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEImageResponseSerializer.m; sourceTree = "<group>"; };
 		D0C082901B2F0A49009341B0 /* Feed.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Feed.storyboard; path = Base.lproj/Feed.storyboard; sourceTree = "<group>"; };
 		D0CBA1C61B2239F0002DD192 /* BETappableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BETappableView.h; sourceTree = "<group>"; };
 		D0CBA1C71B2239F0002DD192 /* BETappableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BETappableView.m; sourceTree = "<group>"; };
@@ -804,6 +807,8 @@
 				D09901931B0E63CC00760CDF /* View Controllers */,
 				D0CBA1C51B2239B3002DD192 /* Tappable View */,
 				D0A250E21B17588A003E7D0B /* Drawing in Views */,
+				D0B2906B1B7B8A82006BF621 /* BEImageResponseSerializer.h */,
+				D0B2906C1B7B8A82006BF621 /* BEImageResponseSerializer.m */,
 			);
 			name = "Custom Objects";
 			sourceTree = "<group>";
@@ -1141,6 +1146,7 @@
 				D0679BC21B700193003111AD /* ThreeDotTransitionAnimator.m in Sources */,
 				D06F394D1B3305C700721FCE /* MyRanking.m in Sources */,
 				D0CBA1C81B2239F0002DD192 /* BETappableView.m in Sources */,
+				D0B2906D1B7B8A82006BF621 /* BEImageResponseSerializer.m in Sources */,
 				3107407B1B1F66C400927B2D /* Following.m in Sources */,
 				D01CB74D1B2A2711003DF616 /* TermsPrivacy.m in Sources */,
 				D0A2C2691B0F6ECE00C44A7B /* Intro.m in Sources */,

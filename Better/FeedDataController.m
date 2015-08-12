@@ -17,6 +17,9 @@
 /** Reference to UserInfo shared object */
 @property (weak, nonatomic) UserInfo *user;
 
+/** An AFHTTPSessionManager for this object */
+@property (strong, nonatomic) AFHTTPSessionManager *networkManager;
+
 /** The array of PostObjects*/
 @property (strong, nonatomic) NSMutableArray *postsArray;
 
@@ -51,6 +54,11 @@
     {
         // Get a reference to the UserInfo object
         _user = [UserInfo user];
+        
+        // Set up network manager
+        _networkManager = [AFHTTPSessionManager manager];
+        [_networkManager setRequestSerializer:[AFJSONRequestSerializer serializer]];
+        [_networkManager setResponseSerializer:[AFJSONResponseSerializer serializer]];
         
         // Initialize state variables
         _postsArray = [[NSMutableArray alloc] initWithCapacity:POSTS_PER_DOWNLOAD];
@@ -92,73 +100,73 @@
     if(_reachedEndOfPostsIncremental)
         return;
     
-    // Set up AFNetworking
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager setRequestSerializer:[AFJSONRequestSerializer serializer]];
-    [manager setResponseSerializer:[AFJSONResponseSerializer serializer]];
-    
     // Send the GET request
-    [manager GET:[NSString stringWithFormat:@"%@post/%@%i/%i/%i", [[self user] uri], _filterString, [[self user] userID], [self postIDLeastRecent], POSTS_PER_DOWNLOAD]
-      parameters:nil
-         success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             // Get the `response` dictionary. Within it is an array named `feed`.
-             NSArray *feedArray = [[responseObject objectForKey:@"response"] objectForKey:@"feed"];
-             
-             // Stop if there are no more posts to show
-             if(feedArray == nil || [feedArray count] == 0)
-             {
-                 // Tell the delegate there was nothing loaded
-                 [self didLoadPostsAtIndexPaths:nil];
-                 
-                 // Don't send more network requests
-                 _reachedEndOfPostsIncremental = TRUE;
-                 return; // Stops this success block
-             }
-             
-             // Loop through each post dictionary returned and create a PostObject from it
-             NSMutableArray *updatedIndexPaths = [[NSMutableArray alloc] init];
-             for(NSDictionary *postDictionary in feedArray)
-             {
-                 // Generate a PostObject from this NSDictionary
-                 PostObject *thisPost = [self parseJSONPostObject:postDictionary];
-                 
-                 // Save an indexPath corresponding to this post object
-                 [updatedIndexPaths addObject:[NSIndexPath indexPathForRow:[[self postsArray] count] inSection:0]];
-                 
-                 // Save this post in the postsArray
-                 [[self postsArray] addObject:thisPost];
-                 
-                 // Keep track of the least-recent post that's been loaded
-                 _postIDLeastRecent = [thisPost postID];
-             }
-             
-             // Updating tableviews and things like that need to happen on the main thread
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 
-                 // Notify ourselves first to process what to tell the delegate
-                 [self didLoadPostsAtIndexPaths:updatedIndexPaths];
-                 
-             });
-         }
-         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             // Updating tableviews and things like that need to happen on the main thread
-             dispatch_async(dispatch_get_main_queue(), ^{
-                 
-                 // Even though there was a network error, it's still important to update the delegate
-                 // on what happened because, for example, a UITableView will throw an
-                 // NSInternalInconsistencyException if the data behind it becomes undefined in the event
-                 // of a network error or failure to download something
-                 [self didLoadPostsAtIndexPaths:nil];
-                 
-             });
-             
-             NSLog(@"**!!** Error while loading post data: %@, %@", [error localizedDescription], [error localizedFailureReason]);
-         }];
+    [[self networkManager] GET:[NSString stringWithFormat:@"%@post/%@%i/%i/%i", [[self user] uri], _filterString, [[self user] userID], [self postIDLeastRecent], POSTS_PER_DOWNLOAD]
+                    parameters:nil
+                       success:^(NSURLSessionDataTask *task, id responseObject) {
+                           // Get the `response` dictionary. Within it is an array named `feed`.
+                           NSArray *feedArray = [[responseObject objectForKey:@"response"] objectForKey:@"feed"];
+                           
+                           // Stop if there are no more posts to show
+                           if(feedArray == nil || [feedArray count] == 0)
+                           {
+                               // Tell the delegate there was nothing loaded
+                               [self didLoadPostsAtIndexPaths:nil];
+                               
+                               // Don't send more network requests
+                               _reachedEndOfPostsIncremental = TRUE;
+                               return; // Stops this success block
+                           }
+                           
+                           // Loop through each post dictionary returned and create a PostObject from it
+                           NSMutableArray *updatedIndexPaths = [[NSMutableArray alloc] init];
+                           for(NSDictionary *postDictionary in feedArray)
+                           {
+                               // Generate a PostObject from this NSDictionary
+                               PostObject *thisPost = [self parseJSONPostObject:postDictionary];
+                               
+                               // Save an indexPath corresponding to this post object
+                               [updatedIndexPaths addObject:[NSIndexPath indexPathForRow:[[self postsArray] count] inSection:0]];
+                               
+                               // Save this post in the postsArray
+                               [[self postsArray] addObject:thisPost];
+                               
+                               // Keep track of the least-recent post that's been loaded
+                               _postIDLeastRecent = [thisPost postID];
+                           }
+                           
+                           // Updating tableviews and things like that need to happen on the main thread
+                           dispatch_async(dispatch_get_main_queue(), ^{
+                               
+                               // Notify ourselves first to process what to tell the delegate
+                               [self didLoadPostsAtIndexPaths:updatedIndexPaths];
+                               
+                           });
+                       }
+                       failure:^(NSURLSessionDataTask *task, NSError *error) {
+                           // Updating tableviews and things like that need to happen on the main thread
+                           dispatch_async(dispatch_get_main_queue(), ^{
+                               
+                               // Even though there was a network error, it's still important to update the delegate
+                               // on what happened because, for example, a UITableView will throw an
+                               // NSInternalInconsistencyException if the data behind it becomes undefined in the event
+                               // of a network error or failure to download something
+                               [self didLoadPostsAtIndexPaths:nil];
+                               
+                           });
+                           
+                           NSLog(@"**!!** Error while loading post data: %@, %@", [error localizedDescription], [error localizedFailureReason]);
+                       }];
 }
 
 // Deletes all data from `postsArray` and starts from the beginning
 - (void)reloadAllPosts
 {
+    // Stop any connections in progress (loading posts or voting)
+    [[[self networkManager] tasks] enumerateObjectsUsingBlock:^(NSURLSessionDataTask *task, NSUInteger idx, BOOL *stop) {
+        [task cancel];
+    }];
+    
     // Create an array of indexpaths that encompasses all of the current posts, in order to rememeber
     // which indexPaths to delete later
     NSMutableArray *removedPaths = [[NSMutableArray alloc] initWithCapacity:[[self postsArray] count]];
@@ -211,6 +219,27 @@
     // Only reload everything if the filter has changed
     if(![previousFilterString isEqualToString:newFilterString])
         [self reloadAllPosts];
+}
+
+// Creates a vote
+- (void)voteWithChoice:(VoteChoice)choice atIndexPath:(NSIndexPath *)indexPath
+{
+ /*   // Get the post for this indexpath
+    PostObject *thisPost = [self postAtIndexPath:indexPath];
+    
+    // url like this: 1.2.3.4/v1/vote
+    [[self networkManager] POST:[NSString stringWithFormat:@"%@vote", [[self user] uri]]
+                     parameters:@{@"api_key":[[self user] apiKey],
+                                  @"post_id":[NSString stringWithFormat:@"%i", [thisPost postID]],
+                                  @"user_id":[NSString stringWithFormat:@"%i", [[self user] userID]],
+                                  @"vote":[NSString stringWithFormat:@"%i", choice]}
+                        success:^(NSURLSessionDataTask *task, id responseObject) {
+                            // Server returns 201 Created if successful
+                        }
+                        failure:^(NSURLSessionDataTask *task, NSError *error) {
+                            // Server returns 409 Conflict or 400 Bad Requests
+                            NSLog(@"**!!** Error in voting: %@", [error localizedDescription]);
+                        }];*/
 }
 
 #pragma mark - Private instance methods
@@ -271,7 +300,17 @@
     // Number of votes (comes as an int, but gets converted to an NSNumber)
     id numberOfVotes = [postDictionary objectForKey:@"votes"];
     if([numberOfVotes respondsToSelector:intValueSelector])
-        [post setNumberOfVotes:[numberOfVotes intValue]];
+        [post setNumberOfVotesTotal:[numberOfVotes intValue]];
+    
+    // Number of votes for hotspot A/one
+    id numberOfVotesA = [postDictionary objectForKey:@"voted_one"];
+    if([numberOfVotesA respondsToSelector:intValueSelector])
+        [post setNumberOfVotesForA:[numberOfVotesA intValue]];
+    
+    // Number of votes for hotspot B/two
+    id numberOfVotesB = [postDictionary objectForKey:@"voted_two"];
+    if([numberOfVotesB respondsToSelector:intValueSelector])
+        [post setNumberOfVotesForB:[numberOfVotesB intValue]];
     
     // Hashtags
     id hashtags = [postDictionary objectForKey:@"hashtags"];

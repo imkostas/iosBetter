@@ -32,8 +32,8 @@
 	if(self)
 	{
 		/** Initialize colors, background image, UI **/
-		
-		_selected = FALSE; // Unselected by default
+        _showsPercentageValue = FALSE;
+        _highlighted = FALSE;
 		
 		// Initialize
 		[self setBackgroundColor:[UIColor clearColor]];
@@ -44,18 +44,19 @@
 		// Configure properties
 //		[[self percentageLabel] setBackgroundColor:[UIColor blueColor]];
 		[[self percentageLabel] setTextAlignment:NSTextAlignmentCenter];
-		[[self percentageLabel] setTextColor:[UIColor colorWithWhite:0.88 alpha:1]];
+		[[self percentageLabel] setTextColor:COLOR_GRAY];
+        [[self percentageLabel] setHidden:YES]; // Start off hidden
 		
 		[[[self backgroundImageView] layer] setRasterizationScale:[[UIScreen mainScreen] scale]];
 		[[[self backgroundImageView] layer] setShouldRasterize:YES];
         
-        [[self ringLayer] setStrokeColor:[COLOR_BETTER CGColor]];
+        [[self ringLayer] setStrokeColor:[COLOR_GRAY CGColor]];
         [[self ringLayer] setFillColor:nil];
+        // Ring is added as a sublayer later
 		
 		// Add all subviews
 		[self addSubview:[self backgroundImageView]];
 		[self addSubview:[self percentageLabel]];
-        [[self layer] addSublayer:[self ringLayer]];
 	}
 	
 	return self;
@@ -164,6 +165,48 @@
 	
 	// Finally record the new value
 	_percentageValue = percentageValue;
+}
+
+- (void)setShowsPercentageValue:(BOOL)showsPercentageValue
+{
+    if(showsPercentageValue)
+    {
+        // Show the UILabel and add the CAShapeLayer as a sublayer (if necessary)
+        [[self percentageLabel] setHidden:NO];
+        
+        if([[self ringLayer] superlayer] == nil) // Not already added to a layer
+            [[self layer] addSublayer:[self ringLayer]];
+    }
+    else if(!showsPercentageValue)
+    {
+        // Hide the UILabel and remove the ring layer from its superlayer
+        [[self percentageLabel] setHidden:YES];
+        
+        if([[self ringLayer] superlayer] != nil) // Remove only if it has a superlayer
+            [[self ringLayer] removeFromSuperlayer];
+    }
+    
+    // Store the new value
+    _showsPercentageValue = showsPercentageValue;
+}
+
+- (void)setHighlighted:(BOOL)highlighted
+{
+    if(highlighted)
+    {
+        // Make colors bright
+        [[self ringLayer] setStrokeColor:[COLOR_BETTER CGColor]];
+        [[self percentageLabel] setTextColor:COLOR_BETTER];
+    }
+    else
+    {
+        // Make colors dark
+        [[self ringLayer] setStrokeColor:[COLOR_GRAY CGColor]];
+        [[self percentageLabel] setTextColor:COLOR_GRAY];
+    }
+    
+    // Store new value
+    _highlighted = highlighted;
 }
 
 #pragma mark - Custom drawing

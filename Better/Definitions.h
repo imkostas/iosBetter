@@ -29,10 +29,9 @@ typedef NS_ENUM(NSUInteger, LayoutState) {
  (1) voted on hotspot B (a.k.a. hotspot two)
  (2) no vote
  */
-enum VoteState {
-    VOTE_HOTSPOT_A = 1,
-    VOTE_HOTSPOT_B = 2,
-    VOTE_NOVOTE = 3 // these number values correspond to the values recognized by the server API
+typedef NS_ENUM(NSUInteger, VoteChoice) {
+    VoteChoiceA = 1,
+    VoteChoiceB = 2 // these number values correspond to the values recognized by the server API
 };
 
 /** Some strings */

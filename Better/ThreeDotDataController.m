@@ -69,7 +69,7 @@
                            }
                            
                            // Determine whether to add Voters, Favorite Post, username, Report Misuse objects
-                           BOOL postHasVotes = ([post numberOfVotes] > 0) ? TRUE : FALSE;
+                           BOOL postHasVotes = ([post numberOfVotesTotal] > 0) ? TRUE : FALSE;
                            BOOL isOwnPost = ([post userID] == [[self user] userID]) ? TRUE : FALSE;
                            
                            BOOL favoritedPost = FALSE;
@@ -201,7 +201,9 @@
 // Cancels the download, if there is one
 - (void)cancelDownloads
 {
-    [[[self networkManager] operationQueue] cancelAllOperations];
+    [[[self networkManager] tasks] enumerateObjectsUsingBlock:^(NSURLSessionDataTask *task, NSUInteger idx, BOOL *stop) {
+        [task cancel];
+    }];
 }
 
 #pragma mark - Favoriting, following
