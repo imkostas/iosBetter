@@ -31,17 +31,15 @@
      is scrolled (this behavior only started when the UITableView was moved to within UITableViewController)
      (8/3/15) */
     BOOL hasInitializedDummyObjects;
-	
-	UIImage *background;
-	UIImage *image2;
-	UIImage *image3;
-	UIImage *image4;
-	UIImage *image5;
 }
 
 // Dummy objects for sizing real cells
 @property (strong, nonatomic) FeedCell *dummyCell;
 @property (strong, nonatomic) UILabel *dummyTagsLabel;
+
+/** Placeholder images for profile picture */
+@property (strong, nonatomic) UIImage *profPicPlaceholderFemale;
+@property (strong, nonatomic) UIImage *profPicPlaceholderMale;
 
 // Called when this class's UIRefreshControl sends the UIControlEventValueChanged event
 - (void)refreshControlValueChanged:(UIRefreshControl *)refreshControl;
@@ -74,6 +72,10 @@
 	tagsLabelHeightOneLine = 0;
     hasLoadedInitialPosts = FALSE;
     hasInitializedDummyObjects = FALSE;
+    
+    // Get placeholder images
+    _profPicPlaceholderFemale = [UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_FEMALE];
+    _profPicPlaceholderMale = [UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_MALE];
 	
 	// Register nibs for each type of cell (single, double image horizontal, and double image vertical)
 	[[self tableView] registerNib:[UINib nibWithNibName:@"FeedCellSingleImage" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"feedCellSingleImage"];
@@ -237,35 +239,30 @@
             return nil;
     }
     
-    // Load the profile image placeholder first
-    UIImage *profPicPlaceholder = nil;
-    
-    if([user gender] == GENDER_FEMALE)
-        profPicPlaceholder = [UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_FEMALE];
-    else if([user gender] == GENDER_MALE)
-        profPicPlaceholder = [UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_MALE];
-    else
-        profPicPlaceholder = [UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_FEMALE];
-    
     // Now load the profile picture
     NSString *profPicString = [[user s3_url] stringByAppendingString:[NSString stringWithFormat:@"user/%i_small.png", [thisPost userID]]];
     NSURL *profPicURL = [NSURL URLWithString:profPicString];
-    [[cell profileImageView] setImageWithURL:profPicURL placeholderImage:profPicPlaceholder];
+    UIImage *placeholderImage = ([user gender] == GENDER_FEMALE) ? _profPicPlaceholderFemale : _profPicPlaceholderMale;
+    [[cell profileImageView] setImageWithURL:profPicURL placeholderImage:placeholderImage];
     
     // Populate the cell's UI elements
     [[cell tagsLabel] setAttributedText:[thisPost tagsAttributedString]];
+//    [[cell tagsLabel] setText:[[thisPost tagsAttributedString] string]];
     [[cell usernameLabel] setText:[thisPost username]];
     [[cell numberOfVotesLabel] setText:[NSString stringWithFormat:@"%i", [thisPost numberOfVotesTotal]]];
     
     // Set up hotspots
-    if([thisPost myVote] == nil) // No vote by this user
+    if([thisPost myVote] == VoteChoiceNoVote) // No vote by this user
     {
-        // Hide other peoples' votes
+        // Hide other peoples' votes, enable taps
+        [cell setHotspotGesturesEnabled:YES];
         [[cell hotspotA] setShowsPercentageValue:NO];
         [[cell hotspotB] setShowsPercentageValue:NO];
     }
     else // There is a vote by this user
     {
+        // Turn off hotspot taps
+        [cell setHotspotGesturesEnabled:NO];
         [[cell hotspotA] setShowsPercentageValue:YES];
         [[cell hotspotB] setShowsPercentageValue:YES];
         
@@ -296,7 +293,7 @@
     // Set the cell's delegate to this object, to be notified of hotspot and 3-dot button taps
     // Also tell the cell which PostObject it is associated to
     [cell setDelegate:self];
-    [cell setPostObject:thisPost];
+//    [cell setPostObject:thisPost];
     
 	return cell;
 }
@@ -418,6 +415,71 @@
     
     // Present the Three Dot view controller's navigation controller
     [self presentViewController:threeDotNav animated:YES completion:nil];
+}
+
+// Called when a cell's hotspot is pressed
+- (void)hotspotWasTappedForFeedCell:(FeedCell *)cell withVoteChoice:(VoteChoice)choice
+{
+    // Disable the hotspot gesture recognizers on this cell
+    [cell setHotspotGesturesEnabled:NO];
+    
+    // Get the cell's postObject (the assumption is that the user can't tap on a hotspot for a cell that is
+    // not visible, which I think is true)
+    NSIndexPath *indexPath = [[self tableView] indexPathForCell:cell];
+    if(indexPath == nil)
+        return; // nil happens when the cell is not visible
+    
+    // Increment the total number of votes, increment number of votes for A, and set myVote to VoteChoiceA
+    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+    [thisPost setNumberOfVotesTotal:([thisPost numberOfVotesTotal] + 1)];
+    switch(choice) // Add a vote with the correct choice
+    {
+        case VoteChoiceA:
+            [thisPost setNumberOfVotesForA:([thisPost numberOfVotesForA] + 1)];
+            [thisPost setMyVote:VoteChoiceA];
+            break;
+            
+        case VoteChoiceB:
+            [thisPost setNumberOfVotesForB:([thisPost numberOfVotesForB] + 1)];
+            [thisPost setMyVote:VoteChoiceB];
+            
+        case VoteChoiceNoVote:
+        default:
+            break;
+    }
+    
+    // Update the UI
+    [[cell numberOfVotesLabel] setText:[NSString stringWithFormat:@"%i", [thisPost numberOfVotesTotal]]];
+    
+    // Turn off hotspot taps
+    [[cell hotspotA] setShowsPercentageValue:YES];
+    [[cell hotspotB] setShowsPercentageValue:YES];
+    
+    // Set highlighted or not highlighted
+    if([thisPost numberOfVotesForA] == [thisPost numberOfVotesForB]) // A == B
+    {
+        [[cell hotspotA] setHighlighted:YES];
+        [[cell hotspotB] setHighlighted:YES];
+    }
+    else if([thisPost numberOfVotesForA] < [thisPost numberOfVotesForB]) // A < B
+    {
+        [[cell hotspotA] setHighlighted:NO];
+        [[cell hotspotB] setHighlighted:YES];
+    }
+    else // A > B
+    {
+        [[cell hotspotA] setHighlighted:YES];
+        [[cell hotspotB] setHighlighted:NO];
+    }
+    
+    // Calculate portions and apply them
+    float percentA = (float)[thisPost numberOfVotesForA] / (float)[thisPost numberOfVotesTotal];
+    float percentB = (float)[thisPost numberOfVotesForB] / (float)[thisPost numberOfVotesTotal];
+    [[cell hotspotA] setPercentageValue:percentA];
+    [[cell hotspotB] setPercentageValue:percentB];
+    
+    // Send off the vote request
+    [[self dataController] voteWithChoice:choice atIndexPath:indexPath];
 }
 
 #pragma mark - Custom modal animation for 3-dot

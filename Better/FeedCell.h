@@ -21,6 +21,10 @@
 /** Tells the delegate that this FeedCell's 3-dot drawer button was tapped */
 - (void)threeDotButtonWasTappedForFeedCell:(FeedCell *)cell;
 
+/** Tells the delegate that one of this FeedCell's hotspots was tapped; which one was tapped is given by
+the `choice` parameter */
+- (void)hotspotWasTappedForFeedCell:(FeedCell *)cell withVoteChoice:(VoteChoice)choice;
+
 @end
 
 @interface FeedCell : UITableViewCell
@@ -42,7 +46,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *tagsLabel; // The tags UILabel
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel; // The username
 @property (weak, nonatomic) IBOutlet UILabel	*numberOfVotesLabel; // The number of votes label
-//@property (weak, nonatomic) IBOutlet UIImageView *threeDotMenuButton; // The 3-dot menu button
 
 // The 2px divider line between image and header
 @property (weak, nonatomic) IBOutlet UIView *dividerView;
@@ -50,5 +53,8 @@
 // The hotspots
 @property (strong, nonatomic) BEHotspotView *hotspotA;
 @property (strong, nonatomic) BEHotspotView *hotspotB;
+
+// Flag to enable and disable the hotspot tap gesture recognizers
+@property (nonatomic) BOOL hotspotGesturesEnabled;
 
 @end

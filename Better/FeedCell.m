@@ -14,6 +14,10 @@
 // forces auto layout to do its stuff)
 @property (nonatomic) BOOL alreadyLaidOutSubviews;
 
+// Gesture recognizer properties
+@property (strong, nonatomic) UIGestureRecognizer *pressHotspotARecognizer;
+@property (strong, nonatomic) UIGestureRecognizer *pressHotspotBRecognizer;
+
 // Gesture recognizer handlers for hotspots
 - (void)pressedHotspotA:(UITapGestureRecognizer *)gesture;
 - (void)pressedHotspotB:(UITapGestureRecognizer *)gesture;
@@ -26,6 +30,7 @@
 - (void)awakeFromNib
 {
     // Initialization code
+    _hotspotGesturesEnabled = TRUE;
 	
 	// Load header nib
 	// Tried to do something like this previously, couldn't figure it out, then saw the solution in Apple
@@ -45,8 +50,10 @@
 	[self setHotspotB:[[BEHotspotView alloc] init]];
 	
 	// Add tap gesture recognizers to the hotspots
-	[[self hotspotA] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pressedHotspotA:)]];
-	[[self hotspotB] addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pressedHotspotB:)]];
+    _pressHotspotARecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pressedHotspotA:)];
+    _pressHotspotBRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pressedHotspotB:)];
+	[[self hotspotA] addGestureRecognizer:[self pressHotspotARecognizer]];
+	[[self hotspotB] addGestureRecognizer:[self pressHotspotBRecognizer]];
 	
 	// Set up divider
 	[[self dividerView] setBackgroundColor:COLOR_POST_DIVIDER];
@@ -135,12 +142,26 @@
 #pragma mark - Gesture handling
 - (void)pressedHotspotA:(UITapGestureRecognizer *)gesture
 {
-	NSLog(@"You pressed on hotspot A, %@", self);
+//	NSLog(@"You pressed on hotspot A, %@", self);
+    if([self delegate])
+        [[self delegate] hotspotWasTappedForFeedCell:self withVoteChoice:VoteChoiceA];
 }
 
 - (void)pressedHotspotB:(UITapGestureRecognizer *)gesture
 {
-	NSLog(@"You pressed on hotspot B, %@", self);
+//	NSLog(@"You pressed on hotspot B, %@", self);
+    if([self delegate])
+        [[self delegate] hotspotWasTappedForFeedCell:self withVoteChoice:VoteChoiceB];
+}
+
+#pragma mark - Custom setters
+- (void)setHotspotGesturesEnabled:(BOOL)hotspotGesturesEnabled
+{
+    [[self pressHotspotARecognizer] setEnabled:hotspotGesturesEnabled];
+    [[self pressHotspotBRecognizer] setEnabled:hotspotGesturesEnabled];
+    
+    // Save the value
+    _hotspotGesturesEnabled = hotspotGesturesEnabled;
 }
 
 #pragma mark - Button handling

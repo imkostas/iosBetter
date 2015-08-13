@@ -25,11 +25,12 @@ typedef NS_ENUM(NSUInteger, LayoutState) {
 /**
  An integer that specifies the type of vote that a user has made on a particular post--there are three
  possibilities:
- (0) voted on hotspot A (a.k.a. hotspot one)
- (1) voted on hotspot B (a.k.a. hotspot two)
- (2) no vote
+ (1) voted on hotspot A
+ (2) voted on hotspot B
+ (0) no vote
  */
 typedef NS_ENUM(NSUInteger, VoteChoice) {
+    VoteChoiceNoVote = 0,
     VoteChoiceA = 1,
     VoteChoiceB = 2 // these number values correspond to the values recognized by the server API
 };

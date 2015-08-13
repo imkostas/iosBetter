@@ -224,7 +224,7 @@
 // Creates a vote
 - (void)voteWithChoice:(VoteChoice)choice atIndexPath:(NSIndexPath *)indexPath
 {
- /*   // Get the post for this indexpath
+    // Get the post for this indexpath
     PostObject *thisPost = [self postAtIndexPath:indexPath];
     
     // url like this: 1.2.3.4/v1/vote
@@ -235,11 +235,22 @@
                                   @"vote":[NSString stringWithFormat:@"%i", choice]}
                         success:^(NSURLSessionDataTask *task, id responseObject) {
                             // Server returns 201 Created if successful
+                            
+                            // We don't really need to do anything here if successful
+                            
+                            // Retrieve the 'vote' dictionary from within the 'response' dictionary
+//                            NSDictionary *voteDict = [[responseObject objectForKey:@"response"] objectForKey:@"vote"];
+//                            if(voteDict == nil)
+//                                return;
                         }
                         failure:^(NSURLSessionDataTask *task, NSError *error) {
-                            // Server returns 409 Conflict or 400 Bad Requests
+                            // Server returns 409 Conflict or 400 Bad Request
                             NSLog(@"**!!** Error in voting: %@", [error localizedDescription]);
-                        }];*/
+                            
+                            // Set `myVote` on this PostObject to NoVote (maybe this should be improved so
+                            // the user doesn't have to reload everything if there is an error)
+                            [thisPost setMyVote:VoteChoiceNoVote];
+                        }];
 }
 
 #pragma mark - Private instance methods
@@ -325,6 +336,14 @@
     id vote = [postDictionary objectForKey:@"vote"];
     if([vote respondsToSelector:@selector(objectForKey:)]) // Is it a dictionary
     {
+        // Only need to store the current choice of vote (can be VoteChoiceNoVote).
+        // It comes in as an NSString
+        id choice = [vote objectForKey:@"vote"];
+        if([choice respondsToSelector:intValueSelector])
+            [post setMyVote:[choice intValue]];
+        
+        // unnecessary class below:
+        /*
         // Create a MyVote object for this vote
         MyVote *thisVote = [[MyVote alloc] init];
         
@@ -345,16 +364,21 @@
         if([userID respondsToSelector:intValueSelector])
             [thisVote setUserID:[userID intValue]];
         
+        // Choice (NSString)
+        id choice = [vote objectForKey:@"vote"];
+        if([choice respondsToSelector:intValueSelector])
+            [thisVote setChoice:[choice intValue]];
+        
         // Creation date
         id voteCreationDate = [vote objectForKey:@"created_at"];
         if([voteCreationDate isKindOfClass:[NSString class]])
             [thisVote setCreationDate:[dateFormatter dateFromString:voteCreationDate]];
         
         // Finally save the vote
-        [post setMyVote:thisVote];
+        [post setMyVote:thisVote];*/
     }
     else if(vote == FALSE) // The current user has not voted on this post
-        [post setMyVote:nil];
+        [post setMyVote:VoteChoiceNoVote];
     
     // Return this new PostObject
     return post;

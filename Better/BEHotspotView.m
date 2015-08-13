@@ -52,11 +52,12 @@
         
         [[self ringLayer] setStrokeColor:[COLOR_GRAY CGColor]];
         [[self ringLayer] setFillColor:nil];
-        // Ring is added as a sublayer later
+        [[self ringLayer] setActions:@{@"strokeEnd":[NSNull null]}]; // Disable implicit animations for strokeEnd
 		
 		// Add all subviews
 		[self addSubview:[self backgroundImageView]];
 		[self addSubview:[self percentageLabel]];
+        [[self layer] addSublayer:[self ringLayer]];
 	}
 	
 	return self;
@@ -85,16 +86,13 @@
     ringRect.size = CGSizeMake(sizeXandY, sizeXandY);
     
     // Path -> circle that fits inside the above rectangle
-//    CGPathRef ringLayerPath = CGPathCreateWithEllipseInRect(ringRect, NULL);
-    
     CGMutablePathRef ringLayerPathMutable = CGPathCreateMutable();
     CGPoint centerPoint = {};
     centerPoint.x = CGRectGetWidth(ringRect) / 2 + ringRect.origin.x;
     centerPoint.y = CGRectGetHeight(ringRect) / 2 + ringRect.origin.y;
     CGPathAddArc(ringLayerPathMutable, NULL, centerPoint.x, centerPoint.y, CGRectGetWidth(ringRect) / 2, -M_PI_2, 3*M_PI_2, FALSE);
-    // ^^  TRUE => clockwise from -pi/2 to (3/2)pi
     
-    // Set the path and some other properties
+    [[self ringLayer] setFrame:[self bounds]];
     [[self ringLayer] setPath:ringLayerPathMutable];
     [[self ringLayer] setLineWidth:CGRectGetWidth([self bounds]) * RATIO_CIRCULAR_STRIPE_THICKNESS_TO_HOTSPOT_DIAMETER];
 	
@@ -105,8 +103,6 @@
 	labelFrame.origin.x = 0;
 	labelFrame.origin.y = (CGRectGetHeight([self bounds]) / 2) - (labelFrame.size.height / 2);
 	[[self percentageLabel] setFrame:labelFrame];
-    
-    CFRelease(ringLayerPathMutable);
 }
 
 #pragma mark - Setting properties
@@ -119,7 +115,8 @@
 	/** Update the UILabel **/
 	
 	// Convert the value to a string with a number between 0 and 100
-	NSString *percent = [NSString stringWithFormat:@"%i", (int)roundf(percentageValue * 100)];
+    NSInteger roundNum = (NSInteger)roundf(percentageValue * 100);
+	NSString *percent = [NSString stringWithFormat:@"%i", roundNum];
 	
 	// The number should have large text while the "%" should have smaller text, so create an attributed
 	// string with the correct ranges
@@ -145,23 +142,41 @@
 	[[self percentageLabel] setAttributedText:percentageString];
     
     // Update ring layer with an animation
+//    [[self ringLayer] removeAnimationForKey:@"strokeEnd"];
 //    CABasicAnimation *ringAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
 //    [ringAnimation setFromValue:[NSNumber numberWithInt:0]];
 //    [ringAnimation setToValue:[NSNumber numberWithFloat:percentageValue]];
 //    [ringAnimation setDuration:(2 * percentageValue)]; // Proportional time to the percentage
+//    [[self ringLayer] addAnimation:ringAnimation forKey:@"strokeEnd"];
     
-    // Update ring layer's percentage-filled with the system's default function for animating ui elements
-    CAKeyframeAnimation *ringAnimation = [CAKeyframeAnimation animationWithKeyPath:@"strokeEnd"];
-    CAMediaTimingFunction *ringAnimationFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
-    
-        // Start at zero and end at the percentage value
-    [ringAnimation setValues:@[[NSNumber numberWithInt:0], [NSNumber numberWithFloat:percentageValue]]];
-    [ringAnimation setTimingFunction:ringAnimationFunction];
-    [ringAnimation setDuration:(1.75 * sqrt(percentageValue))];
-    
-    // Run the animation and actually apply the end value
-    [[self ringLayer] addAnimation:ringAnimation forKey:@"strokeEnd"];
-    [[self ringLayer] setStrokeEnd:percentageValue]; // If not present, the ring flashes back to nothing
+    // Don't animate with roundNum == 0
+//    if(roundNum != 0)
+//    {
+        // Update ring layer's percentage-filled with the system's default function for animating ui elements
+        CAKeyframeAnimation *ringAnimation = [CAKeyframeAnimation animationWithKeyPath:@"strokeEnd"];
+        CAMediaTimingFunction *ringAnimationFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
+        
+            // Remove existing strokeEnd animation(s)
+        [[self ringLayer] removeAnimationForKey:@"strokeEnd"];
+        [[self ringLayer] setStrokeStart:0];
+        [[self ringLayer] setStrokeEnd:percentageValue];
+        
+            // Start at zero and end at the percentage value
+        [ringAnimation setValues:@[[NSNumber numberWithInt:0], [NSNumber numberWithFloat:percentageValue]]];
+        [ringAnimation setTimingFunction:ringAnimationFunction];
+        [ringAnimation setDuration:(1.75 * sqrt(percentageValue))];
+        [ringAnimation setFillMode:kCAFillModeForwards];
+        
+        // Run the animation and actually apply the end value (without implicit animation)
+        [[self ringLayer] addAnimation:ringAnimation forKey:@"strokeEnd"];
+        [[self ringLayer] setStrokeEnd:percentageValue]; // If not present, the ring flashes back to nothing
+//    }
+//    else
+//    {
+//        // Remove existing strokeEnd animations(s)
+//        [[self ringLayer] removeAnimationForKey:@"strokeEnd"];
+//        [[self ringLayer] setStrokeEnd:0.0];
+//    }
 	
 	// Finally record the new value
 	_percentageValue = percentageValue;
@@ -169,22 +184,8 @@
 
 - (void)setShowsPercentageValue:(BOOL)showsPercentageValue
 {
-    if(showsPercentageValue)
-    {
-        // Show the UILabel and add the CAShapeLayer as a sublayer (if necessary)
-        [[self percentageLabel] setHidden:NO];
-        
-        if([[self ringLayer] superlayer] == nil) // Not already added to a layer
-            [[self layer] addSublayer:[self ringLayer]];
-    }
-    else if(!showsPercentageValue)
-    {
-        // Hide the UILabel and remove the ring layer from its superlayer
-        [[self percentageLabel] setHidden:YES];
-        
-        if([[self ringLayer] superlayer] != nil) // Remove only if it has a superlayer
-            [[self ringLayer] removeFromSuperlayer];
-    }
+    [[self percentageLabel] setHidden:(!showsPercentageValue)];
+    [[self ringLayer] setHidden:(!showsPercentageValue)];
     
     // Store the new value
     _showsPercentageValue = showsPercentageValue;

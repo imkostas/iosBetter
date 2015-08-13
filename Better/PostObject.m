@@ -8,8 +8,8 @@
 
 #import "PostObject.h"
 
-@implementation MyVote
-@end
+//@implementation MyVote
+//@end
 
 @implementation PostObject
 @end
