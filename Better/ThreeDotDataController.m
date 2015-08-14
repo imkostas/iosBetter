@@ -217,11 +217,7 @@
         [threeDotObject setChangingActiveState:YES]; // Prevent repeated network requests
     
     // Otherwise, set up a request depending on its type and its current state
-    BOOL newState;
-    if([threeDotObject isActive])
-        newState = FALSE;
-    else
-        newState = TRUE;
+    BOOL newState = ([threeDotObject isActive]) ? FALSE : TRUE;
     
     // Create strings from the threeDotObject's object ID and the current user's user ID for use in the
     // parameters dictionary or URL string

@@ -13,6 +13,7 @@
 #import "ThreeDotTransitionAnimator.h"
 #import "ThreeDotTableViewCell.h"
 #import "PostObject.h"
+#import "VotersTableViewController.h"
 
 @interface ThreeDotViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, UINavigationControllerDelegate, ThreeDotDataControllerDelegate>
 

@@ -111,6 +111,11 @@
 		D0D7CA971B0F89AB00363A39 /* IntroPageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D7CA961B0F89AB00363A39 /* IntroPageContent.m */; };
 		D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D7CA991B0F8E8E00363A39 /* IntroPage.m */; };
 		D0F347DC1B289829001950E4 /* MyAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F347DB1B289829001950E4 /* MyAccount.m */; };
+		D0F5A4AD1B7E2A2D0093F73E /* VotersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5A4AC1B7E2A2D0093F73E /* VotersTableViewController.m */; };
+		D0F5A4B01B7E2C790093F73E /* VotersDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5A4AF1B7E2C790093F73E /* VotersDataController.m */; };
+		D0F5A4B31B7E2DDD0093F73E /* VoterObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5A4B21B7E2DDD0093F73E /* VoterObject.m */; };
+		D0F5A4B71B7E322B0093F73E /* VotersTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5A4B51B7E322B0093F73E /* VotersTableViewCell.m */; };
+		D0F5A4B81B7E322B0093F73E /* VotersTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0F5A4B61B7E322B0093F73E /* VotersTableViewCell.xib */; };
 		D0FA295B1B5E8E1900F5B24C /* SuggestedTags.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0FA295A1B5E8E1900F5B24C /* SuggestedTags.plist */; };
 		D0FA29651B5E994400F5B24C /* HashtagCellDeletable.m in Sources */ = {isa = PBXBuildFile; fileRef = D0FA29631B5E994400F5B24C /* HashtagCellDeletable.m */; };
 		D0FA29661B5E994400F5B24C /* HashtagCellDeletable.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0FA29641B5E994400F5B24C /* HashtagCellDeletable.xib */; };
@@ -304,6 +309,15 @@
 		D0D7CA991B0F8E8E00363A39 /* IntroPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroPage.m; sourceTree = "<group>"; };
 		D0F347DA1B289829001950E4 /* MyAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAccount.h; sourceTree = "<group>"; };
 		D0F347DB1B289829001950E4 /* MyAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAccount.m; sourceTree = "<group>"; };
+		D0F5A4AB1B7E2A2D0093F73E /* VotersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VotersTableViewController.h; sourceTree = "<group>"; };
+		D0F5A4AC1B7E2A2D0093F73E /* VotersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VotersTableViewController.m; sourceTree = "<group>"; };
+		D0F5A4AE1B7E2C790093F73E /* VotersDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VotersDataController.h; sourceTree = "<group>"; };
+		D0F5A4AF1B7E2C790093F73E /* VotersDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VotersDataController.m; sourceTree = "<group>"; };
+		D0F5A4B11B7E2DDD0093F73E /* VoterObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoterObject.h; sourceTree = "<group>"; };
+		D0F5A4B21B7E2DDD0093F73E /* VoterObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoterObject.m; sourceTree = "<group>"; };
+		D0F5A4B41B7E322B0093F73E /* VotersTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VotersTableViewCell.h; sourceTree = "<group>"; };
+		D0F5A4B51B7E322B0093F73E /* VotersTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VotersTableViewCell.m; sourceTree = "<group>"; };
+		D0F5A4B61B7E322B0093F73E /* VotersTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VotersTableViewCell.xib; sourceTree = "<group>"; };
 		D0FA295A1B5E8E1900F5B24C /* SuggestedTags.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SuggestedTags.plist; sourceTree = "<group>"; };
 		D0FA29621B5E994400F5B24C /* HashtagCellDeletable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashtagCellDeletable.h; sourceTree = "<group>"; };
 		D0FA29631B5E994400F5B24C /* HashtagCellDeletable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HashtagCellDeletable.m; sourceTree = "<group>"; };
@@ -686,6 +700,7 @@
 				D066299C1B4AD83A00359261 /* UI Objects */,
 				D07A471E1B667F2F009760BE /* Data model */,
 				D0679BBC1B6FF342003111AD /* Three-dot drawer */,
+				D0F5A4AA1B7E29FD0093F73E /* Voters */,
 			);
 			name = "Feed Table View";
 			sourceTree = "<group>";
@@ -916,6 +931,22 @@
 			name = MyAccount;
 			sourceTree = "<group>";
 		};
+		D0F5A4AA1B7E29FD0093F73E /* Voters */ = {
+			isa = PBXGroup;
+			children = (
+				D0F5A4AB1B7E2A2D0093F73E /* VotersTableViewController.h */,
+				D0F5A4AC1B7E2A2D0093F73E /* VotersTableViewController.m */,
+				D0F5A4AE1B7E2C790093F73E /* VotersDataController.h */,
+				D0F5A4AF1B7E2C790093F73E /* VotersDataController.m */,
+				D0F5A4B11B7E2DDD0093F73E /* VoterObject.h */,
+				D0F5A4B21B7E2DDD0093F73E /* VoterObject.m */,
+				D0F5A4B41B7E322B0093F73E /* VotersTableViewCell.h */,
+				D0F5A4B51B7E322B0093F73E /* VotersTableViewCell.m */,
+				D0F5A4B61B7E322B0093F73E /* VotersTableViewCell.xib */,
+			);
+			name = Voters;
+			sourceTree = "<group>";
+		};
 		D0FA29611B5E963B00F5B24C /* Hashtag Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1033,6 +1064,7 @@
 				D05584D51B31D12A003FD842 /* Raleway-SemiBoldItalic.ttf in Resources */,
 				D05584D71B31D12A003FD842 /* Raleway-ThinItalic.ttf in Resources */,
 				D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */,
+				D0F5A4B81B7E322B0093F73E /* VotersTableViewCell.xib in Resources */,
 				D02006971B754DBB00C3A02B /* ThreeDotTableViewCell.xib in Resources */,
 				D06629961B4AD7F900359261 /* FeedCellTopBottom.xib in Resources */,
 				D06629941B4AD7F900359261 /* FeedCellSingleImage.xib in Resources */,
@@ -1130,11 +1162,13 @@
 				D07A47211B667F86009760BE /* FeedDataController.m in Sources */,
 				D07178631B601B64003863F0 /* BEAddTagButton.m in Sources */,
 				D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */,
+				D0F5A4AD1B7E2A2D0093F73E /* VotersTableViewController.m in Sources */,
 				D09901921B0E619300760CDF /* BEScrollingViewController.m in Sources */,
 				D031CEDF1B39DD900039A9C1 /* LeaderboardData.m in Sources */,
 				D0FA29721B5EE52000F5B24C /* SelectedHashtagsFlowLayout.m in Sources */,
 				D04999EF1B4D833500A52FD2 /* BEAlert.m in Sources */,
 				D066299F1B4AD84A00359261 /* BEHotspotView.m in Sources */,
+				D0F5A4B01B7E2C790093F73E /* VotersDataController.m in Sources */,
 				D01CB7451B29D78D003DF616 /* Support.m in Sources */,
 				D0A250E51B1758AA003E7D0B /* BELine.m in Sources */,
 				D05EF7881B0B9F0800D01AE4 /* Login.m in Sources */,
@@ -1155,12 +1189,14 @@
 				D05584EA1B31F1C1003FD842 /* BELabel.m in Sources */,
 				D04999E81B4D6FE700A52FD2 /* PostHashtagsViewController.m in Sources */,
 				D07415621B59503900DAB004 /* BEPostingHotspotView.m in Sources */,
+				D0F5A4B71B7E322B0093F73E /* VotersTableViewCell.m in Sources */,
 				D030579F1B20E85900F20072 /* (null) in Sources */,
 				D06629B21B4AD89900359261 /* FeedCellTopBottom.m in Sources */,
 				31C5CFD61B20E95800472161 /* Filter.m in Sources */,
 				D0F347DC1B289829001950E4 /* MyAccount.m in Sources */,
 				D0CD720B1B2B6237004A5765 /* MyRankingController.m in Sources */,
 				D0FA29651B5E994400F5B24C /* HashtagCellDeletable.m in Sources */,
+				D0F5A4B31B7E2DDD0093F73E /* VoterObject.m in Sources */,
 				D066299A1B4AD82200359261 /* FeedTableViewController.m in Sources */,
 				D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */,
 				D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */,

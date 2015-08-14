@@ -251,15 +251,16 @@
     [[cell usernameLabel] setText:[thisPost username]];
     [[cell numberOfVotesLabel] setText:[NSString stringWithFormat:@"%i", [thisPost numberOfVotesTotal]]];
     
-    // Set up hotspots
-    if([thisPost myVote] == VoteChoiceNoVote) // No vote by this user
+    // Set up hotspots:
+    
+    if([thisPost myVote] == VoteChoiceNoVote && [thisPost userID] != [user userID]) // No vote by this user AND this is not our own post
     {
         // Hide other peoples' votes, enable taps
         [cell setHotspotGesturesEnabled:YES];
         [[cell hotspotA] setShowsPercentageValue:NO];
         [[cell hotspotB] setShowsPercentageValue:NO];
     }
-    else // There is a vote by this user
+    else // There is a vote by this user OR this is our own post
     {
         // Turn off hotspot taps
         [cell setHotspotGesturesEnabled:NO];
@@ -291,7 +292,7 @@
     }
     
     // Set the cell's delegate to this object, to be notified of hotspot and 3-dot button taps
-    // Also tell the cell which PostObject it is associated to
+    // Also tell the cell which PostObject it is associated to (*unnecessary)
     [cell setDelegate:self];
 //    [cell setPostObject:thisPost];
     

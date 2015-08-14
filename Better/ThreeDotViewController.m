@@ -97,6 +97,9 @@
 {
     [super viewDidLoad];
     
+    // Set my title
+    [self setTitle:@"Details"];
+    
     // Keep from adding unnecessary space to the top of the UITableView child
     [self setAutomaticallyAdjustsScrollViewInsets:NO];
     
@@ -372,10 +375,9 @@
     {
         case ThreeDotObjectTypeVoters:
         {
-            UIViewController *hey = [[UIViewController alloc] init];
-            [hey setView:[[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]]];
-            [[hey view] setBackgroundColor:[UIColor whiteColor]];
-            [[self navigationController] pushViewController:hey animated:YES];
+            // Create a Voters view controller
+            VotersTableViewController *votersVC = [[VotersTableViewController alloc] initWithPostObject:[self postObject]];
+            [[self navigationController] pushViewController:votersVC animated:YES];
             
             break;
         }

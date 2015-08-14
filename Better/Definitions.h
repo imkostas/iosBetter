@@ -93,6 +93,7 @@ typedef NS_ENUM(NSUInteger, VoteChoice) {
 #define REUSE_ID_HASHTAG_COLLECTION_CELL_DELETABLE @"hashtagCellDeletable"
 #define REUSE_ID_HASHTAG_COLLECTION_CELL_NO_DELETE @"hashtagCellNoDelete"
 #define REUSE_ID_THREE_DOT_TABLEVIEW_CELL @"threeDotTableViewCell"
+#define REUSE_ID_VOTERS_TABLEVIEW_CELL @"votersTableViewCell"
 
 // Nib filenames
 #define NIB_NAME_HASHTAG_COLLECTION_CELL_DELETABLE @"HashtagCellDeletable"
@@ -168,6 +169,7 @@ typedef NS_ENUM(NSUInteger, VoteChoice) {
 #define COLOR_GRAY_FEED [UIColor colorWithRed:0.82 green:0.82 blue:0.83 alpha:1.0]
 
 #define COLOR_GRAY [UIColor colorWithWhite:0.85 alpha:1.0]
+#define COLOR_GRAY_DARKER [UIColor colorWithWhite:0.75 alpha:1.0]
 #define COLOR_POST_DIVIDER [UIColor colorWithWhite:0.62 alpha:1.0]
 #define COLOR_FEED_HEADERTEXT [UIColor colorWithWhite:0.46 alpha:1.0]
 #define COLOR_FEED_HASHTAGS_STOCK [UIColor colorWithWhite:0.5 alpha:1.0]
@@ -192,8 +194,8 @@ typedef NS_ENUM(NSUInteger, VoteChoice) {
 #define IMAGE_TUTORIAL_CROWN @"initial_tutorial_crown"
 
 #define IMAGE_EMPTY_PROFILE_PANEL @"account_profile_panel_empty"
-#define IMAGE_EMPTY_PROFILE_PICTURE_FEMALE @"blank_profile_female_noalpha"
-#define IMAGE_EMPTY_PROFILE_PICTURE_MALE @"blank_profile_male_noalpha"
+#define IMAGE_EMPTY_PROFILE_PICTURE_FEMALE @"blank_profile_female"
+#define IMAGE_EMPTY_PROFILE_PICTURE_MALE @"blank_profile_male"
 
 #define IMAGE_PIXEL_TRANSPARENT @"TransparentPixel"
 #define IMAGE_PIXEL_COLOR_BETTER_DARK @"Color_better_dark"
@@ -284,7 +286,7 @@ typedef NS_ENUM(NSUInteger, VoteChoice) {
 // Animation properties
 #define ANIM_DURATION_INTRO (500/1000.0) // converts to seconds
 #define ANIM_DELAY_INTRO (300/1000.0)
-#define ANIM_DURATION_PICKER (250/1000.0)
+#define ANIM_DURATION_PICKER (500/1000.0)
 #define ANIM_DURATION_DRAWER_FULLSLIDE (285/1000.0)
 #define ANIM_DURATION_CHANGE_VIEWCONTROLLER_TITLE (200/1000.0)
 #define ANIM_DURATION_CHANGE_DRAWER_SIZE (200/1000.0)

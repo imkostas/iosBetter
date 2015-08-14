@@ -232,7 +232,7 @@
                      parameters:@{@"api_key":[[self user] apiKey],
                                   @"post_id":[NSString stringWithFormat:@"%i", [thisPost postID]],
                                   @"user_id":[NSString stringWithFormat:@"%i", [[self user] userID]],
-                                  @"vote":[NSString stringWithFormat:@"%i", choice]}
+                                  @"vote":[NSString stringWithFormat:@"%i", (int)choice]}
                         success:^(NSURLSessionDataTask *task, id responseObject) {
                             // Server returns 201 Created if successful
                             

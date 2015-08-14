@@ -162,7 +162,8 @@ static UIImage * BEInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
     return self;
 }
 
-/** Overrides same method in AFImageResponseSerializer **/
+/** Overrides same method in AFImageResponseSerializer (only difference is to call our own BEInflatedImage.. instead
+ of AFInflatedImage... **/
 - (id)responseObjectForResponse:(NSURLResponse *)response data:(NSData *)data error:(NSError *__autoreleasing *)error
 {
     if (![self validateResponse:(NSHTTPURLResponse *)response data:data error:error]) {

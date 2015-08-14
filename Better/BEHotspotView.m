@@ -115,8 +115,7 @@
 	/** Update the UILabel **/
 	
 	// Convert the value to a string with a number between 0 and 100
-    NSInteger roundNum = (NSInteger)roundf(percentageValue * 100);
-	NSString *percent = [NSString stringWithFormat:@"%i", roundNum];
+	NSString *percent = [NSString stringWithFormat:@"%i", (int)roundf(percentageValue * 100)];
 	
 	// The number should have large text while the "%" should have smaller text, so create an attributed
 	// string with the correct ranges
@@ -141,43 +140,19 @@
 	// Apply it to the label
 	[[self percentageLabel] setAttributedText:percentageString];
     
-    // Update ring layer with an animation
-//    [[self ringLayer] removeAnimationForKey:@"strokeEnd"];
-//    CABasicAnimation *ringAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-//    [ringAnimation setFromValue:[NSNumber numberWithInt:0]];
-//    [ringAnimation setToValue:[NSNumber numberWithFloat:percentageValue]];
-//    [ringAnimation setDuration:(2 * percentageValue)]; // Proportional time to the percentage
-//    [[self ringLayer] addAnimation:ringAnimation forKey:@"strokeEnd"];
+    // Update ring layer's percentage-filled with the system's default function for animating ui elements
+    CAKeyframeAnimation *ringAnimation = [CAKeyframeAnimation animationWithKeyPath:@"strokeEnd"];
+    CAMediaTimingFunction *ringAnimationFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
     
-    // Don't animate with roundNum == 0
-//    if(roundNum != 0)
-//    {
-        // Update ring layer's percentage-filled with the system's default function for animating ui elements
-        CAKeyframeAnimation *ringAnimation = [CAKeyframeAnimation animationWithKeyPath:@"strokeEnd"];
-        CAMediaTimingFunction *ringAnimationFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
-        
-            // Remove existing strokeEnd animation(s)
-        [[self ringLayer] removeAnimationForKey:@"strokeEnd"];
-        [[self ringLayer] setStrokeStart:0];
-        [[self ringLayer] setStrokeEnd:percentageValue];
-        
-            // Start at zero and end at the percentage value
-        [ringAnimation setValues:@[[NSNumber numberWithInt:0], [NSNumber numberWithFloat:percentageValue]]];
-        [ringAnimation setTimingFunction:ringAnimationFunction];
-        [ringAnimation setDuration:(1.75 * sqrt(percentageValue))];
-        [ringAnimation setFillMode:kCAFillModeForwards];
-        
-        // Run the animation and actually apply the end value (without implicit animation)
-        [[self ringLayer] addAnimation:ringAnimation forKey:@"strokeEnd"];
-        [[self ringLayer] setStrokeEnd:percentageValue]; // If not present, the ring flashes back to nothing
-//    }
-//    else
-//    {
-//        // Remove existing strokeEnd animations(s)
-//        [[self ringLayer] removeAnimationForKey:@"strokeEnd"];
-//        [[self ringLayer] setStrokeEnd:0.0];
-//    }
-	
+    // Start at zero and end at the percentage value
+    [ringAnimation setValues:@[[NSNumber numberWithInt:0], [NSNumber numberWithFloat:percentageValue]]];
+    [ringAnimation setTimingFunction:ringAnimationFunction];
+    [ringAnimation setDuration:(1.75 * sqrt(percentageValue))];
+    
+    // Run the animation and actually apply the end value (without implicit animation)
+    [[self ringLayer] addAnimation:ringAnimation forKey:@"strokeEnd"];
+    [[self ringLayer] setStrokeEnd:percentageValue]; // If not present, the ring flashes back to nothing
+
 	// Finally record the new value
 	_percentageValue = percentageValue;
 }
