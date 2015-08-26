@@ -464,15 +464,15 @@
     };
     
     // The whole string
-    NSRange wholeRange = { .location = 0, .length = [hashtagStringWithHashes length] };
+//    NSRange wholeRange = { .location = 0, .length = [hashtagStringWithHashes length] };
     
     // Get the font to be applied to this attributed string
-    UIFont *hashtagsFont = [UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_FEEDCELL_HASHTAG_LABEL];
+//    UIFont *hashtagsFont = [UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_FEEDCELL_HASHTAG_LABEL];
     
     // Now create the attributed string
     NSMutableAttributedString *hashtagStringAttr = [[NSMutableAttributedString alloc] initWithString:hashtagStringWithHashes];
     [hashtagStringAttr beginEditing];
-    [hashtagStringAttr addAttribute:NSFontAttributeName value:hashtagsFont range:wholeRange];
+//    [hashtagStringAttr addAttribute:NSFontAttributeName value:hashtagsFont range:wholeRange];
     [hashtagStringAttr addAttribute:NSForegroundColorAttributeName value:COLOR_FEED_HASHTAGS_STOCK range:firstCharRange];
     [hashtagStringAttr addAttribute:NSForegroundColorAttributeName value:COLOR_FEED_HASHTAGS_CUSTOM range:firstHashtagRange];
     [hashtagStringAttr addAttribute:NSForegroundColorAttributeName value:COLOR_FEED_HASHTAGS_STOCK range:betweenFirstSecondRange];

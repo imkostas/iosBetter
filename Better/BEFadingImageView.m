@@ -18,7 +18,7 @@
 
 - (void)commonInit
 {
-    _scalingImageResponseSerializer = [[BEImageResponseSerializer alloc] init];
+    _scalingImageResponseSerializer = [[BEImageResponseSerializer alloc] initWithImageView:self];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -75,8 +75,8 @@
 // code, if it's causing problems)
 - (id<AFURLResponseSerialization>)imageResponseSerializer
 {
-    [[self scalingImageResponseSerializer] setDestinationSize:[self bounds].size];
-    
+//    [[self scalingImageResponseSerializer] setDestinationSize:[self bounds].size];
+//    NSLog(@"image scale size: %.1f,%.1f", self.bounds.size.width, self.bounds.size.height);    
     return _scalingImageResponseSerializer;
 }
 

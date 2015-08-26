@@ -106,19 +106,16 @@ static UIImage * BEInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
     
     /**** START extra code *****/
     // Downscale the image if possible
-//    NSLog(@"Given scale: %.1f", scale);
-//    NSLog(@"Image size originally: %.1lu x %.1lu", width, height);
+    // `width` and `height` are in pixels, while `destinationSize` is in points
+//    NSLog(@"Destination image size: (%.1f,%.1f)", destinationSize.width, destinationSize.height);
+//    NSLog(@"Image size: (%.1lu,%.1lu)", width, height);
     if(!CGSizeEqualToSize(destinationSize, CGSizeZero))
     {
-        if(width > destinationSize.width && height > destinationSize.height)
+        if(width/scale > destinationSize.width && height/scale > destinationSize.height)
         {   
             width = destinationSize.width * scale;
             height = destinationSize.height * scale;
-            
-//            NSLog(@"   resizing the image to: %.1lu by %.1lu", width, height);
         }
-//        else
-//            NSLog(@"   keeping original size");
     }
     /***** END extra code ********/
     
@@ -148,15 +145,12 @@ static UIImage * BEInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
 
 @implementation BEImageResponseSerializer
 
-/** Override -init from AFImageResponseSerializer **/
-- (instancetype)init
+- (instancetype)initWithImageView:(UIImageView *)imageView
 {
     self = [super init];
     if(self)
     {
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
-        _destinationSize = CGSizeZero;
-#endif
+        _imageView = imageView;
     }
     
     return self;
@@ -174,7 +168,13 @@ static UIImage * BEInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
     
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
     if (self.automaticallyInflatesResponseImage) {
-        return BEInflatedImageFromResponseWithDataAtScale((NSHTTPURLResponse *)response, data, self.imageScale, self.destinationSize);
+        if(self.imageView != nil)
+        {
+            CGSize imageViewSize = self.imageView.bounds.size;
+            return BEInflatedImageFromResponseWithDataAtScale((NSHTTPURLResponse *)response, data, self.imageScale, imageViewSize);
+        }
+        else
+            return BEInflatedImageFromResponseWithDataAtScale((NSHTTPURLResponse *)response, data, self.imageScale, CGSizeZero);
     } else {
         return AFImageWithDataAtScale(data, self.imageScale);
     }

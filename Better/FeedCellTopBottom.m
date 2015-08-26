@@ -26,6 +26,9 @@
     // Background color for imageviews
     [[self topImageView] setBackgroundColor:[UIColor grayColor]];
     [[self bottomImageView] setBackgroundColor:[UIColor grayColor]];
+    // Clip to bounds
+    [[self topImageView] setClipsToBounds:YES];
+    [[self bottomImageView] setClipsToBounds:YES];
 	
 	// Add hotspots as subviews of the top and bottom ImageViews---
 	// hotspot1 --> top image
@@ -44,12 +47,32 @@
 #pragma mark - View's layout
 - (void)layoutSubviews
 {
+    [super layoutSubviews];
+    
+    // Get some values first
+    CGFloat contentViewWidth = CGRectGetWidth([[self contentView] bounds]);
+    CGRect dividerViewFrame = [[super dividerView] frame];
+    
+    // Set frame for left image view
+    CGRect topImageViewFrame = {};
+    topImageViewFrame.size.width = contentViewWidth;
+    topImageViewFrame.size.height = topImageViewFrame.size.width / 2;
+    topImageViewFrame.origin.x = 0;
+    topImageViewFrame.origin.y = CGRectGetMaxY(dividerViewFrame);
+    
+    // Set frame for right image view
+    CGRect bottomImageViewFrame = {};
+    bottomImageViewFrame.size = topImageViewFrame.size;
+    bottomImageViewFrame.origin.x = topImageViewFrame.origin.x;
+    bottomImageViewFrame.origin.y = CGRectGetMaxY(topImageViewFrame);
+    
+    // Apply the new frames
+    [[self topImageView] setFrame:topImageViewFrame];
+    [[self bottomImageView] setFrame:bottomImageViewFrame];
+    
 	// Put the hotspots in the right place
 	[[super hotspotA] setFrame:CGRectMake(80, 10, 100, 100)];
 	[[super hotspotB] setFrame:CGRectMake(140, 10, 100, 100)];
-	
-	// Call super
-	[super layoutSubviews];
 }
 
 @end

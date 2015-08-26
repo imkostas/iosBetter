@@ -165,20 +165,20 @@
                                [indexPathsToReload addObject:[NSIndexPath indexPathForRow:i inSection:0]];
                            
                            // Run on main thread
-//                           dispatch_async(dispatch_get_main_queue(), ^{
+                           dispatch_async(dispatch_get_main_queue(), ^{
                                // Notify delegate
                                if([self delegate])
                                    [[self delegate] threeDotDataController:self didLoadItemsAtIndexPaths:indexPathsToReload];
-//                           });
+                           });
                        }
                        failure:^(NSURLSessionDataTask *task, NSError *error) {
                            
                            // Run on main thread
-//                           dispatch_async(dispatch_get_main_queue(), ^{
+                           dispatch_async(dispatch_get_main_queue(), ^{
                                // Notify delegate
                                if([self delegate])
                                    [[self delegate] threeDotDataController:self didLoadItemsAtIndexPaths:nil];
-//                           });
+                           });
                        }];
 }
 

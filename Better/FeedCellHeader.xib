@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FeedCell">
             <connections>
+                <outlet property="checkmarkImageView" destination="KFK-RS-Ewe" id="VEg-vU-BUr"/>
                 <outlet property="headerView" destination="iN0-l3-epB" id="rKo-a4-qSl"/>
                 <outlet property="numberOfVotesLabel" destination="twg-r3-CiW" id="qV8-bd-57T"/>
                 <outlet property="profileImageView" destination="o6B-ZA-qUD" id="YmK-YU-zUx"/>
                 <outlet property="tagsLabel" destination="STg-Cs-2oI" id="vHE-ks-Yme"/>
+                <outlet property="threeDotButton" destination="Y1T-ZQ-7IO" id="eGi-ZG-tn4"/>
+                <outlet property="threeDotImageView" destination="hP4-zY-yLv" id="ee3-Lv-vTS"/>
                 <outlet property="usernameLabel" destination="pYm-SY-Lf8" id="OsV-b6-55v"/>
             </connections>
         </placeholder>
@@ -20,47 +22,42 @@
             <rect key="frame" x="0.0" y="0.0" width="450" height="98"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="o6B-ZA-qUD" userLabel="Profile Picture">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="o6B-ZA-qUD" userLabel="Profile Picture">
                     <rect key="frame" x="8" y="21" width="56" height="56"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="56" id="U0C-lU-rop"/>
-                        <constraint firstAttribute="width" secondItem="o6B-ZA-qUD" secondAttribute="height" multiplier="1:1" id="qJV-Qi-6lm"/>
-                    </constraints>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="STg-Cs-2oI" userLabel="Hashtags">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="STg-Cs-2oI" userLabel="Hashtags">
                     <rect key="frame" x="80" y="21" width="340" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pYm-SY-Lf8" userLabel="Username">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pYm-SY-Lf8" userLabel="Username">
                     <rect key="frame" x="80" y="62" width="32" height="15"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ThreeDots" translatesAutoresizingMaskIntoConstraints="NO" id="hP4-zY-yLv">
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ThreeDots" id="hP4-zY-yLv">
                     <rect key="frame" x="436" y="21" width="6" height="24"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="24" id="820-nA-XTh"/>
-                        <constraint firstAttribute="width" constant="6" id="Elb-Pe-m49"/>
-                    </constraints>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Checkmark" translatesAutoresizingMaskIntoConstraints="NO" id="KFK-RS-Ewe" userLabel="Checkmark">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Checkmark" id="KFK-RS-Ewe" userLabel="Checkmark">
                     <rect key="frame" x="386" y="60" width="20" height="20"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="20" id="dXz-kX-5r4"/>
-                        <constraint firstAttribute="width" secondItem="KFK-RS-Ewe" secondAttribute="height" multiplier="1:1" id="qNc-SP-XHC"/>
-                    </constraints>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="twg-r3-CiW" userLabel="Votes">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="twg-r3-CiW" userLabel="Votes">
                     <rect key="frame" x="408" y="62" width="34" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y1T-ZQ-7IO" userLabel="ThreeDots button">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" id="Y1T-ZQ-7IO" userLabel="ThreeDots button">
                     <rect key="frame" x="386" y="0.0" width="64" height="98"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -70,32 +67,18 @@
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstItem="Y1T-ZQ-7IO" firstAttribute="leading" secondItem="KFK-RS-Ewe" secondAttribute="leading" id="053-ZM-R8T"/>
-                <constraint firstAttribute="trailing" secondItem="twg-r3-CiW" secondAttribute="trailing" constant="8" id="406-pH-6Fn"/>
-                <constraint firstItem="STg-Cs-2oI" firstAttribute="top" secondItem="o6B-ZA-qUD" secondAttribute="top" id="9i2-ng-imJ"/>
-                <constraint firstItem="o6B-ZA-qUD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="HpB-Df-lM3"/>
-                <constraint firstAttribute="trailing" secondItem="Y1T-ZQ-7IO" secondAttribute="trailing" id="LZ8-Jb-D0a"/>
-                <constraint firstItem="STg-Cs-2oI" firstAttribute="top" secondItem="hP4-zY-yLv" secondAttribute="top" id="MYM-ZR-xmh"/>
-                <constraint firstItem="pYm-SY-Lf8" firstAttribute="leading" secondItem="o6B-ZA-qUD" secondAttribute="trailing" constant="16" id="Qvk-xw-yix"/>
-                <constraint firstItem="Y1T-ZQ-7IO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="TJ2-c5-v9O"/>
-                <constraint firstItem="STg-Cs-2oI" firstAttribute="leading" secondItem="o6B-ZA-qUD" secondAttribute="trailing" constant="16" id="ciA-Eh-HyV"/>
-                <constraint firstItem="o6B-ZA-qUD" firstAttribute="bottom" secondItem="pYm-SY-Lf8" secondAttribute="bottom" priority="250" id="d77-Aa-i0t"/>
-                <constraint firstAttribute="bottom" secondItem="Y1T-ZQ-7IO" secondAttribute="bottom" id="f2J-ZF-8FA"/>
-                <constraint firstItem="hP4-zY-yLv" firstAttribute="leading" secondItem="STg-Cs-2oI" secondAttribute="trailing" constant="16" id="hQP-9G-dra"/>
-                <constraint firstAttribute="trailing" secondItem="hP4-zY-yLv" secondAttribute="trailing" constant="8" id="i3x-fR-vE6"/>
-                <constraint firstItem="twg-r3-CiW" firstAttribute="leading" secondItem="KFK-RS-Ewe" secondAttribute="trailing" constant="2" id="kzP-qY-k0J"/>
-                <constraint firstItem="o6B-ZA-qUD" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="21" id="m5Q-wM-FuD"/>
-                <constraint firstItem="twg-r3-CiW" firstAttribute="centerY" secondItem="pYm-SY-Lf8" secondAttribute="centerY" id="qXc-tY-xVF"/>
-                <constraint firstItem="KFK-RS-Ewe" firstAttribute="centerY" secondItem="twg-r3-CiW" secondAttribute="centerY" id="sgO-1g-tSJ"/>
-                <constraint firstItem="pYm-SY-Lf8" firstAttribute="top" relation="greaterThanOrEqual" secondItem="STg-Cs-2oI" secondAttribute="bottom" constant="8" id="uy3-rJ-pBj"/>
-            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="352" y="294"/>
         </view>
     </objects>
     <resources>
         <image name="Checkmark" width="27" height="27"/>
         <image name="ThreeDots" width="6" height="24"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

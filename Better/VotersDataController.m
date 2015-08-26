@@ -217,8 +217,10 @@
                                 [thisVoter setChangingActiveState:NO];
                                 
                                 // Notify to reload this index path
-                                if([self delegate])
-                                    [[self delegate] votersDataController:self didReloadVotersAtIndexPaths:@[indexPath]];
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    if([self delegate])
+                                        [[self delegate] votersDataController:self didReloadVotersAtIndexPaths:@[indexPath]];
+                                });
                             }
                             failure:^(NSURLSessionDataTask *task, NSError *error) {
                                 
@@ -243,8 +245,10 @@
                                   [thisVoter setChangingActiveState:NO];
                                   
                                   // Notify to reload this index path
-                                  if([self delegate])
-                                      [[self delegate] votersDataController:self didReloadVotersAtIndexPaths:@[indexPath]];
+                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                      if([self delegate])
+                                          [[self delegate] votersDataController:self didReloadVotersAtIndexPaths:@[indexPath]];
+                                  });
                               }
                               failure:^(NSURLSessionDataTask *task, NSError *error) {
                                   

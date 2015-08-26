@@ -20,8 +20,9 @@
 //	[[[self mainImageView] layer] setRasterizationScale:[[UIScreen mainScreen] scale]];
 //	[[[self mainImageView] layer] setShouldRasterize:YES];
     
-    // Grayish background for imageview
+    // Set up ImageView
     [[self mainImageView] setBackgroundColor:[UIColor grayColor]];
+    [[self mainImageView] setClipsToBounds:YES];
 	
 	// Add hotspots as subviews of the ImageView
 	[[self mainImageView] addSubview:[super hotspotA]];
@@ -38,12 +39,24 @@
 #pragma mark - View's ayout
 - (void)layoutSubviews
 {
+    [super layoutSubviews];
+    
+    // Get some values first
+    CGFloat contentViewWidth = CGRectGetWidth([[self contentView] bounds]);
+    CGRect dividerViewFrame = [[super dividerView] frame];
+    
+    // Set up the main image frame
+    CGRect mainImageFrame = {};
+    mainImageFrame.size.width = contentViewWidth;
+    mainImageFrame.size.height = mainImageFrame.size.width; // Keep it square
+    mainImageFrame.origin = CGPointMake(0, CGRectGetMaxY(dividerViewFrame));
+    
+    // Apply the frames
+    [[self mainImageView] setFrame:mainImageFrame];
+    
 	// Set frames of the hotspots
-	[[super hotspotA] setFrame:CGRectMake(10, 10, 100, 100)];
-	[[super hotspotB] setFrame:CGRectMake(136, 70, 100, 100)];
-	
-	// Call super
-	[super layoutSubviews];
+	[[super hotspotA] setBounds:CGRectMake(0, 0, 100, 100)];
+	[[super hotspotB] setBounds:CGRectMake(0, 0, 100, 100)];
 }
 
 @end

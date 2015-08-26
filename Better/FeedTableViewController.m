@@ -20,7 +20,13 @@
 	/**
 	 This is the height of a hashtags label that has one line of text
 	 **/
-	CGFloat tagsLabelHeightOneLine;
+//	CGFloat tagsLabelHeightOneLine;
+    
+    /** The maxmimum width of the tags UILabel */
+    CGFloat tagsLabelMaxWidth;
+    
+    /** The font used in the tags UILabel */
+    UIFont *tagsLabelFont;
     
     /** A flag to ensure that the FeedDataController only loads posts by itself once, the first time -viewWillAppear:
      is called */
@@ -55,7 +61,7 @@
     // Do any additional setup after loading the view from its nib.
 	
 	// Set up UITableView
-	[[self tableView] setBackgroundColor:COLOR_GRAY];
+	[[self tableView] setBackgroundColor:COLOR_GRAY_FEED];
     [[self tableView] setShowsHorizontalScrollIndicator:NO];
     [[self tableView] setShowsVerticalScrollIndicator:NO];
     [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone]; // No horizontal separators
@@ -69,7 +75,9 @@
     [[self refreshControl] setTintColor:COLOR_BETTER_DARK];
 	
     // Initialize
-	tagsLabelHeightOneLine = 0;
+//	tagsLabelHeightOneLine = 0;
+    tagsLabelMaxWidth = 0;
+    tagsLabelFont = [UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FEEDCELL_TAGSLABEL_FONT_SIZE];
     hasLoadedInitialPosts = FALSE;
     hasInitializedDummyObjects = FALSE;
     
@@ -95,16 +103,12 @@
     [super viewWillLayoutSubviews];
     
 	/** Initialize the dummy cell and add it to [self view], but don't tell it to run auto-layout just yet **/
-    if(!hasInitializedDummyObjects)
-    {
-        _dummyCell = (FeedCell *)[[self tableView] dequeueReusableCellWithIdentifier:@"feedCellSingleImage"];
-        [[self dummyCell] setHidden:YES];
-        [[self view] addSubview:[self dummyCell]];
-        
-        // Set the tagsLabel to have 1 line, and non-empty usernamelabel
-        [[self dummyCell].tagsLabel setText:@"#"];
-        [[self dummyCell].usernameLabel setText:@"username"];
-    }
+//    if(!hasInitializedDummyObjects)
+//    {
+//        _dummyCell = (FeedCell *)[[self tableView] dequeueReusableCellWithIdentifier:@"feedCellSingleImage"];
+//        [[self dummyCell] setHidden:YES];
+//        [[self view] addSubview:[self dummyCell]];
+//    }
 }
 
 // Called after auto-layout is finished(?), so we can calculate the estimated row height (need to know the width
@@ -118,24 +122,28 @@
     if(!hasInitializedDummyObjects)
     {
         // 2 --> height of the hairline separator between the header of a post and the images below it
-        // 98 --> height of the header UIView with 1 line of hashtags (contains hashtags, username, etc.)
-        rowHeightEstimate = CGRectGetWidth([[self tableView] bounds]) + 2 + 98;
+        // 100 --> height of the header UIView with 1,2 line of hashtags (contains hashtags, username, etc.)
+        rowHeightEstimate = CGRectGetWidth([[self tableView] bounds]) - FEEDCELL_INSET_LEFT - FEEDCELL_INSET_RIGHT; // Image(s) height
+        rowHeightEstimate += FEEDCELL_DIVIDERVIEW_HEIGHT + FEEDCELL_HEADERVIEW_MIN_HEIGHT;
+        rowHeightEstimate += FEEDCELL_INSET_TOP + FEEDCELL_INSET_BOTTOM;
+        
+        // Initialize the max width of the tags label
+        tagsLabelMaxWidth = CGRectGetWidth([[self tableView] bounds]);
+        tagsLabelMaxWidth -= FEEDCELL_INSET_LEFT + FEEDCELL_INSET_RIGHT;
+        tagsLabelMaxWidth -= FEEDCELL_PROFILEIMAGE_LEFT + FEEDCELL_PROFILEIMAGE_WIDTH + FEEDCELL_PROFILEIMAGE_RIGHT;
+        tagsLabelMaxWidth -= FEEDCELL_THREEDOTIMAGE_LEFT + FEEDCELL_THREEDOTIMAGE_WIDTH + FEEDCELL_THREEDOTIMAGE_RIGHT;
         
         // Set frame of dummy cell
-        [[self dummyCell] setFrame:CGRectMake(0, 0, CGRectGetWidth([[self tableView] bounds]), rowHeightEstimate)];
-        
-        // Run auto-layout on dummy cell initialized in -viewWillLayoutSubviews
-        [[self dummyCell] setNeedsLayout];
-        [[self dummyCell] layoutIfNeeded];
-        
-        // Record the 1-line height
-        tagsLabelHeightOneLine = CGRectGetHeight([_dummyCell.tagsLabel bounds]);
-        
-        /** Set up the dummy UILabel to mimic the properties of the one in the dummy cell **/
-        _dummyTagsLabel = [[UILabel alloc] initWithFrame:_dummyCell.tagsLabel.frame];
-        [[self dummyTagsLabel] setNumberOfLines:3];
-        [[self dummyTagsLabel] setFont:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_FEEDCELL_HASHTAG_LABEL]];
-        [[self dummyTagsLabel] setPreferredMaxLayoutWidth:CGRectGetWidth([[self dummyTagsLabel] frame])];
+//        [[self dummyCell] setFrame:CGRectMake(0, 0, CGRectGetWidth([[self tableView] bounds]), rowHeightEstimate)];
+//        
+//        // Run auto-layout on dummy cell initialized in -viewWillLayoutSubviews
+//        [[self dummyCell] setNeedsLayout];
+//        [[self dummyCell] layoutIfNeeded];
+//        
+//        /** Set up the dummy UILabel to mimic the properties of the one in the dummy cell **/
+//        _dummyTagsLabel = [[UILabel alloc] initWithFrame:[[_dummyCell tagsLabel] frame]];
+//        [_dummyTagsLabel setFont:[[_dummyCell tagsLabel] font]];
+//        [_dummyTagsLabel setNumberOfLines:[[_dummyCell tagsLabel] numberOfLines]];
         
         // Only run once
         hasInitializedDummyObjects = TRUE;
@@ -159,8 +167,8 @@
 	[super viewDidAppear:animated];
 	
 	// Get rid of dummy cell
-	[[self dummyCell] removeFromSuperview];
-    _dummyCell = nil;
+//	[[self dummyCell] removeFromSuperview];
+//    _dummyCell = nil;
 }
 
 - (void)didReceiveMemoryWarning
@@ -184,55 +192,17 @@
     {
         case LAYOUTSTATE_A_ONLY: // One image only
         {
-            FeedCellSingleImage *thisCell = [tableView dequeueReusableCellWithIdentifier:@"feedCellSingleImage" forIndexPath:indexPath];
-            cell = thisCell;
-            
-            // Clear images in case one is still visible from a previously used cell
-            [[thisCell mainImageView] setImage:nil];
-            
-            // Set up images
-            NSString *urlString = [[[UserInfo user] s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_1.png", [thisPost postID]]];
-            NSURL *url = [NSURL URLWithString:urlString];
-            [[thisCell mainImageView] setImageWithURL:url];
-            
+            cell = (FeedCellSingleImage *)[tableView dequeueReusableCellWithIdentifier:@"feedCellSingleImage" forIndexPath:indexPath];
             break;
         }
         case LAYOUTSTATE_LEFT_RIGHT: // Two images, side by side
         {
-            FeedCellLeftRight *thisCell = [tableView dequeueReusableCellWithIdentifier:@"feedCellLeftRight" forIndexPath:indexPath];
-            cell = thisCell;
-            
-            // Clear images in case one is still visible from a previously used cell
-            [[thisCell leftImageView] setImage:nil];
-            [[thisCell rightImageView] setImage:nil];
-            
-            // Set up images
-            NSString *urlStringA = [[[UserInfo user] s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_1.png", [thisPost postID]]];
-            NSString *urlStringB = [[[UserInfo user] s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_2.png", [thisPost postID]]];
-            NSURL *urlA = [NSURL URLWithString:urlStringA];
-            NSURL *urlB = [NSURL URLWithString:urlStringB];
-            [[thisCell leftImageView] setImageWithURL:urlA];
-            [[thisCell rightImageView] setImageWithURL:urlB];
-            
+            cell = (FeedCellLeftRight *)[tableView dequeueReusableCellWithIdentifier:@"feedCellLeftRight" forIndexPath:indexPath];
             break;
         }
         case LAYOUTSTATE_TOP_BOTTOM: // Two images, top and bottom
         {
-            FeedCellTopBottom *thisCell = [tableView dequeueReusableCellWithIdentifier:@"feedCellTopBottom" forIndexPath:indexPath];
-            cell = thisCell;
-            
-            // Clear images in case one is still visible from a previously used cell
-            [[thisCell topImageView] setImage:nil];
-            [[thisCell bottomImageView] setImage:nil];
-            
-            // Set up images
-            NSString *urlStringA = [[[UserInfo user] s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_1.png", [thisPost postID]]];
-            NSString *urlStringB = [[[UserInfo user] s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_2.png", [thisPost postID]]];
-            NSURL *urlA = [NSURL URLWithString:urlStringA];
-            NSURL *urlB = [NSURL URLWithString:urlStringB];
-            [[thisCell topImageView] setImageWithURL:urlA];
-            [[thisCell bottomImageView] setImageWithURL:urlB];
-            
+            cell = (FeedCellTopBottom *)[tableView dequeueReusableCellWithIdentifier:@"feedCellTopBottom" forIndexPath:indexPath];
             break;
         }
         default:
@@ -247,7 +217,6 @@
     
     // Populate the cell's UI elements
     [[cell tagsLabel] setAttributedText:[thisPost tagsAttributedString]];
-//    [[cell tagsLabel] setText:[[thisPost tagsAttributedString] string]];
     [[cell usernameLabel] setText:[thisPost username]];
     [[cell numberOfVotesLabel] setText:[NSString stringWithFormat:@"%i", [thisPost numberOfVotesTotal]]];
     
@@ -294,7 +263,6 @@
     // Set the cell's delegate to this object, to be notified of hotspot and 3-dot button taps
     // Also tell the cell which PostObject it is associated to (*unnecessary)
     [cell setDelegate:self];
-//    [cell setPostObject:thisPost];
     
 	return cell;
 }
@@ -310,34 +278,78 @@
 #pragma mark - UITableView delegate methods
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	CGFloat adjustmentHeight = 0;
+//    // Get the PostObject for this indexPath and set the text of the dummy label to the hashtags text
+//    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+//    [[[self dummyCell] tagsLabel] setText:[[thisPost tagsAttributedString] string]];
+//    [[self dummyCell] layoutSubviews];
+//    NSLog(@"cell size: %@", [NSValue valueWithCGSize:[[[self dummyCell] contentView] bounds].size]);
+//    return CGRectGetHeight([[[self dummyCell] contentView] bounds]);
     
-    // Get the PostObject for this indexPath and set the text of the dummy label to the hashtags text
+//	CGFloat adjustmentHeight = 0;
+//    
+//    // Get the PostObject for this indexPath and set the text of the dummy label to the hashtags text
+//    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+//    [[self dummyTagsLabel] setText:[[thisPost tagsAttributedString] string]];
+//	
+//    float intrinsicHeight = [self dummyTagsLabel].intrinsicContentSize.height;
+//	int multiple = roundf(intrinsicHeight / tagsLabelHeightOneLine);
+//	if(multiple == 3) // 3 lines of text
+//		adjustmentHeight = tagsLabelHeightOneLine; // Add one line of vertical space
+//
+//    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+//    [[self dummyTagsLabel] setText:[[thisPost tagsAttributedString] string]];
+//    
+//    // Same code from FeedCell's -layoutSubviews method
+//    UIFont *tagsFont = [[self dummyTagsLabel] font];
+//    NSDictionary *textAttrs = @{NSFontAttributeName:tagsFont};
+//    // We want to limit the bounding rect to the max. number of lines given by the tagsLabel
+//    CGSize desiredTextSize = CGSizeMake(CGRectGetWidth([[self dummyTagsLabel] bounds]), [tagsFont lineHeight] * [[self dummyTagsLabel] numberOfLines]);
+//    CGRect textRect = [[[self dummyTagsLabel] text] boundingRectWithSize:desiredTextSize
+//                                                            options:NSStringDrawingUsesLineFragmentOrigin
+//                                                         attributes:textAttrs
+//                                                            context:nil];
+//    CGFloat vertDifference = FEEDCELL_PROFILEIMAGE_HEIGHT - (textRect.size.height + FEEDCELL_VERTSPACE_TAGS_TO_USERNAME);
+//    if(vertDifference < 0) // Username has been pushed down
+//        return CGRectGetWidth([[self tableView] frame]) + FEEDCELL_DIVIDERVIEW_HEIGHT + FEEDCELL_HEADERVIEW_MIN_HEIGHT + -vertDifference/2;
+//    else
+//        return CGRectGetWidth([[self tableView] frame]) + FEEDCELL_DIVIDERVIEW_HEIGHT + FEEDCELL_HEADERVIEW_MIN_HEIGHT;
+    
+//    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+//    [[[self dummyCell] tagsLabel] setText:[[thisPost tagsAttributedString] string]];
+//    [[self dummyCell] setNeedsLayout];
+//    [[self dummyCell] layoutIfNeeded];
+//    return CGRectGetWidth([[self tableView] frame]) + FEEDCELL_DIVIDERVIEW_HEIGHT + CGRectGetHeight([[[self dummyCell] headerView] bounds]);
+    
     PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
-    [[self dummyTagsLabel] setText:[[thisPost tagsAttributedString] string]];
-	
-    float intrinsicHeight = [self dummyTagsLabel].intrinsicContentSize.height;
-	int multiple = roundf(intrinsicHeight / tagsLabelHeightOneLine);
-	if(multiple == 3) // 3 lines of text
-		adjustmentHeight = tagsLabelHeightOneLine; // Add one line of vertical space
-	
-	return CGRectGetWidth([[self tableView] frame]) + 2 + 98 + adjustmentHeight;
+    NSString *text = [[thisPost tagsAttributedString] string];
+    CGSize maxTextSize = CGSizeMake(tagsLabelMaxWidth, [tagsLabelFont lineHeight] * FEEDCELL_TAGSLABEL_MAX_NUM_LINES);
+    CGRect textRect = [text boundingRectWithSize:maxTextSize
+                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                      attributes:@{NSFontAttributeName:tagsLabelFont}
+                                         context:nil];
+    int lineMultiple = (int)roundf(textRect.size.height / [tagsLabelFont lineHeight]);
+    if(lineMultiple == 3)
+        return rowHeightEstimate + [tagsLabelFont lineHeight];
+    else
+        return rowHeightEstimate;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat adjustmentHeight = 0;
+    return rowHeightEstimate;
     
-    // Get the PostObject for this indexPath and set the text of the dummy label to the hashtags text
-    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
-    [[self dummyTagsLabel] setText:[[thisPost tagsAttributedString] string]];
-    
-    float intrinsicHeight = [self dummyTagsLabel].intrinsicContentSize.height;
-    int multiple = roundf(intrinsicHeight / tagsLabelHeightOneLine);
-    if(multiple == 3) // 3 lines of text
-        adjustmentHeight = tagsLabelHeightOneLine; // Add one line of vertical space
-    
-    return CGRectGetWidth([[self tableView] frame]) + 2 + 98 + adjustmentHeight;
+//    CGFloat adjustmentHeight = 0;
+//    
+//    // Get the PostObject for this indexPath and set the text of the dummy label to the hashtags text
+//    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+//    [[self dummyTagsLabel] setText:[[thisPost tagsAttributedString] string]];
+//    
+//    float intrinsicHeight = [self dummyTagsLabel].intrinsicContentSize.height;
+//    int multiple = roundf(intrinsicHeight / tagsLabelHeightOneLine);
+//    if(multiple == 3) // 3 lines of text
+//        adjustmentHeight = tagsLabelHeightOneLine; // Add one line of vertical space
+//    
+//    return CGRectGetWidth([[self tableView] frame]) + 2 + 98;// + adjustmentHeight;
 }
 
 #define COLOR1 [UIColor colorWithRed:50/255. green:50/255. blue:50/255. alpha:1]
@@ -346,6 +358,66 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(FeedCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+    UserInfo *user = [UserInfo user];
+    
+    // Set up the post images
+    switch([thisPost layoutType])
+    {
+        case LAYOUTSTATE_A_ONLY:
+        {
+            FeedCellSingleImage *thisCell = (FeedCellSingleImage *)cell;
+            
+            // Clear images in case one is still visible from a previously used cell
+            [[thisCell mainImageView] setImage:nil];
+            
+            // Set up images
+            NSString *urlString = [[user s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_1.png", [thisPost postID]]];
+            NSURL *url = [NSURL URLWithString:urlString];
+            [[thisCell mainImageView] setImageWithURL:url];
+            
+            break;
+        }
+        case LAYOUTSTATE_LEFT_RIGHT:
+        {
+            FeedCellLeftRight *thisCell = (FeedCellLeftRight *)cell;
+            
+            // Clear images in case one is still visible from a previously used cell
+            [[thisCell leftImageView] setImage:nil];
+            [[thisCell rightImageView] setImage:nil];
+            
+            // Set up images
+            NSString *urlStringA = [[user s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_1.png", [thisPost postID]]];
+            NSString *urlStringB = [[user s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_2.png", [thisPost postID]]];
+            NSURL *urlA = [NSURL URLWithString:urlStringA];
+            NSURL *urlB = [NSURL URLWithString:urlStringB];
+            [[thisCell leftImageView] setImageWithURL:urlA];
+            [[thisCell rightImageView] setImageWithURL:urlB];
+            
+            break;
+        }
+        case LAYOUTSTATE_TOP_BOTTOM:
+        {
+            FeedCellTopBottom *thisCell = (FeedCellTopBottom *)cell;
+            
+            // Clear images in case one is still visible from a previously used cell
+            [[thisCell topImageView] setImage:nil];
+            [[thisCell bottomImageView] setImage:nil];
+            
+            // Set up images
+            NSString *urlStringA = [[user s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_1.png", [thisPost postID]]];
+            NSString *urlStringB = [[user s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_2.png", [thisPost postID]]];
+            NSURL *urlA = [NSURL URLWithString:urlStringA];
+            NSURL *urlB = [NSURL URLWithString:urlStringB];
+            [[thisCell topImageView] setImageWithURL:urlA];
+            [[thisCell bottomImageView] setImageWithURL:urlB];
+            
+            break;
+        }
+        default:
+            break;
+    }
+    
     // If the second-to-last cell of the TableView is going to be displayed, load some more data
     if([indexPath row] == [[self dataController] numberOfPosts] - 2)
         [[self dataController] loadPostsIncremental];

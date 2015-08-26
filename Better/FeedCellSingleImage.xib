@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -12,51 +11,30 @@
             <rect key="frame" x="0.0" y="0.0" width="450" height="551"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="450" height="550"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cjn-Eg-Pgf" userLabel="Shadow View">
-                        <rect key="frame" x="6" y="8" width="438" height="534"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xyC-n0-h7S" userLabel="Divider">
-                                <rect key="frame" x="0.0" y="94" width="438" height="2"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="2" id="HRM-c9-xx1"/>
-                                </constraints>
-                            </view>
-                            <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n6s-5h-vkG" userLabel="Main Image" customClass="BEFadingImageView">
-                                <rect key="frame" x="0.0" y="96" width="438" height="438"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="n6s-5h-vkG" secondAttribute="height" multiplier="1:1" id="ZmU-ys-76o"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="n6s-5h-vkG" secondAttribute="trailing" id="JMM-ZQ-xuN"/>
-                            <constraint firstAttribute="trailing" secondItem="xyC-n0-h7S" secondAttribute="trailing" id="Qdn-Ld-f5y"/>
-                            <constraint firstItem="n6s-5h-vkG" firstAttribute="top" secondItem="xyC-n0-h7S" secondAttribute="bottom" id="fmf-1Q-uMH"/>
-                            <constraint firstAttribute="bottom" secondItem="n6s-5h-vkG" secondAttribute="bottom" id="mOP-Sn-rCT"/>
-                            <constraint firstItem="n6s-5h-vkG" firstAttribute="leading" secondItem="Cjn-Eg-Pgf" secondAttribute="leading" id="mpY-Ui-ONc"/>
-                            <constraint firstItem="xyC-n0-h7S" firstAttribute="leading" secondItem="Cjn-Eg-Pgf" secondAttribute="leading" id="u2J-dw-COe"/>
-                        </constraints>
+                    <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="n6s-5h-vkG" userLabel="Main Image" customClass="BEFadingImageView">
+                        <rect key="frame" x="0.0" y="106" width="450" height="444"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
+                    <view contentMode="scaleToFill" id="xyC-n0-h7S" userLabel="Divider">
+                        <rect key="frame" x="0.0" y="104" width="450" height="2"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </subviews>
-                <color key="backgroundColor" red="0.84477588383838387" green="0.84477588383838387" blue="0.84477588383838387" alpha="1" colorSpace="calibratedRGB"/>
-                <constraints>
-                    <constraint firstAttribute="trailing" secondItem="Cjn-Eg-Pgf" secondAttribute="trailing" constant="6" id="8Xq-zQ-Cx1"/>
-                    <constraint firstAttribute="bottom" secondItem="Cjn-Eg-Pgf" secondAttribute="bottom" constant="8" id="E0M-Wv-7hK"/>
-                    <constraint firstItem="Cjn-Eg-Pgf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="JLf-EI-cbJ"/>
-                    <constraint firstItem="Cjn-Eg-Pgf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="6" id="Ktl-Ie-fOs"/>
-                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="dividerView" destination="xyC-n0-h7S" id="N0L-5T-2qK"/>
                 <outlet property="mainImageView" destination="n6s-5h-vkG" id="SFd-zT-fai"/>
-                <outlet property="shadowView" destination="Cjn-Eg-Pgf" id="7cL-TT-obj"/>
             </connections>
             <point key="canvasLocation" x="327" y="341.5"/>
         </tableViewCell>
     </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>
