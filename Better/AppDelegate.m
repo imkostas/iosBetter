@@ -20,6 +20,9 @@
     
     // Set default keychain accessibility mode (keychain items accessible only when the device is unlocked)
     [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
+    
+    // AFNetworking will control the network activity indicator
+    [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
 	
 	// Set colors
 //	[[UINavigationBar appearance] setBarTintColor:COLOR_NAVIGATION_BAR];

@@ -11,29 +11,34 @@
 
 // Enums
 /**
- An integer that keeps track of the state of the image layout in a New Post--there are three states:
- (0) image A is fully shown, image B is hidden
- (1) image A is on the left, image B is on the right
- (2) image A is on the top, image B is on the bottom
+ An integer that keeps track of the state of the image layout in a New Post
  */
-enum {
+typedef NS_ENUM(NSUInteger, LayoutState) {
+    /** image A is fully shown, image B is hidden */
     LAYOUTSTATE_A_ONLY = 0,
+    /** image A is on the left, image B is on the right */
     LAYOUTSTATE_LEFT_RIGHT = 1,
+    /** image A is on the top, image B is on the bottom */
     LAYOUTSTATE_TOP_BOTTOM = 2
 };
 
 /**
  An integer that specifies the type of vote that a user has made on a particular post--there are three
  possibilities:
- (0) voted on hotspot A (a.k.a. hotspot one)
- (1) voted on hotspot B (a.k.a. hotspot two)
- (2) no vote
+ (1) voted on hotspot A
+ (2) voted on hotspot B
+ (0) no vote
  */
-enum VoteState {
-    VOTE_HOTSPOT_A = 1,
-    VOTE_HOTSPOT_B = 2,
-    VOTE_NOVOTE = 3 // these number values correspond to the values recognized by the server API
+typedef NS_ENUM(NSUInteger, VoteChoice) {
+    VoteChoiceNoVote = 0,
+    VoteChoiceA = 1,
+    VoteChoiceB = 2 // these number values correspond to the values recognized by the server API
 };
+
+/** Some strings */
+#define STRING_VOTERS @"Voters"
+#define STRING_FAVORITE_POST @"Favorite Post"
+#define STRING_REPORT_MISUSE @"Report Misuse"
 
 /** Specifies a certain kind of filter for the feed */
 #define FEED_FILTER_EVERYTHING @""
@@ -88,6 +93,7 @@ enum VoteState {
 #define REUSE_ID_HASHTAG_COLLECTION_CELL_DELETABLE @"hashtagCellDeletable"
 #define REUSE_ID_HASHTAG_COLLECTION_CELL_NO_DELETE @"hashtagCellNoDelete"
 #define REUSE_ID_THREE_DOT_TABLEVIEW_CELL @"threeDotTableViewCell"
+#define REUSE_ID_VOTERS_TABLEVIEW_CELL @"votersTableViewCell"
 
 // Nib filenames
 #define NIB_NAME_HASHTAG_COLLECTION_CELL_DELETABLE @"HashtagCellDeletable"
@@ -142,6 +148,9 @@ enum VoteState {
 #define EDGEINSETS_SUGGESTED_TAGS_COLLECTIONVIEW UIEdgeInsetsMake(8,16,8,16)
 #define MINIMUM_INTERITEM_SPACING_SELECTED_TAGS_COLLECTIONVIEW 8
 
+// 3-dot menu tableviewcell dimensions
+#define HEIGHT_3DOT_MENU_ROW 50
+
 /**** Feed cells ****/
 #define MARGIN_FEEDCELL_SHADOWVIEW 8
 
@@ -160,9 +169,10 @@ enum VoteState {
 #define COLOR_GRAY_FEED [UIColor colorWithRed:0.82 green:0.82 blue:0.83 alpha:1.0]
 
 #define COLOR_GRAY [UIColor colorWithWhite:0.85 alpha:1.0]
+#define COLOR_GRAY_DARKER [UIColor colorWithWhite:0.75 alpha:1.0]
 #define COLOR_POST_DIVIDER [UIColor colorWithWhite:0.62 alpha:1.0]
 #define COLOR_FEED_HEADERTEXT [UIColor colorWithWhite:0.46 alpha:1.0]
-#define COLOR_FEED_HASHTAGS_STOCK [UIColor colorWithWhite:0.4 alpha:1.0]
+#define COLOR_FEED_HASHTAGS_STOCK [UIColor colorWithWhite:0.5 alpha:1.0]
 #define COLOR_FEED_HASHTAGS_CUSTOM [UIColor blackColor]
 
 #define COLOR_CREATEPOST_LAYOUT_SWITCHER [UIColor colorWithWhite:66/255. alpha:1.0] // 0x42
@@ -184,8 +194,8 @@ enum VoteState {
 #define IMAGE_TUTORIAL_CROWN @"initial_tutorial_crown"
 
 #define IMAGE_EMPTY_PROFILE_PANEL @"account_profile_panel_empty"
-#define IMAGE_EMPTY_PROFILE_PICTURE_FEMALE @"blank_profile_female_noalpha"
-#define IMAGE_EMPTY_PROFILE_PICTURE_MALE @"blank_profile_male_noalpha"
+#define IMAGE_EMPTY_PROFILE_PICTURE_FEMALE @"blank_profile_female"
+#define IMAGE_EMPTY_PROFILE_PICTURE_MALE @"blank_profile_male"
 
 #define IMAGE_PIXEL_TRANSPARENT @"TransparentPixel"
 #define IMAGE_PIXEL_COLOR_BETTER_DARK @"Color_better_dark"
@@ -255,7 +265,10 @@ enum VoteState {
 #define ICON_CHECKMARK @"ic_check_grey600_18dp"
 #define ICON_PORTRAIT @"ic_portrait_grey600_24dp"
 #define ICON_FAVORITE_OUTLINE @"ic_favorite_outline_grey600_24dp"
+#define ICON_FAVORITE_OUTLINE_LIGHT @"ic_favorite_light"
+#define ICON_FAVORITED @"ic_favorite_filled"
 #define ICON_PERSON_ADD @"ic_person_add_grey_24dp"
+#define ICON_PERSON_ADDED @"icon_person_added"
 
 // General icons
 #define ICON_PLUS @"Plus"
@@ -268,10 +281,12 @@ enum VoteState {
 #define ICON_POSTLAYOUT_TOPBOTTOM_DARK @"post_top_bottom_gray"
 #define ICON_POSTLAYOUT_TOPBOTTOM_LIGHT @"post_top_bottom_white"
 
+#define ICON_WARNING @"icon_warning"
+
 // Animation properties
 #define ANIM_DURATION_INTRO (500/1000.0) // converts to seconds
 #define ANIM_DELAY_INTRO (300/1000.0)
-#define ANIM_DURATION_PICKER (250/1000.0)
+#define ANIM_DURATION_PICKER (500/1000.0)
 #define ANIM_DURATION_DRAWER_FULLSLIDE (285/1000.0)
 #define ANIM_DURATION_CHANGE_VIEWCONTROLLER_TITLE (200/1000.0)
 #define ANIM_DURATION_CHANGE_DRAWER_SIZE (200/1000.0)
@@ -280,6 +295,8 @@ enum VoteState {
 #define ANIM_DURATION_SEGMENTED_CONTROL_SWITCH (150/1000.0)
 #define ANIM_DURATION_POST_LAYOUT_CHANGE (300/1000.0)
 #define ANIM_DURATION_POST_FADE_IMAGE (300/1000.0)
+#define ANIM_DURATION_3DOT_MENU_PRESENT 0.5f
+#define ANIM_DURATION_3DOT_MENU_TABLEVIEW 0.5f
 
 // Date picker tags (for each ui element needing it)
 #define TAG_DATEPICKER_DOB 1

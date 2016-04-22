@@ -60,9 +60,6 @@
 	if([user leaderboardData] != nil)
 		[[self tableView] reloadData]; /// Necessary?
 	
-	// Turn on network indicator
-	[[UserInfo user] setNetworkActivityIndicatorVisible:YES];
-	
 	// Set up request
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
 	[manager setRequestSerializer:[AFJSONRequestSerializer serializer]];
@@ -72,10 +69,7 @@
 	[manager GET:[NSString stringWithFormat:@"%@/rank/%i", [user uri], LIMIT]
 	  parameters:nil
 		 success:^(AFHTTPRequestOperation *operation, id responseObject) {
-			 
-			 // Turn off network indicator
-			 [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
-			 
+             
 			 // Retrieve data
 			 NSDictionary *response = [responseObject objectForKey:@"response"];
 			 LeaderboardData *leaderData = [[LeaderboardData alloc] initWithDailyData:[response valueForKey:@"daily_leaderboard"]
@@ -89,9 +83,6 @@
 			 [[self tableView] reloadData];
 		 }
 		 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-			 
-			 // Turn off network indicator
-			 [[UserInfo user] setNetworkActivityIndicatorVisible:NO];
 			 
 			 // Get error message
 			 NSDictionary *errorResponse = [operation responseObject];

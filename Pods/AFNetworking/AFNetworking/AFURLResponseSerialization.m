@@ -581,6 +581,7 @@ static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
     size_t height = CGImageGetHeight(imageRef);
     size_t bitsPerComponent = CGImageGetBitsPerComponent(imageRef);
 
+    
     if (width * height > 1024 * 1024 || bitsPerComponent > 8) {
         CGImageRelease(imageRef);
 

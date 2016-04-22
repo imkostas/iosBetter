@@ -32,8 +32,8 @@
 	if(self)
 	{
 		/** Initialize colors, background image, UI **/
-		
-		_selected = FALSE; // Unselected by default
+        _showsPercentageValue = FALSE;
+        _highlighted = FALSE;
 		
 		// Initialize
 		[self setBackgroundColor:[UIColor clearColor]];
@@ -44,13 +44,15 @@
 		// Configure properties
 //		[[self percentageLabel] setBackgroundColor:[UIColor blueColor]];
 		[[self percentageLabel] setTextAlignment:NSTextAlignmentCenter];
-		[[self percentageLabel] setTextColor:[UIColor colorWithWhite:0.88 alpha:1]];
+		[[self percentageLabel] setTextColor:COLOR_GRAY];
+        [[self percentageLabel] setHidden:YES]; // Start off hidden
 		
 		[[[self backgroundImageView] layer] setRasterizationScale:[[UIScreen mainScreen] scale]];
 		[[[self backgroundImageView] layer] setShouldRasterize:YES];
         
-        [[self ringLayer] setStrokeColor:[COLOR_BETTER CGColor]];
+        [[self ringLayer] setStrokeColor:[COLOR_GRAY CGColor]];
         [[self ringLayer] setFillColor:nil];
+        [[self ringLayer] setActions:@{@"strokeEnd":[NSNull null]}]; // Disable implicit animations for strokeEnd
 		
 		// Add all subviews
 		[self addSubview:[self backgroundImageView]];
@@ -64,6 +66,8 @@
 #pragma mark - View's layout
 - (void)layoutSubviews
 {
+    [super layoutSubviews];
+    
 	/** Set up the background image, etc. **/
 	
 	// Background image
@@ -82,21 +86,14 @@
     ringRect.size = CGSizeMake(sizeXandY, sizeXandY);
     
     // Path -> circle that fits inside the above rectangle
-//    CGPathRef ringLayerPath = CGPathCreateWithEllipseInRect(ringRect, NULL);
-    
     CGMutablePathRef ringLayerPathMutable = CGPathCreateMutable();
-//    CGPathMoveToPoint(ringLayerPathMutable, NULL, CGRectGetWidth(ringRect) / 2, 0); // Start at 12 o'clock position
     CGPoint centerPoint = {};
     centerPoint.x = CGRectGetWidth(ringRect) / 2 + ringRect.origin.x;
     centerPoint.y = CGRectGetHeight(ringRect) / 2 + ringRect.origin.y;
     CGPathAddArc(ringLayerPathMutable, NULL, centerPoint.x, centerPoint.y, CGRectGetWidth(ringRect) / 2, -M_PI_2, 3*M_PI_2, FALSE);
-    // ^^  TRUE => clockwise from -pi/2 to (3/2)pi
     
-    // Create non-mutable copy
-    CGPathRef ringLayerPath = CGPathCreateCopy(ringLayerPathMutable);
-    
-    // Set the path and some other properties
-    [[self ringLayer] setPath:ringLayerPath];
+    [[self ringLayer] setFrame:[self bounds]];
+    [[self ringLayer] setPath:ringLayerPathMutable];
     [[self ringLayer] setLineWidth:CGRectGetWidth([self bounds]) * RATIO_CIRCULAR_STRIPE_THICKNESS_TO_HOTSPOT_DIAMETER];
 	
 	// Percentage label
@@ -106,9 +103,6 @@
 	labelFrame.origin.x = 0;
 	labelFrame.origin.y = (CGRectGetHeight([self bounds]) / 2) - (labelFrame.size.height / 2);
 	[[self percentageLabel] setFrame:labelFrame];
-	
-	// Call super
-	[super layoutSubviews];
 }
 
 #pragma mark - Setting properties
@@ -146,27 +140,49 @@
 	// Apply it to the label
 	[[self percentageLabel] setAttributedText:percentageString];
     
-    // Update ring layer with an animation
-//    CABasicAnimation *ringAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-//    [ringAnimation setFromValue:[NSNumber numberWithInt:0]];
-//    [ringAnimation setToValue:[NSNumber numberWithFloat:percentageValue]];
-//    [ringAnimation setDuration:(2 * percentageValue)]; // Proportional time to the percentage
-    
     // Update ring layer's percentage-filled with the system's default function for animating ui elements
     CAKeyframeAnimation *ringAnimation = [CAKeyframeAnimation animationWithKeyPath:@"strokeEnd"];
     CAMediaTimingFunction *ringAnimationFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
     
-        // Start at zero and end at the percentage value
+    // Start at zero and end at the percentage value
     [ringAnimation setValues:@[[NSNumber numberWithInt:0], [NSNumber numberWithFloat:percentageValue]]];
     [ringAnimation setTimingFunction:ringAnimationFunction];
     [ringAnimation setDuration:(1.75 * sqrt(percentageValue))];
     
-    // Run the animation and actually apply the end value
+    // Run the animation and actually apply the end value (without implicit animation)
     [[self ringLayer] addAnimation:ringAnimation forKey:@"strokeEnd"];
     [[self ringLayer] setStrokeEnd:percentageValue]; // If not present, the ring flashes back to nothing
-	
+
 	// Finally record the new value
 	_percentageValue = percentageValue;
+}
+
+- (void)setShowsPercentageValue:(BOOL)showsPercentageValue
+{
+    [[self percentageLabel] setHidden:(!showsPercentageValue)];
+    [[self ringLayer] setHidden:(!showsPercentageValue)];
+    
+    // Store the new value
+    _showsPercentageValue = showsPercentageValue;
+}
+
+- (void)setHighlighted:(BOOL)highlighted
+{
+    if(highlighted)
+    {
+        // Make colors bright
+        [[self ringLayer] setStrokeColor:[COLOR_BETTER CGColor]];
+        [[self percentageLabel] setTextColor:COLOR_BETTER];
+    }
+    else
+    {
+        // Make colors dark
+        [[self ringLayer] setStrokeColor:[COLOR_GRAY CGColor]];
+        [[self percentageLabel] setTextColor:COLOR_GRAY];
+    }
+    
+    // Store new value
+    _highlighted = highlighted;
 }
 
 #pragma mark - Custom drawing

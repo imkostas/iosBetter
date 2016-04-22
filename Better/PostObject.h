@@ -11,27 +11,31 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CGGeometry.h>
+#import "Definitions.h"
 
 #pragma mark -
 /**
  A class to hold the properties of a vote by the current user,
- this doesn't represent the vote(s) of other users
+ this doesn't represent the vote(s) of other users (!Unnecessary!)
  **/
-@interface MyVote : NSObject
-
-/** Uniquely identifies a vote */
-@property (nonatomic)           int voteID;
-
-/** The post that this vote applies to */
-@property (nonatomic)           int postID;
-
-/** The user who created this vote */
-@property (nonatomic)           int userID;
-
-/** When the vote was created */
-@property (strong, nonatomic)   NSDate *creationDate;
-
-@end
+//@interface MyVote : NSObject
+//
+///** Uniquely identifies a vote */
+//@property (nonatomic)           int voteID;
+//
+///** The post that this vote applies to */
+//@property (nonatomic)           int postID;
+//
+///** The user who created this vote */
+//@property (nonatomic)           int userID;
+//
+///** The choice of vote */
+//@property (nonatomic)           VoteChoice choice;
+//
+///** When the vote was created */
+//@property (strong, nonatomic)   NSDate *creationDate;
+//
+//@end
 
 #pragma mark -
 /** A class to hold all of the properties of a post
@@ -67,10 +71,16 @@
 @property (strong, nonatomic)   NSAttributedString *tagsAttributedString;
 
 /** How many total votes on the post (both hotspots combined) */
-@property (nonatomic)           int numberOfVotes;
+@property (nonatomic)           int numberOfVotesTotal;
 
-/** This user's vote for this specific post (nil if the user has not voted on this post) */
-@property (strong, nonatomic)   MyVote *myVote;
+/** How many votes on hotspot A */
+@property (nonatomic)           int numberOfVotesForA;
+
+/** How many votes on hotspot B */
+@property (nonatomic)           int numberOfVotesForB;
+
+/** This user's vote for this specific post (VoteChoiceNoVote if the user has not voted on this post) */
+@property (nonatomic)           VoteChoice myVote;
 
 @end
 

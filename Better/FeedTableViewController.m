@@ -20,7 +20,13 @@
 	/**
 	 This is the height of a hashtags label that has one line of text
 	 **/
-	CGFloat tagsLabelHeightOneLine;
+//	CGFloat tagsLabelHeightOneLine;
+    
+    /** The maxmimum width of the tags UILabel */
+    CGFloat tagsLabelMaxWidth;
+    
+    /** The font used in the tags UILabel */
+    UIFont *tagsLabelFont;
     
     /** A flag to ensure that the FeedDataController only loads posts by itself once, the first time -viewWillAppear:
      is called */
@@ -31,17 +37,15 @@
      is scrolled (this behavior only started when the UITableView was moved to within UITableViewController)
      (8/3/15) */
     BOOL hasInitializedDummyObjects;
-	
-	UIImage *background;
-	UIImage *image2;
-	UIImage *image3;
-	UIImage *image4;
-	UIImage *image5;
 }
 
 // Dummy objects for sizing real cells
 @property (strong, nonatomic) FeedCell *dummyCell;
 @property (strong, nonatomic) UILabel *dummyTagsLabel;
+
+/** Placeholder images for profile picture */
+@property (strong, nonatomic) UIImage *profPicPlaceholderFemale;
+@property (strong, nonatomic) UIImage *profPicPlaceholderMale;
 
 // Called when this class's UIRefreshControl sends the UIControlEventValueChanged event
 - (void)refreshControlValueChanged:(UIRefreshControl *)refreshControl;
@@ -57,19 +61,29 @@
     // Do any additional setup after loading the view from its nib.
 	
 	// Set up UITableView
-	[[self tableView] setBackgroundColor:COLOR_GRAY];
+	[[self tableView] setBackgroundColor:COLOR_GRAY_FEED];
     [[self tableView] setShowsHorizontalScrollIndicator:NO];
     [[self tableView] setShowsVerticalScrollIndicator:NO];
     [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone]; // No horizontal separators
+    [[self tableView] setAllowsSelection:NO];
+    [[self tableView] setAllowsSelectionDuringEditing:NO];
+    [[self tableView] setAllowsMultipleSelection:NO];
+    [[self tableView] setAllowsMultipleSelectionDuringEditing:NO];
     
     // Set up this UITableViewController and register to receive the UIRefreshControl's value changed event
     [[self refreshControl] addTarget:self action:@selector(refreshControlValueChanged:) forControlEvents:UIControlEventValueChanged];
     [[self refreshControl] setTintColor:COLOR_BETTER_DARK];
 	
     // Initialize
-	tagsLabelHeightOneLine = 0;
+//	tagsLabelHeightOneLine = 0;
+    tagsLabelMaxWidth = 0;
+    tagsLabelFont = [UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FEEDCELL_TAGSLABEL_FONT_SIZE];
     hasLoadedInitialPosts = FALSE;
     hasInitializedDummyObjects = FALSE;
+    
+    // Get placeholder images
+    _profPicPlaceholderFemale = [UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_FEMALE];
+    _profPicPlaceholderMale = [UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_MALE];
 	
 	// Register nibs for each type of cell (single, double image horizontal, and double image vertical)
 	[[self tableView] registerNib:[UINib nibWithNibName:@"FeedCellSingleImage" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"feedCellSingleImage"];
@@ -89,16 +103,12 @@
     [super viewWillLayoutSubviews];
     
 	/** Initialize the dummy cell and add it to [self view], but don't tell it to run auto-layout just yet **/
-    if(!hasInitializedDummyObjects)
-    {
-        _dummyCell = (FeedCell *)[[self tableView] dequeueReusableCellWithIdentifier:@"feedCellSingleImage"];
-        [[self dummyCell] setHidden:YES];
-        [[self view] addSubview:[self dummyCell]];
-        
-        // Set the tagsLabel to have 1 line, and non-empty usernamelabel
-        [[self dummyCell].tagsLabel setText:@"#"];
-        [[self dummyCell].usernameLabel setText:@"username"];
-    }
+//    if(!hasInitializedDummyObjects)
+//    {
+//        _dummyCell = (FeedCell *)[[self tableView] dequeueReusableCellWithIdentifier:@"feedCellSingleImage"];
+//        [[self dummyCell] setHidden:YES];
+//        [[self view] addSubview:[self dummyCell]];
+//    }
 }
 
 // Called after auto-layout is finished(?), so we can calculate the estimated row height (need to know the width
@@ -112,24 +122,28 @@
     if(!hasInitializedDummyObjects)
     {
         // 2 --> height of the hairline separator between the header of a post and the images below it
-        // 98 --> height of the header UIView with 1 line of hashtags (contains hashtags, username, etc.)
-        rowHeightEstimate = CGRectGetWidth([[self tableView] bounds]) + 2 + 98;
+        // 100 --> height of the header UIView with 1,2 line of hashtags (contains hashtags, username, etc.)
+        rowHeightEstimate = CGRectGetWidth([[self tableView] bounds]) - FEEDCELL_INSET_LEFT - FEEDCELL_INSET_RIGHT; // Image(s) height
+        rowHeightEstimate += FEEDCELL_DIVIDERVIEW_HEIGHT + FEEDCELL_HEADERVIEW_MIN_HEIGHT;
+        rowHeightEstimate += FEEDCELL_INSET_TOP + FEEDCELL_INSET_BOTTOM;
+        
+        // Initialize the max width of the tags label
+        tagsLabelMaxWidth = CGRectGetWidth([[self tableView] bounds]);
+        tagsLabelMaxWidth -= FEEDCELL_INSET_LEFT + FEEDCELL_INSET_RIGHT;
+        tagsLabelMaxWidth -= FEEDCELL_PROFILEIMAGE_LEFT + FEEDCELL_PROFILEIMAGE_WIDTH + FEEDCELL_PROFILEIMAGE_RIGHT;
+        tagsLabelMaxWidth -= FEEDCELL_THREEDOTIMAGE_LEFT + FEEDCELL_THREEDOTIMAGE_WIDTH + FEEDCELL_THREEDOTIMAGE_RIGHT;
         
         // Set frame of dummy cell
-        [[self dummyCell] setFrame:CGRectMake(0, 0, CGRectGetWidth([[self tableView] bounds]), rowHeightEstimate)];
-        
-        // Run auto-layout on dummy cell initialized in -viewWillLayoutSubviews
-        [[self dummyCell] setNeedsLayout];
-        [[self dummyCell] layoutIfNeeded];
-        
-        // Record the 1-line height
-        tagsLabelHeightOneLine = CGRectGetHeight([_dummyCell.tagsLabel bounds]);
-        
-        /** Set up the dummy UILabel to mimic the properties of the one in the dummy cell **/
-        _dummyTagsLabel = [[UILabel alloc] initWithFrame:_dummyCell.tagsLabel.frame];
-        [[self dummyTagsLabel] setNumberOfLines:3];
-        [[self dummyTagsLabel] setFont:[UIFont fontWithName:FONT_RALEWAY_SEMIBOLD size:FONT_SIZE_FEEDCELL_HASHTAG_LABEL]];
-        [[self dummyTagsLabel] setPreferredMaxLayoutWidth:CGRectGetWidth([[self dummyTagsLabel] frame])];
+//        [[self dummyCell] setFrame:CGRectMake(0, 0, CGRectGetWidth([[self tableView] bounds]), rowHeightEstimate)];
+//        
+//        // Run auto-layout on dummy cell initialized in -viewWillLayoutSubviews
+//        [[self dummyCell] setNeedsLayout];
+//        [[self dummyCell] layoutIfNeeded];
+//        
+//        /** Set up the dummy UILabel to mimic the properties of the one in the dummy cell **/
+//        _dummyTagsLabel = [[UILabel alloc] initWithFrame:[[_dummyCell tagsLabel] frame]];
+//        [_dummyTagsLabel setFont:[[_dummyCell tagsLabel] font]];
+//        [_dummyTagsLabel setNumberOfLines:[[_dummyCell tagsLabel] numberOfLines]];
         
         // Only run once
         hasInitializedDummyObjects = TRUE;
@@ -153,8 +167,8 @@
 	[super viewDidAppear:animated];
 	
 	// Get rid of dummy cell
-	[[self dummyCell] removeFromSuperview];
-    _dummyCell = nil;
+//	[[self dummyCell] removeFromSuperview];
+//    _dummyCell = nil;
 }
 
 - (void)didReceiveMemoryWarning
@@ -169,24 +183,85 @@
     // Get the post corresponding to the given indexPath
     PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
     
+    // Get UserInfo object
+    UserInfo *user = [UserInfo user];
+    
     // Generate different cells based on the type of the post
     FeedCell *cell = nil;
     switch([thisPost layoutType])
     {
         case LAYOUTSTATE_A_ONLY: // One image only
+        {
             cell = (FeedCellSingleImage *)[tableView dequeueReusableCellWithIdentifier:@"feedCellSingleImage" forIndexPath:indexPath];
             break;
-    
+        }
         case LAYOUTSTATE_LEFT_RIGHT: // Two images, side by side
+        {
             cell = (FeedCellLeftRight *)[tableView dequeueReusableCellWithIdentifier:@"feedCellLeftRight" forIndexPath:indexPath];
             break;
-    
+        }
         case LAYOUTSTATE_TOP_BOTTOM: // Two images, top and bottom
+        {
             cell = (FeedCellTopBottom *)[tableView dequeueReusableCellWithIdentifier:@"feedCellTopBottom" forIndexPath:indexPath];
             break;
+        }
+        default:
+            return nil;
+    }
+    
+    // Now load the profile picture
+    NSString *profPicString = [[user s3_url] stringByAppendingString:[NSString stringWithFormat:@"user/%i_small.png", [thisPost userID]]];
+    NSURL *profPicURL = [NSURL URLWithString:profPicString];
+    UIImage *placeholderImage = ([user gender] == GENDER_FEMALE) ? _profPicPlaceholderFemale : _profPicPlaceholderMale;
+    [[cell profileImageView] setImageWithURL:profPicURL placeholderImage:placeholderImage];
+    
+    // Populate the cell's UI elements
+    [[cell tagsLabel] setAttributedText:[thisPost tagsAttributedString]];
+    [[cell usernameLabel] setText:[thisPost username]];
+    [[cell numberOfVotesLabel] setText:[NSString stringWithFormat:@"%i", [thisPost numberOfVotesTotal]]];
+    
+    // Set up hotspots:
+    
+    if([thisPost myVote] == VoteChoiceNoVote && [thisPost userID] != [user userID]) // No vote by this user AND this is not our own post
+    {
+        // Hide other peoples' votes, enable taps
+        [cell setHotspotGesturesEnabled:YES];
+        [[cell hotspotA] setShowsPercentageValue:NO];
+        [[cell hotspotB] setShowsPercentageValue:NO];
+    }
+    else // There is a vote by this user OR this is our own post
+    {
+        // Turn off hotspot taps
+        [cell setHotspotGesturesEnabled:NO];
+        [[cell hotspotA] setShowsPercentageValue:YES];
+        [[cell hotspotB] setShowsPercentageValue:YES];
+        
+        // Set highlighted or not highlighted
+        if([thisPost numberOfVotesForA] == [thisPost numberOfVotesForB]) // A == B
+        {
+            [[cell hotspotA] setHighlighted:YES];
+            [[cell hotspotB] setHighlighted:YES];
+        }
+        else if([thisPost numberOfVotesForA] < [thisPost numberOfVotesForB]) // A < B
+        {
+            [[cell hotspotA] setHighlighted:NO];
+            [[cell hotspotB] setHighlighted:YES];
+        }
+        else // A > B
+        {
+            [[cell hotspotA] setHighlighted:YES];
+            [[cell hotspotB] setHighlighted:NO];
+        }
+            
+        // Calculate portions and apply them
+        float percentA = (float)[thisPost numberOfVotesForA] / (float)[thisPost numberOfVotesTotal];
+        float percentB = (float)[thisPost numberOfVotesForB] / (float)[thisPost numberOfVotesTotal];
+        [[cell hotspotA] setPercentageValue:percentA];
+        [[cell hotspotB] setPercentageValue:percentB];
     }
     
     // Set the cell's delegate to this object, to be notified of hotspot and 3-dot button taps
+    // Also tell the cell which PostObject it is associated to (*unnecessary)
     [cell setDelegate:self];
     
 	return cell;
@@ -194,58 +269,87 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	NSLog(@"getting number of rows");
-    
-    return [[self dataController] numberOfPosts];
+    if(section == 0)
+        return [[self dataController] numberOfPosts];
+    else
+        return 0;
 }
 
 #pragma mark - UITableView delegate methods
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	CGFloat adjustmentHeight = 0;
+//    // Get the PostObject for this indexPath and set the text of the dummy label to the hashtags text
+//    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+//    [[[self dummyCell] tagsLabel] setText:[[thisPost tagsAttributedString] string]];
+//    [[self dummyCell] layoutSubviews];
+//    NSLog(@"cell size: %@", [NSValue valueWithCGSize:[[[self dummyCell] contentView] bounds].size]);
+//    return CGRectGetHeight([[[self dummyCell] contentView] bounds]);
     
-    // Get the PostObject for this indexPath and set the text of the dummy label to the hashtags text
+//	CGFloat adjustmentHeight = 0;
+//    
+//    // Get the PostObject for this indexPath and set the text of the dummy label to the hashtags text
+//    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+//    [[self dummyTagsLabel] setText:[[thisPost tagsAttributedString] string]];
+//	
+//    float intrinsicHeight = [self dummyTagsLabel].intrinsicContentSize.height;
+//	int multiple = roundf(intrinsicHeight / tagsLabelHeightOneLine);
+//	if(multiple == 3) // 3 lines of text
+//		adjustmentHeight = tagsLabelHeightOneLine; // Add one line of vertical space
+//
+//    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+//    [[self dummyTagsLabel] setText:[[thisPost tagsAttributedString] string]];
+//    
+//    // Same code from FeedCell's -layoutSubviews method
+//    UIFont *tagsFont = [[self dummyTagsLabel] font];
+//    NSDictionary *textAttrs = @{NSFontAttributeName:tagsFont};
+//    // We want to limit the bounding rect to the max. number of lines given by the tagsLabel
+//    CGSize desiredTextSize = CGSizeMake(CGRectGetWidth([[self dummyTagsLabel] bounds]), [tagsFont lineHeight] * [[self dummyTagsLabel] numberOfLines]);
+//    CGRect textRect = [[[self dummyTagsLabel] text] boundingRectWithSize:desiredTextSize
+//                                                            options:NSStringDrawingUsesLineFragmentOrigin
+//                                                         attributes:textAttrs
+//                                                            context:nil];
+//    CGFloat vertDifference = FEEDCELL_PROFILEIMAGE_HEIGHT - (textRect.size.height + FEEDCELL_VERTSPACE_TAGS_TO_USERNAME);
+//    if(vertDifference < 0) // Username has been pushed down
+//        return CGRectGetWidth([[self tableView] frame]) + FEEDCELL_DIVIDERVIEW_HEIGHT + FEEDCELL_HEADERVIEW_MIN_HEIGHT + -vertDifference/2;
+//    else
+//        return CGRectGetWidth([[self tableView] frame]) + FEEDCELL_DIVIDERVIEW_HEIGHT + FEEDCELL_HEADERVIEW_MIN_HEIGHT;
+    
+//    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+//    [[[self dummyCell] tagsLabel] setText:[[thisPost tagsAttributedString] string]];
+//    [[self dummyCell] setNeedsLayout];
+//    [[self dummyCell] layoutIfNeeded];
+//    return CGRectGetWidth([[self tableView] frame]) + FEEDCELL_DIVIDERVIEW_HEIGHT + CGRectGetHeight([[[self dummyCell] headerView] bounds]);
+    
     PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
-    [[self dummyTagsLabel] setText:[[thisPost tagsAttributedString] string]];
-	
-	int multiple = roundf([self dummyTagsLabel].intrinsicContentSize.height / tagsLabelHeightOneLine);
-	if(multiple == 3) // 3 lines of text
-		adjustmentHeight = tagsLabelHeightOneLine; // Add one line of vertical space
-	
-	return CGRectGetWidth([[self tableView] frame]) + 2 + 98 + adjustmentHeight;
+    NSString *text = [[thisPost tagsAttributedString] string];
+    CGSize maxTextSize = CGSizeMake(tagsLabelMaxWidth, [tagsLabelFont lineHeight] * FEEDCELL_TAGSLABEL_MAX_NUM_LINES);
+    CGRect textRect = [text boundingRectWithSize:maxTextSize
+                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                      attributes:@{NSFontAttributeName:tagsLabelFont}
+                                         context:nil];
+    int lineMultiple = (int)roundf(textRect.size.height / [tagsLabelFont lineHeight]);
+    if(lineMultiple == 3)
+        return rowHeightEstimate + [tagsLabelFont lineHeight];
+    else
+        return rowHeightEstimate;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat adjustmentHeight = 0;
+    return rowHeightEstimate;
     
-    // Get the PostObject for this indexPath and set the text of the dummy label to the hashtags text
-    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
-    [[self dummyTagsLabel] setText:[[thisPost tagsAttributedString] string]];
-    
-    int multiple = roundf([self dummyTagsLabel].intrinsicContentSize.height / tagsLabelHeightOneLine);
-    if(multiple == 3) // 3 lines of text
-        adjustmentHeight = tagsLabelHeightOneLine; // Add one line of vertical space
-    
-    return CGRectGetWidth([[self tableView] frame]) + 2 + 98 + adjustmentHeight;
-}
-
-// No highlighting
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return NO;
-}
-
-// No editing
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return NO;
-}
-
-// No moving
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return NO;
+//    CGFloat adjustmentHeight = 0;
+//    
+//    // Get the PostObject for this indexPath and set the text of the dummy label to the hashtags text
+//    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+//    [[self dummyTagsLabel] setText:[[thisPost tagsAttributedString] string]];
+//    
+//    float intrinsicHeight = [self dummyTagsLabel].intrinsicContentSize.height;
+//    int multiple = roundf(intrinsicHeight / tagsLabelHeightOneLine);
+//    if(multiple == 3) // 3 lines of text
+//        adjustmentHeight = tagsLabelHeightOneLine; // Add one line of vertical space
+//    
+//    return CGRectGetWidth([[self tableView] frame]) + 2 + 98;// + adjustmentHeight;
 }
 
 #define COLOR1 [UIColor colorWithRed:50/255. green:50/255. blue:50/255. alpha:1]
@@ -254,45 +358,64 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(FeedCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Get the post for this indexPath
     PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+    UserInfo *user = [UserInfo user];
     
-    // Populate the cell's UI elements
-    [[cell tagsLabel] setAttributedText:[thisPost tagsAttributedString]];
-//    [[cell tagsLabel] setText:[[thisPost tagsAttributedString] string]];
-    [[cell usernameLabel] setText:[thisPost username]];
-    [[cell numberOfVotesLabel] setText:[NSString stringWithFormat:@"%i", [thisPost numberOfVotes]]];
-    [[cell profileImageView] setImage:[UIImage imageNamed:IMAGE_EMPTY_PROFILE_PICTURE_FEMALE]];
-    
+    // Set up the post images
     switch([thisPost layoutType])
     {
         case LAYOUTSTATE_A_ONLY:
         {
             FeedCellSingleImage *thisCell = (FeedCellSingleImage *)cell;
-            [[thisCell mainImageView] setBackgroundColor:COLOR1];
-//            [[thisCell mainImageView] setImage:[UIImage imageNamed:@"goat"]];
-            [[thisCell hotspotA] setPercentageValue:0.9];
-            [[thisCell hotspotB] setPercentageValue:0.1];
+            
+            // Clear images in case one is still visible from a previously used cell
+            [[thisCell mainImageView] setImage:nil];
+            
+            // Set up images
+            NSString *urlString = [[user s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_1.png", [thisPost postID]]];
+            NSURL *url = [NSURL URLWithString:urlString];
+            [[thisCell mainImageView] setImageWithURL:url];
+            
             break;
         }
         case LAYOUTSTATE_LEFT_RIGHT:
         {
             FeedCellLeftRight *thisCell = (FeedCellLeftRight *)cell;
-            [[thisCell leftImageView] setBackgroundColor:COLOR1];
-            [[thisCell rightImageView] setBackgroundColor:COLOR3];
-            [[thisCell hotspotA] setPercentageValue:0.51];
-            [[thisCell hotspotB] setPercentageValue:0.49];
+            
+            // Clear images in case one is still visible from a previously used cell
+            [[thisCell leftImageView] setImage:nil];
+            [[thisCell rightImageView] setImage:nil];
+            
+            // Set up images
+            NSString *urlStringA = [[user s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_1.png", [thisPost postID]]];
+            NSString *urlStringB = [[user s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_2.png", [thisPost postID]]];
+            NSURL *urlA = [NSURL URLWithString:urlStringA];
+            NSURL *urlB = [NSURL URLWithString:urlStringB];
+            [[thisCell leftImageView] setImageWithURL:urlA];
+            [[thisCell rightImageView] setImageWithURL:urlB];
+            
             break;
         }
         case LAYOUTSTATE_TOP_BOTTOM:
         {
             FeedCellTopBottom *thisCell = (FeedCellTopBottom *)cell;
-            [[thisCell topImageView] setBackgroundColor:COLOR3];
-            [[thisCell bottomImageView] setBackgroundColor:COLOR1];
-            [[thisCell hotspotA] setPercentageValue:0.6];
-            [[thisCell hotspotB] setPercentageValue:0.4];
+            
+            // Clear images in case one is still visible from a previously used cell
+            [[thisCell topImageView] setImage:nil];
+            [[thisCell bottomImageView] setImage:nil];
+            
+            // Set up images
+            NSString *urlStringA = [[user s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_1.png", [thisPost postID]]];
+            NSString *urlStringB = [[user s3_url] stringByAppendingString:[NSString stringWithFormat:@"post/%i_2.png", [thisPost postID]]];
+            NSURL *urlA = [NSURL URLWithString:urlStringA];
+            NSURL *urlB = [NSURL URLWithString:urlStringB];
+            [[thisCell topImageView] setImageWithURL:urlA];
+            [[thisCell bottomImageView] setImageWithURL:urlB];
+            
             break;
         }
+        default:
+            break;
     }
     
     // If the second-to-last cell of the TableView is going to be displayed, load some more data
@@ -306,8 +429,8 @@
 {
     // Insert only the given index paths
     [[self tableView] beginUpdates];
-    [[self tableView] deleteRowsAtIndexPaths:removedPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-    [[self tableView] insertRowsAtIndexPaths:loadedPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self tableView] deleteRowsAtIndexPaths:removedPaths withRowAnimation:UITableViewRowAnimationRight];
+    [[self tableView] insertRowsAtIndexPaths:loadedPaths withRowAnimation:UITableViewRowAnimationLeft];
     [[self tableView] endUpdates];
     
     // Stop the UIRefreshControl
@@ -325,50 +448,144 @@
 //    [[self refreshControl] endRefreshing];
 }
 
+// Called to tell this object to scroll back to the beginning of all the posts
+- (void)feedDataControllerDelegateShouldScrollToTopAnimated:(BOOL)animated
+{
+    // Set content offset to zero
+    CGPoint contentOffset = [[self tableView] contentOffset];
+    if(contentOffset.y != 0)
+        [[self tableView] setContentOffset:CGPointZero animated:animated];
+}
+
 #pragma mark - FeedCellDelegate methods
 // Called when a cell's 3-dot button is pressed
 - (void)threeDotButtonWasTappedForFeedCell:(FeedCell *)cell
 {
+    // Get this post's hashtags (-indexPathForCell returns nil if the cell is not visible, but the cell
+    // has to be visible for the 3-dot button to be tapped, so it works in this case)
+    NSIndexPath *indexPath = [[self tableView] indexPathForCell:cell];
+    if(indexPath == nil)
+        return; // Cell somehow not visible
+    
+    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+    
     // Create an instance of the 3-dot view controller
-    ThreeDotViewController *threeDot = [[ThreeDotViewController alloc] init];
+    ThreeDotViewController *threeDot = [[ThreeDotViewController alloc] initWithPostObject:thisPost];
+
+    // Create a UINavigationController to allow the ThreeDotViewController to navigate to the 'Voters'
+    // viewcontroller
+    UINavigationController *threeDotNav = [[UINavigationController alloc] initWithRootViewController:threeDot];
     
-    // Set up modal presentation properties
-    [threeDot setModalPresentationStyle:UIModalPresentationCustom];
-    [threeDot setTransitioningDelegate:self];
+    // Set up modal presentation properties and delegate
+    [threeDotNav setModalPresentationStyle:UIModalPresentationCustom];
+    [threeDotNav setTransitioningDelegate:self];
+    [threeDotNav setDelegate:threeDot];
     
-    // Present the Three Dot view controller
-    [[self parentViewController] presentViewController:threeDot animated:YES completion:nil];
+    // Set color and tint color of navigation bar (shown in the 'Voters' area)
+    [[threeDotNav navigationBar] setBarTintColor:COLOR_BETTER_DARK];
+    [[threeDotNav navigationBar] setTintColor:[UIColor whiteColor]];
+    [[threeDotNav navigationBar] setTranslucent:NO];
+    
+    // Present the Three Dot view controller's navigation controller
+    [self presentViewController:threeDotNav animated:YES completion:nil];
+}
+
+// Called when a cell's hotspot is pressed
+- (void)hotspotWasTappedForFeedCell:(FeedCell *)cell withVoteChoice:(VoteChoice)choice
+{
+    // Disable the hotspot gesture recognizers on this cell
+    [cell setHotspotGesturesEnabled:NO];
+    
+    // Get the cell's postObject (the assumption is that the user can't tap on a hotspot for a cell that is
+    // not visible, which I think is true)
+    NSIndexPath *indexPath = [[self tableView] indexPathForCell:cell];
+    if(indexPath == nil)
+        return; // nil happens when the cell is not visible
+    
+    // Increment the total number of votes, increment number of votes for A, and set myVote to VoteChoiceA
+    PostObject *thisPost = [[self dataController] postAtIndexPath:indexPath];
+    [thisPost setNumberOfVotesTotal:([thisPost numberOfVotesTotal] + 1)];
+    switch(choice) // Add a vote with the correct choice
+    {
+        case VoteChoiceA:
+            [thisPost setNumberOfVotesForA:([thisPost numberOfVotesForA] + 1)];
+            [thisPost setMyVote:VoteChoiceA];
+            break;
+            
+        case VoteChoiceB:
+            [thisPost setNumberOfVotesForB:([thisPost numberOfVotesForB] + 1)];
+            [thisPost setMyVote:VoteChoiceB];
+            
+        case VoteChoiceNoVote:
+        default:
+            break;
+    }
+    
+    // Update the UI
+    [[cell numberOfVotesLabel] setText:[NSString stringWithFormat:@"%i", [thisPost numberOfVotesTotal]]];
+    
+    // Turn off hotspot taps
+    [[cell hotspotA] setShowsPercentageValue:YES];
+    [[cell hotspotB] setShowsPercentageValue:YES];
+    
+    // Set highlighted or not highlighted
+    if([thisPost numberOfVotesForA] == [thisPost numberOfVotesForB]) // A == B
+    {
+        [[cell hotspotA] setHighlighted:YES];
+        [[cell hotspotB] setHighlighted:YES];
+    }
+    else if([thisPost numberOfVotesForA] < [thisPost numberOfVotesForB]) // A < B
+    {
+        [[cell hotspotA] setHighlighted:NO];
+        [[cell hotspotB] setHighlighted:YES];
+    }
+    else // A > B
+    {
+        [[cell hotspotA] setHighlighted:YES];
+        [[cell hotspotB] setHighlighted:NO];
+    }
+    
+    // Calculate portions and apply them
+    float percentA = (float)[thisPost numberOfVotesForA] / (float)[thisPost numberOfVotesTotal];
+    float percentB = (float)[thisPost numberOfVotesForB] / (float)[thisPost numberOfVotesTotal];
+    [[cell hotspotA] setPercentageValue:percentA];
+    [[cell hotspotB] setPercentageValue:percentB];
+    
+    // Send off the vote request
+    [[self dataController] voteWithChoice:choice atIndexPath:indexPath];
 }
 
 #pragma mark - Custom modal animation for 3-dot
 // Presenting the Three Dot drawer
-- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source
 {
     // Only return an animator if the ThreeDotViewController is asking to be presented
-    if([presented isKindOfClass:[ThreeDotViewController class]])
-    {
+//    if([presented isKindOfClass:[ThreeDotViewController class]])
+//    {
         ThreeDotTransitionAnimator *animator = [[ThreeDotTransitionAnimator alloc] init];
         [animator setPresenting:YES];
         
         return animator;
-    }
-    else
-        return nil;
+//    }
+//    else
+//        return nil;
 }
 
 // Dismissing the Three Dot drawer
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
 {
     // Only return an animator if the ThreeDotViewController is asking to be dismissed
-    if([dismissed isKindOfClass:[ThreeDotViewController class]])
-    {
+//    if([dismissed isKindOfClass:[ThreeDotViewController class]])
+//    {
         ThreeDotTransitionAnimator *animator = [[ThreeDotTransitionAnimator alloc] init];
         [animator setPresenting:NO];
         
         return animator;
-    }
-    else
-        return nil;
+//    }
+//    else
+//        return nil;
 }
 
 #pragma mark - Handling of UIRefreshControl
@@ -385,107 +602,6 @@
 //{
 //    // Remove the given index paths
 //    [[self tableView] deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom];
-//}
-
-//- (IBAction)buttonPressed:(id)sender
-//{
-    /*
-	NSURLSession *urlSession = [NSURLSession sharedSession];
-	NSURLSessionTask *urlTask = [urlSession dataTaskWithURL:[NSURL URLWithString:@"http://dummyimage.com/600x600/333/0cc.png"]
-										  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-											  
-											  background = [UIImage imageWithData:data];
-											  if(!background)
-												  NSLog(@"Downloaded image is nil");
-											  
-											  if(background)
-											  {
-												  NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]];
-												  
-												  // Update the tableview on the main thread (UI runs on main thread)
-												  dispatch_sync(dispatch_get_main_queue(), ^{
-													  [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-												  });
-											  }
-										  }];
-	[urlTask resume];
-	
-	NSURLSessionTask *urlTask2 = [urlSession dataTaskWithURL:[NSURL URLWithString:@"http://dummyimage.com/300x600/f04/333.png"]
-										  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-											  
-											  image2 = [UIImage imageWithData:data];
-											  if(!image2)
-												  NSLog(@"Downloaded image is nil");
-											  
-											  if(image2)
-											  {
-												  NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]];
-												  
-												  // Update the tableview on the main thread (UI runs on main thread)
-												  dispatch_sync(dispatch_get_main_queue(), ^{
-													  [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-												  });
-											  }
-										  }];
-	[urlTask2 resume];
-	
-	NSURLSessionTask *urlTask3 = [urlSession dataTaskWithURL:[NSURL URLWithString:@"http://dummyimage.com/300x600/eee/c0c.png"]
-										  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-											  
-											  image3 = [UIImage imageWithData:data];
-											  if(!image3)
-												  NSLog(@"Downloaded image is nil");
-											  
-											  if(image3)
-											  {
-												  NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]];
-												  
-												  // Update the tableview on the main thread (UI runs on main thread)
-												  dispatch_sync(dispatch_get_main_queue(), ^{
-													  [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-												  });
-											  }
-										  }];
-	[urlTask3 resume];
-	
-	NSURLSessionTask *urlTask4 = [urlSession dataTaskWithURL:[NSURL URLWithString:@"http://dummyimage.com/600x300/bbb/f03.png"]
-										   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-											   
-											   image4 = [UIImage imageWithData:data];
-											   if(!image4)
-												   NSLog(@"Downloaded image is nil");
-											   
-											   if(image4)
-											   {
-												   NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:0]];
-												   
-												   // Update the tableview on the main thread (UI runs on main thread)
-												   dispatch_sync(dispatch_get_main_queue(), ^{
-													   [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-												   });
-											   }
-										   }];
-	[urlTask4 resume];
-	
-	NSURLSessionTask *urlTask5 = [urlSession dataTaskWithURL:[NSURL URLWithString:@"http://dummyimage.com/600x300/123/456.png"]
-										   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-											   
-											   image5 = [UIImage imageWithData:data];
-											   if(!image5)
-												   NSLog(@"Downloaded image is nil");
-											   
-											   if(image5)
-											   {
-												   NSArray *indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:0]];
-												   
-												   // Update the tableview on the main thread (UI runs on main thread)
-												   dispatch_sync(dispatch_get_main_queue(), ^{
-													   [[self tableView] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-												   });
-											   }
-										   }];
-	[urlTask5 resume];
-     */
 //}
 
 /*

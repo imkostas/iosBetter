@@ -38,6 +38,7 @@
 @property (nonatomic, strong) NSString *uri;
 @property (nonatomic, strong) NSString *img_uri;
 @property (nonatomic, strong) NSString *apiKey;
+@property (nonatomic, strong) NSString *s3_url;
 
 // Keychain service name
 @property (strong, nonatomic) NSString *keychainServiceNameLogin;
@@ -50,7 +51,7 @@
 - (NSString *)getCountry;
 
 // Handles requests to show or hide the network activity indicator
-- (void)setNetworkActivityIndicatorVisible:(BOOL)visible;
+//- (void)setNetworkActivityIndicatorVisible:(BOOL)visible;
 
 // Called by classes which perform the login -- they provide the responseObject from an AFNetworking request
 - (BOOL)populateUserInfoWithResponseObject:(id)responseObject;

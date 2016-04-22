@@ -111,9 +111,6 @@
         
         /** Log in to the API **/
         
-        // Turn on network indicator
-        [[self user] setNetworkActivityIndicatorVisible:YES];
-        
         // Set up AFNetworking
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         [manager setRequestSerializer:[AFJSONRequestSerializer serializer]];
@@ -125,8 +122,6 @@
                         @"username": username,
                         @"password": password}
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                  // Turn off network indicator
-                  [[self user] setNetworkActivityIndicatorVisible:NO];
                   
                   // Send the data to the UserInfo object
                   if([[self user] populateUserInfoWithResponseObject:responseObject])
@@ -150,8 +145,6 @@
                   }
               }
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                  // Turn off network indicator
-                  [[self user] setNetworkActivityIndicatorVisible:NO];
                   
                   // Set up the tutorial/slideshow UIPageViewController
                   [self initializeSlideshowPageViewController];

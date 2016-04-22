@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -12,60 +11,35 @@
             <rect key="frame" x="0.0" y="0.0" width="450" height="550"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="450" height="549"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4se-Ap-B8M" userLabel="Shadow View">
-                        <rect key="frame" x="8" y="8" width="434" height="533"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="baO-Vf-RL4" userLabel="Divider">
-                                <rect key="frame" x="0.0" y="98" width="434" height="2"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="2" id="h1E-tf-71k"/>
-                                </constraints>
-                            </view>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eME-71-ZSu" userLabel="Left Image">
-                                <rect key="frame" x="0.0" y="100" width="217" height="433"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="eME-71-ZSu" secondAttribute="height" multiplier="1:2" id="qvB-q5-POe"/>
-                                </constraints>
-                            </imageView>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RJG-gf-JaV" userLabel="Right Image">
-                                <rect key="frame" x="217" y="100" width="217" height="433"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="RJG-gf-JaV" secondAttribute="height" multiplier="1:2" id="FvU-GU-xk4"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="eME-71-ZSu" firstAttribute="leading" secondItem="4se-Ap-B8M" secondAttribute="leading" id="6Aq-Yq-wRj"/>
-                            <constraint firstItem="RJG-gf-JaV" firstAttribute="top" secondItem="baO-Vf-RL4" secondAttribute="bottom" id="9PV-8j-vFu"/>
-                            <constraint firstItem="eME-71-ZSu" firstAttribute="top" secondItem="baO-Vf-RL4" secondAttribute="bottom" id="HkX-8T-WUl"/>
-                            <constraint firstAttribute="bottom" secondItem="RJG-gf-JaV" secondAttribute="bottom" id="I2z-83-SEj"/>
-                            <constraint firstAttribute="trailing" secondItem="RJG-gf-JaV" secondAttribute="trailing" id="Id3-I1-2fH"/>
-                            <constraint firstAttribute="trailing" secondItem="baO-Vf-RL4" secondAttribute="trailing" id="PDY-Xd-z9f"/>
-                            <constraint firstAttribute="bottom" secondItem="eME-71-ZSu" secondAttribute="bottom" id="R9a-1a-aZn"/>
-                            <constraint firstItem="baO-Vf-RL4" firstAttribute="leading" secondItem="4se-Ap-B8M" secondAttribute="leading" id="uS8-Ck-9y2"/>
-                            <constraint firstItem="RJG-gf-JaV" firstAttribute="leading" secondItem="eME-71-ZSu" secondAttribute="trailing" id="yXc-OK-3cl"/>
-                        </constraints>
+                    <view contentMode="scaleToFill" id="baO-Vf-RL4" userLabel="Divider">
+                        <rect key="frame" x="0.0" y="102" width="450" height="2"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="eME-71-ZSu" userLabel="Left Image" customClass="BEFadingImageView">
+                        <rect key="frame" x="0.0" y="104" width="225" height="445"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
+                    <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="RJG-gf-JaV" userLabel="Right Image" customClass="BEFadingImageView">
+                        <rect key="frame" x="224" y="104" width="226" height="445"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
                 </subviews>
-                <color key="backgroundColor" red="0.84477588380000002" green="0.84477588380000002" blue="0.84477588380000002" alpha="1" colorSpace="calibratedRGB"/>
-                <constraints>
-                    <constraint firstAttribute="bottom" secondItem="4se-Ap-B8M" secondAttribute="bottom" constant="8" id="L5c-cF-6p8"/>
-                    <constraint firstItem="4se-Ap-B8M" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="YWd-oN-Yqi"/>
-                    <constraint firstAttribute="trailing" secondItem="4se-Ap-B8M" secondAttribute="trailing" constant="8" id="acd-8E-AZ4"/>
-                    <constraint firstItem="4se-Ap-B8M" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="gVs-Gc-rF5"/>
-                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="dividerView" destination="baO-Vf-RL4" id="iex-hQ-I01"/>
                 <outlet property="leftImageView" destination="eME-71-ZSu" id="WnY-XU-UlO"/>
                 <outlet property="rightImageView" destination="RJG-gf-JaV" id="qnO-0j-iCb"/>
-                <outlet property="shadowView" destination="4se-Ap-B8M" id="exa-vN-kg9"/>
             </connections>
+            <point key="canvasLocation" x="352" y="390"/>
         </tableViewCell>
     </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

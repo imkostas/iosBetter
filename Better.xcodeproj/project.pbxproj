@@ -22,6 +22,9 @@
 		D01CB7451B29D78D003DF616 /* Support.m in Sources */ = {isa = PBXBuildFile; fileRef = D01CB7441B29D78D003DF616 /* Support.m */; };
 		D01CB7471B2A126D003DF616 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D01CB7461B2A126D003DF616 /* MessageUI.framework */; };
 		D01CB74D1B2A2711003DF616 /* TermsPrivacy.m in Sources */ = {isa = PBXBuildFile; fileRef = D01CB74C1B2A2711003DF616 /* TermsPrivacy.m */; };
+		D02006921B75185B00C3A02B /* ThreeDotDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = D02006911B75185B00C3A02B /* ThreeDotDataController.m */; };
+		D02006951B75189F00C3A02B /* ThreeDotObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D02006941B75189F00C3A02B /* ThreeDotObject.m */; };
+		D02006971B754DBB00C3A02B /* ThreeDotTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D02006961B754DBB00C3A02B /* ThreeDotTableViewCell.xib */; };
 		D027306D1B6C14930059CBE7 /* BEFadingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D027306C1B6C14930059CBE7 /* BEFadingImageView.m */; };
 		D02DE0DD1B2F651F00FE6A6A /* MyInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = D02DE0DC1B2F651F00FE6A6A /* MyInformation.m */; };
 		D02DE0E01B2F74A000FE6A6A /* UserRank.m in Sources */ = {isa = PBXBuildFile; fileRef = D02DE0DF1B2F74A000FE6A6A /* UserRank.m */; };
@@ -101,18 +104,25 @@
 		D0A978001B6AAF1A00895B6B /* BELabelFast.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A977FF1B6AAF1A00895B6B /* BELabelFast.m */; };
 		D0B282DA1B1E0545006FD580 /* BEDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B282D91B1E0545006FD580 /* BEDatePickerView.m */; };
 		D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B282E81B1E5081006FD580 /* BEPickerView.m */; };
+		D0B2906D1B7B8A82006BF621 /* BEImageResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B2906C1B7B8A82006BF621 /* BEImageResponseSerializer.m */; };
 		D0CBA1C81B2239F0002DD192 /* BETappableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CBA1C71B2239F0002DD192 /* BETappableView.m */; };
 		D0CD720B1B2B6237004A5765 /* MyRankingController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CD720A1B2B6237004A5765 /* MyRankingController.m */; };
 		D0CD720E1B2B72D1004A5765 /* RankBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CD720D1B2B72D1004A5765 /* RankBarView.m */; };
 		D0D7CA971B0F89AB00363A39 /* IntroPageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D7CA961B0F89AB00363A39 /* IntroPageContent.m */; };
 		D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D7CA991B0F8E8E00363A39 /* IntroPage.m */; };
 		D0F347DC1B289829001950E4 /* MyAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F347DB1B289829001950E4 /* MyAccount.m */; };
+		D0F5A4AD1B7E2A2D0093F73E /* VotersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5A4AC1B7E2A2D0093F73E /* VotersTableViewController.m */; };
+		D0F5A4B01B7E2C790093F73E /* VotersDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5A4AF1B7E2C790093F73E /* VotersDataController.m */; };
+		D0F5A4B31B7E2DDD0093F73E /* VoterObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5A4B21B7E2DDD0093F73E /* VoterObject.m */; };
+		D0F5A4B71B7E322B0093F73E /* VotersTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F5A4B51B7E322B0093F73E /* VotersTableViewCell.m */; };
+		D0F5A4B81B7E322B0093F73E /* VotersTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0F5A4B61B7E322B0093F73E /* VotersTableViewCell.xib */; };
 		D0FA295B1B5E8E1900F5B24C /* SuggestedTags.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0FA295A1B5E8E1900F5B24C /* SuggestedTags.plist */; };
 		D0FA29651B5E994400F5B24C /* HashtagCellDeletable.m in Sources */ = {isa = PBXBuildFile; fileRef = D0FA29631B5E994400F5B24C /* HashtagCellDeletable.m */; };
 		D0FA29661B5E994400F5B24C /* HashtagCellDeletable.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0FA29641B5E994400F5B24C /* HashtagCellDeletable.xib */; };
 		D0FA296A1B5E998E00F5B24C /* HashtagCellNoDelete.m in Sources */ = {isa = PBXBuildFile; fileRef = D0FA29681B5E998E00F5B24C /* HashtagCellNoDelete.m */; };
 		D0FA296B1B5E998E00F5B24C /* HashtagCellNoDelete.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0FA29691B5E998E00F5B24C /* HashtagCellNoDelete.xib */; };
 		D0FA29721B5EE52000F5B24C /* SelectedHashtagsFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D0FA29711B5EE52000F5B24C /* SelectedHashtagsFlowLayout.m */; };
+		D0FB5CA41B725774000E7F27 /* ThreeDotTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0FB5CA31B725774000E7F27 /* ThreeDotTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -153,6 +163,12 @@
 		D01CB7461B2A126D003DF616 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		D01CB74B1B2A2711003DF616 /* TermsPrivacy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TermsPrivacy.h; sourceTree = "<group>"; };
 		D01CB74C1B2A2711003DF616 /* TermsPrivacy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TermsPrivacy.m; sourceTree = "<group>"; };
+		D02006901B75185B00C3A02B /* ThreeDotDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeDotDataController.h; sourceTree = "<group>"; };
+		D02006911B75185B00C3A02B /* ThreeDotDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeDotDataController.m; sourceTree = "<group>"; };
+		D02006931B75189F00C3A02B /* ThreeDotObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeDotObject.h; sourceTree = "<group>"; };
+		D02006941B75189F00C3A02B /* ThreeDotObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeDotObject.m; sourceTree = "<group>"; };
+		D02006961B754DBB00C3A02B /* ThreeDotTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThreeDotTableViewCell.xib; sourceTree = "<group>"; };
+		D024C48B1B7A607700274B87 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		D027306B1B6C14930059CBE7 /* BEFadingImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEFadingImageView.h; sourceTree = "<group>"; };
 		D027306C1B6C14930059CBE7 /* BEFadingImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEFadingImageView.m; sourceTree = "<group>"; };
 		D02DE0DB1B2F651F00FE6A6A /* MyInformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyInformation.h; sourceTree = "<group>"; };
@@ -278,6 +294,8 @@
 		D0B282D91B1E0545006FD580 /* BEDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEDatePickerView.m; sourceTree = "<group>"; };
 		D0B282E71B1E5081006FD580 /* BEPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEPickerView.h; sourceTree = "<group>"; };
 		D0B282E81B1E5081006FD580 /* BEPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEPickerView.m; sourceTree = "<group>"; };
+		D0B2906B1B7B8A82006BF621 /* BEImageResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEImageResponseSerializer.h; sourceTree = "<group>"; };
+		D0B2906C1B7B8A82006BF621 /* BEImageResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEImageResponseSerializer.m; sourceTree = "<group>"; };
 		D0C082901B2F0A49009341B0 /* Feed.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Feed.storyboard; path = Base.lproj/Feed.storyboard; sourceTree = "<group>"; };
 		D0CBA1C61B2239F0002DD192 /* BETappableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BETappableView.h; sourceTree = "<group>"; };
 		D0CBA1C71B2239F0002DD192 /* BETappableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BETappableView.m; sourceTree = "<group>"; };
@@ -291,6 +309,15 @@
 		D0D7CA991B0F8E8E00363A39 /* IntroPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroPage.m; sourceTree = "<group>"; };
 		D0F347DA1B289829001950E4 /* MyAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAccount.h; sourceTree = "<group>"; };
 		D0F347DB1B289829001950E4 /* MyAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAccount.m; sourceTree = "<group>"; };
+		D0F5A4AB1B7E2A2D0093F73E /* VotersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VotersTableViewController.h; sourceTree = "<group>"; };
+		D0F5A4AC1B7E2A2D0093F73E /* VotersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VotersTableViewController.m; sourceTree = "<group>"; };
+		D0F5A4AE1B7E2C790093F73E /* VotersDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VotersDataController.h; sourceTree = "<group>"; };
+		D0F5A4AF1B7E2C790093F73E /* VotersDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VotersDataController.m; sourceTree = "<group>"; };
+		D0F5A4B11B7E2DDD0093F73E /* VoterObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoterObject.h; sourceTree = "<group>"; };
+		D0F5A4B21B7E2DDD0093F73E /* VoterObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoterObject.m; sourceTree = "<group>"; };
+		D0F5A4B41B7E322B0093F73E /* VotersTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VotersTableViewCell.h; sourceTree = "<group>"; };
+		D0F5A4B51B7E322B0093F73E /* VotersTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VotersTableViewCell.m; sourceTree = "<group>"; };
+		D0F5A4B61B7E322B0093F73E /* VotersTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VotersTableViewCell.xib; sourceTree = "<group>"; };
 		D0FA295A1B5E8E1900F5B24C /* SuggestedTags.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SuggestedTags.plist; sourceTree = "<group>"; };
 		D0FA29621B5E994400F5B24C /* HashtagCellDeletable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashtagCellDeletable.h; sourceTree = "<group>"; };
 		D0FA29631B5E994400F5B24C /* HashtagCellDeletable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HashtagCellDeletable.m; sourceTree = "<group>"; };
@@ -300,6 +327,8 @@
 		D0FA29691B5E998E00F5B24C /* HashtagCellNoDelete.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HashtagCellNoDelete.xib; sourceTree = "<group>"; };
 		D0FA29701B5EE52000F5B24C /* SelectedHashtagsFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedHashtagsFlowLayout.h; sourceTree = "<group>"; };
 		D0FA29711B5EE52000F5B24C /* SelectedHashtagsFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedHashtagsFlowLayout.m; sourceTree = "<group>"; };
+		D0FB5CA21B725774000E7F27 /* ThreeDotTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeDotTableViewCell.h; sourceTree = "<group>"; };
+		D0FB5CA31B725774000E7F27 /* ThreeDotTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeDotTableViewCell.m; sourceTree = "<group>"; };
 		EC28AD39D34D3975720338BA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -345,6 +374,7 @@
 		4698A8C7D3B45484E4B553AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D024C48B1B7A607700274B87 /* ImageIO.framework */,
 				D01CB7461B2A126D003DF616 /* MessageUI.framework */,
 				EC28AD39D34D3975720338BA /* libPods.a */,
 			);
@@ -414,6 +444,13 @@
 				D01CB74C1B2A2711003DF616 /* TermsPrivacy.m */,
 			);
 			name = Support;
+			sourceTree = "<group>";
+		};
+		D024C4851B7A40FF00274B87 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		D02DE0DA1B2F64E800FE6A6A /* My Information */ = {
@@ -566,6 +603,7 @@
 				D099018C1B0E359000760CDF /* Profile */,
 				D0835FBA1B0CF41100D88412 /* ForgotPassword */,
 				D0835FB51B0CECBE00D88412 /* Custom Objects */,
+				D024C4851B7A40FF00274B87 /* Categories */,
 				D05EF75E1B0B70EF00D01AE4 /* Main.storyboard */,
 				D0C082901B2F0A49009341B0 /* Feed.storyboard */,
 				D054D8A11B4C247A00E72132 /* CreatePost.storyboard */,
@@ -662,6 +700,7 @@
 				D066299C1B4AD83A00359261 /* UI Objects */,
 				D07A471E1B667F2F009760BE /* Data model */,
 				D0679BBC1B6FF342003111AD /* Three-dot drawer */,
+				D0F5A4AA1B7E29FD0093F73E /* Voters */,
 			);
 			name = "Feed Table View";
 			sourceTree = "<group>";
@@ -748,6 +787,13 @@
 				D0679BBE1B6FF371003111AD /* ThreeDotViewController.m */,
 				D0679BC01B700193003111AD /* ThreeDotTransitionAnimator.h */,
 				D0679BC11B700193003111AD /* ThreeDotTransitionAnimator.m */,
+				D0FB5CA21B725774000E7F27 /* ThreeDotTableViewCell.h */,
+				D0FB5CA31B725774000E7F27 /* ThreeDotTableViewCell.m */,
+				D02006961B754DBB00C3A02B /* ThreeDotTableViewCell.xib */,
+				D02006901B75185B00C3A02B /* ThreeDotDataController.h */,
+				D02006911B75185B00C3A02B /* ThreeDotDataController.m */,
+				D02006931B75189F00C3A02B /* ThreeDotObject.h */,
+				D02006941B75189F00C3A02B /* ThreeDotObject.m */,
 			);
 			name = "Three-dot drawer";
 			sourceTree = "<group>";
@@ -776,6 +822,8 @@
 				D09901931B0E63CC00760CDF /* View Controllers */,
 				D0CBA1C51B2239B3002DD192 /* Tappable View */,
 				D0A250E21B17588A003E7D0B /* Drawing in Views */,
+				D0B2906B1B7B8A82006BF621 /* BEImageResponseSerializer.h */,
+				D0B2906C1B7B8A82006BF621 /* BEImageResponseSerializer.m */,
 			);
 			name = "Custom Objects";
 			sourceTree = "<group>";
@@ -883,6 +931,22 @@
 			name = MyAccount;
 			sourceTree = "<group>";
 		};
+		D0F5A4AA1B7E29FD0093F73E /* Voters */ = {
+			isa = PBXGroup;
+			children = (
+				D0F5A4AB1B7E2A2D0093F73E /* VotersTableViewController.h */,
+				D0F5A4AC1B7E2A2D0093F73E /* VotersTableViewController.m */,
+				D0F5A4AE1B7E2C790093F73E /* VotersDataController.h */,
+				D0F5A4AF1B7E2C790093F73E /* VotersDataController.m */,
+				D0F5A4B11B7E2DDD0093F73E /* VoterObject.h */,
+				D0F5A4B21B7E2DDD0093F73E /* VoterObject.m */,
+				D0F5A4B41B7E322B0093F73E /* VotersTableViewCell.h */,
+				D0F5A4B51B7E322B0093F73E /* VotersTableViewCell.m */,
+				D0F5A4B61B7E322B0093F73E /* VotersTableViewCell.xib */,
+			);
+			name = Voters;
+			sourceTree = "<group>";
+		};
 		D0FA29611B5E963B00F5B24C /* Hashtag Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -956,7 +1020,6 @@
 				TargetAttributes = {
 					D05EF7501B0B70EF00D01AE4 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = 7Z354MCLYK;
 					};
 					D05EF7691B0B70EF00D01AE4 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -1000,6 +1063,8 @@
 				D05584D51B31D12A003FD842 /* Raleway-SemiBoldItalic.ttf in Resources */,
 				D05584D71B31D12A003FD842 /* Raleway-ThinItalic.ttf in Resources */,
 				D03DB44F1B1F4CAA00810E1E /* Countries.plist in Resources */,
+				D0F5A4B81B7E322B0093F73E /* VotersTableViewCell.xib in Resources */,
+				D02006971B754DBB00C3A02B /* ThreeDotTableViewCell.xib in Resources */,
 				D06629961B4AD7F900359261 /* FeedCellTopBottom.xib in Resources */,
 				D06629941B4AD7F900359261 /* FeedCellSingleImage.xib in Resources */,
 				D05584D41B31D12A003FD842 /* Raleway-SemiBold.ttf in Resources */,
@@ -1096,11 +1161,13 @@
 				D07A47211B667F86009760BE /* FeedDataController.m in Sources */,
 				D07178631B601B64003863F0 /* BEAddTagButton.m in Sources */,
 				D0835FB81B0CEDFB00D88412 /* BETextField.m in Sources */,
+				D0F5A4AD1B7E2A2D0093F73E /* VotersTableViewController.m in Sources */,
 				D09901921B0E619300760CDF /* BEScrollingViewController.m in Sources */,
 				D031CEDF1B39DD900039A9C1 /* LeaderboardData.m in Sources */,
 				D0FA29721B5EE52000F5B24C /* SelectedHashtagsFlowLayout.m in Sources */,
 				D04999EF1B4D833500A52FD2 /* BEAlert.m in Sources */,
 				D066299F1B4AD84A00359261 /* BEHotspotView.m in Sources */,
+				D0F5A4B01B7E2C790093F73E /* VotersDataController.m in Sources */,
 				D01CB7451B29D78D003DF616 /* Support.m in Sources */,
 				D0A250E51B1758AA003E7D0B /* BELine.m in Sources */,
 				D05EF7881B0B9F0800D01AE4 /* Login.m in Sources */,
@@ -1112,6 +1179,7 @@
 				D0679BC21B700193003111AD /* ThreeDotTransitionAnimator.m in Sources */,
 				D06F394D1B3305C700721FCE /* MyRanking.m in Sources */,
 				D0CBA1C81B2239F0002DD192 /* BETappableView.m in Sources */,
+				D0B2906D1B7B8A82006BF621 /* BEImageResponseSerializer.m in Sources */,
 				3107407B1B1F66C400927B2D /* Following.m in Sources */,
 				D01CB74D1B2A2711003DF616 /* TermsPrivacy.m in Sources */,
 				D0A2C2691B0F6ECE00C44A7B /* Intro.m in Sources */,
@@ -1120,20 +1188,25 @@
 				D05584EA1B31F1C1003FD842 /* BELabel.m in Sources */,
 				D04999E81B4D6FE700A52FD2 /* PostHashtagsViewController.m in Sources */,
 				D07415621B59503900DAB004 /* BEPostingHotspotView.m in Sources */,
+				D0F5A4B71B7E322B0093F73E /* VotersTableViewCell.m in Sources */,
 				D030579F1B20E85900F20072 /* (null) in Sources */,
 				D06629B21B4AD89900359261 /* FeedCellTopBottom.m in Sources */,
 				31C5CFD61B20E95800472161 /* Filter.m in Sources */,
 				D0F347DC1B289829001950E4 /* MyAccount.m in Sources */,
 				D0CD720B1B2B6237004A5765 /* MyRankingController.m in Sources */,
 				D0FA29651B5E994400F5B24C /* HashtagCellDeletable.m in Sources */,
+				D0F5A4B31B7E2DDD0093F73E /* VoterObject.m in Sources */,
 				D066299A1B4AD82200359261 /* FeedTableViewController.m in Sources */,
 				D0D7CA9A1B0F8E8E00363A39 /* IntroPage.m in Sources */,
 				D0B282E91B1E5081006FD580 /* BEPickerView.m in Sources */,
 				D06629A51B4AD86700359261 /* FeedCell.m in Sources */,
+				D0FB5CA41B725774000E7F27 /* ThreeDotTableViewCell.m in Sources */,
+				D02006951B75189F00C3A02B /* ThreeDotObject.m in Sources */,
 				D06629A61B4AD86700359261 /* FeedCellHeader.m in Sources */,
 				D0A978001B6AAF1A00895B6B /* BELabelFast.m in Sources */,
 				D00B29F11B38491F00DB87EC /* BEPageViewController.m in Sources */,
 				D0FA296A1B5E998E00F5B24C /* HashtagCellNoDelete.m in Sources */,
+				D02006921B75185B00C3A02B /* ThreeDotDataController.m in Sources */,
 				D05EF7841B0B945F00D01AE4 /* Signup.m in Sources */,
 				D04DEE851B30BE6000BF1557 /* UserCounts.m in Sources */,
 				D099018F1B0E35A900760CDF /* Profile.m in Sources */,
@@ -1269,8 +1342,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Better",
+				);
 				INFOPLIST_FILE = Better/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = Better;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1284,8 +1361,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Better",
+				);
 				INFOPLIST_FILE = Better/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = Better;
 				TARGETED_DEVICE_FAMILY = 1;
